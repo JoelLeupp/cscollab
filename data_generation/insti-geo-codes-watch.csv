@@ -1,0 +1,144 @@
+institution,name,lat,lon,fuzz-ratio
+Aberystwyth University,Aberystwyth University Boat House,52.4071457,-4.088065708310513,80.0
+BITS Pilani,Birla Institute of Technology and Science - BITS,28.35866475,75.58825578134679,14.0
+BITS Pilani-Goa,BITS Library,28.365369,75.588956,52.0
+Bielefeld University,Universität Bielefeld,52.0376885,8.493223283579532,44.0
+Birkbeck University of London,Birkbeck College,51.52184485,-0.13021550670673807,44.0
+CISPA Helmholtz Center,CISPA – Helmholtz Center for Information Security,49.25934725,7.051113127158179,62.0
+Cardiff University,Cardiff University Students Union,51.4883511,-3.17749396163176,71.0
+Charles University,"Faculty of Arts, Charles University in Prague",50.088915400000005,14.416137207688877,57.0
+Cyprus University of Technology,mTtofis Kyriakou Building (Electrical Engineering) - Cyprus University of Technology,34.67507365,33.043283599999995,54.0
+Durham University,Durham,54.779749,-1.581512,52.0
+ETS Montreal,ETS - Centre de technologie thermique,45.49497815,-73.56067407713178,37.0
+Ecole Normale Superieure,École Normale,48.934484,2.419196,65.0
+Freie Universitaet Berlin,Freie Universität Berlin Universitätsbliblothek,52.447946200000004,13.277927071960601,64.0
+HSE University,Moscow State University,55.70229715,37.53179772747929,65.0
+Hanyang University,HANYANG,37.485103,127.042669,8.0
+Humboldt University of Berlin,Humboldt University of Berlin (main building),52.51858145,13.39287840245042,78.0
+IIIT Bangalore,International Institute of Information Technology Bangalore,12.84430185,77.66329207588834,38.0
+IIIT Hyderabad,"International Institute of Information Technology, Hyderabad",17.4454957,78.34854697544472,38.0
+IISc Bangalore,Indian Institute of Science,13.022234699999998,77.56718324768107,29.0
+IIT Bhubaneswar,"IIT Bhubaneswar, Khorda",20.14808125,85.67642980645702,79.0
+IIT Bombay,IIT Bombay Staff CHS Ltd,19.1145814,72.90500207784373,59.0
+IIT Gandhinagar,IIT Gandhinagar Hostel Mess,23.2109137,72.68567936877673,71.0
+IIT Hyderabad,Narayana IIT Campus,17.49745625,78.3985949,31.0
+IIT Indore,Indian Institute Of Technology Indore,22.526927550000003,75.92620657865751,43.0
+IIT Kharagpur,Indian Institute of Technology Kharagpur,22.31442745,87.31039202691741,49.0
+IIT Madras,Indian Institute of Technology - IIT Madras ( இந்திய தொழில்நுட்ப கழகம் - சென்னை),12.9914769,80.2336786,22.0
+IIT Patna,GOAL Institute for Medical/IIT,25.6206913,85.1282653,15.0
+IMDEA Networks Institute,Fundación IMDEA Networks,40.336812,-3.770478,58.0
+IMDEA Software Institute,IMDEA Software,40.406934,-3.835474,74.0
+IPI PAN,IPI Lyon,45.770166,4.806452,53.0
+IPM,Zahedan Islamic Republic of Iran Guard Corps Heliport,29.50094,60.8146,4.0
+IT University of Copenhagen,IT University,55.65965525,12.591076889344563,65.0
+KAIST,Kaist,68.20556,31.68923,20.0
+Korea University,Uni Credit,43.934711,18.794579,46.0
+Kyungpook National University,National University,14.604163,120.994347,79.0
+LMU Munich,LMU Fakultät für Chemie und Pharmazie,48.114032300000005,11.46707524508254,30.0
+Lund University,Faculty of Engineering at Lund University,55.7126504,13.210758659399971,54.0
+Masaryk University,Faculty of Informatics Masaryk univerzity,49.2099968,16.599248976309006,54.0
+Max Planck Society,Construction of Semiconductor Laboratory of the Max Planck Society,48.2633373,11.676567235061134,43.0
+Mälardalen University,Mälardalens Högskola,59.6176801,16.542068739683224,59.0
+NTNU,Norwegian University of Science and Technology,63.408683249999996,10.468908740551136,8.0
+NYU Shanghai,NYU Park,31.2272221,121.5297393,50.0
+National Taiwan University,National Univ,34.185192,-118.596773,67.0
+Osaka University,Osaka Prefecture University,34.54561785,135.50620785722236,74.0
+POSTECH,Postech,25.260404,55.293652,14.0
+PUC-RIO,Pontificia Universidade Católica do Rio de Janeiro,-22.97964355,-43.23315196475536,14.0
+PUC-RS,Pontifical Catholic University of Rio Grande do Sul,-30.05516275,-51.17350846885846,14.0
+Paderborn University,University of Paderborn,51.70752095,8.772403972858978,47.0
+RWTH Aachen,RWTH Aachen University,50.7791645,6.068920971222876,67.0
+Ryerson University,Toronto Metropolitan University,43.6583244,-79.37892515687948,61.0
+SUTD,SUTD Multifunction Sport Center,1.3416142500000001,103.96485519124263,23.0
+Scuola Superiore Sant'Anna,Scuola Superiore,41.225046,15.386151,76.0
+Soochow University,Soochow Household Hotel,33.6333,116.9666,49.0
+Sun Yat-sen University,Sun Yat-sen University (South Campus),23.09960335,113.29235087324346,75.0
+TOBB ETÜ,TOBB ETÜ Ağaçlandırma Arazisi,39.91925005,32.79371831367338,43.0
+TU Berlin,Technische Universität Berlin,52.51101585,13.326954140959668,47.0
+TU Chemnitz,TU Campus,50.8139093,12.930433,50.0
+TU Clausthal,Technische Universität Clausthal,51.80195535,10.34550527586038,55.0
+TU Crete,Tavern,35.3104602,25.564606,29.0
+TU Darmstadt,Tunnel,49.93146155,8.678997963056037,11.0
+TU Dresden,Dresden University of Technology,51.028276500000004,13.735982754935176,33.0
+TU Freiberg,TU Bergakademie Freiberg,50.9248208,13.331843035967744,63.0
+TU Munich,TU München Institut für Pharmakologie,48.1649995,11.593086150000001,30.0
+TU Wien,State Hall of the Austrian National Library,48.2061679,16.3666909,12.0
+UESTC,"University of Science and Technology of China, East Campus",31.839071949999997,117.26420747857581,10.0
+UNIST,UNIST Main Building,35.573814,129.190789,42.0
+USP,University of São Paulo,-23.56096405,-46.72770807289966,23.0
+Universidad de Zaragoza,Universidad de Alcalá de Henares,40.482867,-3.363108,62.0
+Universidade de Lisboa,Universidade Autónoma de Lisboa Luís de Camões,38.724267,-9.145577,65.0
+University College London,University College Hospital,51.52484825,-0.1365251134385993,77.0
+University of A Coruña,Higher Technical University College of Maritime and Naval Machines - UDC,43.3706459,-8.42022351645989,34.0
+University of Athens,National and Kapodistrian University of Athens - Campus,37.97003795,23.76523669720041,53.0
+University of Auckland,Waipapa Taumata Rau / University of Auckland,-36.8660955,174.77373309361866,67.0
+University of Bergen,Western Norway University of Applied Sciences,60.36887575,5.351111541486731,52.0
+University of Birmingham,University,52.451179,-1.9366088,59.0
+University of Bristol,University of Bristol Temple Quarter Enterprise Campus,51.44962135,-2.578381992712973,56.0
+University of Buenos Aires,National University of Comahue,-38.9394882,-68.05033651504556,57.0
+University of Cambridge,University,50.7945542,-1.0970158,61.0
+University of Chinese Academy of Sciences,Yo San University of Traditional Chinese Medicine,33.99323,-118.442926,58.0
+University of Düsseldorf,Düsseldorf University of Applied Science,51.24812155,6.79124852501046,50.0
+University of Erlangen–Nuremberg,University Library Erlangen-Nuremberg: Sublibrary Theology,49.600375,11.0171829,64.0
+University of Freiburg,Brand University of Applied Sciences,53.545886,9.930517,55.0
+University of Groningen,Academy Building,53.21967825,6.562514810379012,31.0
+University of Göttingen,University of Bayreuth,49.92633,11.58504,67.0
+University of Hannover,University of Veterinary Medicine Hanover,52.3685695,9.765730655885474,67.0
+University of Innsbruck,University of Innsbruck-Campus Innrain,47.26331595,11.384473309954492,75.0
+University of Jordan,University of Utah Healthcare - South Jordan Health Center,40.542293,-112.014197,51.0
+University of Kassel,International YMCA University of Applied Scienes,51.303706250000005,9.414465124062877,44.0
+University of L'Aquila,Università degli Studi dell'Aquila - Corsi di Studio di Economia,42.3538791,13.412249567853056,42.0
+University of Leeds,"University of Leeds, Sports Park Weetwood",53.83755925,-1.587391740217544,63.0
+University of Leipzig,Leipzig University of Applied Sciences,51.3131269,12.373565233025795,54.0
+University of Mainz,University of Bayreuth,49.92633,11.58504,73.0
+University of Manchester,University of Manchester - Oxford Road Campus,53.4657087,-2.232734319907597,70.0
+University of Mannheim,Hochschule Mannheim,49.4699765,8.4819024,49.0
+University of Molise,Università degli Studi del Molise,41.55380325,14.664859584699817,64.0
+University of Murcia,Granja Veterinaria Univ. de Murcia,38.00615485,-1.173125859127686,44.0
+University of Newcastle,Warabrook,-32.8870387,151.7098651,12.0
+University of Osnabrück,Library of the University of Osnabrueck,52.2733042,8.0455442,71.0
+University of Pisa,Reserved university parking,43.7199174,10.410056942742635,49.0
+University of Potsdam,XU Exponential University of Applied Sciences,52.3888479,13.1197939,45.0
+University of Rostock,University of Rostock Faculty for Agricultural and Environmental Sciences,54.07541,12.09848,45.0
+University of Salerno,University of Illinois at Chicago,41.870832,-87.64993,63.0
+University of Sannio,University of Illinois at Chicago,41.870832,-87.64993,64.0
+University of Stuttgart,University of Hohenheim,48.7133801,9.21208986402533,61.0
+University of Trier,Trier University of Applied Sciences,49.768058100000005,6.628690122060743,58.0
+University of Tübingen,Climate Garden of University Tuebingen,48.53405945,9.071244429234808,60.0
+University of Ulm,Hochschule Neu-Ulm,48.38044334999999,10.010101151636224,29.0
+University of Würzburg,University of Bayreuth,49.92633,11.58504,73.0
+University of Zurich,Zurich University of Applied Sciences,47.49684345,8.72980716809498,56.0
+Université Jean Monnet,Université - Jean Jaurès,45.748455,4.84387,70.0
+Université Laval,Université de Montréal - Campus Laval,45.55889325,-73.72078951223438,60.0
+Université libre de Bruxelles,Université Libre de Bruxelles (Campus du Solbosch),50.81347185,4.381235729203142,71.0
+Westlake University,"Westlake University, School of Life Sciences, building 1",30.1360628,120.0765667339482,51.0
+Yıldız Technical University,technical university,2.202113,102.247069,77.0
+CUNY,Cuny Table,43.5316556,-102.6837909,14.0
+Colorado State University,Colorado,39.6796152,-104.9376995,48.0
+Iowa State University,Iowa State Capitol,41.591189,-93.603811,67.0
+Oklahoma State University,Southeastern Oklahoma State University,34.0083179,-96.3756103445447,79.0
+Michigan State University,Michigan Theater,42.27949,-83.74175,63.0
+University of New Orleans,University of New Orleans - East Campus,30.03043785,-90.04932935842601,78.0
+University of Minnesota,"The University of Minnesota, Twin Cities Campus",44.9863392,-93.17945580218503,66.0
+Johns Hopkins University,Johns Hopkins University - Homewood Campus,39.33020225,-76.62185357858337,73.0
+Wichita State University,Wichita,33.233136,-97.869415,45.0
+Georgia Institute of Technology,Georgia Tech,33.776033,-84.39884086001581,56.0
+Arizona State University,Arizona,32.2287639,-110.9575209,45.0
+Univ. of California - Irvine,"Strategic Communications, University of California, Irvine",33.6440883,-117.8555373,58.0
+Binghamton University,State University of New York at Binghamton,42.08779975,-75.97066065614858,41.0
+Virginia Tech,Virginia Polytechnic Institute and State University,37.22192675,-80.42728184013652,38.0
+University of South Florida,The University of the South,35.20447165,-85.91895307141937,70.0
+University at Buffalo,University of Nebraska at Kearney,40.6989871,-99.11044498253119,56.0
+UNC - Charlotte,JW Clay Boulevard/UNC Charlotte,35.3107104,-80.745231,57.0
+University of Nevada Las Vegas,University of Nevada,39.54158,-119.81491,80.0
+Florida State University,University of Florida,29.6328784,-82.34901329340119,44.0
+North Carolina State University,North Carolina Zoo,35.628902,-79.761193,61.0
+Boise State University,Sign Shop at Boise State University,43.6040339,-116.2067442,77.0
+IUPUI,The Arbor Garden at IUPUI,39.77420105,-86.17500108342136,33.0
+University of Missouri - Kansas City,University of Missouri,39.03924035,-94.57248659618713,76.0
+University of Nebraska,University of Nebraska - Lincoln City Campus,40.8206834,-96.70048317521739,67.0
+University of Missouri,Saint Louis University,38.6352837,-90.2316773318154,45.0
+University of Arkansas - Little Rock,University of Arkansas Cammack Campus,34.775925,-92.342097,68.0
+LIU Post,Liu,28.6631238,-81.2349235,18.0
+University of Alabama - Huntsville,University of Alabama (historical),33.19345,-87.52251,74.0
+ Wichita State University,Wichita,33.233136,-97.869415,44.0

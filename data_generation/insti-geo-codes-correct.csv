@@ -1,0 +1,291 @@
+institution,name,lat,lon,fuzz-ratio
+Aalborg University,Aalborg University,57.015907049999996,9.975308243557345,100.0
+Aalto University,Aalto University,60.1860789,24.828102074406736,100.0
+Aarhus University,Aarhus University,56.1670905,10.202617693592895,100.0
+American University of Beirut,American University of Beirut,33.9000264,35.48238377752095,100.0
+Australian National University,Australian National University,-35.28121335,149.11677886464528,100.0
+Babeș-Bolyai University,Babeş-Bolyai University,46.7677836,23.59197655428016,96.0
+Bauhaus University Weimar,Bauhaus University Weimar,50.97571335,11.330109194410245,100.0
+Beihang University,Beihang University,39.9809427,116.34097867654876,100.0
+Ben-Gurion University of the Negev,Ben Gurion University of the Negev,31.2631254,34.802238544584185,97.0
+Bocconi University,Bocconi University,45.449719400000006,9.188708672031792,100.0
+Boğaziçi University,Bogazici University,41.08475,29.051,89.0
+Brunel University London,Brunel University London,51.5326092,-0.47404989072672915,100.0
+Carleton University,Carleton University,45.3858581,-75.69500411688679,100.0
+Chinese Academy of Sciences,Chinese Academy of Sciences,39.90933665,116.32971461228999,100.0
+City University of Hong Kong,City University of Hong Kong,22.336535,114.174392,100.0
+City University of London,"City, University of London",51.5276441,-0.10359892518182634,98.0
+Concordia University,Concordia University,45.49741,-73.5771,100.0
+Czech Technical University,Czech Technical University in Prague,50.1029026,14.3946353,84.0
+Ecole Normale Superieure de Rennes,École normale supérieure de Rennes,48.0451896,-1.7457907,88.0
+Federal University of Rio Grande,Federal University of Rio Grande do Sul,-30.03384,-51.21857,90.0
+Friedrich Schiller University Jena,Friedrich-Schiller-University Jena,50.92997,11.58994,94.0
+Galatasaray University,Galatasaray University,41.045992299999995,29.020462428881267,100.0
+Goldsmiths University of London,"Goldsmiths, University of London Campus",51.47339855,-0.03735547774931765,89.0
+Graz University of Technology,Graz University of Technology,47.05821,15.460194742646241,100.0
+HEC Montreal,HEC Montréal,45.5036114,-73.6212922,92.0
+Hamburg University of Technology,Hamburg University of Technology,53.461,9.969226430380203,100.0
+Harbin Institute of Technology,Harbin Institute of Technology,45.741589,126.62556263488914,100.0
+Hasso Plattner Institute,Hasso-Plattner-Institut,52.393714,13.132289,89.0
+Hebrew University of Jerusalem,Hebrew University of Jerusalem,31.7918555,35.244723,100.0
+Heriot-Watt University,Heriot-Watt University,55.91029585,-3.323447514558347,100.0
+Hong Kong Baptist University,Hong Kong Baptist University,22.3874201,114.2082222,100.0
+Hunan University,Hunan University,28.17954925,112.94109846746443,100.0
+IIIT Delhi,IIIT-Delhi,28.54632595,77.27325504180786,90.0
+IIT Jodhpur,IIT Jodhpur,26.2713865,73.03333482988316,100.0
+IST Austria,IST Austria,48.3109736,16.258631088976628,100.0
+Imperial College London,Imperial College,51.4994284,-0.1797084,82.0
+Istanbul Technical University,Istanbul Technical University,41.10504645,29.02632676574676,100.0
+Izmir Institute of Technology,İzmir Institute of Technology,38.32247565,26.637855746923606,97.0
+Jacobs University Bremen,Jacobs University Bremen,53.167723300000006,8.651165678669964,100.0
+KTH Royal Institute of Technology,KTH - Royal Institute of Technology (Södertälje),59.201676,17.62032,81.0
+Karlsruhe Institute of Technology,Karlsruhe Institute of Technology,49.101853399999996,8.433120159201868,100.0
+Koç University,Koç University,41.20315895,29.072865356234708,100.0
+Kyoto University,Kyoto University,35.02704665,135.78143727667532,100.0
+Kyung Hee University,Kyung Hee University,37.59675,127.05189,100.0
+Lancaster University,Lancaster University,54.0140815,-2.7924393,100.0
+Lebanese American University,Lebanese American University,33.89283555,35.4774984415219,100.0
+Leiden University,Leiden University,52.168633850000006,4.45966305742133,100.0
+Loughborough University,Loughborough University,52.7626882,-1.2396365359627026,100.0
+Maastricht University,Maastricht University,50.84720265,5.685941396293034,100.0
+Macquarie University,Macquarie University,-33.7740328,151.11269439194754,100.0
+Massey University,Massey University,-40.3844693,175.6164996,100.0
+McGill University,McGill University,45.50691775,-73.5791162596496,100.0
+McMaster University,McMaster University,43.263939699999995,-79.91782519029299,100.0
+Memorial University of Newfoundland,Memorial University of Newfoundland and Labrador,47.585546,-52.736413,84.0
+Middle East Technical University,Middle East Technical University,39.875496749999996,32.78553505584672,100.0
+Middlesex University,Middlesex University,51.590297050000004,-0.2296322094540291,100.0
+Monash University,Monash University,-37.783974549999996,144.95867432609305,100.0
+Nanjing University,Nanjing University,32.0565957,118.77408832807794,100.0
+Nanyang Technological University,Nanyang Technological University,1.3484104000000001,103.68293320728537,100.0
+National University of Singapore,National University of Singapore,1.2962018,103.77689943784759,100.0
+Newcastle University,Newcastle University,54.98017505,-1.6146802127187847,100.0
+Ontario Tech University,Ontario Tech University,43.94833105,-78.89816678087453,100.0
+Open University UK,The Open University,52.024788,-0.710401,81.0
+Politecnico di Milano,Politecnico di Milano,45.4784768,9.2295647,100.0
+Qatar University,Qatar University,25.3719714,51.48795786318291,100.0
+Queen Mary University of London,Queen Mary University of London,51.5247272,-0.03931034663016243,100.0
+Queen's University Belfast,Queen's University,54.5842117,-5.9364324,82.0
+Queensland University of Technology,Queensland University of Technology,-27.4561036,153.01387368150728,100.0
+RMIT University,RMIT University,-37.8057346,144.9653216297798,100.0
+Saarland University,Saarland University,49.25437635,7.041481352041722,100.0
+Sabancı University,Sabancı Üniversitesi,40.8927159,29.378633226358197,84.0
+Sapienza University of Rome,Sapienza University of Rome,41.90386,12.51489,100.0
+Seoul National University,Seoul National University,37.45917,126.95194,100.0
+Shandong University,Shandong University,36.3688722,120.6738368,100.0
+ShanghaiTech University,ShanghaiTech University,31.179430500000002,121.59023445501072,100.0
+Sharif University of Technology,University of Technology,18.016475,-76.743473,87.0
+Shenzhen University,Shenzhen University,22.53590225,113.93147487492186,100.0
+Simon Fraser University,Simon Fraser University,49.276709600000004,-122.91780296438841,100.0
+Singapore Management University,Singapore Management University,1.29616795,103.85004365998248,100.0
+South Asian University,South Asian University,28.484981949999998,77.20071960427245,100.0
+Stellenbosch University,Stellenbosch University,-33.931521950000004,18.867665592062465,100.0
+Tampere University,Tampere University Library,61.4952774,23.7780918,82.0
+The Catholic University of Korea,The Catholic University of Korea,37.48601,126.80154,100.0
+The Hong Kong Polytechnic University,The Hong Kong Polytechnic University,22.304486699999998,114.17969345666262,100.0
+Tokyo Institute of Technology,Tokyo Institute of Technology,35.514745649999995,139.48399813369707,100.0
+Tongji University,Tongji University,31.28473925,121.49694908588742,100.0
+Trinity College Dublin,Trinity College Dublin,53.34366745,-6.254444724511822,100.0
+Tsinghua University,Tsinghua University,40.002290450000004,116.3209629696906,100.0
+UNSW,UNSW,-33.9175545,151.2291515,100.0
+Universidad Nacional de Córdoba,Universidad Nacional de Córdoba,-31.4369591,-64.18767563997622,100.0
+Universidad Rey Juan Carlos,Universidad Rey Juan Carlos,40.33611785,-3.8771203152794294,100.0
+Universidad de los Andes,Universidad de los Andes,4.694193,-74.033362,100.0
+Universidade Federal de Viçosa,Universidade Federal de Viçosa,-20.76763505,-42.858785454528096,100.0
+Universidade NOVA de Lisboa,Universidade nova de Lisboa,38.7328407,-9.1602002,85.0
+Universidade de Brasília,Universidade de Brasília,-15.76387,-47.86926,100.0
+University of Aberdeen,University of Aberdeen,57.164909,-2.10258,100.0
+University of Adelaide,University of Adelaide,-34.9189226,138.60423667410745,100.0
+University of Alberta,University of Alberta,53.52682,-113.5244937350756,100.0
+University of Amsterdam,University of Amsterdam,52.36813335,4.889804155733945,100.0
+University of Bayreuth,University of Bayreuth,49.9270796,11.587226615128671,100.0
+University of Bern,University of Bern,46.95097255,7.438684130809055,100.0
+University of Bonn,University of Bonn,50.7338124,7.1022465,100.0
+University of Bremen,University of Bremen,53.107964550000005,8.855664592828369,100.0
+University of Calgary,University of Calgary,51.0783651,-114.1283072,100.0
+University of Canterbury,University of Canterbury,-43.5240781,172.5803074154386,100.0
+University of Cape Town,University of Cape Town,-33.95675585,18.467577702002977,100.0
+University of Copenhagen,University of Copenhagen,55.6801502,12.57232700140625,100.0
+University of Crete,University of Crete,35.3072756,25.08249485321918,100.0
+University of Exeter,University of Exeter,50.736854,-3.533407,100.0
+University of Guelph,University of Guelph,43.535193,-80.22009972637464,100.0
+University of Helsinki,University of Helsinki,60.171039300000004,24.949155335163038,100.0
+University of Hong Kong,The University of Hong Kong,22.283269,114.136744,92.0
+University of Ioannina,University of Ioannina,39.615659050000005,20.83952573354071,100.0
+University of Kent,University of Kent,51.295015750000005,1.0673010856199983,100.0
+University of Klagenfurt,University of Klagenfurt,46.616402550000004,14.264680917308162,100.0
+University of Konstanz,University of Konstanz,47.690088599999996,9.188243876500252,100.0
+University of Luxembourg,University of Luxembourg,49.62319225,6.112759617239071,100.0
+University of Lübeck,University of Lübeck,53.8344,10.70392,100.0
+University of Malaya,University of Malaya,3.1255683000000003,101.65582254721087,100.0
+University of Manitoba,University of Manitoba,49.815622,-97.118363,100.0
+University of Melbourne,University of Melbourne,-37.7970796,144.96130134414312,100.0
+University of New Brunswick,University of New Brunswick,45.945530250000004,-66.64018313486694,100.0
+University of Nicosia,University of Nicosia,35.1660481,33.314940552800635,100.0
+University of Nottingham,University of Nottingham,52.9387428,-1.2002956927457427,100.0
+University of Otago,University of Otago,-45.8649793,170.51461487350844,100.0
+University of Ottawa,University of Ottawa,45.42252705,-75.68339041611182,100.0
+University of Piraeus,University of Piraeus,37.94173275,23.653032618219704,100.0
+University of Queensland,The University of Queensland,-27.49741805,153.01316955983583,92.0
+University of Regina,University of Regina,50.4152275,-104.58899996239825,100.0
+University of Saskatchewan,University of Saskatchewan,52.13441935,-106.6277768327002,100.0
+University of Sheffield,University of Sheffield,53.3815327,-1.4806602,100.0
+University of Southampton,University of Southampton,50.93703355,-1.4050090771323005,100.0
+University of St Andrews,University of St Andrews,56.3398198,-2.8117937053149826,100.0
+University of Surrey,University of Surrey,51.24307815,-0.5900544877514773,100.0
+University of Sussex,University of Sussex,50.86796665,-0.08778899363132905,100.0
+University of Sydney,The University of Sydney,-33.88888125,151.18941425705117,91.0
+University of Szeged,University of Szeged,46.25004545,20.146503351468105,100.0
+University of Technology Sydney,University of Technology Sydney,-33.8828784,151.20068119546247,100.0
+University of Tokyo,University of Tokyo,35.71339,139.76232,100.0
+University of Toronto,University of Toronto,43.663461999999996,-79.39775966248058,100.0
+University of Trento,University of Trento,46.06682,11.12326,100.0
+University of Tsukuba,University of Tsukuba,36.1070526,140.10066020403983,100.0
+University of Twente,University of Twente,52.23881,6.85035,100.0
+University of Victoria,University of Victoria,48.468468,-123.316619,100.0
+University of Vienna,University of Vienna,48.2131284,16.360685994114505,100.0
+University of Waikato,University of Waikato,-37.7858739,175.31676647297562,100.0
+University of Warsaw,University of Warsaw,52.2402106,21.018851115550465,100.0
+University of Warwick,University of Warwick,52.3813073,-1.5639569481637439,100.0
+University of Waterloo,University of Waterloo,43.4701994,-80.54524293779451,100.0
+University of Western Australia,University of Western Australia,-31.95040445,115.79790157357621,100.0
+University of Windsor,University of Windsor,42.305201350000004,-83.06649144027972,100.0
+University of Wroclaw,University of Wrocław,51.11399,17.03393,95.0
+Università della Svizzera italiana,Universita della Svizzera Italiana (USI),46.0109126,8.958120471825609,86.0
+Université Paris Dauphine,Université Paris-Dauphine,48.87015115,2.2735218497104226,96.0
+Université de Sherbrooke,Université de Sherbrooke,45.37796365,-71.92746417605778,100.0
+Uppsala University,Uppsala University,59.85519,17.63149,100.0
+Utrecht University,Utrecht University,52.09021,5.12233,100.0
+VISTEC,VISTEC,13.0016529,101.441304,100.0
+Victoria University of Wellington,Victoria University of Wellington,-36.8482415,174.76775596988733,100.0
+Weizmann Institute of Science,Weizmann Institute of Science,31.907849900000002,34.81334092444211,100.0
+Western University,Western University,43.0088973,-81.2621821,100.0
+Xi'an Jiaotong University,Xian Jiaotong University,34.2474949,108.97897240302595,98.0
+Yonsei University,Yonsei University,37.565,126.93833,100.0
+Boston University,Boston University,42.350189400000005,-71.10070118497421,100.0
+University of Washington,University of Washington,47.6543466,-122.30806059473039,100.0
+George Mason University,George Mason University,38.83133325,-77.30798838879116,100.0
+Duke University,Duke University,36.00015569999999,-78.94422972195878,100.0
+Florida International University,Florida International University,25.7553898,-80.3762832779774,100.0
+Northeastern University,Northeastern University,42.3390301,-71.08791294953176,100.0
+Rutgers University,Rutgers University,40.4855746,-74.4319015,100.0
+Washington University in St. Louis,Washington University in St. Louis,38.64724015,-90.3084017323959,100.0
+University of Colorado Boulder,University of Colorado,40.00759835,-105.26910078017822,85.0
+University of Notre Dame,University of Notre Dame du Lac,41.704567749999995,-86.23822026017265,87.0
+University of Chicago,The University of Chicago,41.79139685,-87.60084387193544,91.0
+University of Pennsylvania,University of Pennsylvania,39.9493382,-75.18964402998125,100.0
+Yale University,Yale University,41.25713055,-72.98966960152231,100.0
+Stanford University,Stanford University,37.431313849999995,-122.16936535498309,100.0
+University of Iowa,University of Iowa,41.631102350000006,-91.54075201642047,100.0
+Princeton University,Princeton University,40.33867515,-74.65836549131683,100.0
+Carnegie Mellon University,Carnegie Mellon University,40.444189699999995,-79.94271918393466,100.0
+University of Connecticut,University of Connecticut,41.82175755,-72.24277535505323,100.0
+University of Florida,University of Florida,29.6328784,-82.34901329340119,100.0
+Texas Tech University,Texas Tech University,33.59375255,-101.89959552302756,100.0
+University of New Mexico,University of New Mexico,35.08663275,-106.62020940505188,100.0
+Cornell University,Cornell University,42.450550699999994,-76.47835129554275,100.0
+University of Central Florida,University of Central Florida,28.592364,-81.208607,100.0
+Vanderbilt University,Vanderbilt University,36.14380105,-86.80281889095295,100.0
+Northern Arizona University,Northern Arizona University,35.1834428,-111.65500037883243,100.0
+Univ. of Illinois at Urbana-Champaign,University of Illinois at Urbana-Champaign,40.10056605,-88.23131272434611,91.0
+Massachusetts Institute of Technology,Massachusetts Institute of Technology,42.3582529,-71.0966272383055,100.0
+Washington State University,Washington State University,46.7337724,-117.14976069286374,100.0
+University of Pittsburgh,University of Pittsburgh,40.44415295,-79.96246095144505,100.0
+University of Massachusetts Amherst,University of Massachusetts,42.38898,-72.5287,87.0
+DePaul University,DePaul University,41.92401995,-87.65472731476649,100.0
+California Institute of Technology,California Institute of Technology,34.13701375,-118.1252882487961,100.0
+University of Delaware,University of Delaware,39.6810328,-75.7540184,100.0
+University of Louisville,University of Louisville,38.21332235,-85.75770751081866,100.0
+University of Utah,University of Utah,40.762813699999995,-111.83687191368261,100.0
+Univ. of California - Berkeley,"University of California, Berkeley",37.8753497,-122.23963364918777,84.0
+Univ. of California - Davis,"University of California, Davis",38.533790350000004,-121.79079892146456,83.0
+Stevens Institute of Technology,Stevens Institute of Technology,40.744809599999996,-74.0252392276461,100.0
+Rochester Institute of Technology,Rochester Institute of Technology,43.08248835,-77.67291102378641,100.0
+College of William and Mary,College of William and Mary,37.26908455,-76.72273688917291,100.0
+West Virginia University,West Virginia University,39.63595,-79.95545,100.0
+Northwestern University,Northwestern University,42.0551164,-87.67581113482166,100.0
+Augusta University,Augusta University,33.4693345,-81.988562,100.0
+Univ. of California - Riverside,"University of California, Riverside",33.96370575,-117.33978065170642,85.0
+Purdue University,Purdue University,40.43002715,-86.92647668759187,100.0
+Univ. of California - Merced,"University of California, Merced",37.3651866,-120.42273040717912,83.0
+The University of Alabama,University of Alabama,33.21208215,-87.53967401518648,91.0
+University of Virginia,University of Virginia,38.0410576,-78.50549960183568,100.0
+University of Southern California,University of Southern California,34.0218833,-118.28586662125,100.0
+Western Michigan University,Western Michigan University,42.28333755,-85.60950673080742,100.0
+Rice University,Rice University,29.716791450000002,-95.40478113393792,100.0
+University of Michigan,University of Michigan,42.2942142,-83.71003893509601,100.0
+University of Vermont,University of Vermont,44.4737365,-73.19414679705882,100.0
+Air Force Institute of Technology,Air Force Institute of Technology,39.7819802,-84.08260144944413,100.0
+Oregon State University,Oregon State University,44.56305595,-123.28392363395751,100.0
+University of Houston,University of Houston,29.7207902,-95.34406271491369,100.0
+Virginia Commonwealth University,Virginia Commonwealth University,37.546124649999996,-77.45406089907547,100.0
+University of Kansas,University of Kansas,38.953491799999995,-95.26308879955823,100.0
+Emory University,Emory University,33.795867650000005,-84.32778960627682,100.0
+Georgia State University,Georgia State University,33.754761349999995,-84.38819218475689,100.0
+Georgetown University,Georgetown University,38.90893925,-77.07457962060826,100.0
+Wayne State University,Wayne State University,42.35720515,-83.07094978691399,100.0
+Towson University,Towson University,39.38966285,-76.61589248682586,100.0
+University of Arkansas,University of Arkansas,36.09352375,-94.17708979491738,100.0
+University of North Carolina,University of North Carolina,35.90503535,-79.04775326525107,100.0
+Columbia University,Columbia University,40.80775585,-73.96164946987652,100.0
+University of Cincinnati,University of Cincinnati,39.1318613,-84.51576195582436,100.0
+Michigan Technological University,Michigan Technological University,47.1099114,-88.55115132910507,100.0
+University of Texas at San Antonio,The University of Texas at San Antonio,29.582022,-98.620112,94.0
+Drexel University,Drexel University,39.9574,-75.19026656335703,100.0
+New York University,New York University,40.72925325,-73.99625393609625,100.0
+Stony Brook University,Stony Brook University,40.9090809,-73.12055180275716,100.0
+University of Texas at Arlington,University of Texas at Austin,30.285319,-97.734219,85.0
+University of Arizona,University of Arizona,32.2356427,-110.951744125426,100.0
+Tufts University,Tufts University,42.40649125,-71.11800725402092,100.0
+Auburn University,Auburn University,32.591987700000004,-85.4959487362446,100.0
+University of Tennessee,University of Tennessee,35.9542493,-83.9307395,100.0
+Utah State University,Utah Valley University,40.27941055,-111.71788683218048,84.0
+Univ. of California - Santa Barbara,"University of California, Santa Barbara",34.414602450000004,-119.84581004701371,86.0
+Portland State University,Portland State University,45.51181205,-122.68492999382892,100.0
+University of Southern Mississippi,University of Southern Mississippi,31.3286452,-89.3367311705755,100.0
+University of Louisiana - Lafayette,University of Louisiana at Lafayette,30.21928995,-92.04138303976296,96.0
+University of South Carolina,University of South Carolina,33.992829799999996,-81.02685165712111,100.0
+University of Wyoming,University of Wyoming,41.3144774,-105.56432285957351,100.0
+Brown University,Brown University,41.8186395,-71.40880088822493,100.0
+University of Oklahoma,University of Oklahoma,35.1959878,-97.44570827599858,100.0
+Case Western Reserve University,Case Western Reserve University,41.505188,-81.604614,100.0
+Rensselaer Polytechnic Institute,Rensselaer Polytechnic Institute,42.729921950000005,-73.67953982458829,100.0
+Cleveland State University,Cleveland State University,41.50214445,-81.67516704866894,100.0
+University of Texas at Dallas,University of Texas at Dallas,32.9875855,-96.74976927802929,100.0
+Syracuse University,Syracuse University,43.017112850000004,-76.11855360009726,100.0
+Claremont Graduate University,Claremont Graduate University,34.110385199999996,-117.71758836815268,100.0
+Ohio State University,The Ohio State University,40.006009,-83.01132,91.0
+Old Dominion University,Old Dominion University,36.8862699,-76.30972478839735,100.0
+Temple University,Temple University,39.981188,-75.15628280757346,100.0
+Texas State University,Texas State University,29.8884765,-97.94479885849292,100.0
+University of Denver,University of Denver,39.67831365,-104.96250921815401,100.0
+Brandeis University,Brandeis University,42.36650945,-71.2580196483813,100.0
+Oakland University,Oakland University,42.666633250000004,-83.20655751756584,100.0
+University of Michigan-Dearborn,University of Michigan-Dearborn,42.3172294,-83.23193935538828,100.0
+Lehigh University,Lehigh University,40.6068028,-75.3782488,100.0
+Harvard University,Harvard University,42.36790855,-71.12678237443698,100.0
+University of North Texas,University of North Texas,33.2098926,-97.15147624977251,100.0
+Tulane University,Tulane University,29.94121955,-90.12010089179185,100.0
+Ohio University,Ohio University,39.32300405,-82.10267681533172,100.0
+University of Idaho,University of Idaho,46.72379775,-117.02043898436474,100.0
+University of Nebraska - Omaha,University of Nebraska at Omaha,41.257793250000006,-96.0104763,95.0
+University of Hawaii at Manoa,University of Hawaiʻi at Manoa,21.2982795,-157.81869356088555,98.0
+Worcester Polytechnic Institute,Worcester Polytechnic Institute,42.274315,-71.80845674552586,100.0
+Brigham Young University,Brigham Young University,40.25501105,-111.64953257145665,100.0
+University of Massachusetts Boston,University of Massachusetts,42.38898,-72.5287,89.0
+Colorado School of Mines,Colorado School of Mines,39.75269125,-105.22287205576333,100.0
+Baylor University,Baylor University,31.55043405,-97.1102905567766,100.0
+Illinois Institute of Technology,Illinois Institute of Technology,41.8352554,-87.62643622073041,100.0
+University of Colorado - Denver,University of Colorado,40.00759835,-105.26910078017822,83.0
+University of Tulsa,University of Tulsa,36.1523306,-95.94596023877983,100.0
+Missouri University of Technology,Missouri University of Science and Technology,37.952962,-91.778002,85.0
+University of Mississippi,University of Mississippi,34.3646125,-89.53963491020966,100.0
+University of Georgia,University of Georgia,33.9404278,-83.37304904988295,100.0
+University of New Hampshire,University of New Hampshire,43.13826535,-70.93238172334156,100.0
+Southern Methodist University,Southern Methodist University,32.841801149999995,-96.78152810147064,100.0
+Florida Institute of Technology,Florida Institute of Technology,28.0642296,-80.6230097241205,100.0
+North Dakota State University,North Dakota State University,46.897155,-96.81826543221285,100.0
+University of Memphis,The University of Memphis,35.1189387,-89.93721959965887,91.0
+Boston College,Boston College,42.3354481,-71.16813864023061,100.0
+University of Maine,University of Maine Orono,44.8991352,-68.66637461527564,86.0
+Simmons University,Simmons University,42.34143655,-71.10544912486057,100.0
