@@ -1,0 +1,610 @@
+institution,country_code,country_name,region_code,region_name
+AUEB,gr,Greece,europe,Europe
+Aalborg University,dk,Denmark,europe,Europe
+Aalto University,fi,Finland,europe,Europe
+Aarhus University,dk,Denmark,europe,Europe
+Aberystwyth University,uk,United Kingdom,europe,Europe
+American University in Cairo,eg,Egypt,africa,Africa
+American University of Beirut,lb,Lebanon,asia,Asia
+Ariel University,il,Israel,europe,Europe
+Australian National University,au,Australia,australasia,Australasia
+BITS Pilani,in,India,asia,Asia
+BITS Pilani-Goa,in,India,asia,Asia
+BUET,bd,Bangladesh,asia,Asia
+BUPT,cn,China,asia,Asia
+Babeș-Bolyai University,ro,Romania,europe,Europe
+Bar-Ilan University,il,Israel,europe,Europe
+Bauhaus University Weimar,de,Germany,europe,Europe
+Beihang University,cn,China,asia,Asia
+Ben-Gurion University of the Negev,il,Israel,europe,Europe
+Bielefeld University,de,Germany,europe,Europe
+Bilkent University,tr,Turkey,europe,Europe
+Birkbeck University of London,uk,United Kingdom,europe,Europe
+Bocconi University,it,Italy,europe,Europe
+Boğaziçi University,tr,Turkey,europe,Europe
+Brandenburg University of Technology,de,Germany,europe,Europe
+Brno University of Technology,cz,Czech Republic,europe,Europe
+Brunel University London,uk,United Kingdom,europe,Europe
+Bundeswehr University Munich,de,Germany,europe,Europe
+CISPA Helmholtz Center,de,Germany,europe,Europe
+CMI,in,India,asia,Asia
+CRIStAL,fr,France,europe,Europe
+CWI,nl,Netherlands,europe,Europe
+Cardiff University,uk,United Kingdom,europe,Europe
+Carleton University,ca,Canada,northamerica,North America
+Chalmers/GU,se,Sweden,europe,Europe
+Charles University,cz,Czech Republic,europe,Europe
+Chinese Academy of Sciences,cn,China,asia,Asia
+Chinese University of Hong Kong,hk,Hong Kong,asia,Asia
+Chulalongkorn University,th,Thailand,asia,Asia
+City University of Hong Kong,hk,Hong Kong,asia,Asia
+City University of London,uk,United Kingdom,europe,Europe
+Concordia University,ca,Canada,northamerica,North America
+Cyprus University of Technology,cy,Cyprus,europe,Europe
+Czech Technical University,cz,Czech Republic,europe,Europe
+DAIICT,in,India,asia,Asia
+DTU,dk,Denmark,europe,Europe
+Dalhousie University,ca,Canada,northamerica,North America
+De La Salle University,ph,Philippines,asia,Asia
+Durham University,uk,United Kingdom,europe,Europe
+EPFL,ch,Switzerland,europe,Europe
+ETH Zurich,ch,Switzerland,europe,Europe
+ETS Montreal,ca,Canada,northamerica,North America
+EURECOM,fr,France,europe,Europe
+Ecole Normale Superieure,fr,France,europe,Europe
+Ecole Normale Superieure de Cachan,fr,France,europe,Europe
+Ecole Normale Superieure de Lyon,fr,France,europe,Europe
+Ecole Normale Superieure de Rennes,fr,France,europe,Europe
+Federal University of Rio Grande,br,Brazil,southamerica,South America
+Freie Universitaet Berlin,de,Germany,europe,Europe
+Friedrich Schiller University Jena,de,Germany,europe,Europe
+Fudan University,cn,China,asia,Asia
+Galatasaray University,tr,Turkey,europe,Europe
+Goethe University Frankfurt,de,Germany,europe,Europe
+Goldsmiths University of London,uk,United Kingdom,europe,Europe
+Graz University of Technology,at,Austria,europe,Europe
+HEC Montreal,ca,Canada,northamerica,North America
+HKUST,hk,Hong Kong,asia,Asia
+HSE University,ru,Russian Federation,europe,Europe
+HUST,cn,China,asia,Asia
+Hacettepe University,tr,Turkey,europe,Europe
+Hamburg University of Technology,de,Germany,europe,Europe
+Hanyang University,kr,"Korea, Republic of",asia,Asia
+Harbin Institute of Technology,cn,China,asia,Asia
+Hasso Plattner Institute,de,Germany,europe,Europe
+Hebrew University of Jerusalem,il,Israel,europe,Europe
+Heidelberg University,de,Germany,europe,Europe
+Heriot-Watt University,uk,United Kingdom,europe,Europe
+Hong Kong Baptist University,hk,Hong Kong,asia,Asia
+Humboldt University of Berlin,de,Germany,europe,Europe
+Hunan University,cn,China,asia,Asia
+IIIT Bangalore,in,India,asia,Asia
+IIIT Delhi,in,India,asia,Asia
+IIIT Hyderabad,in,India,asia,Asia
+IISc Bangalore,in,India,asia,Asia
+IIT (BHU) Varanasi,in,India,asia,Asia
+IIT Bhubaneswar,in,India,asia,Asia
+IIT Bombay,in,India,asia,Asia
+IIT Delhi,in,India,asia,Asia
+IIT Gandhinagar,in,India,asia,Asia
+IIT Goa,in,India,asia,Asia
+IIT Guwahati,in,India,asia,Asia
+IIT Hyderabad,in,India,asia,Asia
+IIT Indore,in,India,asia,Asia
+IIT Jodhpur,in,India,asia,Asia
+IIT Kanpur,in,India,asia,Asia
+IIT Kharagpur,in,India,asia,Asia
+IIT Madras,in,India,asia,Asia
+IIT Mandi,in,India,asia,Asia
+IIT Patna,in,India,asia,Asia
+IIT Roorkee,in,India,asia,Asia
+IIT Ropar,in,India,asia,Asia
+IMDEA Networks Institute,es,Spain,europe,Europe
+IMDEA Software Institute,es,Spain,europe,Europe
+IMSc,in,India,asia,Asia
+IPI PAN,pl,Poland,europe,Europe
+IPM,ir,"Iran, Islamic Republic of",asia,Asia
+ISI Kolkata,in,India,asia,Asia
+IST Austria,at,Austria,europe,Europe
+IT University of Copenhagen,dk,Denmark,europe,Europe
+IUST,ir,"Iran, Islamic Republic of",asia,Asia
+Imperial College London,uk,United Kingdom,europe,Europe
+Istanbul Technical University,tr,Turkey,europe,Europe
+Izmir Institute of Technology,tr,Turkey,europe,Europe
+JKU Linz,at,Austria,europe,Europe
+JUST,jo,Jordan,asia,Asia
+Jacobs University Bremen,de,Germany,europe,Europe
+KAIST,kr,"Korea, Republic of",asia,Asia
+KAUST,sa,Saudi Arabia,asia,Asia
+KMUTNB,th,Thailand,asia,Asia
+KTH Royal Institute of Technology,se,Sweden,europe,Europe
+KU Leuven,be,Belgium,europe,Europe
+Karlsruhe Institute of Technology,de,Germany,europe,Europe
+Keio University,jp,Japan,asia,Asia
+King Abdulaziz University,sa,Saudi Arabia,asia,Asia
+King's College London,uk,United Kingdom,europe,Europe
+Korea University,kr,"Korea, Republic of",asia,Asia
+Koç University,tr,Turkey,europe,Europe
+Kyoto University,jp,Japan,asia,Asia
+Kyung Hee University,kr,"Korea, Republic of",asia,Asia
+Kyungpook National University,kr,"Korea, Republic of",asia,Asia
+LMU Munich,de,Germany,europe,Europe
+LUMS,pk,Pakistan,asia,Asia
+Lancaster University,uk,United Kingdom,europe,Europe
+Lebanese American University,lb,Lebanon,asia,Asia
+Leiden University,nl,Netherlands,europe,Europe
+Loughborough University,uk,United Kingdom,europe,Europe
+Lund University,se,Sweden,europe,Europe
+MBZUAI,ae,United Arab Emirates,asia,Asia
+Maastricht University,nl,Netherlands,europe,Europe
+Macquarie University,au,Australia,australasia,Australasia
+Masaryk University,cz,Czech Republic,europe,Europe
+Masdar Institute,ae,United Arab Emirates,asia,Asia
+Massey University,nz,New Zealand,australasia,Australasia
+Max Planck Society,de,Germany,europe,Europe
+McGill University,ca,Canada,northamerica,North America
+McMaster University,ca,Canada,northamerica,North America
+Memorial University of Newfoundland,ca,Canada,northamerica,North America
+Middle East Technical University,tr,Turkey,europe,Europe
+Middlesex University,uk,United Kingdom,europe,Europe
+Monash University,au,Australia,australasia,Australasia
+Mälardalen University,se,Sweden,europe,Europe
+NTNU,no,Norway,europe,Europe
+NTUA,gr,Greece,europe,Europe
+NWPU,cn,China,asia,Asia
+NYU Shanghai,cn,China,asia,Asia
+Nanjing University,cn,China,asia,Asia
+Nanyang Technological University,sg,Singapore,asia,Asia
+National Cheng Kung University,tw,"Taiwan, Province of China",asia,Asia
+National Chiao Tung University,tw,"Taiwan, Province of China",asia,Asia
+National Institute of Technology Silchar,in,India,asia,Asia
+National Taiwan University,tw,"Taiwan, Province of China",asia,Asia
+National Tsing Hua University,tw,"Taiwan, Province of China",asia,Asia
+National University of Singapore,sg,Singapore,asia,Asia
+Newcastle University,uk,United Kingdom,europe,Europe
+Ontario Tech University,ca,Canada,northamerica,North America
+Open University UK,uk,United Kingdom,europe,Europe
+Osaka University,jp,Japan,asia,Asia
+POSTECH,kr,"Korea, Republic of",asia,Asia
+PUC-RIO,br,Brazil,southamerica,South America
+PUC-RS,br,Brazil,southamerica,South America
+Paderborn University,de,Germany,europe,Europe
+Peking University,cn,China,asia,Asia
+Politecnico di Milano,it,Italy,europe,Europe
+Polytechnic University of Catalonia,es,Spain,europe,Europe
+Polytechnique Montreal,ca,Canada,northamerica,North America
+Qatar Computing Research Institute,qa,Qatar,asia,Asia
+Qatar University,qa,Qatar,asia,Asia
+Queen Mary University of London,uk,United Kingdom,europe,Europe
+Queen's University Belfast,uk,United Kingdom,europe,Europe
+Queensland University of Technology,au,Australia,australasia,Australasia
+Queen’s University,ca,Canada,northamerica,North America
+RMIT University,au,Australia,australasia,Australasia
+RWTH Aachen,de,Germany,europe,Europe
+Radboud University,nl,Netherlands,europe,Europe
+Renmin University of China,cn,China,asia,Asia
+Royal Holloway University of London,uk,United Kingdom,europe,Europe
+Royal Military College of Canada,ca,Canada,northamerica,North America
+Ruhr-University Bochum,de,Germany,europe,Europe
+Ryerson University,ca,Canada,northamerica,North America
+SUFE,cn,China,asia,Asia
+SUSTech,cn,China,asia,Asia
+SUTD,sg,Singapore,asia,Asia
+Saarland University,de,Germany,europe,Europe
+Sabancı University,tr,Turkey,europe,Europe
+Sapienza University of Rome,it,Italy,europe,Europe
+Scuola Superiore Sant'Anna,it,Italy,europe,Europe
+Seoul National University,kr,"Korea, Republic of",asia,Asia
+Shandong University,cn,China,asia,Asia
+Shanghai Jiao Tong University,cn,China,asia,Asia
+ShanghaiTech University,cn,China,asia,Asia
+Sharif University of Technology,ir,"Iran, Islamic Republic of",asia,Asia
+Shenzhen University,cn,China,asia,Asia
+Simon Fraser University,ca,Canada,northamerica,North America
+Simula UiB,no,Norway,europe,Europe
+Singapore Management University,sg,Singapore,asia,Asia
+Soochow University,cn,China,asia,Asia
+South Asian University,in,India,asia,Asia
+Stellenbosch University,za,South Africa,africa,Africa
+Sun Yat-sen University,cn,China,asia,Asia
+TOBB ETÜ,tr,Turkey,europe,Europe
+TU Berlin,de,Germany,europe,Europe
+TU Braunschweig,de,Germany,europe,Europe
+TU Chemnitz,de,Germany,europe,Europe
+TU Clausthal,de,Germany,europe,Europe
+TU Crete,gr,Greece,europe,Europe
+TU Darmstadt,de,Germany,europe,Europe
+TU Delft,nl,Netherlands,europe,Europe
+TU Dortmund,de,Germany,europe,Europe
+TU Dresden,de,Germany,europe,Europe
+TU Eindhoven,nl,Netherlands,europe,Europe
+TU Freiberg,de,Germany,europe,Europe
+TU Ilmenau,de,Germany,europe,Europe
+TU Kaiserslautern,de,Germany,europe,Europe
+TU Munich,de,Germany,europe,Europe
+TU Wien,at,Austria,europe,Europe
+Tampere University,fi,Finland,europe,Europe
+Tata Inst. of Fundamental Research,in,India,asia,Asia
+Technion,il,Israel,europe,Europe
+Tel Aviv University,il,Israel,europe,Europe
+Texas A&M at Qatar,qa,Qatar,asia,Asia
+The Catholic University of Korea,kr,"Korea, Republic of",asia,Asia
+The Hong Kong Polytechnic University,hk,Hong Kong,asia,Asia
+Tilburg University,nl,Netherlands,europe,Europe
+Tokyo Institute of Technology,jp,Japan,asia,Asia
+Tongji University,cn,China,asia,Asia
+Trinity College Dublin,ie,Ireland,europe,Europe
+Tsinghua University,cn,China,asia,Asia
+UESTC,cn,China,asia,Asia
+UFF,br,Brazil,southamerica,South America
+UFMG,br,Brazil,southamerica,South America
+UFMS,br,Brazil,southamerica,South America
+UFPE,br,Brazil,southamerica,South America
+UFPR,br,Brazil,southamerica,South America
+UFRGS,br,Brazil,southamerica,South America
+UFRJ,br,Brazil,southamerica,South America
+UFU,br,Brazil,southamerica,South America
+UNICAMP,br,Brazil,southamerica,South America
+UNIST,kr,"Korea, Republic of",asia,Asia
+UNSW,au,Australia,australasia,Australasia
+USP,br,Brazil,southamerica,South America
+USP-ICMC,br,Brazil,southamerica,South America
+USTC,cn,China,asia,Asia
+Universidad Nacional de Córdoba,ar,Argentina,southamerica,South America
+Universidad Rey Juan Carlos,es,Spain,europe,Europe
+Universidad de Chile,cl,Chile,southamerica,South America
+Universidad de Zaragoza,es,Spain,europe,Europe
+Universidad de los Andes,co,Colombia,southamerica,South America
+Universidade Federal de Viçosa,br,Brazil,southamerica,South America
+Universidade NOVA de Lisboa,pt,Portugal,europe,Europe
+Universidade de Brasília,br,Brazil,southamerica,South America
+Universidade de Lisboa,pt,Portugal,europe,Europe
+University College Dublin,ie,Ireland,europe,Europe
+University College London,uk,United Kingdom,europe,Europe
+University of A Coruña,es,Spain,europe,Europe
+University of Aberdeen,uk,United Kingdom,europe,Europe
+University of Adelaide,au,Australia,australasia,Australasia
+University of Alberta,ca,Canada,northamerica,North America
+University of Amsterdam,nl,Netherlands,europe,Europe
+University of Athens,gr,Greece,europe,Europe
+University of Auckland,nz,New Zealand,australasia,Australasia
+University of Augsburg,de,Germany,europe,Europe
+University of Bamberg,de,Germany,europe,Europe
+University of Bath,uk,United Kingdom,europe,Europe
+University of Bayreuth,de,Germany,europe,Europe
+University of Bergen,no,Norway,europe,Europe
+University of Bern,ch,Switzerland,europe,Europe
+University of Birmingham,uk,United Kingdom,europe,Europe
+University of Bonn,de,Germany,europe,Europe
+University of Bremen,de,Germany,europe,Europe
+University of Bristol,uk,United Kingdom,europe,Europe
+University of British Columbia,ca,Canada,northamerica,North America
+University of Buenos Aires,ar,Argentina,southamerica,South America
+University of Calgary,ca,Canada,northamerica,North America
+University of Cambridge,uk,United Kingdom,europe,Europe
+University of Canterbury,nz,New Zealand,australasia,Australasia
+University of Cape Town,za,South Africa,africa,Africa
+University of Chinese Academy of Sciences,cn,China,asia,Asia
+University of Copenhagen,dk,Denmark,europe,Europe
+University of Crete,gr,Greece,europe,Europe
+University of Duisburg-Essen,de,Germany,europe,Europe
+University of Dundee,uk,United Kingdom,europe,Europe
+University of Düsseldorf,de,Germany,europe,Europe
+University of Edinburgh,uk,United Kingdom,europe,Europe
+University of Erlangen–Nuremberg,de,Germany,europe,Europe
+University of Essex,uk,United Kingdom,europe,Europe
+University of Exeter,uk,United Kingdom,europe,Europe
+University of Freiburg,de,Germany,europe,Europe
+University of Glasgow,uk,United Kingdom,europe,Europe
+University of Groningen,nl,Netherlands,europe,Europe
+University of Guelph,ca,Canada,northamerica,North America
+University of Göttingen,de,Germany,europe,Europe
+University of Haifa,il,Israel,europe,Europe
+University of Halle-Wittenberg,de,Germany,europe,Europe
+University of Hamburg,de,Germany,europe,Europe
+University of Hannover,de,Germany,europe,Europe
+University of Helsinki,fi,Finland,europe,Europe
+University of Hildesheim,de,Germany,europe,Europe
+University of Hong Kong,hk,Hong Kong,asia,Asia
+University of Innsbruck,at,Austria,europe,Europe
+University of Ioannina,gr,Greece,europe,Europe
+University of Jordan,jo,Jordan,asia,Asia
+University of Kassel,de,Germany,europe,Europe
+University of Kent,uk,United Kingdom,europe,Europe
+University of Kiel,de,Germany,europe,Europe
+University of Klagenfurt,at,Austria,europe,Europe
+University of Koblenz-Landau,de,Germany,europe,Europe
+University of Konstanz,de,Germany,europe,Europe
+University of L'Aquila,it,Italy,europe,Europe
+University of Leeds,uk,United Kingdom,europe,Europe
+University of Leipzig,de,Germany,europe,Europe
+University of Liverpool,uk,United Kingdom,europe,Europe
+University of Luxembourg,lu,Luxembourg,europe,Europe
+University of Lübeck,de,Germany,europe,Europe
+University of Magdeburg,de,Germany,europe,Europe
+University of Mainz,de,Germany,europe,Europe
+University of Malaya,my,Malaysia,asia,Asia
+University of Malta,mt,Malta,europe,Europe
+University of Manchester,uk,United Kingdom,europe,Europe
+University of Manitoba,ca,Canada,northamerica,North America
+University of Mannheim,de,Germany,europe,Europe
+University of Marburg,de,Germany,europe,Europe
+University of Melbourne,au,Australia,australasia,Australasia
+University of Molise,it,Italy,europe,Europe
+University of Montreal,ca,Canada,northamerica,North America
+University of Murcia,es,Spain,europe,Europe
+University of Münster,de,Germany,europe,Europe
+University of New Brunswick,ca,Canada,northamerica,North America
+University of Newcastle,au,Australia,australasia,Australasia
+University of Nicosia,cy,Cyprus,europe,Europe
+University of Nottingham,uk,United Kingdom,europe,Europe
+University of Oldenburg,de,Germany,europe,Europe
+University of Osnabrück,de,Germany,europe,Europe
+University of Otago,nz,New Zealand,australasia,Australasia
+University of Ottawa,ca,Canada,northamerica,North America
+University of Oxford,uk,United Kingdom,europe,Europe
+University of Passau,de,Germany,europe,Europe
+University of Piraeus,gr,Greece,europe,Europe
+University of Pisa,it,Italy,europe,Europe
+University of Potsdam,de,Germany,europe,Europe
+University of Queensland,au,Australia,australasia,Australasia
+University of Regina,ca,Canada,northamerica,North America
+University of Rostock,de,Germany,europe,Europe
+University of Salerno,it,Italy,europe,Europe
+University of Salzburg,at,Austria,europe,Europe
+University of Sannio,it,Italy,europe,Europe
+University of Saskatchewan,ca,Canada,northamerica,North America
+University of Sheffield,uk,United Kingdom,europe,Europe
+University of Siegen,de,Germany,europe,Europe
+University of Southampton,uk,United Kingdom,europe,Europe
+University of St Andrews,uk,United Kingdom,europe,Europe
+University of Strathclyde,uk,United Kingdom,europe,Europe
+University of Stuttgart,de,Germany,europe,Europe
+University of Surrey,uk,United Kingdom,europe,Europe
+University of Sussex,uk,United Kingdom,europe,Europe
+University of Sydney,au,Australia,australasia,Australasia
+University of Szeged,hu,Hungary,europe,Europe
+University of Tartu,ee,Estonia,europe,Europe
+University of Technology Sydney,au,Australia,australasia,Australasia
+University of Tokyo,jp,Japan,asia,Asia
+University of Toronto,ca,Canada,northamerica,North America
+University of Trento,it,Italy,europe,Europe
+University of Trier,de,Germany,europe,Europe
+University of Tsukuba,jp,Japan,asia,Asia
+University of Twente,nl,Netherlands,europe,Europe
+University of Tübingen,de,Germany,europe,Europe
+University of Ulm,de,Germany,europe,Europe
+University of Victoria,ca,Canada,northamerica,North America
+University of Vienna,at,Austria,europe,Europe
+University of Waikato,nz,New Zealand,australasia,Australasia
+University of Warsaw,pl,Poland,europe,Europe
+University of Warwick,uk,United Kingdom,europe,Europe
+University of Waterloo,ca,Canada,northamerica,North America
+University of Western Australia,au,Australia,australasia,Australasia
+University of Windsor,ca,Canada,northamerica,North America
+University of Wroclaw,pl,Poland,europe,Europe
+University of Wuppertal,de,Germany,europe,Europe
+University of Würzburg,de,Germany,europe,Europe
+University of York,uk,United Kingdom,europe,Europe
+University of Zurich,ch,Switzerland,europe,Europe
+Università della Svizzera italiana,ch,Switzerland,europe,Europe
+Université Jean Monnet,fr,France,europe,Europe
+Université Laval,ca,Canada,northamerica,North America
+Université Paris Dauphine,fr,France,europe,Europe
+Université de Sherbrooke,ca,Canada,northamerica,North America
+Université libre de Bruxelles,be,Belgium,europe,Europe
+Uppsala University,se,Sweden,europe,Europe
+Utrecht University,nl,Netherlands,europe,Europe
+VISTEC,th,Thailand,asia,Asia
+VU Amsterdam,nl,Netherlands,europe,Europe
+Victoria University of Wellington,nz,New Zealand,australasia,Australasia
+Waseda University,jp,Japan,asia,Asia
+Weizmann Institute of Science,il,Israel,europe,Europe
+Western University,ca,Canada,northamerica,North America
+Westlake University,cn,China,asia,Asia
+Wuhan University,cn,China,asia,Asia
+Xi'an Jiaotong University,cn,China,asia,Asia
+Xidian University,cn,China,asia,Asia
+Yonsei University,kr,"Korea, Republic of",asia,Asia
+York University,ca,Canada,northamerica,North America
+Yıldız Technical University,tr,Turkey,europe,Europe
+Zhejiang University,cn,China,asia,Asia
+Özyeğin University,tr,Turkey,europe,Europe
+University of Kentucky,us,United States,northamerica,North America
+CUNY,us,United States,northamerica,North America
+Boston University,us,United States,northamerica,North America
+University of Washington,us,United States,northamerica,North America
+George Mason University,us,United States,northamerica,North America
+Colorado State University,us,United States,northamerica,North America
+Iowa State University,us,United States,northamerica,North America
+University of Illinois at Chicago,us,United States,northamerica,North America
+Duke University,us,United States,northamerica,North America
+Florida International University,us,United States,northamerica,North America
+Oklahoma State University,us,United States,northamerica,North America
+UCCS,us,United States,northamerica,North America
+University of Maryland - College Park,us,United States,northamerica,North America
+Northeastern University,us,United States,northamerica,North America
+Rutgers University,us,United States,northamerica,North America
+Washington University in St. Louis,us,United States,northamerica,North America
+University of Colorado Boulder,us,United States,northamerica,North America
+University of Notre Dame,us,United States,northamerica,North America
+University of Chicago,us,United States,northamerica,North America
+University of Pennsylvania,us,United States,northamerica,North America
+Yale University,us,United States,northamerica,North America
+Univ. of California - San Diego,us,United States,northamerica,North America
+Stanford University,us,United States,northamerica,North America
+University of Rochester,us,United States,northamerica,North America
+University of Iowa,us,United States,northamerica,North America
+Princeton University,us,United States,northamerica,North America
+Carnegie Mellon University,us,United States,northamerica,North America
+Pennsylvania State University,us,United States,northamerica,North America
+University of Connecticut,us,United States,northamerica,North America
+New Mexico Tech,us,United States,northamerica,North America
+University of Florida,us,United States,northamerica,North America
+Michigan State University,us,United States,northamerica,North America
+George Washington University,us,United States,northamerica,North America
+Texas Tech University,us,United States,northamerica,North America
+University of New Orleans,us,United States,northamerica,North America
+University of New Mexico,us,United States,northamerica,North America
+Texas A&M University,us,United States,northamerica,North America
+Cornell University,us,United States,northamerica,North America
+University of Central Florida,us,United States,northamerica,North America
+Florida Atlantic University,us,United States,northamerica,North America
+University of Minnesota,us,United States,northamerica,North America
+Vanderbilt University,us,United States,northamerica,North America
+Johns Hopkins University,us,United States,northamerica,North America
+Univ. of California - Santa Cruz,us,United States,northamerica,North America
+Northern Arizona University,us,United States,northamerica,North America
+Wichita State University,us,United States,northamerica,North America
+Georgia Institute of Technology,us,United States,northamerica,North America
+Univ. of Maryland - Baltimore County,us,United States,northamerica,North America
+Univ. of Illinois at Urbana-Champaign,us,United States,northamerica,North America
+Massachusetts Institute of Technology,us,United States,northamerica,North America
+Arizona State University,us,United States,northamerica,North America
+Washington State University,us,United States,northamerica,North America
+University of Pittsburgh,us,United States,northamerica,North America
+University of Massachusetts Amherst,us,United States,northamerica,North America
+University of Texas at Austin,us,United States,northamerica,North America
+DePaul University,us,United States,northamerica,North America
+California Institute of Technology,us,United States,northamerica,North America
+University of Delaware,us,United States,northamerica,North America
+University of Louisville,us,United States,northamerica,North America
+Univ. of California - Irvine,us,United States,northamerica,North America
+University of Utah,us,United States,northamerica,North America
+Univ. of California - Berkeley,us,United States,northamerica,North America
+Univ. of California - Los Angeles,us,United States,northamerica,North America
+Univ. of California - Davis,us,United States,northamerica,North America
+Binghamton University,us,United States,northamerica,North America
+University of Wisconsin - Milwaukee,us,United States,northamerica,North America
+Virginia Tech,us,United States,northamerica,North America
+Stevens Institute of Technology,us,United States,northamerica,North America
+University of South Florida,us,United States,northamerica,North America
+Rochester Institute of Technology,us,United States,northamerica,North America
+College of William and Mary,us,United States,northamerica,North America
+West Virginia University,us,United States,northamerica,North America
+Northwestern University,us,United States,northamerica,North America
+Augusta University,us,United States,northamerica,North America
+Univ. of California - Riverside,us,United States,northamerica,North America
+Purdue University,us,United States,northamerica,North America
+Univ. of California - Merced,us,United States,northamerica,North America
+University at Buffalo,us,United States,northamerica,North America
+The University of Alabama,us,United States,northamerica,North America
+UNC - Charlotte,us,United States,northamerica,North America
+University of Virginia,us,United States,northamerica,North America
+University of Southern California,us,United States,northamerica,North America
+Western Michigan University,us,United States,northamerica,North America
+University of Nevada Las Vegas,us,United States,northamerica,North America
+Rice University,us,United States,northamerica,North America
+University of Michigan,us,United States,northamerica,North America
+University of Vermont,us,United States,northamerica,North America
+Air Force Institute of Technology,us,United States,northamerica,North America
+Oregon State University,us,United States,northamerica,North America
+Florida State University,us,United States,northamerica,North America
+University of Alabama - Birmingham,us,United States,northamerica,North America
+University of Houston,us,United States,northamerica,North America
+Virginia Commonwealth University,us,United States,northamerica,North America
+University of Wisconsin - Madison,us,United States,northamerica,North America
+Dartmouth College,us,United States,northamerica,North America
+North Carolina State University,us,United States,northamerica,North America
+Indiana University,us,United States,northamerica,North America
+University of Kansas,us,United States,northamerica,North America
+Emory University,us,United States,northamerica,North America
+Georgia State University,us,United States,northamerica,North America
+Georgetown University,us,United States,northamerica,North America
+Clemson University,us,United States,northamerica,North America
+OHSU,us,United States,northamerica,North America
+Wayne State University,us,United States,northamerica,North America
+Towson University,us,United States,northamerica,North America
+University of Arkansas,us,United States,northamerica,North America
+University of North Carolina,us,United States,northamerica,North America
+Columbia University,us,United States,northamerica,North America
+NJIT,us,United States,northamerica,North America
+University of Cincinnati,us,United States,northamerica,North America
+Michigan Technological University,us,United States,northamerica,North America
+University of Texas at San Antonio,us,United States,northamerica,North America
+Drexel University,us,United States,northamerica,North America
+University of Nevada,us,United States,northamerica,North America
+New York University,us,United States,northamerica,North America
+University of Oregon,us,United States,northamerica,North America
+Stony Brook University,us,United States,northamerica,North America
+University of Texas at Arlington,us,United States,northamerica,North America
+University of Arizona,us,United States,northamerica,North America
+Tufts University,us,United States,northamerica,North America
+Auburn University,us,United States,northamerica,North America
+University of Tennessee,us,United States,northamerica,North America
+Utah State University,us,United States,northamerica,North America
+Univ. of California - Santa Barbara,us,United States,northamerica,North America
+Portland State University,us,United States,northamerica,North America
+University of Southern Mississippi,us,United States,northamerica,North America
+University of Louisiana - Lafayette,us,United States,northamerica,North America
+University at Albany - SUNY,us,United States,northamerica,North America
+Boise State University,us,United States,northamerica,North America
+University of South Carolina,us,United States,northamerica,North America
+University of Wyoming,us,United States,northamerica,North America
+Brown University,us,United States,northamerica,North America
+University of Oklahoma,us,United States,northamerica,North America
+Case Western Reserve University,us,United States,northamerica,North America
+Rensselaer Polytechnic Institute,us,United States,northamerica,North America
+Cleveland State University,us,United States,northamerica,North America
+Louisiana State University,us,United States,northamerica,North America
+University of Texas at Dallas,us,United States,northamerica,North America
+Syracuse University,us,United States,northamerica,North America
+IUPUI,us,United States,northamerica,North America
+Claremont Graduate University,us,United States,northamerica,North America
+Ohio State University,us,United States,northamerica,North America
+Old Dominion University,us,United States,northamerica,North America
+Temple University,us,United States,northamerica,North America
+Mississippi State University,us,United States,northamerica,North America
+Kent State University,us,United States,northamerica,North America
+University of Massachusetts Lowell,us,United States,northamerica,North America
+University of Texas - El Paso,us,United States,northamerica,North America
+Texas State University,us,United States,northamerica,North America
+University of Denver,us,United States,northamerica,North America
+Brandeis University,us,United States,northamerica,North America
+Oakland University,us,United States,northamerica,North America
+University of Michigan-Dearborn,us,United States,northamerica,North America
+Lehigh University,us,United States,northamerica,North America
+University of Missouri - Kansas City,us,United States,northamerica,North America
+Indiana State University,us,United States,northamerica,North America
+Missouri S&T,us,United States,northamerica,North America
+Harvard University,us,United States,northamerica,North America
+Naval Postgraduate School,us,United States,northamerica,North America
+University of Nebraska,us,United States,northamerica,North America
+University of North Texas,us,United States,northamerica,North America
+Tulane University,us,United States,northamerica,North America
+Kansas State University,us,United States,northamerica,North America
+Ohio University,us,United States,northamerica,North America
+TTI Chicago,us,United States,northamerica,North America
+University of Idaho,us,United States,northamerica,North America
+University of Nebraska - Omaha,us,United States,northamerica,North America
+University of Hawaii at Manoa,us,United States,northamerica,North America
+Louisiana Tech University,us,United States,northamerica,North America
+Worcester Polytechnic Institute,us,United States,northamerica,North America
+Brigham Young University,us,United States,northamerica,North America
+University of Massachusetts Boston,us,United States,northamerica,North America
+New Mexico State University,us,United States,northamerica,North America
+Colorado School of Mines,us,United States,northamerica,North America
+Baylor University,us,United States,northamerica,North America
+Illinois Institute of Technology,us,United States,northamerica,North America
+Montana State University,us,United States,northamerica,North America
+University of Colorado - Denver,us,United States,northamerica,North America
+University of Tulsa,us,United States,northamerica,North America
+Missouri University of Technology,us,United States,northamerica,North America
+University of Miami,us,United States,northamerica,North America
+University of Mississippi,us,United States,northamerica,North America
+Nova Southeastern University,us,United States,northamerica,North America
+University of Georgia,us,United States,northamerica,North America
+University of Missouri,us,United States,northamerica,North America
+University of Arkansas - Little Rock,us,United States,northamerica,North America
+LIU Post,us,United States,northamerica,North America
+UNC - Greensboro,us,United States,northamerica,North America
+University of New Hampshire,us,United States,northamerica,North America
+Southern Methodist University,us,United States,northamerica,North America
+University of Alabama - Huntsville,us,United States,northamerica,North America
+Florida Institute of Technology,us,United States,northamerica,North America
+North Dakota State University,us,United States,northamerica,North America
+University of Memphis,us,United States,northamerica,North America
+Boston College,us,United States,northamerica,North America
+University of Maine,us,United States,northamerica,North America
+ Wichita State University,us,United States,northamerica,North America
+Simmons University,us,United States,northamerica,North America

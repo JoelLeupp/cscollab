@@ -1,4 +1,4 @@
-# playground to test functions and get a feeling for the data
+# Geographic mapping of institutions
 
 import pandas as pd
 
@@ -53,8 +53,11 @@ country_info["regionname"] = list(map(lambda x: regions[x], country_info["region
 cols = ['institution', 'countryabbrv', 'countryname', 'region','regionname']
 country_info = country_info[cols]
 country_info.columns = ['institution', 'country_code', 'country_name', 'region_code','region_name']
-country_info
+
+# write new country-info in csv file
+country_info.to_csv("inst-geo-map.csv", index=False)
 
 
-
-
+# view inst-geo-map.csv
+inst_geo_map = pd.read_csv("inst-geo-map.csv")
+print(inst_geo_map.describe())
