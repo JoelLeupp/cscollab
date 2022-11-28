@@ -61,3 +61,90 @@ country_info.to_csv("inst-geo-map.csv", index=False)
 # view inst-geo-map.csv
 inst_geo_map = pd.read_csv("inst-geo-map.csv")
 print(inst_geo_map.describe())
+
+
+# get geo-coordinates of institutions
+# use https://www.geoapify.com/
+import requests
+from requests.structures import CaseInsensitiveDict
+from fuzzywuzzy import fuzz
+
+def geo_api_url(institution, country):
+    text = "University, {}, {}".format(institution,country)
+    api_key = "e929c302233e42a285148887db8e42e2"
+    url = "https://api.geoapify.com/v1/geocode/search?text={}&apiKey={}".format(text, api_key)
+    return url
+
+headers = CaseInsensitiveDict()
+headers["Accept"] = "application/json"
+
+
+geo_codes = []
+def empty_prop(institution, country):   
+    return     {"country": country,
+                "institution" : institution,
+                "name" : None,
+                "lat" : None ,
+                "lon": None,
+                "fuzz-ratio": None,
+                "status": "WRONG"}
+    
+# institution = "Bielefeld University"
+# country = "Germany"
+for _, row in inst_geo_map.iterrows():
+    institution = row["institution"]
+    country = row["country_name"]
+    resp = requests.get(geo_api_url(institution, country), headers=headers)
+    res = resp.json()
+
+    # sort results by importance and only take the most important result
+    features = res["features"]
+    if features == []:
+        geo_codes.append(empty_prop(institution, country))
+        continue
+    # if len(features) > 1:
+    #     features = sorted(features, key = lambda x: x["properties"]["rank"]["importance"], reverse=True)
+    feature = features[0]
+    properties = feature["properties"]
+    if "name" not in properties.keys():
+        geo_codes.append(empty_prop(institution, country))
+        continue
+    if properties["result_type"] == "amenity":
+        prop = {"country": country,
+                "institution" : institution,
+                "name" : properties["name"],
+                "lat" : properties["lat"] , 
+                "lon": properties["lon"],
+                "fuzz-ratio": fuzz.ratio(institution, properties["name"]),
+                "status": "OK" if fuzz.ratio(institution, properties["name"]) > 80 else "WATCH"}
+        geo_codes.append(prop)
+    else: 
+        geo_codes.append(empty_prop(institution, country))
+        
+    
+inst_geo_codes = pd.DataFrame(geo_codes)
+print("OK: {}\nWATCH: {}\nWRONG: {}".format(sum(inst_geo_codes["status"] == "OK"),
+                                            sum(inst_geo_codes["status"] == "WATCH"),
+                                            sum(inst_geo_codes["status"] == "WRONG")))
+# OK: 210
+# WATCH: 263
+# WRONG: 136
+inst_geo_codes.to_csv("geo-codes-auto.csv")
+
+# load manualy completed geo codes
+geo_codes = pd.read_csv("geo-codes.csv", index_col = "index")
+
+# create final institutional geo mapping with geo-codes included 
+geo_mapping = inst_geo_map
+geo_mapping["lat"] = geo_codes["lat"]
+geo_mapping["lon"] = geo_codes["lon"]
+geo_mapping.to_csv("geo-mapping.csv", index=False)
+
+
+# check final file
+geo_mapping = pd.read_csv("geo-mapping.csv")
+geo_mapping.describe()
+
+#        institution country_code   country_name   region_code    region_name         lat         lon
+# count          609          609            609           609            609  609.000000  609.000000
+# unique         609           55             55             6              6         NaN         NaN

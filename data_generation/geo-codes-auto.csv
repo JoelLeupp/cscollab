@@ -1,0 +1,610 @@
+,country,institution,name,lat,lon,fuzz-ratio,status
+0,Greece,AUEB,,,,,WRONG
+1,Denmark,Aalborg University,Aalborg University,57.015907049999996,9.975308243557345,100.0,OK
+2,Finland,Aalto University,Aalto University,60.1860789,24.828102074406736,100.0,OK
+3,Denmark,Aarhus University,VIA University College,56.1559008,10.190560332165813,62.0,WATCH
+4,United Kingdom,Aberystwyth University,Aberystwyth University Penglais Campus,52.415489,-4.063876,73.0,WATCH
+5,Egypt,American University in Cairo,Cairo University,30.0271777,31.20580418186462,55.0,WATCH
+6,Lebanon,American University of Beirut,,,,,WRONG
+7,Israel,Ariel University,The open university,32.188071,34.887563,63.0,WATCH
+8,Australia,Australian National University,The Australian National University,-35.27772,149.11891,94.0,OK
+9,India,BITS Pilani,,,,,WRONG
+10,India,BITS Pilani-Goa,,,,,WRONG
+11,Bangladesh,BUET,Premier University,22.3586336,91.8232455,9.0,WATCH
+12,China,BUPT,Beijing Normal University (BNU),39.959732,116.35973698189176,11.0,WATCH
+13,Romania,Babeș-Bolyai University,Faculty of Psychology and Educational Sciences,46.769705,23.584576,29.0,WATCH
+14,Israel,Bar-Ilan University,Bar Ilan University,32.069329249999996,34.84334338615306,95.0,OK
+15,Germany,Bauhaus University Weimar,University Library of Bauhaus-Universität Weimar,50.97751515,11.327399707916015,47.0,WATCH
+16,China,Beihang University,Beihang University,39.9809427,116.34097867654876,100.0,OK
+17,Israel,Ben-Gurion University of the Negev,Ben Gurion University of the Negev,31.2631254,34.802238544584185,97.0,OK
+18,Germany,Bielefeld University,Universität Bielefeld,52.0365422,8.490177589517387,44.0,WATCH
+19,Turkey,Bilkent University,Medipol University,41.022789,28.953811,72.0,WATCH
+20,United Kingdom,Birkbeck University of London,Birkbeck College,51.52184485,-0.13021550670673807,44.0,WATCH
+21,Italy,Bocconi University,Bocconi University,45.449719400000006,9.188708672031792,100.0,OK
+22,Turkey,Boğaziçi University,Bogazici University,41.08475,29.051,89.0,OK
+23,Germany,Brandenburg University of Technology,,,,,WRONG
+24,Czech Republic,Brno University of Technology,,,,,WRONG
+25,United Kingdom,Brunel University London,Brunel University Sports Park,51.52975035,-0.46427017999845865,72.0,WATCH
+26,Germany,Bundeswehr University Munich,,,,,WRONG
+27,Germany,CISPA Helmholtz Center,Saarland University,49.25437635,7.041481352041722,24.0,WATCH
+28,India,CMI,Doon University,30.26730765,78.04533212061747,0.0,WATCH
+29,France,CRIStAL,,,,,WRONG
+30,Netherlands,CWI,Amsterdam University College,52.3550626,4.9509648503886226,6.0,WATCH
+31,United Kingdom,Cardiff University,Cardiff University - Abacws,51.489091,-3.178884,80.0,WATCH
+32,Canada,Carleton University,University Towers,45.9533728,-66.63541759385083,56.0,WATCH
+33,Sweden,Chalmers/GU,Chalmers University of Technology,57.6897462,11.97652929499342,41.0,WATCH
+34,Czech Republic,Charles University,Charles Darwin University,-19.652139,134.195812,84.0,OK
+35,China,Chinese Academy of Sciences,Minzu University of China,39.9496858,116.31484427275208,42.0,WATCH
+36,Hong Kong,Chinese University of Hong Kong,The Chinese University of Hong Kong,22.420039,114.205696,94.0,OK
+37,Thailand,Chulalongkorn University,Chulalongkorn University,13.7431095,100.53288411765634,100.0,OK
+38,Hong Kong,City University of Hong Kong,,,,,WRONG
+39,United Kingdom,City University of London,"City, University of London",51.527567,-0.102762,98.0,OK
+40,Canada,Concordia University,Concordia University Texas,30.4187934,-97.83847636084943,87.0,OK
+41,Cyprus,Cyprus University of Technology,Cyprus University of Technology Library,34.67555,33.04477,89.0,OK
+42,Czech Republic,Czech Technical University,technical university,2.202113,102.247069,78.0,WATCH
+43,India,DAIICT,Karnavati University,23.202237750000002,72.58361048404424,0.0,WATCH
+44,Denmark,DTU,Technical University of Denmark,55.785414450000005,12.520215144442094,6.0,WATCH
+45,Canada,Dalhousie University,University Lodge,49.26658195,-123.23946376438212,56.0,WATCH
+46,Philippines,De La Salle University,,,,,WRONG
+47,United Kingdom,Durham University,,,,,WRONG
+48,Switzerland,EPFL,University of Lausanne,46.5225695,6.580950497654294,8.0,WATCH
+49,Switzerland,ETH Zurich,Zürich UNI / ETH,47.374855,8.548891,38.0,WATCH
+50,Canada,ETS Montreal,,,,,WRONG
+51,France,EURECOM,,,,,WRONG
+52,France,Ecole Normale Superieure,École normale supérieure - Université PSL,48.841707150000005,2.3447923126871286,62.0,WATCH
+53,France,Ecole Normale Superieure de Cachan,École Normale Superieure,48.841576,2.343882,79.0,WATCH
+54,France,Ecole Normale Superieure de Lyon,,,,,WRONG
+55,France,Ecole Normale Superieure de Rennes,Campus de Ker Lann,48.047791950000004,-1.7411132550617525,35.0,WATCH
+56,Brazil,Federal University of Rio Grande,Federal University of Rio de Janeiro,-22.86354,-43.223589,85.0,OK
+57,Germany,Freie Universitaet Berlin,,,,,WRONG
+58,Germany,Friedrich Schiller University Jena,,,,,WRONG
+59,China,Fudan University,Fudan University,31.30104395,121.50045496943508,100.0,OK
+60,Turkey,Galatasaray University,Galatasaray University,41.045992299999995,29.020462428881267,100.0,OK
+61,Germany,Goethe University Frankfurt,,,,,WRONG
+62,United Kingdom,Goldsmiths University of London,"Goldsmiths, University of London Campus",51.47339855,-0.03735547774931765,89.0,OK
+63,Austria,Graz University of Technology,Technical University of Graz,47.069271,15.4503826,56.0,WATCH
+64,Canada,HEC Montreal,,,,,WRONG
+65,Hong Kong,HKUST,The Hong Kong University of Science and Technology,22.337384,114.265999,18.0,WATCH
+66,Russian Federation,HSE University,Main Building of Moscow State University,55.70291005,37.530755552606706,44.0,WATCH
+67,China,HUST,,,,,WRONG
+68,Turkey,Hacettepe University,Bilkent University,39.87046905,32.753919338337425,68.0,WATCH
+69,Germany,Hamburg University of Technology,Hamburg University of Technology,53.461,9.969226430380203,100.0,OK
+70,"Korea, Republic of",Hanyang University,Uni Credit,43.934711,18.794579,43.0,WATCH
+71,China,Harbin Institute of Technology,Harbin Institute of Technology,45.741589,126.62556263488914,100.0,OK
+72,Germany,Hasso Plattner Institute,Hasso-Plattner-Institut,52.393714,13.132289,89.0,OK
+73,Israel,Hebrew University of Jerusalem,Hebrew University of Jerusalem,31.7918555,35.244723,100.0,OK
+74,Germany,Heidelberg University,,,,,WRONG
+75,United Kingdom,Heriot-Watt University,Heriot-Watt University - Scottish Borders Campus,55.608183,-2.783894,63.0,WATCH
+76,Hong Kong,Hong Kong Baptist University,Hong Kong Baptist University Baptist University Road Campus,22.336222,114.182372,64.0,WATCH
+77,Germany,Humboldt University of Berlin,Berlin International University of Applied Sciences,52.515954,13.327995,50.0,WATCH
+78,China,Hunan University,Hunan Normal University,28.19096515,112.94508125133855,82.0,OK
+79,India,IIIT Bangalore,,,,,WRONG
+80,India,IIIT Delhi,,,,,WRONG
+81,India,IIIT Hyderabad,,,,,WRONG
+82,India,IISc Bangalore,,,,,WRONG
+83,India,IIT (BHU) Varanasi,IIT Guest House (GTAC),25.259527,82.984969,30.0,WATCH
+84,India,IIT Bhubaneswar,,,,,WRONG
+85,India,IIT Bombay,,,,,WRONG
+86,India,IIT Delhi,IIT,28.546573,77.195475,50.0,WATCH
+87,India,IIT Gandhinagar,Indian Institute of Technology Roorkee,29.866246099999998,77.8958708109136,26.0,WATCH
+88,India,IIT Goa,Indian Institute of Technology Goa,15.4236608,73.9806018,34.0,WATCH
+89,India,IIT Guwahati,,,,,WRONG
+90,India,IIT Hyderabad,Indian Institute of Technology Roorkee,29.866246099999998,77.8958708109136,20.0,WATCH
+91,India,IIT Indore,Indian Institute of Technology Roorkee,29.866246099999998,77.8958708109136,29.0,WATCH
+92,India,IIT Jodhpur,,,,,WRONG
+93,India,IIT Kanpur,,,,,WRONG
+94,India,IIT Kharagpur,,,,,WRONG
+95,India,IIT Madras,,,,,WRONG
+96,India,IIT Mandi,IIT Mandi Annexe,31.704648849999998,76.9364994752277,72.0,WATCH
+97,India,IIT Patna,Chanakya National Law University,25.59465255,85.13354204616635,24.0,WATCH
+98,India,IIT Roorkee,Indian Institute of Technology Roorkee,29.866246099999998,77.8958708109136,45.0,WATCH
+99,India,IIT Ropar,Indian Institute of Technology Ropar,30.975198,76.53718,40.0,WATCH
+100,Spain,IMDEA Networks Institute,IMDEA Software,40.406934,-3.835474,53.0,WATCH
+101,Spain,IMDEA Software Institute,IMDEA Software,40.406934,-3.835474,74.0,WATCH
+102,India,IMSc,UNIVERSITY,27.175634,75.959957,29.0,WATCH
+103,Poland,IPI PAN,"Institute of Computer Science, Polish Academy of Sciences",52.225836799999996,20.949640444539455,12.0,WATCH
+104,"Iran, Islamic Republic of",IPM,,,,,WRONG
+105,India,ISI Kolkata,,,,,WRONG
+106,Austria,IST Austria,Uni Credit - Bank Austria,48.158218,14.020494,44.0,WATCH
+107,Denmark,IT University of Copenhagen,University of Copenhagen,55.6801502,12.57232700140625,94.0,OK
+108,"Iran, Islamic Republic of",IUST,Islamic University Of Science & Technology (IUST),33.925893,75.018904,15.0,WATCH
+109,United Kingdom,Imperial College London,,,,,WRONG
+110,Turkey,Istanbul Technical University,Middle East Technical University,39.88997,32.78034,75.0,WATCH
+111,Turkey,Izmir Institute of Technology,İzmir Institute of Technology,38.32247565,26.637855746923606,97.0,OK
+112,Austria,JKU Linz,,,,,WRONG
+113,Jordan,JUST,W.I.S.E University,32.011787,35.935104,9.0,WATCH
+114,Germany,Jacobs University Bremen,,,,,WRONG
+115,"Korea, Republic of",KAIST,Korea Areospace University,37.600699,126.866074,13.0,WATCH
+116,Saudi Arabia,KAUST,King Abdullah University of Science and Technology,22.32237535,39.11736714154655,18.0,WATCH
+117,Thailand,KMUTNB,"Faculty of Medicine Vajira Hospital, Navamindradhiraj University",13.781108249999999,100.50801339463513,6.0,WATCH
+118,Sweden,KTH Royal Institute of Technology,KTH - Royal Institute of Technology (Södertälje),59.201676,17.62032,81.0,OK
+119,Belgium,KU Leuven,,,,,WRONG
+120,Germany,Karlsruhe Institute of Technology,Karlsruhe Institute of Technology,49.101853399999996,8.433120159201868,100.0,OK
+121,Japan,Keio University,Keio University,35.38814,139.42745,100.0,OK
+122,Saudi Arabia,King Abdulaziz University,King Abdulaziz University,21.496441,39.24895,100.0,OK
+123,United Kingdom,King's College London,,,,,WRONG
+124,"Korea, Republic of",Korea University,Korea Areospace University,37.600699,126.866074,76.0,WATCH
+125,Turkey,Koç University,Medipol University,41.022789,28.953811,75.0,WATCH
+126,Japan,Kyoto University,Kyoto Sangyo University,35.068457,135.757656,82.0,OK
+127,"Korea, Republic of",Kyung Hee University,Kyung Hee University,37.59675,127.05189,100.0,OK
+128,"Korea, Republic of",Kyungpook National University,,,,,WRONG
+129,Germany,LMU Munich,,,,,WRONG
+130,Pakistan,LUMS,Lahore University of Management Sciences,31.470326,74.40979226182131,18.0,WATCH
+131,United Kingdom,Lancaster University,Lancaster University Crown Green Bowls Club,54.013977600000004,-2.7919979937566635,63.0,WATCH
+132,Lebanon,Lebanese American University,Lebanese American University,33.89283555,35.4774984415219,100.0,OK
+133,Netherlands,Leiden University,Leiden University,52.168633850000006,4.45966305742133,100.0,OK
+134,United Kingdom,Loughborough University,Mechanical Engineering,52.7620696,-1.2407264,27.0,WATCH
+135,Sweden,Lund University,Faculty of Engineering at Lund University,55.7126504,13.210758659399971,54.0,WATCH
+136,United Arab Emirates,MBZUAI,Eton University,25.104599,55.164514,10.0,WATCH
+137,Netherlands,Maastricht University,University College Maastricht,50.8444528,5.6884711,40.0,WATCH
+138,Australia,Macquarie University,"Macquarie University Campus, University Ave, Stand D",-33.7771022,151.1117496,56.0,WATCH
+139,Czech Republic,Masaryk University,Rector's Office of Masaryk University,49.198657,16.605627182184513,65.0,WATCH
+140,United Arab Emirates,Masdar Institute,,,,,WRONG
+141,New Zealand,Massey University,Sushi Lounge,-36.7322167,174.70106,14.0,WATCH
+142,Germany,Max Planck Society,,,,,WRONG
+143,Canada,McGill University,Hillside at McGill,50.668816,-120.3696882,34.0,WATCH
+144,Canada,McMaster University,McMaster University,43.6687021,-79.3950215,100.0,OK
+145,Canada,Memorial University of Newfoundland,Memorial University of Newfoundland and Labrador,47.5733341,-52.733306586080026,84.0,OK
+146,Turkey,Middle East Technical University,Middle East Technical University,39.88997,32.78034,100.0,OK
+147,United Kingdom,Middlesex University,Middlesex University,51.588798,-0.229632,100.0,OK
+148,Australia,Monash University,Monash University House,-37.913858,145.130681,85.0,OK
+149,Sweden,Mälardalen University,Mälardalens Högskola,59.6176801,16.542068739683224,59.0,WATCH
+150,Norway,NTNU,Norwegian University og Science and Technology,63.4229196,10.435483823666626,8.0,WATCH
+151,Greece,NTUA,National and Kapodistrian University of Athens - Campus,37.97003795,23.76523669720041,10.0,WATCH
+152,China,NWPU,Guilin University of Electronic Technology,25.28576,110.33327,4.0,WATCH
+153,China,NYU Shanghai,,,,,WRONG
+154,China,Nanjing University,Nanjing University of Posts and Telecommunications (Xianlin Campus),32.11527165,118.92595660043565,42.0,WATCH
+155,Singapore,Nanyang Technological University,,,,,WRONG
+156,"Taiwan, Province of China",National Cheng Kung University,,,,,WRONG
+157,"Taiwan, Province of China",National Chiao Tung University,,,,,WRONG
+158,India,National Institute of Technology Silchar,,,,,WRONG
+159,"Taiwan, Province of China",National Taiwan University,National University,14.604163,120.994347,84.0,OK
+160,"Taiwan, Province of China",National Tsing Hua University,,,,,WRONG
+161,Singapore,National University of Singapore,,,,,WRONG
+162,United Kingdom,Newcastle University,Newcastle University Business School,54.974166,-1.622548,71.0,WATCH
+163,Canada,Ontario Tech University,Ontario Tech University,43.94833105,-78.89816678087453,100.0,OK
+164,United Kingdom,Open University UK,Open University Regional Office,52.968563,-1.154682,65.0,WATCH
+165,Japan,Osaka University,Osaka University International House,34.8052127,135.4572118459385,62.0,WATCH
+166,"Korea, Republic of",POSTECH,Korea Areospace University,37.600699,126.866074,0.0,WATCH
+167,Brazil,PUC-RIO,Pontificia Universidade Católica do Rio de Janeiro,-22.97964355,-43.23315196475536,14.0,WATCH
+168,Brazil,PUC-RS,Pontifical Catholic University of Rio Grande do Sul,-30.05516275,-51.17350846885846,14.0,WATCH
+169,Germany,Paderborn University,University of Paderborn,51.70752095,8.772403972858978,47.0,WATCH
+170,China,Peking University,Minzu University of China,39.9496858,116.31484427275208,62.0,WATCH
+171,Italy,Politecnico di Milano,"Politecnico di Milano, Sede Milano Leonardo",45.479028799999995,9.23221040387672,66.0,WATCH
+172,Spain,Polytechnic University of Catalonia,,,,,WRONG
+173,Canada,Polytechnique Montreal,,,,,WRONG
+174,Qatar,Qatar Computing Research Institute,,,,,WRONG
+175,Qatar,Qatar University,Qatar University,25.3719714,51.48795786318291,100.0,OK
+176,United Kingdom,Queen Mary University of London,Queen Mary / University of London,51.5231542,-0.0392049,97.0,OK
+177,United Kingdom,Queen's University Belfast,"Catholic Chaplaincy, Queen's University Belfast",54.5845172,-5.9396149,71.0,WATCH
+178,Australia,Queensland University of Technology,Queensland University of Technology,-27.4561036,153.01387368150728,100.0,OK
+179,Canada,Queen’s University,Queen's University,44.22634715,-76.49573928588319,94.0,OK
+180,Australia,RMIT University,Building 51 RMIT,-37.8070847,144.9645028,26.0,WATCH
+181,Germany,RWTH Aachen,RWTH Aachen University,50.7791645,6.068920971222876,67.0,WATCH
+182,Netherlands,Radboud University,Radboud University,51.82151725,5.863403442541042,100.0,OK
+183,China,Renmin University of China,Peking University,39.99171495,116.30393496863539,65.0,WATCH
+184,United Kingdom,Royal Holloway University of London,,,,,WRONG
+185,Canada,Royal Military College of Canada,,,,,WRONG
+186,Germany,Ruhr-University Bochum,,,,,WRONG
+187,Canada,Ryerson University,Ryerson University/Mount Pleasant Cemetery Bicycle Rack Design Competition 2010,43.6961115,-79.3829334,37.0,WATCH
+188,China,SUFE,Guilin University of Electronic Technology,25.28576,110.33327,9.0,WATCH
+189,China,SUSTech,Southern University of Science and Technology,22.6036861,113.99675392137283,27.0,WATCH
+190,Singapore,SUTD,,,,,WRONG
+191,Germany,Saarland University,University of Music,49.23097275,6.99986056109252,53.0,WATCH
+192,Turkey,Sabancı University,Sabancı Üniversitesi,40.8927159,29.378633226358197,84.0,OK
+193,Italy,Sapienza University of Rome,Sapienza University of Rome,41.90386,12.51489,100.0,OK
+194,Italy,Scuola Superiore Sant'Anna,,,,,WRONG
+195,"Korea, Republic of",Seoul National University,,,,,WRONG
+196,China,Shandong University,Taishan University,36.2241446,117.03080129478936,76.0,WATCH
+197,China,Shanghai Jiao Tong University,,,,,WRONG
+198,China,ShanghaiTech University,ShanghaiTech University,31.179430500000002,121.59023445501072,100.0,OK
+199,"Iran, Islamic Republic of",Sharif University of Technology,Muhammad Nawaz Sharif University Of Engineering & Technology,30.164673,71.495645,66.0,WATCH
+200,China,Shenzhen University,"Shenzhen Institutes of Advanced Technology, China Academy of Sciences",22.598056049999997,113.98533784139858,32.0,WATCH
+201,Canada,Simon Fraser University,Simon Fraser University,49.282403,-123.108551,100.0,OK
+202,Norway,Simula UiB,Simula Research Laboratory,59.894979,10.629009,39.0,WATCH
+203,Singapore,Singapore Management University,,,,,WRONG
+204,China,Soochow University,,,,,WRONG
+205,India,South Asian University,South Asian University,28.58652,77.19145,100.0,OK
+206,South Africa,Stellenbosch University,Stellenbosch University Library,-33.933245,18.863975,85.0,OK
+207,China,Sun Yat-sen University,Sun Yat-sen University (South Campus),23.09960335,113.29235087324346,75.0,WATCH
+208,Turkey,TOBB ETÜ,Middle East Technical University,39.875496749999996,32.78553505584672,15.0,WATCH
+209,Germany,TU Berlin,,,,,WRONG
+210,Germany,TU Braunschweig,TU Braunschweig,52.2761359,10.541092331756165,100.0,OK
+211,Germany,TU Chemnitz,,,,,WRONG
+212,Germany,TU Clausthal,Uni-Sporthalle,51.805818,10.353333,38.0,WATCH
+213,Greece,TU Crete,Materials Science and Technology Department - University of Crete,35.308131,25.082932,22.0,WATCH
+214,Germany,TU Darmstadt,,,,,WRONG
+215,Netherlands,TU Delft,Spar University,52.0004079,4.3766019,26.0,WATCH
+216,Germany,TU Dortmund,UNI Falafel,51.481351,7.410032,18.0,WATCH
+217,Germany,TU Dresden,,,,,WRONG
+218,Netherlands,TU Eindhoven,,,,,WRONG
+219,Germany,TU Freiberg,TU Bergakademie Freiberg,50.9248208,13.331843035967744,63.0,WATCH
+220,Germany,TU Ilmenau,Dr. med. univ. Petra Ligwe,50.6845916,10.921105,28.0,WATCH
+221,Germany,TU Kaiserslautern,Uni-Sporthalle,49.425993,7.751379,19.0,WATCH
+222,Germany,TU Munich,Uni Schreibbedarf,48.148509,11.577091,38.0,WATCH
+223,Austria,TU Wien,TU Wien,48.195189,16.369603,100.0,OK
+224,Finland,Tampere University,Tampere University - Hervanta Campus,61.449642049999994,23.858774618909564,67.0,WATCH
+225,India,Tata Inst. of Fundamental Research,,,,,WRONG
+226,Israel,Technion,University of Haifa,32.7609456,35.02043482821519,22.0,WATCH
+227,Israel,Tel Aviv University,Tel Aviv University,32.1037064,34.8046101,100.0,OK
+228,Qatar,Texas A&M at Qatar,University,31.773074,-106.5011185,21.0,WATCH
+229,"Korea, Republic of",The Catholic University of Korea,The Catholic University of Korea,37.48601,126.80154,100.0,OK
+230,Hong Kong,The Hong Kong Polytechnic University,The Hong Kong Polytechnic University,22.308737,114.181204,100.0,OK
+231,Netherlands,Tilburg University,Fontys University of Applied Sciences,51.538708099999994,5.078617847688374,40.0,WATCH
+232,Japan,Tokyo Institute of Technology,Tokyo Institute of Technology,35.60574,139.68339,100.0,OK
+233,China,Tongji University,Tongji University,31.28473925,121.49694908588742,100.0,OK
+234,Ireland,Trinity College Dublin,,,,,WRONG
+235,China,Tsinghua University,Tsinghua University,40.002290450000004,116.3209629696906,100.0,OK
+236,China,UESTC,"University of Science and Technology of China, East Campus",31.839071949999997,117.26420747857581,10.0,WATCH
+237,Brazil,UFF,UFF,60.166146,24.934253,100.0,OK
+238,Brazil,UFMG,University Theatre,-19.86257825,-43.95980779508396,9.0,WATCH
+239,Brazil,UFMS,UFMS,-20.5045696,-54.61354799879836,100.0,OK
+240,Brazil,UFPE,CCS UFPE,-8.050129,-34.947429,67.0,WATCH
+241,Brazil,UFPR,Universidade Federal do Paraná Campus Centro Politécnico,-25.451080949999998,-49.233448941214284,10.0,WATCH
+242,Brazil,UFRGS,UFRGS Campus Centro,-30.03331505,-51.21994396572513,42.0,WATCH
+243,Brazil,UFRJ,Universidade Federal do Rio de Janeiro,-22.8533498,-43.233170287422354,19.0,WATCH
+244,Brazil,UFU,Federal University of Uberlândia,-18.918225200000002,-48.2574214284956,11.0,WATCH
+245,Brazil,UNICAMP,Universidade Estadual de Campinas,-22.822723699999997,-47.06420061880971,10.0,WATCH
+246,"Korea, Republic of",UNIST,Korea Areospace University,37.600699,126.866074,6.0,WATCH
+247,Australia,UNSW,University of New South Wales,-33.9170154,151.22518231269635,24.0,WATCH
+248,Brazil,USP,USP Ribeirão Preto,-21.159957,-47.865917,29.0,WATCH
+249,Brazil,USP-ICMC,,,,,WRONG
+250,China,USTC,"University of Science and Technology of China, East Campus",31.839071949999997,117.26420747857581,13.0,WATCH
+251,Argentina,Universidad Nacional de Córdoba,Universidad Nacional de Córdoba,-31.436602,-64.188074,100.0,OK
+252,Spain,Universidad Rey Juan Carlos,Universidad Rey Juan Carlos,40.334857,-3.872173,100.0,OK
+253,Chile,Universidad de Chile,Universidad de Chile (Facultad de Ciencias Físicas y Matemáticas),-33.45787505,-70.66452643711912,47.0,WATCH
+254,Spain,Universidad de Zaragoza,,,,,WRONG
+255,Colombia,Universidad de los Andes,Universidad de los Andes,4.694193,-74.033362,100.0,OK
+256,Brazil,Universidade Federal de Viçosa,Universidade Federal de Viçosa,-20.76763505,-42.858785454528096,100.0,OK
+257,Portugal,Universidade NOVA de Lisboa,,,,,WRONG
+258,Brazil,Universidade de Brasília,Universidade de Brasília - Campus Universitário Darcy Ribeiro - Gleba A,-15.75799565,-47.871353931704704,51.0,WATCH
+259,Portugal,Universidade de Lisboa,Universidade Autónoma de Lisboa Luís de Camões,38.724267,-9.145577,65.0,WATCH
+260,Ireland,University College Dublin,University College Dublin (Belfield Campus),53.309323,-6.235949,74.0,WATCH
+261,United Kingdom,University College London,,,,,WRONG
+262,Spain,University of A Coruña,Higher Technical University College of Maritime and Naval Machines - UDC,43.3706459,-8.42022351645989,34.0,WATCH
+263,United Kingdom,University of Aberdeen,University of Aberdeen - Foresterhill Campus,57.1564908,-2.1352831446132967,67.0,WATCH
+264,Australia,University of Adelaide,Carnegie Mellon University,-34.928125300000005,138.6011843985031,42.0,WATCH
+265,Canada,University of Alberta,University of Alberta,53.52682,-113.5244937350756,100.0,OK
+266,Netherlands,University of Amsterdam,University of Amsterdam,52.36813335,4.889804155733945,100.0,OK
+267,Greece,University of Athens,National and Kapodistrian University of Athens - Campus,37.97003795,23.76523669720041,53.0,WATCH
+268,New Zealand,University of Auckland,Waipapa Taumata Rau / University of Auckland,-36.8660955,174.77373309361866,67.0,WATCH
+269,Germany,University of Augsburg,Augsburg University of Applied Sciences,48.3554077,10.904335664079808,52.0,WATCH
+270,Germany,University of Bamberg,,,,,WRONG
+271,United Kingdom,University of Bath,,,,,WRONG
+272,Germany,University of Bayreuth,University of Bayreuth,49.9270796,11.587226615128671,100.0,OK
+273,Norway,University of Bergen,Western Norway University of Applied Sciences,60.36887575,5.351111541486731,52.0,WATCH
+274,Switzerland,University of Bern,University of Bern,46.95097255,7.438684130809055,100.0,OK
+275,United Kingdom,University of Birmingham,University of Birmingham Edgbaston Campus,52.450443250000006,-1.9319613405224376,74.0,WATCH
+276,Germany,University of Bonn,Rectorate of the University of Bonn,50.7279172,7.0964633,68.0,WATCH
+277,Germany,University of Bremen,University of Bremen,53.107964550000005,8.855664592828369,100.0,OK
+278,United Kingdom,University of Bristol,"University of the West of England, Frenchay Campus",51.50076785,-2.5503106339491204,51.0,WATCH
+279,Canada,University of British Columbia,University of British Columbia Botanical Garden,49.253822799999995,-123.24732125763657,78.0,WATCH
+280,Argentina,University of Buenos Aires,National University of Comahue,-38.9394882,-68.05033651504556,57.0,WATCH
+281,Canada,University of Calgary,University of Calgary,51.0767322,-114.1273884,100.0,OK
+282,United Kingdom,University of Cambridge,,,,,WRONG
+283,New Zealand,University of Canterbury,University of Canterbury,-43.5240781,172.5803074154386,100.0,OK
+284,South Africa,University of Cape Town,University of the Western Cape,-33.93273025,18.62864004583909,68.0,WATCH
+285,China,University of Chinese Academy of Sciences,,,,,WRONG
+286,Denmark,University of Copenhagen,IT University,55.65965525,12.591076889344563,54.0,WATCH
+287,Greece,University of Crete,Hellenic Mediterranean University,35.317545300000006,25.102718775009066,38.0,WATCH
+288,Germany,University of Duisburg-Essen,,,,,WRONG
+289,United Kingdom,University of Dundee,Abertay University,56.4631526,-2.97467889452203,53.0,WATCH
+290,Germany,University of Düsseldorf,Düsseldorf University of Applied Science,51.24812155,6.79124852501046,50.0,WATCH
+291,United Kingdom,University of Edinburgh,"EDINA, University of Edinburgh",55.9465468,-3.2007316,87.0,OK
+292,Germany,University of Erlangen–Nuremberg,,,,,WRONG
+293,United Kingdom,University of Essex,Rowhedge Medical Practice,51.877230749999995,0.9446695987140676,9.0,WATCH
+294,United Kingdom,University of Exeter,University of Exeter Department of Drama,50.730127949999996,-3.538254862601872,67.0,WATCH
+295,Germany,University of Freiburg,Brand University of Applied Sciences,53.545886,9.930517,55.0,WATCH
+296,United Kingdom,University of Glasgow,University of Glasgow Library,55.873419049999995,-4.289052856658881,84.0,OK
+297,Netherlands,University of Groningen,University of Groningen,53.21944155,6.562986329174857,100.0,OK
+298,Canada,University of Guelph,University of Guelph,43.535193,-80.22009972637464,100.0,OK
+299,Germany,University of Göttingen,,,,,WRONG
+300,Israel,University of Haifa,University of Haifa,32.7609456,35.02043482821519,100.0,OK
+301,Germany,University of Halle-Wittenberg,,,,,WRONG
+302,Germany,University of Hamburg,,,,,WRONG
+303,Germany,University of Hannover,University of Veterinary Medicine Hanover,52.3685695,9.765730655885474,67.0,WATCH
+304,Finland,University of Helsinki,University of Helsinki,60.171039300000004,24.949155335163038,100.0,OK
+305,Germany,University of Hildesheim,,,,,WRONG
+306,Hong Kong,University of Hong Kong,City University of Hong Kong,22.336535,114.174392,90.0,OK
+307,Austria,University of Innsbruck,University of Innsbruck-Campus Innrain,47.26331595,11.384473309954492,75.0,WATCH
+308,Greece,University of Ioannina,University of Ioannina,39.615659050000005,20.83952573354071,100.0,OK
+309,Jordan,University of Jordan,University of Jordan,32.013409249999995,35.87338209486857,100.0,OK
+310,Germany,University of Kassel,International YMCA University of Applied Scienes,51.303706250000005,9.414465124062877,44.0,WATCH
+311,United Kingdom,University of Kent,Canterbury Christ Church University,51.27918085,1.090230903404285,38.0,WATCH
+312,Germany,University of Kiel,Fachhochschule Kiel,54.33241785,10.17980141316826,32.0,WATCH
+313,Austria,University of Klagenfurt,University of Klagenfurt,46.616402550000004,14.264680917308162,100.0,OK
+314,Germany,University of Koblenz-Landau,"Koblenz, Uni/Winninger Straße",50.361079,7.559386,28.0,WATCH
+315,Germany,University of Konstanz,,,,,WRONG
+316,Italy,University of L'Aquila,University of Illinois at Chicago,41.870832,-87.64993,58.0,WATCH
+317,United Kingdom,University of Leeds,"University of Leeds, Sports Park Weetwood",53.83755925,-1.587391740217544,63.0,WATCH
+318,Germany,University of Leipzig,Leipzig University of Applied Sciences,51.3131269,12.373565233025795,54.0,WATCH
+319,United Kingdom,University of Liverpool,University of Liverpool International College,53.40592515,-2.960340832365371,68.0,WATCH
+320,Luxembourg,University of Luxembourg,University of Luxembourg - SnT,49.632356,6.169019,89.0,OK
+321,Germany,University of Lübeck,,,,,WRONG
+322,Germany,University of Magdeburg,,,,,WRONG
+323,Germany,University of Mainz,Berlin International University of Applied Sciences,52.515954,13.327995,46.0,WATCH
+324,Malaysia,University of Malaya,University of Malaya,3.1255683000000003,101.65582254721087,100.0,OK
+325,Malta,University of Malta,University of Malta,35.90210545,14.483405808380784,100.0,OK
+326,United Kingdom,University of Manchester,University of Manchester - Oxford Road Campus,53.4657087,-2.232734319907597,70.0,WATCH
+327,Canada,University of Manitoba,University of Manitoba,49.8091536,-97.13304179007197,100.0,OK
+328,Germany,University of Mannheim,Baden-Wuerttemberg Cooperative State University Mannheim,49.47411555,8.534834379338445,49.0,WATCH
+329,Germany,University of Marburg,,,,,WRONG
+330,Australia,University of Melbourne,Swinburne University of Technology (Hawthorn Campus),-37.820558500000004,145.03857627268115,51.0,WATCH
+331,Italy,University of Molise,University of Illinois at Chicago,41.870832,-87.64993,64.0,WATCH
+332,Canada,University of Montreal,Avenue des Pins et rue University,45.5082062,-73.5801177,36.0,WATCH
+333,Spain,University of Murcia,University of Cantabria,43.47363,-3.79904,79.0,WATCH
+334,Germany,University of Münster,,,,,WRONG
+335,Canada,University of New Brunswick,St. Thomas University,45.94450195,-66.64581252229553,42.0,WATCH
+336,Australia,University of Newcastle,"University of Newcastle, Callaghan",-32.890687650000004,151.7022241596607,81.0,OK
+337,Cyprus,University of Nicosia,University of Nicosia School of Law / Global Semesters,35.165193599999995,33.31830540137699,56.0,WATCH
+338,United Kingdom,University of Nottingham,Nottingham University Academy of Science and Technology,52.940633950000006,-1.1805697955185583,41.0,WATCH
+339,Germany,University of Oldenburg,Carl von Ossietzky University of Oldenburg,53.146872200000004,8.181507870668597,71.0,WATCH
+340,Germany,University of Osnabrück,Library of the University of Osnabrueck,52.2733042,8.0455442,71.0,WATCH
+341,New Zealand,University of Otago,University of Otago,-45.8649793,170.51461487350844,100.0,OK
+342,Canada,University of Ottawa,University of Ottawa,45.42252705,-75.68339041611182,100.0,OK
+343,United Kingdom,University of Oxford,Oxford University Museum of Natural History,51.75870755,-1.2556684826092037,51.0,WATCH
+344,Germany,University of Passau,,,,,WRONG
+345,Greece,University of Piraeus,University of Piraeus,37.94173275,23.653032618219704,100.0,OK
+346,Italy,University of Pisa,University of Illinois at Chicago,41.870832,-87.64993,67.0,WATCH
+347,Germany,University of Potsdam,XU Exponential University of Applied Sciences,52.3888479,13.1197939,45.0,WATCH
+348,Australia,University of Queensland,The University of Queensland,-27.49741805,153.01316955983583,92.0,OK
+349,Canada,University of Regina,University of Regina - College Avenue Campus,50.4390221,-104.60962532920755,62.0,WATCH
+350,Germany,University of Rostock,,,,,WRONG
+351,Italy,University of Salerno,University of Illinois at Chicago,41.870832,-87.64993,63.0,WATCH
+352,Austria,University of Salzburg,Universität Salzburg - Unipark,47.7947829,13.054159709492996,69.0,WATCH
+353,Italy,University of Sannio,University of Illinois at Chicago,41.870832,-87.64993,64.0,WATCH
+354,Canada,University of Saskatchewan,University of Saskatchewan,52.13441935,-106.6277768327002,100.0,OK
+355,United Kingdom,University of Sheffield,University of Sheffield Health Centre,53.3804472,-1.4826960199174741,77.0,WATCH
+356,Germany,University of Siegen,,,,,WRONG
+357,United Kingdom,University of Southampton,University of Southampton Students' Union (SUSU),50.93418045,-1.3974843578245824,68.0,WATCH
+358,United Kingdom,University of St Andrews,Museum of the University of St Andrews (MUSA),56.3429876,-2.7939691452666806,70.0,WATCH
+359,United Kingdom,University of Strathclyde,University of Strathclyde,55.8618812,-4.241956565778082,100.0,OK
+360,Germany,University of Stuttgart,Materials Testing Institute University of Stuttgart,48.74818885,9.112052503438587,62.0,WATCH
+361,United Kingdom,University of Surrey,University of Surrey,51.24307815,-0.5900544877514773,100.0,OK
+362,United Kingdom,University of Sussex,University of Sussex,50.86796665,-0.08778899363132905,100.0,OK
+363,Australia,University of Sydney,The University of Sydney,-33.88888125,151.18941425705117,91.0,OK
+364,Hungary,University of Szeged,University of Szeged Faculty of Health Sciences and Social Studies,46.25035135,20.165592806471317,47.0,WATCH
+365,Estonia,University of Tartu,University of Tartu,58.38088965,26.719647526956543,100.0,OK
+366,Australia,University of Technology Sydney,"University of Technology Sydney, Broadway",-33.884131,151.201285,86.0,OK
+367,Japan,University of Tokyo,The University of Tokyo Kashiwa Campus,35.9019845,139.9362233261796,67.0,WATCH
+368,Canada,University of Toronto,University of Toronto,43.663461999999996,-79.39775966248058,100.0,OK
+369,Italy,University of Trento,University of Trento,46.06682,11.12326,100.0,OK
+370,Germany,University of Trier,Trier University of Applied Sciences,49.768058100000005,6.628690122060743,58.0,WATCH
+371,Japan,University of Tsukuba,"Tsukuba University of Technology, Amakubo Campus",36.10451205,140.11110020600063,55.0,WATCH
+372,Netherlands,University of Twente,University of Twente,52.23881,6.85035,100.0,OK
+373,Germany,University of Tübingen,Climate Garden of University Tuebingen,48.53405945,9.071244429234808,60.0,WATCH
+374,Germany,University of Ulm,Hochschule Neu-Ulm,48.38044334999999,10.010101151636224,29.0,WATCH
+375,Canada,University of Victoria,University of Victoria,48.46205995,-123.31141980604804,100.0,OK
+376,Austria,University of Vienna,Modul University Vienna,48.274765,16.335978,79.0,WATCH
+377,New Zealand,University of Waikato,University of Waikato,-37.7858739,175.31676647297562,100.0,OK
+378,Poland,University of Warsaw,"Faculty of Mathematics, Computer Science and Mechanics of University of Warsaw",52.211831450000005,20.98195969012704,41.0,WATCH
+379,United Kingdom,University of Warwick,Warwick University Wellesbourne Campus School of Life Sciences,52.2105761,-1.6030306422557825,39.0,WATCH
+380,Canada,University of Waterloo,University of Waterloo,43.469174,-80.539845,100.0,OK
+381,Australia,University of Western Australia,University of Western Australia,-31.95040445,115.79790157357621,100.0,OK
+382,Canada,University of Windsor,University of Windsor,42.305201350000004,-83.06649144027972,100.0,OK
+383,Poland,University of Wroclaw,Wrocław University of Science and Technology,51.108639100000005,17.059425783738916,49.0,WATCH
+384,Germany,University of Wuppertal,,,,,WRONG
+385,Germany,University of Würzburg,,,,,WRONG
+386,United Kingdom,University of York,,,,,WRONG
+387,Switzerland,University of Zurich,Zurich University of Applied Sciences,47.49684345,8.72980716809498,56.0,WATCH
+388,Switzerland,Università della Svizzera italiana,,,,,WRONG
+389,France,Université Jean Monnet,École Nationale d'Ingénieurs de Saint-Étienne,45.430173249999996,4.421097805931504,33.0,WATCH
+390,Canada,Université Laval,University of Toronto,43.663461999999996,-79.39775966248058,54.0,WATCH
+391,France,Université Paris Dauphine,Université Paris-Dauphine,48.87015115,2.2735218497104226,96.0,OK
+392,Canada,Université de Sherbrooke,Université de Sherbrooke,45.37796365,-71.92746417605778,100.0,OK
+393,Belgium,Université libre de Bruxelles,Université libre de Bruxelles (Érasme),50.813292000000004,4.26560569606378,87.0,OK
+394,Sweden,Uppsala University,Housing office Uppsala University,59.861786,17.637671,71.0,WATCH
+395,Netherlands,Utrecht University,University College Utrecht 'Babel',52.08340265,5.148323760815424,38.0,WATCH
+396,Thailand,VISTEC,CMKL University,13.727888,100.77833,10.0,WATCH
+397,Netherlands,VU Amsterdam,Amsterdam UMC - locatie VUMC,52.334632,4.8599107386474145,45.0,WATCH
+398,New Zealand,Victoria University of Wellington,Waipapa Taumata Rau / University of Auckland,-36.8660955,174.77373309361866,52.0,WATCH
+399,Japan,Waseda University,Waseda University,35.70863,139.71958,100.0,OK
+400,Israel,Weizmann Institute of Science,Weizmann Institute of Science,31.907849900000002,34.81334092444211,100.0,OK
+401,Canada,Western University,Western University,43.0088973,-81.2621821,100.0,OK
+402,China,Westlake University,University Hospitals Westlake Health Center,41.473603,-81.884441,32.0,WATCH
+403,China,Wuhan University,"WHUT Wuhan University of Technology, East Campus, Teaching Building 4",30.5223609,114.3496565,38.0,WATCH
+404,China,Xi'an Jiaotong University,Xian Jiaotong University,34.2474949,108.97897240302595,98.0,OK
+405,China,Xidian University,Xidian University (New Campus),34.1251589,108.82896528504287,72.0,WATCH
+406,"Korea, Republic of",Yonsei University,Uni Credit,43.934711,18.794579,44.0,WATCH
+407,Canada,York University,Canada Life,43.6516611,-79.38757373108771,23.0,WATCH
+408,Turkey,Yıldız Technical University,Middle East Technical University,39.88997,32.78034,75.0,WATCH
+409,China,Zhejiang University,,,,,WRONG
+410,Turkey,Özyeğin University,Medipol University,41.022789,28.953811,72.0,WATCH
+411,United States,University of Kentucky,University of Kentucky Robinson Forest,37.460843600000004,-83.15692597706322,73.0,WATCH
+412,United States,CUNY,CUNY Graduate School and University Center,40.748465,-73.98346,17.0,WATCH
+413,United States,Boston University,Boston University Academy,42.3510171,-71.10981338167903,81.0,OK
+414,United States,University of Washington,University of Washington,47.6543466,-122.30806059473039,100.0,OK
+415,United States,George Mason University,George Mason University,38.83133325,-77.30798838879116,100.0,OK
+416,United States,Colorado State University,University of Colorado Hospital,39.742544,-104.841661,36.0,WATCH
+417,United States,Iowa State University,Iowa State University Arboretum,42.01887,-93.6555,81.0,OK
+418,United States,University of Illinois at Chicago,,,,,WRONG
+419,United States,Duke University,Duke University Rd at Anderson St (WB),35.998434,-78.9297867,57.0,WATCH
+420,United States,Florida International University,Florida International University,25.75622,-80.375936,100.0,OK
+421,United States,Oklahoma State University,Southeastern Oklahoma State University,34.0083179,-96.3756103445447,79.0,WATCH
+422,United States,UCCS,UCCS- University of Colorado Colorado Springs,38.8995699,-104.81269688523838,16.0,WATCH
+423,United States,University of Maryland - College Park,,,,,WRONG
+424,United States,Northeastern University,Northeastern University,42.339518,-71.087612,100.0,OK
+425,United States,Rutgers University,Rutgers University,40.49955,-74.44432,100.0,OK
+426,United States,Washington University in St. Louis,Washington University in St. Louis,38.6513336,-90.3138327,100.0,OK
+427,United States,University of Colorado Boulder,,,,,WRONG
+428,United States,University of Notre Dame,University of Notre Dame du Lac,41.704567749999995,-86.23822026017265,87.0,OK
+429,United States,University of Chicago,The University of Chicago,41.79139685,-87.60084387193544,91.0,OK
+430,United States,University of Pennsylvania,Penn Museum,39.9492859,-75.1920296809082,27.0,WATCH
+431,United States,Yale University,University Historic District,42.780790100000004,-96.9244621378329,47.0,WATCH
+432,United States,Univ. of California - San Diego,"University of California, San Diego",32.87708,-117.239466,85.0,OK
+433,United States,Stanford University,University Lake,30.414768950000003,-91.16568606721754,59.0,WATCH
+434,United States,University of Rochester,University of Rochester River Campus,43.129836600000004,-77.62882526025285,78.0,WATCH
+435,United States,University of Iowa,The University of Iowa,41.665524,-91.579521,90.0,OK
+436,United States,Princeton University,,,,,WRONG
+437,United States,Carnegie Mellon University,Carnegie Mellon University,40.44384,-79.942604,100.0,OK
+438,United States,Pennsylvania State University,,,,,WRONG
+439,United States,University of Connecticut,University of Connecticut,41.819012,-72.235763,100.0,OK
+440,United States,New Mexico Tech,,,,,WRONG
+441,United States,University of Florida,University of Florida,29.6328784,-82.34901329340119,100.0,OK
+442,United States,Michigan State University,University of Michigan Stadium,42.26559,-83.74883,47.0,WATCH
+443,United States,George Washington University,George Washington University Heliport,38.90101975,-77.05105942161197,86.0,OK
+444,United States,Texas Tech University,Texas Tech University,33.588323,-101.886021,100.0,OK
+445,United States,University of New Orleans,Graduate School and University Center City University of New York,40.74861,-73.98444,42.0,WATCH
+446,United States,University of New Mexico,University of New Mexico,35.0664607,-106.63321117474189,100.0,OK
+447,United States,Texas A&M University,University,31.773074,-106.5011185,67.0,WATCH
+448,United States,Cornell University,University East Parking,41.50819415,-81.60492539717995,49.0,WATCH
+449,United States,University of Central Florida,University of Central Florida College of Medicine,28.367352,-81.280305,74.0,WATCH
+450,United States,Florida Atlantic University,FlixBus Florida Atlantic University,26.367448,-80.114031,87.0,OK
+451,United States,University of Minnesota,University of Minnesota,44.97593,-93.23475,100.0,OK
+452,United States,Vanderbilt University,Vanderbilt University,36.144155,-86.803067,100.0,OK
+453,United States,Johns Hopkins University,Johns Hopkins University,39.102766,-77.198409,100.0,OK
+454,United States,Univ. of California - Santa Cruz,"Office of Advancement, University of California, Irvine",33.6443717,-117.8555601,46.0,WATCH
+455,United States,Northern Arizona University,Northern Arizona University Police Department,35.17688,-111.65536,75.0,WATCH
+456,United States,Wichita State University,Wichita State University - Wallace Hall,37.718,-97.292,76.0,WATCH
+457,United States,Georgia Institute of Technology,Georgia Institute of Technology,33.77233,-84.39456,100.0,OK
+458,United States,Univ. of Maryland - Baltimore County,University of Denver,39.678322,-104.961816,32.0,WATCH
+459,United States,Univ. of Illinois at Urbana-Champaign,University of Illinois at Urbana-Champaign,40.100391,-88.219139,91.0,OK
+460,United States,Massachusetts Institute of Technology,Massachusetts Institute of Technology,42.357758,-71.097335,100.0,OK
+461,United States,Arizona State University,University of Arizona Police,32.234641,-110.944495,38.0,WATCH
+462,United States,Washington State University,Washington State University,46.732665,-117.123757,100.0,OK
+463,United States,University of Pittsburgh,Indiana University-Purdue University of Indinapolis,39.775355,-86.17707,43.0,WATCH
+464,United States,University of Massachusetts Amherst,University of Massachusetts Police Department,42.397926,-72.514988,78.0,WATCH
+465,United States,University of Texas at Austin,,,,,WRONG
+466,United States,DePaul University,DePaul University Bookstore,41.926039,-87.6533,77.0,WATCH
+467,United States,California Institute of Technology,,,,,WRONG
+468,United States,University of Delaware,University of Delaware,39.681033,-75.754018,100.0,OK
+469,United States,University of Louisville,University of Louisville,38.212215,-85.762043,100.0,OK
+470,United States,Univ. of California - Irvine,"Office of Advancement, University of California, Irvine",33.6443717,-117.8555601,60.0,WATCH
+471,United States,University of Utah,University of Utah,40.762956,-111.835698,100.0,OK
+472,United States,Univ. of California - Berkeley,,,,,WRONG
+473,United States,Univ. of California - Los Angeles,,,,,WRONG
+474,United States,Univ. of California - Davis,University of California - Davis,38.54359,-121.76247,88.0,OK
+475,United States,Binghamton University,,,,,WRONG
+476,United States,University of Wisconsin - Milwaukee,,,,,WRONG
+477,United States,Virginia Tech,,,,,WRONG
+478,United States,Stevens Institute of Technology,,,,,WRONG
+479,United States,University of South Florida,University of South Florida - University Library,28.06141,-82.41232,72.0,WATCH
+480,United States,Rochester Institute of Technology,Rochester Institute of Technology,43.084837,-77.67347,100.0,OK
+481,United States,College of William and Mary,College of William and Mary,37.270996,-76.738526,100.0,OK
+482,United States,West Virginia University,St. John's University Parish,39.63329605,-79.95576305,46.0,WATCH
+483,United States,Northwestern University,Northwestern University,42.059611,-87.678695,100.0,OK
+484,United States,Augusta University,University of Maine at Augusta,44.33781775,-69.79823815546462,42.0,WATCH
+485,United States,Univ. of California - Riverside,,,,,WRONG
+486,United States,Purdue University,,,,,WRONG
+487,United States,Univ. of California - Merced,,,,,WRONG
+488,United States,University at Buffalo,University of Nebraska at Kearney,40.6989871,-99.11044498253119,56.0,WATCH
+489,United States,The University of Alabama,The University of Alabama,33.2109718,-87.5525616,100.0,OK
+490,United States,UNC - Charlotte,,,,,WRONG
+491,United States,University of Virginia,,,,,WRONG
+492,United States,University of Southern California,University of Southern California,34.0218833,-118.28586662125,100.0,OK
+493,United States,Western Michigan University,Western Michigan University,42.959429,-85.669831,100.0,OK
+494,United States,University of Nevada Las Vegas,"University of Nevada, Las Vegas",36.109049,-115.145513,98.0,OK
+495,United States,Rice University,Rice University Police Department,29.71382795,-95.40702626806583,62.0,WATCH
+496,United States,University of Michigan,University of Michigan Museum of Natural History,42.2788567,-83.7342551,63.0,WATCH
+497,United States,University of Vermont,University of Vermont,44.476636,-73.196871,100.0,OK
+498,United States,Air Force Institute of Technology,,,,,WRONG
+499,United States,Oregon State University,University of Oregon Sign,44.046393,-123.07035,42.0,WATCH
+500,United States,Florida State University,University of Florida ROTC,29.648574,-82.35112,40.0,WATCH
+501,United States,University of Alabama - Birmingham,,,,,WRONG
+502,United States,University of Houston,University of Houston,29.722198,-95.347317,100.0,OK
+503,United States,Virginia Commonwealth University,Virginia Commonwealth University,37.546158,-77.452705,100.0,OK
+504,United States,University of Wisconsin - Madison,,,,,WRONG
+505,United States,Dartmouth College,,,,,WRONG
+506,United States,North Carolina State University,North Carolina State University (Centennial Campus),35.771475,-78.674194,76.0,WATCH
+507,United States,Indiana University,Indiana University-Purdue University of Indinapolis,39.774777349999994,-86.1769635756136,52.0,WATCH
+508,United States,University of Kansas,University of Kansas,38.954469,-95.2549,100.0,OK
+509,United States,Emory University,Emory University,33.794053,-84.327305,100.0,OK
+510,United States,Georgia State University,Middle Georgia State University,32.809253,-83.73585,87.0,OK
+511,United States,Georgetown University,University Park,30.630343250000003,-97.65113963650353,56.0,WATCH
+512,United States,Clemson University,,,,,WRONG
+513,United States,OHSU,Oregon Health & Science University Hospital,45.499225,-122.685917,17.0,WATCH
+514,United States,Wayne State University,Wayne State University,42.356254,-83.067316,100.0,OK
+515,United States,Towson University,University Union,39.39362255,-76.61116199657025,61.0,WATCH
+516,United States,University of Arkansas,University of Arkansas,36.094201,-94.176541,100.0,OK
+517,United States,University of North Carolina,University of North Carolina - Greensboro,36.070675,-79.812927,81.0,OK
+518,United States,Columbia University,George Washington University Hospital,38.9014106,-77.05060019254144,46.0,WATCH
+519,United States,NJIT,Warren Street/NJIT,40.7426187,-74.1810968,36.0,WATCH
+520,United States,University of Cincinnati,University of Cincinnati,39.1318613,-84.51576195582436,100.0,OK
+521,United States,Michigan Technological University,Michigan Technological University,47.115212,-88.546292,100.0,OK
+522,United States,University of Texas at San Antonio,The University of Texas at San Antonio,29.582022,-98.620112,94.0,OK
+523,United States,Drexel University,Drexel University,39.9574,-75.19026656335703,100.0,OK
+524,United States,University of Nevada,University of Nevada,39.54158,-119.81491,100.0,OK
+525,United States,New York University,University,42.9545956,-78.8201959,69.0,WATCH
+526,United States,University of Oregon,University of Oregon,44.045695,-123.072004,100.0,OK
+527,United States,Stony Brook University,Stony Brook University Hospital,40.90826935,-73.1151875002179,83.0,OK
+528,United States,University of Texas at Arlington,University of Texas at Arlington Police Department,32.73049,-97.12439,78.0,WATCH
+529,United States,University of Arizona,University of Arizona,32.231037,-110.958738,100.0,OK
+530,United States,Tufts University,Tufts University,42.40692,-71.118515,100.0,OK
+531,United States,Auburn University,Auburn University Federal Credit Union,32.580502499999994,-85.48885731022398,62.0,WATCH
+532,United States,University of Tennessee,"University of Tennessee, Knoxville",35.9516352,-83.93088187962596,81.0,OK
+533,United States,Utah State University,Utah State University Roosevelt,40.300559,-109.978592,81.0,OK
+534,United States,Univ. of California - Santa Barbara,"University of California, Santa Barbara",34.415485,-119.862189,86.0,OK
+535,United States,Portland State University,Station 4 - Portland State University,45.50973155,-122.68290645123588,81.0,OK
+536,United States,University of Southern Mississippi,University of Southern Mississippi,31.3286452,-89.3367311705755,100.0,OK
+537,United States,University of Louisiana - Lafayette,University of Louisiana at Lafayette,30.21928995,-92.04138303976296,96.0,OK
+538,United States,University at Albany - SUNY,,,,,WRONG
+539,United States,Boise State University,Sign Shop at Boise State University,43.6040339,-116.2067442,77.0,WATCH
+540,United States,University of South Carolina,University of South Carolina - Union,34.716581,-81.619931,88.0,OK
+541,United States,University of Wyoming,University of Wyoming,41.3144774,-105.56432285957351,100.0,OK
+542,United States,Brown University,University Union,44.5323045,-87.91988816325077,62.0,WATCH
+543,United States,University of Oklahoma,University of Oklahoma,35.198026,-97.443389,100.0,OK
+544,United States,Case Western Reserve University,Case Western Reserve University,41.50138695,-81.60070216600491,100.0,OK
+545,United States,Rensselaer Polytechnic Institute,Rensselaer Polytechnic Institute,42.730079,-73.678343,100.0,OK
+546,United States,Cleveland State University,,,,,WRONG
+547,United States,Louisiana State University,Louisiana State University Louisiana Emerging Technology Center,30.40743,-91.17142,58.0,WATCH
+548,United States,University of Texas at Dallas,,,,,WRONG
+549,United States,Syracuse University,State University of New York Upstate Medical University,43.0408184,-76.1391437,38.0,WATCH
+550,United States,IUPUI,IUPUI Riverwalk Apartments,39.7737197,-86.1849324,32.0,WATCH
+551,United States,Claremont Graduate University,Claremont Graduate University,34.103274,-117.714009,100.0,OK
+552,United States,Ohio State University,The Ohio State University,40.00570905,-83.02866465596318,91.0,OK
+553,United States,Old Dominion University,Old Dominion University,36.869462,-76.41811,100.0,OK
+554,United States,Temple University,Temple University,39.981154,-75.156015,100.0,OK
+555,United States,Mississippi State University,Mississippi State University,33.4386876,-88.79432320417112,100.0,OK
+556,United States,Kent State University,Kent State University Library,41.14689,-81.342415,84.0,OK
+557,United States,University of Massachusetts Lowell,,,,,WRONG
+558,United States,University of Texas - El Paso,,,,,WRONG
+559,United States,Texas State University,University Camp - Texas State University,29.987967,-98.038672,71.0,WATCH
+560,United States,University of Denver,University of Denver,39.67831365,-104.96250921815401,100.0,OK
+561,United States,Brandeis University,Brandeis University,42.364996,-71.259784,100.0,OK
+562,United States,Oakland University,University Club,40.44419235,-79.95686081759911,61.0,WATCH
+563,United States,University of Michigan-Dearborn,,,,,WRONG
+564,United States,Lehigh University,Lehigh University,40.606803,-75.378249,100.0,OK
+565,United States,University of Missouri - Kansas City,,,,,WRONG
+566,United States,Indiana State University,Indiana State University Lake,37.961153,-87.680575,91.0,OK
+567,United States,Missouri S&T,University of Missouri,38.93641465,-92.32970301784542,47.0,WATCH
+568,United States,Harvard University,Harvard University,42.376471,-71.115332,100.0,OK
+569,United States,Naval Postgraduate School,,,,,WRONG
+570,United States,University of Nebraska,University of Nebraska College of Law,40.830768,-96.660455,75.0,WATCH
+571,United States,University of North Texas,University of North Texas,33.210513,-97.150228,100.0,OK
+572,United States,Tulane University,Tulane University,29.940954,-90.119616,100.0,OK
+573,United States,Kansas State University,Pittsburg State University Kansas Technology Center,37.3902,-94.68846,49.0,WATCH
+574,United States,Ohio University,The Ohio State University,40.00570905,-83.02866465596318,75.0,WATCH
+575,United States,TTI Chicago,,,,,WRONG
+576,United States,University of Idaho,University of Idaho,46.723796,-117.013552,100.0,OK
+577,United States,University of Nebraska - Omaha,,,,,WRONG
+578,United States,University of Hawaii at Manoa,University of Hawaiʻi at Manoa,21.297968,-157.817687,98.0,OK
+579,United States,Louisiana Tech University,Louisiana Tech University Police,32.525296,-92.651669,88.0,OK
+580,United States,Worcester Polytechnic Institute,Worcester Polytechnic Institute,42.273913,-71.809066,100.0,OK
+581,United States,Brigham Young University,Brigham Young University Police Department,40.25023,-111.65022,73.0,WATCH
+582,United States,University of Massachusetts Boston,University of Massachusetts Police Department,42.397926,-72.514988,78.0,WATCH
+583,United States,New Mexico State University,New Mexico State University,32.2729032,-106.74349267153694,100.0,OK
+584,United States,Colorado School of Mines,,,,,WRONG
+585,United States,Baylor University,Baylor University,31.55043405,-97.1102905567766,100.0,OK
+586,United States,Illinois Institute of Technology,Illinois Institute of Technology,41.834111,-87.628307,100.0,OK
+587,United States,Montana State University,Montana State University - Northern,48.541648,-109.682872,81.0,OK
+588,United States,University of Colorado - Denver,,,,,WRONG
+589,United States,University of Tulsa,,,,,WRONG
+590,United States,Missouri University of Technology,Missouri University of Science and Technology,37.952962,-91.778002,85.0,OK
+591,United States,University of Miami,University of Miami School of Law Library,25.720568,-80.2800543,63.0,WATCH
+592,United States,University of Mississippi,University of Mississippi,34.3646125,-89.53963491020966,100.0,OK
+593,United States,Nova Southeastern University,Nova Southeastern University,26.078176,-80.247413,100.0,OK
+594,United States,University of Georgia,University of Georgia,33.943878,-83.373917,100.0,OK
+595,United States,University of Missouri,University of Missouri,39.039339,-94.572475,100.0,OK
+596,United States,University of Arkansas - Little Rock,University of Arkansas Cammack Campus,34.775925,-92.342097,68.0,WATCH
+597,United States,LIU Post,Calvin University,42.9320314,-85.58036402193719,24.0,WATCH
+598,United States,UNC - Greensboro,,,,,WRONG
+599,United States,University of New Hampshire,University of New Hampshire,43.136941,-70.93215,100.0,OK
+600,United States,Southern Methodist University,Southern Methodist University,32.841801149999995,-96.78152810147064,100.0,OK
+601,United States,University of Alabama - Huntsville,University of Alabama in Huntsville,34.725106,-86.640553,96.0,OK
+602,United States,Florida Institute of Technology,,,,,WRONG
+603,United States,North Dakota State University,,,,,WRONG
+604,United States,University of Memphis,,,,,WRONG
+605,United States,Boston College,Boston College,42.336281,-71.170077,100.0,OK
+606,United States,University of Maine,University of Portland,45.573675800000004,-122.72903845392204,78.0,WATCH
+607,United States, Wichita State University,Wichita State University - Wallace Hall,37.718,-97.292,75.0,WATCH
+608,United States,Simmons University,Simmons University,42.342193,-71.104713,100.0,OK

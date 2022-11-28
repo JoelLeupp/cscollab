@@ -1,0 +1,610 @@
+institution,country_code,country_name,region_code,region_name,lat,lon
+AUEB,gr,Greece,europe,Europe,37.9940338898775,23.732771540394
+Aalborg University,dk,Denmark,europe,Europe,57.01590705,9.9753082435574
+Aalto University,fi,Finland,europe,Europe,60.1860789,24.8281020744067
+Aarhus University,dk,Denmark,europe,Europe,56.1670905,10.2026176935929
+Aberystwyth University,uk,United Kingdom,europe,Europe,52.4181960583988,-4.0638425727573
+American University in Cairo,eg,Egypt,africa,Africa,30.0200950444477,31.4991564997708
+American University of Beirut,lb,Lebanon,asia,Asia,33.9000264,35.482383777521
+Ariel University,il,Israel,europe,Europe,32.1032526549704,35.2078125421703
+Australian National University,au,Australia,australasia,Australasia,-35.28121335,149.116778864645
+BITS Pilani,in,India,asia,Asia,28.35866475,75.5882557813468
+BITS Pilani-Goa,in,India,asia,Asia,15.3905132544127,73.8779362765171
+BUET,bd,Bangladesh,asia,Asia,23.7237949959699,90.3922153996855
+BUPT,cn,China,asia,Asia,39.9626973003545,116.358457049674
+Babeș-Bolyai University,ro,Romania,europe,Europe,46.7677836,23.5919765542802
+Bar-Ilan University,il,Israel,europe,Europe,32.0691389925568,34.8430582556269
+Bauhaus University Weimar,de,Germany,europe,Europe,50.97571335,11.3301091944102
+Beihang University,cn,China,asia,Asia,39.9809427,116.340978676549
+Ben-Gurion University of the Negev,il,Israel,europe,Europe,31.2631254,34.8022385445842
+Bielefeld University,de,Germany,europe,Europe,52.0376885,8.4932232835795
+Bilkent University,tr,Turkey,europe,Europe,39.8742606234104,32.7476176558953
+Birkbeck University of London,uk,United Kingdom,europe,Europe,51.5219430629579,-0.1305399071603
+Bocconi University,it,Italy,europe,Europe,45.4497194,9.1887086720318
+Boğaziçi University,tr,Turkey,europe,Europe,41.08475,29.051
+Brandenburg University of Technology,de,Germany,europe,Europe,51.7668738845552,14.3270593983896
+Brno University of Technology,cz,Czech Republic,europe,Europe,49.2014916076311,16.6032113025769
+Brunel University London,uk,United Kingdom,europe,Europe,51.5326092,-0.4740498907267
+Bundeswehr University Munich,de,Germany,europe,Europe,48.0826927067999,11.6323775676104
+CISPA Helmholtz Center,de,Germany,europe,Europe,49.25934725,7.0511131271582
+CMI,in,India,asia,Asia,12.8283096974062,80.2201080400772
+CRIStAL,fr,France,europe,Europe,50.6069112216659,3.1375449037763
+CWI,nl,Netherlands,europe,Europe,52.355525909143,4.9512999967886
+Cardiff University,uk,United Kingdom,europe,Europe,51.4883511,-3.1774939616318
+Carleton University,ca,Canada,northamerica,North America,45.3858581,-75.6950041168868
+Chalmers/GU,se,Sweden,europe,Europe,57.6907665777087,11.9770490218487
+Charles University,cz,Czech Republic,europe,Europe,50.0889154,14.4161372076889
+Chinese Academy of Sciences,cn,China,asia,Asia,39.90933665,116.32971461229
+Chinese University of Hong Kong,hk,Hong Kong,asia,Asia,22.419297694053,114.204314423352
+Chulalongkorn University,th,Thailand,asia,Asia,13.7382169589593,100.532533109398
+City University of Hong Kong,hk,Hong Kong,asia,Asia,22.336535,114.174392
+City University of London,uk,United Kingdom,europe,Europe,51.5276441,-0.1035989251818
+Concordia University,ca,Canada,northamerica,North America,45.49741,-73.5771
+Cyprus University of Technology,cy,Cyprus,europe,Europe,34.67507365,33.0432836
+Czech Technical University,cz,Czech Republic,europe,Europe,50.1029026,14.3946353
+DAIICT,in,India,asia,Asia,23.1918299086413,72.6283284864956
+DTU,dk,Denmark,europe,Europe,55.7854595583484,12.5203510303031
+Dalhousie University,ca,Canada,northamerica,North America,44.6374062647519,-63.5872635152841
+De La Salle University,ph,Philippines,asia,Asia,14.5644630520076,120.993605080008
+Durham University,uk,United Kingdom,europe,Europe,54.779749,-1.581512
+EPFL,ch,Switzerland,europe,Europe,46.5186764062579,6.5670642564848
+ETH Zurich,ch,Switzerland,europe,Europe,47.3762871641418,8.5475958117697
+ETS Montreal,ca,Canada,northamerica,North America,45.49497815,-73.5606740771318
+EURECOM,fr,France,europe,Europe,43.6142772316417,7.0712215577044
+Ecole Normale Superieure,fr,France,europe,Europe,48.7124728691453,2.1652601541326
+Ecole Normale Superieure de Cachan,fr,France,europe,Europe,48.8419351183424,2.3454039157881
+Ecole Normale Superieure de Lyon,fr,France,europe,Europe,45.7331947506505,4.8329532899993
+Ecole Normale Superieure de Rennes,fr,France,europe,Europe,48.0451896,-1.7457907
+Federal University of Rio Grande,br,Brazil,southamerica,South America,-30.03384,-51.21857
+Freie Universitaet Berlin,de,Germany,europe,Europe,52.4479462,13.2779270719606
+Friedrich Schiller University Jena,de,Germany,europe,Europe,50.92997,11.58994
+Fudan University,cn,China,asia,Asia,31.2973096700981,121.503639255614
+Galatasaray University,tr,Turkey,europe,Europe,41.0459923,29.0204624288813
+Goethe University Frankfurt,de,Germany,europe,Europe,50.1275007988482,8.6678707867001
+Goldsmiths University of London,uk,United Kingdom,europe,Europe,51.47339855,-0.0373554777493
+Graz University of Technology,at,Austria,europe,Europe,47.05821,15.4601947426462
+HEC Montreal,ca,Canada,northamerica,North America,45.5036114,-73.6212922
+HKUST,hk,Hong Kong,asia,Asia,22.3363799375663,114.266452550678
+HSE University,ru,Russian Federation,europe,Europe,55.70229715,37.5317977274793
+HUST,cn,China,asia,Asia,30.5129765524995,114.420297055601
+Hacettepe University,tr,Turkey,europe,Europe,39.9298787549285,32.8666840877708
+Hamburg University of Technology,de,Germany,europe,Europe,53.461,9.9692264303802
+Hanyang University,kr,"Korea, Republic of",asia,Asia,37.5571248482712,127.045548672916
+Harbin Institute of Technology,cn,China,asia,Asia,45.741589,126.625562634889
+Hasso Plattner Institute,de,Germany,europe,Europe,52.393714,13.132289
+Hebrew University of Jerusalem,il,Israel,europe,Europe,31.7918555,35.244723
+Heidelberg University,de,Germany,europe,Europe,49.4190362652019,8.6708407842746
+Heriot-Watt University,uk,United Kingdom,europe,Europe,55.91029585,-3.3234475145584
+Hong Kong Baptist University,hk,Hong Kong,asia,Asia,22.3874201,114.2082222
+Humboldt University of Berlin,de,Germany,europe,Europe,52.51858145,13.3928784024504
+Hunan University,cn,China,asia,Asia,28.17954925,112.941098467464
+IIIT Bangalore,in,India,asia,Asia,12.84430185,77.6632920758883
+IIIT Delhi,in,India,asia,Asia,28.54632595,77.2732550418079
+IIIT Hyderabad,in,India,asia,Asia,17.4454957,78.3485469754447
+IISc Bangalore,in,India,asia,Asia,13.0222347,77.5671832476811
+IIT (BHU) Varanasi,in,India,asia,Asia,25.2621669421976,82.9892803113501
+IIT Bhubaneswar,in,India,asia,Asia,20.14808125,85.676429806457
+IIT Bombay,in,India,asia,Asia,19.1145814,72.9050020778437
+IIT Delhi,in,India,asia,Asia,28.544794367848,77.1910512842372
+IIT Gandhinagar,in,India,asia,Asia,23.2214555494913,72.6987878015274
+IIT Goa,in,India,asia,Asia,15.4224484642187,73.980018759129
+IIT Guwahati,in,India,asia,Asia,26.1898865928685,91.6932392058187
+IIT Hyderabad,in,India,asia,Asia,17.5949379070476,78.1237589297497
+IIT Indore,in,India,asia,Asia,22.52692755,75.9262065786575
+IIT Jodhpur,in,India,asia,Asia,26.2713865,73.0333348298832
+IIT Kanpur,in,India,asia,Asia,28.6132136595143,77.3576501960542
+IIT Kharagpur,in,India,asia,Asia,22.31442745,87.3103920269174
+IIT Madras,in,India,asia,Asia,12.9914769,80.2336786
+IIT Mandi,in,India,asia,Asia,31.7752903317042,76.9861283421281
+IIT Patna,in,India,asia,Asia,25.5384040904919,84.8540473389692
+IIT Roorkee,in,India,asia,Asia,29.8653088798624,77.8961437088695
+IIT Ropar,in,India,asia,Asia,30.9685248870991,76.4732942691027
+IMDEA Networks Institute,es,Spain,europe,Europe,40.336812,-3.770478
+IMDEA Software Institute,es,Spain,europe,Europe,40.406934,-3.835474
+IMSc,in,India,asia,Asia,12.9941521579932,80.2471928014445
+IPI PAN,pl,Poland,europe,Europe,52.2258550601809,20.9498112849083
+IPM,ir,"Iran, Islamic Republic of",asia,Asia,35.7999349429513,51.4623983519974
+ISI Kolkata,in,India,asia,Asia,22.6485833703987,88.3770845168627
+IST Austria,at,Austria,europe,Europe,48.3109736,16.2586310889766
+IT University of Copenhagen,dk,Denmark,europe,Europe,55.65965525,12.5910768893446
+IUST,ir,"Iran, Islamic Republic of",asia,Asia,35.7420385936946,51.5056470030052
+Imperial College London,uk,United Kingdom,europe,Europe,51.4994284,-0.1797084
+Istanbul Technical University,tr,Turkey,europe,Europe,41.10504645,29.0263267657468
+Izmir Institute of Technology,tr,Turkey,europe,Europe,38.32247565,26.6378557469236
+JKU Linz,at,Austria,europe,Europe,48.3362859048521,14.3180175380522
+JUST,jo,Jordan,asia,Asia,32.5371344622567,35.8553268665564
+Jacobs University Bremen,de,Germany,europe,Europe,53.1677233,8.65116567867
+KAIST,kr,"Korea, Republic of",asia,Asia,36.3720822092459,127.360540201728
+KAUST,sa,Saudi Arabia,asia,Asia,22.3092962473904,39.1049115745297
+KMUTNB,th,Thailand,asia,Asia,13.8192099182444,100.513987390361
+KTH Royal Institute of Technology,se,Sweden,europe,Europe,59.201676,17.62032
+KU Leuven,be,Belgium,europe,Europe,50.8489541962848,4.3561736081634
+Karlsruhe Institute of Technology,de,Germany,europe,Europe,49.1018534,8.4331201592019
+Keio University,jp,Japan,asia,Asia,35.388459159228,139.426920146446
+King Abdulaziz University,sa,Saudi Arabia,asia,Asia,22.7889112850033,38.9612384065069
+King's College London,uk,United Kingdom,europe,Europe,51.5112793866759,-0.1157609672384
+Korea University,kr,"Korea, Republic of",asia,Asia,36.7636234349851,127.282090701736
+Koç University,tr,Turkey,europe,Europe,41.20315895,29.0728653562347
+Kyoto University,jp,Japan,asia,Asia,35.02704665,135.781437276675
+Kyung Hee University,kr,"Korea, Republic of",asia,Asia,37.59675,127.05189
+Kyungpook National University,kr,"Korea, Republic of",asia,Asia,14.604163,120.994347
+LMU Munich,de,Germany,europe,Europe,48.1103982829765,11.4592156204676
+LUMS,pk,Pakistan,asia,Asia,31.4704312133747,74.4102893820453
+Lancaster University,uk,United Kingdom,europe,Europe,54.0140815,-2.7924393
+Lebanese American University,lb,Lebanon,asia,Asia,33.89283555,35.4774984415219
+Leiden University,nl,Netherlands,europe,Europe,52.16863385,4.4596630574213
+Loughborough University,uk,United Kingdom,europe,Europe,52.7626882,-1.2396365359627
+Lund University,se,Sweden,europe,Europe,55.7126504,13.2107586594
+MBZUAI,ae,United Arab Emirates,asia,Asia,24.4326226841849,54.6182256346319
+Maastricht University,nl,Netherlands,europe,Europe,50.84720265,5.685941396293
+Macquarie University,au,Australia,australasia,Australasia,-33.7740328,151.112694391948
+Masaryk University,cz,Czech Republic,europe,Europe,49.2099968,16.599248976309
+Masdar Institute,ae,United Arab Emirates,asia,Asia,24.4328082770057,54.6179252272407
+Massey University,nz,New Zealand,australasia,Australasia,-40.3844693,175.6164996
+Max Planck Society,de,Germany,europe,Europe,49.2577959197564,7.0457946819863
+McGill University,ca,Canada,northamerica,North America,45.50691775,-73.5791162596496
+McMaster University,ca,Canada,northamerica,North America,43.2639397,-79.917825190293
+Memorial University of Newfoundland,ca,Canada,northamerica,North America,47.585546,-52.736413
+Middle East Technical University,tr,Turkey,europe,Europe,39.87549675,32.7855350558467
+Middlesex University,uk,United Kingdom,europe,Europe,51.59029705,-0.229632209454
+Monash University,au,Australia,australasia,Australasia,-37.78397455,144.958674326093
+Mälardalen University,se,Sweden,europe,Europe,59.6176801,16.5420687396832
+NTNU,no,Norway,europe,Europe,63.40868325,10.4689087405511
+NTUA,gr,Greece,europe,Europe,37.9877236808385,23.7316750038289
+NWPU,cn,China,asia,Asia,34.2459543116905,108.914049888195
+NYU Shanghai,cn,China,asia,Asia,31.2258448068267,121.534289472802
+Nanjing University,cn,China,asia,Asia,32.0565957,118.774088328078
+Nanyang Technological University,sg,Singapore,asia,Asia,1.3484104,103.682933207285
+National Cheng Kung University,tw,"Taiwan, Province of China",asia,Asia,22.9963081797453,120.22160927191
+National Chiao Tung University,tw,"Taiwan, Province of China",asia,Asia,22.9249187992733,120.295185761042
+National Institute of Technology Silchar,in,India,asia,Asia,24.7570226493965,92.7923143555208
+National Taiwan University,tw,"Taiwan, Province of China",asia,Asia,25.0125874241934,121.54047506717
+National Tsing Hua University,tw,"Taiwan, Province of China",asia,Asia,24.7957515748525,120.996734270862
+National University of Singapore,sg,Singapore,asia,Asia,1.2962018,103.776899437848
+Newcastle University,uk,United Kingdom,europe,Europe,54.98017505,-1.6146802127188
+Ontario Tech University,ca,Canada,northamerica,North America,43.94833105,-78.8981667808745
+Open University UK,uk,United Kingdom,europe,Europe,52.024788,-0.710401
+Osaka University,jp,Japan,asia,Asia,34.54561785,135.506207857222
+POSTECH,kr,"Korea, Republic of",asia,Asia,25.260404,55.293652
+PUC-RIO,br,Brazil,southamerica,South America,-22.97964355,-43.2331519647554
+PUC-RS,br,Brazil,southamerica,South America,-30.05516275,-51.1735084688585
+Paderborn University,de,Germany,europe,Europe,51.70752095,8.772403972859
+Peking University,cn,China,asia,Asia,39.9867978944616,116.305895355776
+Politecnico di Milano,it,Italy,europe,Europe,45.4784768,9.2295647
+Polytechnic University of Catalonia,es,Spain,europe,Europe,41.3892674791653,2.1158581153253
+Polytechnique Montreal,ca,Canada,northamerica,North America,45.5046735700706,-73.6132367459467
+Qatar Computing Research Institute,qa,Qatar,asia,Asia,25.3214944034773,51.4257523401864
+Qatar University,qa,Qatar,asia,Asia,25.3719714,51.4879578631829
+Queen Mary University of London,uk,United Kingdom,europe,Europe,51.5247272,-0.0393103466302
+Queen's University Belfast,uk,United Kingdom,europe,Europe,54.5842117,-5.9364324
+Queensland University of Technology,au,Australia,australasia,Australasia,-27.4561036,153.013873681507
+Queen’s University,ca,Canada,northamerica,North America,44.2254024919231,-76.4947978790672
+RMIT University,au,Australia,australasia,Australasia,-37.8057346,144.96532162978
+RWTH Aachen,de,Germany,europe,Europe,50.7791645,6.0689209712229
+Radboud University,nl,Netherlands,europe,Europe,51.8225096124685,5.8630998664195
+Renmin University of China,cn,China,asia,Asia,39.9695403999122,116.318878871117
+Royal Holloway University of London,uk,United Kingdom,europe,Europe,51.4260676727193,-0.5641729360832
+Royal Military College of Canada,ca,Canada,northamerica,North America,44.2337735582221,-76.4675158306352
+Ruhr-University Bochum,de,Germany,europe,Europe,51.4468461596812,7.2628314260979
+Ryerson University,ca,Canada,northamerica,North America,43.6583244,-79.3789251568795
+SUFE,cn,China,asia,Asia,31.3064839808054,121.493877065412
+SUSTech,cn,China,asia,Asia,22.5944048222257,113.999465710759
+SUTD,sg,Singapore,asia,Asia,1.3409892926395,103.964024643201
+Saarland University,de,Germany,europe,Europe,49.25437635,7.0414813520417
+Sabancı University,tr,Turkey,europe,Europe,40.8927159,29.3786332263582
+Sapienza University of Rome,it,Italy,europe,Europe,41.90386,12.51489
+Scuola Superiore Sant'Anna,it,Italy,europe,Europe,41.225046,15.386151
+Seoul National University,kr,"Korea, Republic of",asia,Asia,37.45917,126.95194
+Shandong University,cn,China,asia,Asia,36.3688722,120.6738368
+Shanghai Jiao Tong University,cn,China,asia,Asia,31.0245305308975,121.431986682427
+ShanghaiTech University,cn,China,asia,Asia,31.1794305,121.590234455011
+Sharif University of Technology,ir,"Iran, Islamic Republic of",asia,Asia,18.016475,-76.743473
+Shenzhen University,cn,China,asia,Asia,22.53590225,113.931474874922
+Simon Fraser University,ca,Canada,northamerica,North America,49.2767096,-122.917802964388
+Simula UiB,no,Norway,europe,Europe,60.3808724389788,5.3307461139789
+Singapore Management University,sg,Singapore,asia,Asia,1.29616795,103.850043659982
+Soochow University,cn,China,asia,Asia,25.0943692610997,121.544373371985
+South Asian University,in,India,asia,Asia,28.48498195,77.2007196042725
+Stellenbosch University,za,South Africa,africa,Africa,-33.93152195,18.8676655920625
+Sun Yat-sen University,cn,China,asia,Asia,23.09960335,113.292350873243
+TOBB ETÜ,tr,Turkey,europe,Europe,39.91925005,32.7937183136734
+TU Berlin,de,Germany,europe,Europe,52.51101585,13.3269541409597
+TU Braunschweig,de,Germany,europe,Europe,52.2737207024012,10.5290061063538
+TU Chemnitz,de,Germany,europe,Europe,50.8139093,12.930433
+TU Clausthal,de,Germany,europe,Europe,51.80195535,10.3455052758604
+TU Crete,gr,Greece,europe,Europe,35.5287854869714,24.0686059231571
+TU Darmstadt,de,Germany,europe,Europe,49.8751687502729,8.6566441345661
+TU Delft,nl,Netherlands,europe,Europe,52.0019474936783,4.3733512928526
+TU Dortmund,de,Germany,europe,Europe,51.4941529869868,7.4176284229629
+TU Dresden,de,Germany,europe,Europe,51.0282765,13.7359827549352
+TU Eindhoven,nl,Netherlands,europe,Europe,51.4461583846586,5.4850210830395
+TU Freiberg,de,Germany,europe,Europe,50.9248208,13.3318430359677
+TU Ilmenau,de,Germany,europe,Europe,50.6825062160368,10.9336824137022
+TU Kaiserslautern,de,Germany,europe,Europe,49.4248168438849,7.7557380229084
+TU Munich,de,Germany,europe,Europe,48.1649995,11.59308615
+TU Wien,at,Austria,europe,Europe,48.2061679,16.3666909
+Tampere University,fi,Finland,europe,Europe,61.4952774,23.7780918
+Tata Inst. of Fundamental Research,in,India,asia,Asia,13.0937277922572,77.5763471130909
+Technion,il,Israel,europe,Europe,32.7766610122786,35.0239317606227
+Tel Aviv University,il,Israel,europe,Europe,32.1127779284039,34.804098019401
+Texas A&M at Qatar,qa,Qatar,asia,Asia,25.3145481192905,51.4392151806678
+The Catholic University of Korea,kr,"Korea, Republic of",asia,Asia,37.48601,126.80154
+The Hong Kong Polytechnic University,hk,Hong Kong,asia,Asia,22.3044867,114.179693456663
+Tilburg University,nl,Netherlands,europe,Europe,51.563718125034,5.0434553272196
+Tokyo Institute of Technology,jp,Japan,asia,Asia,35.51474565,139.483998133697
+Tongji University,cn,China,asia,Asia,31.28473925,121.496949085887
+Trinity College Dublin,ie,Ireland,europe,Europe,53.34366745,-6.2544447245118
+Tsinghua University,cn,China,asia,Asia,40.00229045,116.320962969691
+UESTC,cn,China,asia,Asia,31.83907195,117.264207478576
+UFF,br,Brazil,southamerica,South America,-22.8988366516533,-43.1314106387976
+UFMG,br,Brazil,southamerica,South America,-16.6817697253268,-43.840702700263
+UFMS,br,Brazil,southamerica,South America,-20.4988070759557,-54.6113523658263
+UFPE,br,Brazil,southamerica,South America,-8.9068859871073,-36.4941894850125
+UFPR,br,Brazil,southamerica,South America,-25.4270921854668,-49.2616155982695
+UFRGS,br,Brazil,southamerica,South America,-30.033833257765,-51.2189624711877
+UFRJ,br,Brazil,southamerica,South America,-22.9549545773273,-43.1697769657844
+UFU,br,Brazil,southamerica,South America,-18.5911201220986,-46.5170879309181
+UNICAMP,br,Brazil,southamerica,South America,-22.8189732996464,-47.0645060253051
+UNIST,kr,"Korea, Republic of",asia,Asia,35.573814,129.190789
+UNSW,au,Australia,australasia,Australasia,-33.9175545,151.2291515
+USP,br,Brazil,southamerica,South America,-23.56096405,-46.7277080728997
+USP-ICMC,br,Brazil,southamerica,South America,-22.0071341564645,-47.8948142848381
+USTC,cn,China,asia,Asia,39.5912843761695,116.750680463602
+Universidad Nacional de Córdoba,ar,Argentina,southamerica,South America,-31.4369591,-64.1876756399762
+Universidad Rey Juan Carlos,es,Spain,europe,Europe,40.33611785,-3.8771203152794
+Universidad de Chile,cl,Chile,southamerica,South America,-33.4445919994789,-70.6512388380205
+Universidad de Zaragoza,es,Spain,europe,Europe,41.642203251565,-0.9000350199488
+Universidad de los Andes,co,Colombia,southamerica,South America,4.694193,-74.033362
+Universidade Federal de Viçosa,br,Brazil,southamerica,South America,-20.76763505,-42.8587854545281
+Universidade NOVA de Lisboa,pt,Portugal,europe,Europe,38.7328407,-9.1602002
+Universidade de Brasília,br,Brazil,southamerica,South America,-15.76387,-47.86926
+Universidade de Lisboa,pt,Portugal,europe,Europe,38.724267,-9.145577
+University College Dublin,ie,Ireland,europe,Europe,53.3062901082327,-6.2193161740214
+University College London,uk,United Kingdom,europe,Europe,51.5245658547974,-0.1335680328593
+University of A Coruña,es,Spain,europe,Europe,43.3333127558019,-8.4086777563551
+University of Aberdeen,uk,United Kingdom,europe,Europe,57.164909,-2.10258
+University of Adelaide,au,Australia,australasia,Australasia,-34.9189226,138.604236674107
+University of Alberta,ca,Canada,northamerica,North America,53.52682,-113.524493735076
+University of Amsterdam,nl,Netherlands,europe,Europe,52.36813335,4.8898041557339
+University of Athens,gr,Greece,europe,Europe,37.97003795,23.7652366972004
+University of Auckland,nz,New Zealand,australasia,Australasia,-36.8660955,174.773733093619
+University of Augsburg,de,Germany,europe,Europe,48.3316767465169,10.896295126576
+University of Bamberg,de,Germany,europe,Europe,49.8934964611808,10.8869633442271
+University of Bath,uk,United Kingdom,europe,Europe,51.3780218784284,-2.3266561936703
+University of Bayreuth,de,Germany,europe,Europe,49.9270796,11.5872266151287
+University of Bergen,no,Norway,europe,Europe,60.36887575,5.3511115414867
+University of Bern,ch,Switzerland,europe,Europe,46.95097255,7.4386841308091
+University of Birmingham,uk,United Kingdom,europe,Europe,52.4505421574126,-1.9304598574148
+University of Bonn,de,Germany,europe,Europe,50.7338124,7.1022465
+University of Bremen,de,Germany,europe,Europe,53.10796455,8.8556645928284
+University of Bristol,uk,United Kingdom,europe,Europe,51.44962135,-2.578381992713
+University of British Columbia,ca,Canada,northamerica,North America,49.2603181026393,-123.245596834766
+University of Buenos Aires,ar,Argentina,southamerica,South America,-38.9394882,-68.0503365150456
+University of Calgary,ca,Canada,northamerica,North America,51.0783651,-114.1283072
+University of Cambridge,uk,United Kingdom,europe,Europe,50.7945542,-1.0970158
+University of Canterbury,nz,New Zealand,australasia,Australasia,-43.5240781,172.580307415439
+University of Cape Town,za,South Africa,africa,Africa,-33.95675585,18.467577702003
+University of Chinese Academy of Sciences,cn,China,asia,Asia,40.4081654875577,116.682149963735
+University of Copenhagen,dk,Denmark,europe,Europe,55.6801502,12.5723270014063
+University of Crete,gr,Greece,europe,Europe,35.3072756,25.0824948532192
+University of Duisburg-Essen,de,Germany,europe,Europe,51.4276020347838,6.7986621067204
+University of Dundee,uk,United Kingdom,europe,Europe,56.4581201890962,-2.9827221585907
+University of Düsseldorf,de,Germany,europe,Europe,51.24812155,6.7912485250105
+University of Edinburgh,uk,United Kingdom,europe,Europe,55.9427695968562,-3.1853461303925
+University of Erlangen–Nuremberg,de,Germany,europe,Europe,49.5976478895543,11.0052970852739
+University of Essex,uk,United Kingdom,europe,Europe,51.8775470485692,0.9464666087502
+University of Exeter,uk,United Kingdom,europe,Europe,50.736854,-3.533407
+University of Freiburg,de,Germany,europe,Europe,47.9934759685953,7.8460546598532
+University of Glasgow,uk,United Kingdom,europe,Europe,55.872287136836,-4.2904407837474
+University of Groningen,nl,Netherlands,europe,Europe,53.21967825,6.562514810379
+University of Guelph,ca,Canada,northamerica,North America,43.535193,-80.2200997263746
+University of Göttingen,de,Germany,europe,Europe,51.5421418340888,9.9359644154031
+University of Haifa,il,Israel,europe,Europe,32.7611498918907,35.0193574654368
+University of Halle-Wittenberg,de,Germany,europe,Europe,51.4858980478027,11.9692847351679
+University of Hamburg,de,Germany,europe,Europe,53.5663920428111,9.9846946002866
+University of Hannover,de,Germany,europe,Europe,52.3827479729056,9.7201602383285
+University of Helsinki,fi,Finland,europe,Europe,60.1710393,24.949155335163
+University of Hildesheim,de,Germany,europe,Europe,52.1336440989382,9.976093694704
+University of Hong Kong,hk,Hong Kong,asia,Asia,22.283269,114.136744
+University of Innsbruck,at,Austria,europe,Europe,47.26331595,11.3844733099545
+University of Ioannina,gr,Greece,europe,Europe,39.61565905,20.8395257335407
+University of Jordan,jo,Jordan,asia,Asia,40.542293,-112.014197
+University of Kassel,de,Germany,europe,Europe,51.3227010362768,9.507452722314
+University of Kent,uk,United Kingdom,europe,Europe,51.29501575,1.06730108562
+University of Kiel,de,Germany,europe,Europe,54.3433043412454,10.1144980530611
+University of Klagenfurt,at,Austria,europe,Europe,46.61640255,14.2646809173082
+University of Koblenz-Landau,de,Germany,europe,Europe,49.2042475875272,8.1071746639434
+University of Konstanz,de,Germany,europe,Europe,47.6900886,9.1882438765003
+University of L'Aquila,it,Italy,europe,Europe,42.3538791,13.4122495678531
+University of Leeds,uk,United Kingdom,europe,Europe,53.83755925,-1.5873917402175
+University of Leipzig,de,Germany,europe,Europe,51.3131269,12.3735652330258
+University of Liverpool,uk,United Kingdom,europe,Europe,53.4045841009576,-2.965524307109
+University of Luxembourg,lu,Luxembourg,europe,Europe,49.62319225,6.1127596172391
+University of Lübeck,de,Germany,europe,Europe,53.8344,10.70392
+University of Magdeburg,de,Germany,europe,Europe,52.1402589106834,11.6448620309307
+University of Mainz,de,Germany,europe,Europe,49.9923207142901,8.2406625484
+University of Malaya,my,Malaysia,asia,Asia,3.1255683,101.655822547211
+University of Malta,mt,Malta,europe,Europe,35.9025978856597,14.4843566318761
+University of Manchester,uk,United Kingdom,europe,Europe,53.4657087,-2.2327343199076
+University of Manitoba,ca,Canada,northamerica,North America,49.815622,-97.118363
+University of Mannheim,de,Germany,europe,Europe,49.4837314896721,8.4620294504569
+University of Marburg,de,Germany,europe,Europe,50.8091337057438,8.8108273137057
+University of Melbourne,au,Australia,australasia,Australasia,-37.7970796,144.961301344143
+University of Molise,it,Italy,europe,Europe,41.55380325,14.6648595846998
+University of Montreal,ca,Canada,northamerica,North America,45.5024742653395,-73.61807955751
+University of Murcia,es,Spain,europe,Europe,38.00615485,-1.1731258591277
+University of Münster,de,Germany,europe,Europe,51.9631512818292,7.6131689677118
+University of New Brunswick,ca,Canada,northamerica,North America,45.94553025,-66.6401831348669
+University of Newcastle,au,Australia,australasia,Australasia,-32.893096099884,151.70411312518
+University of Nicosia,cy,Cyprus,europe,Europe,35.1660481,33.3149405528006
+University of Nottingham,uk,United Kingdom,europe,Europe,52.9387428,-1.2002956927457
+University of Oldenburg,de,Germany,europe,Europe,53.1467332798413,8.1824588106326
+University of Osnabrück,de,Germany,europe,Europe,52.2822423285881,8.024796323707
+University of Otago,nz,New Zealand,australasia,Australasia,-45.8649793,170.514614873508
+University of Ottawa,ca,Canada,northamerica,North America,45.42252705,-75.6833904161118
+University of Oxford,uk,United Kingdom,europe,Europe,51.754643701573,-1.2541307672319
+University of Passau,de,Germany,europe,Europe,48.5675912002338,13.4528685514326
+University of Piraeus,gr,Greece,europe,Europe,37.94173275,23.6530326182197
+University of Pisa,it,Italy,europe,Europe,43.7175842147878,10.3975074649279
+University of Potsdam,de,Germany,europe,Europe,52.4012932186896,13.0117166793696
+University of Queensland,au,Australia,australasia,Australasia,-27.49741805,153.013169559836
+University of Regina,ca,Canada,northamerica,North America,50.4152275,-104.588999962398
+University of Rostock,de,Germany,europe,Europe,54.0755447800428,12.1036760598194
+University of Salerno,it,Italy,europe,Europe,40.7708634925492,14.7910910073615
+University of Salzburg,at,Austria,europe,Europe,47.7976422786572,13.0483345326651
+University of Sannio,it,Italy,europe,Europe,41.1314497123166,14.7777915999781
+University of Saskatchewan,ca,Canada,northamerica,North America,52.13441935,-106.6277768327
+University of Sheffield,uk,United Kingdom,europe,Europe,53.3815327,-1.4806602
+University of Siegen,de,Germany,europe,Europe,50.9105223253221,8.0270533351527
+University of Southampton,uk,United Kingdom,europe,Europe,50.93703355,-1.4050090771323
+University of St Andrews,uk,United Kingdom,europe,Europe,56.3398198,-2.811793705315
+University of Strathclyde,uk,United Kingdom,europe,Europe,55.8621053596115,-4.2422506266362
+University of Stuttgart,de,Germany,europe,Europe,48.781275004332,9.1723330118052
+University of Surrey,uk,United Kingdom,europe,Europe,51.24307815,-0.5900544877515
+University of Sussex,uk,United Kingdom,europe,Europe,50.86796665,-0.0877889936313
+University of Sydney,au,Australia,australasia,Australasia,-33.88888125,151.189414257051
+University of Szeged,hu,Hungary,europe,Europe,46.25004545,20.1465033514681
+University of Tartu,ee,Estonia,europe,Europe,58.3808929785833,26.719651313121
+University of Technology Sydney,au,Australia,australasia,Australasia,-33.8828784,151.200681195462
+University of Tokyo,jp,Japan,asia,Asia,35.71339,139.76232
+University of Toronto,ca,Canada,northamerica,North America,43.663462,-79.3977596624806
+University of Trento,it,Italy,europe,Europe,46.06682,11.12326
+University of Trier,de,Germany,europe,Europe,49.7680581,6.6286901220607
+University of Tsukuba,jp,Japan,asia,Asia,36.1070526,140.10066020404
+University of Twente,nl,Netherlands,europe,Europe,52.23881,6.85035
+University of Tübingen,de,Germany,europe,Europe,48.5294710741501,9.0430873528394
+University of Ulm,de,Germany,europe,Europe,48.4233612406172,9.9550954811129
+University of Victoria,ca,Canada,northamerica,North America,48.468468,-123.316619
+University of Vienna,at,Austria,europe,Europe,48.2131284,16.3606859941145
+University of Waikato,nz,New Zealand,australasia,Australasia,-37.7858739,175.316766472976
+University of Warsaw,pl,Poland,europe,Europe,52.2402106,21.0188511155505
+University of Warwick,uk,United Kingdom,europe,Europe,52.3813073,-1.5639569481637
+University of Waterloo,ca,Canada,northamerica,North America,43.4701994,-80.5452429377945
+University of Western Australia,au,Australia,australasia,Australasia,-31.95040445,115.797901573576
+University of Windsor,ca,Canada,northamerica,North America,42.30520135,-83.0664914402797
+University of Wroclaw,pl,Poland,europe,Europe,51.11399,17.03393
+University of Wuppertal,de,Germany,europe,Europe,51.2447912118784,7.150070668981
+University of Würzburg,de,Germany,europe,Europe,49.7879456863211,9.9355841935415
+University of York,uk,United Kingdom,europe,Europe,53.946058364681,-1.0510529695789
+University of Zurich,ch,Switzerland,europe,Europe,47.49684345,8.729807168095
+Università della Svizzera italiana,ch,Switzerland,europe,Europe,46.0109126,8.9581204718256
+Université Jean Monnet,fr,France,europe,Europe,45.748455,4.84387
+Université Laval,ca,Canada,northamerica,North America,45.55889325,-73.7207895122344
+Université Paris Dauphine,fr,France,europe,Europe,48.87015115,2.2735218497104
+Université de Sherbrooke,ca,Canada,northamerica,North America,45.37796365,-71.9274641760578
+Université libre de Bruxelles,be,Belgium,europe,Europe,50.81347185,4.3812357292031
+Uppsala University,se,Sweden,europe,Europe,59.85519,17.63149
+Utrecht University,nl,Netherlands,europe,Europe,52.09021,5.12233
+VISTEC,th,Thailand,asia,Asia,13.0016529,101.441304
+VU Amsterdam,nl,Netherlands,europe,Europe,52.3337502237109,4.8664709168829
+Victoria University of Wellington,nz,New Zealand,australasia,Australasia,-36.8482415,174.767755969887
+Waseda University,jp,Japan,asia,Asia,35.7086885901049,139.719666981251
+Weizmann Institute of Science,il,Israel,europe,Europe,31.9078499,34.8133409244421
+Western University,ca,Canada,northamerica,North America,43.0088973,-81.2621821
+Westlake University,cn,China,asia,Asia,30.1360628,120.076566733948
+Wuhan University,cn,China,asia,Asia,30.5360577224699,114.364214609577
+Xi'an Jiaotong University,cn,China,asia,Asia,34.2474949,108.978972403026
+Xidian University,cn,China,asia,Asia,34.122235589824,108.839229368426
+Yonsei University,kr,"Korea, Republic of",asia,Asia,37.565,126.93833
+York University,ca,Canada,northamerica,North America,43.7734302377529,-79.5024477589219
+Yıldız Technical University,tr,Turkey,europe,Europe,2.202113,102.247069
+Zhejiang University,cn,China,asia,Asia,30.3086751192926,120.086370751902
+Özyeğin University,tr,Turkey,europe,Europe,41.0293067437117,29.2592661557988
+University of Kentucky,us,United States,northamerica,North America,38.0310482709917,-84.5072956409078
+CUNY,us,United States,northamerica,North America,40.8155712187648,-73.9503800650906
+Boston University,us,United States,northamerica,North America,42.3501894,-71.1007011849742
+University of Washington,us,United States,northamerica,North America,47.6543466,-122.30806059473
+George Mason University,us,United States,northamerica,North America,38.83133325,-77.3079883887912
+Colorado State University,us,United States,northamerica,North America,40.5731621493555,-105.086774007425
+Iowa State University,us,United States,northamerica,North America,42.0264102167566,-93.6465267036978
+University of Illinois at Chicago,us,United States,northamerica,North America,41.870956022222,-87.6684381037012
+Duke University,us,United States,northamerica,North America,36.0001557,-78.9442297219588
+Florida International University,us,United States,northamerica,North America,25.7553898,-80.3762832779774
+Oklahoma State University,us,United States,northamerica,North America,34.0083179,-96.3756103445447
+UCCS,us,United States,northamerica,North America,38.8962428270091,-104.805273639991
+University of Maryland - College Park,us,United States,northamerica,North America,38.9869059414714,-76.9425545861769
+Northeastern University,us,United States,northamerica,North America,42.3390301,-71.0879129495318
+Rutgers University,us,United States,northamerica,North America,40.4855746,-74.4319015
+Washington University in St. Louis,us,United States,northamerica,North America,38.64724015,-90.3084017323959
+University of Colorado Boulder,us,United States,northamerica,North America,40.00759835,-105.269100780178
+University of Notre Dame,us,United States,northamerica,North America,41.70456775,-86.2382202601727
+University of Chicago,us,United States,northamerica,North America,41.79139685,-87.6008438719354
+University of Pennsylvania,us,United States,northamerica,North America,39.9493382,-75.1896440299813
+Yale University,us,United States,northamerica,North America,41.25713055,-72.9896696015223
+Univ. of California - San Diego,us,United States,northamerica,North America,32.8796278915765,-117.23429245175
+Stanford University,us,United States,northamerica,North America,37.43131385,-122.169365354983
+University of Rochester,us,United States,northamerica,North America,43.1303416718917,-77.6261213190145
+University of Iowa,us,United States,northamerica,North America,41.63110235,-91.5407520164205
+Princeton University,us,United States,northamerica,North America,40.33867515,-74.6583654913168
+Carnegie Mellon University,us,United States,northamerica,North America,40.4441897,-79.9427191839347
+Pennsylvania State University,us,United States,northamerica,North America,40.797993987716,-77.8603804706343
+University of Connecticut,us,United States,northamerica,North America,41.82175755,-72.2427753550532
+New Mexico Tech,us,United States,northamerica,North America,34.0659218789453,-106.904827797025
+University of Florida,us,United States,northamerica,North America,29.6328784,-82.3490132934012
+Michigan State University,us,United States,northamerica,North America,42.7013591354521,-84.4828049031234
+George Washington University,us,United States,northamerica,North America,38.8996783269514,-77.0479398489504
+Texas Tech University,us,United States,northamerica,North America,33.59375255,-101.899595523028
+University of New Orleans,us,United States,northamerica,North America,30.03043785,-90.049329358426
+University of New Mexico,us,United States,northamerica,North America,35.08663275,-106.620209405052
+Texas A&M University,us,United States,northamerica,North America,30.6184220578394,-96.3370663168497
+Cornell University,us,United States,northamerica,North America,42.4505507,-76.4783512955428
+University of Central Florida,us,United States,northamerica,North America,28.592364,-81.208607
+Florida Atlantic University,us,United States,northamerica,North America,26.3754297356371,-80.1006770640548
+University of Minnesota,us,United States,northamerica,North America,44.9863392,-93.179455802185
+Vanderbilt University,us,United States,northamerica,North America,36.14380105,-86.8028188909529
+Johns Hopkins University,us,United States,northamerica,North America,39.33020225,-76.6218535785834
+Univ. of California - Santa Cruz,us,United States,northamerica,North America,36.98204192868,-122.05961940329
+Northern Arizona University,us,United States,northamerica,North America,35.1834428,-111.655000378832
+Wichita State University,us,United States,northamerica,North America,37.718847144063,-97.2900493902945
+Georgia Institute of Technology,us,United States,northamerica,North America,33.776033,-84.3988408600158
+Univ. of Maryland - Baltimore County,us,United States,northamerica,North America,39.249303201415,-76.7114470442387
+Univ. of Illinois at Urbana-Champaign,us,United States,northamerica,North America,40.10056605,-88.2313127243461
+Massachusetts Institute of Technology,us,United States,northamerica,North America,42.3582529,-71.0966272383055
+Arizona State University,us,United States,northamerica,North America,33.4241234728117,-111.92803124435
+Washington State University,us,United States,northamerica,North America,46.7337724,-117.149760692864
+University of Pittsburgh,us,United States,northamerica,North America,40.44415295,-79.9624609514451
+University of Massachusetts Amherst,us,United States,northamerica,North America,42.38898,-72.5287
+University of Texas at Austin,us,United States,northamerica,North America,30.2845677836681,-97.7330558989517
+DePaul University,us,United States,northamerica,North America,41.92401995,-87.6547273147665
+California Institute of Technology,us,United States,northamerica,North America,34.13701375,-118.125288248796
+University of Delaware,us,United States,northamerica,North America,39.6810328,-75.7540184
+University of Louisville,us,United States,northamerica,North America,38.21332235,-85.7577075108187
+Univ. of California - Irvine,us,United States,northamerica,North America,33.6440883,-117.8555373
+University of Utah,us,United States,northamerica,North America,40.7628137,-111.836871913683
+Univ. of California - Berkeley,us,United States,northamerica,North America,37.8753497,-122.239633649188
+Univ. of California - Los Angeles,us,United States,northamerica,North America,34.0685121598217,-118.444644660239
+Univ. of California - Davis,us,United States,northamerica,North America,38.53379035,-121.790798921465
+Binghamton University,us,United States,northamerica,North America,42.08779975,-75.9706606561486
+University of Wisconsin - Milwaukee,us,United States,northamerica,North America,43.0781375937688,-87.8814643465627
+Virginia Tech,us,United States,northamerica,North America,37.22192675,-80.4272818401365
+Stevens Institute of Technology,us,United States,northamerica,North America,40.7448096,-74.0252392276461
+University of South Florida,us,United States,northamerica,North America,35.20447165,-85.9189530714194
+Rochester Institute of Technology,us,United States,northamerica,North America,43.08248835,-77.6729110237864
+College of William and Mary,us,United States,northamerica,North America,37.26908455,-76.7227368891729
+West Virginia University,us,United States,northamerica,North America,39.63595,-79.95545
+Northwestern University,us,United States,northamerica,North America,42.0551164,-87.6758111348217
+Augusta University,us,United States,northamerica,North America,33.4693345,-81.988562
+Univ. of California - Riverside,us,United States,northamerica,North America,33.96370575,-117.339780651706
+Purdue University,us,United States,northamerica,North America,40.43002715,-86.9264766875919
+Univ. of California - Merced,us,United States,northamerica,North America,37.3651866,-120.422730407179
+University at Buffalo,us,United States,northamerica,North America,40.6989871,-99.1104449825312
+The University of Alabama,us,United States,northamerica,North America,33.21208215,-87.5396740151865
+UNC - Charlotte,us,United States,northamerica,North America,35.3107104,-80.745231
+University of Virginia,us,United States,northamerica,North America,38.0410576,-78.5054996018357
+University of Southern California,us,United States,northamerica,North America,34.0218833,-118.28586662125
+Western Michigan University,us,United States,northamerica,North America,42.28333755,-85.6095067308074
+University of Nevada Las Vegas,us,United States,northamerica,North America,39.54158,-119.81491
+Rice University,us,United States,northamerica,North America,29.71679145,-95.4047811339379
+University of Michigan,us,United States,northamerica,North America,42.2942142,-83.710038935096
+University of Vermont,us,United States,northamerica,North America,44.4737365,-73.1941467970588
+Air Force Institute of Technology,us,United States,northamerica,North America,39.7819802,-84.0826014494441
+Oregon State University,us,United States,northamerica,North America,44.56305595,-123.283923633958
+Florida State University,us,United States,northamerica,North America,29.6328784,-82.3490132934012
+University of Alabama - Birmingham,us,United States,northamerica,North America,33.4979494060111,-86.8054833425009
+University of Houston,us,United States,northamerica,North America,29.7207902,-95.3440627149137
+Virginia Commonwealth University,us,United States,northamerica,North America,37.54612465,-77.4540608990755
+University of Wisconsin - Madison,us,United States,northamerica,North America,43.0763647118449,-89.412476772991
+Dartmouth College,us,United States,northamerica,North America,43.7043552627246,-72.2881999753837
+North Carolina State University,us,United States,northamerica,North America,35.7848634591786,-78.6817083639037
+Indiana University,us,United States,northamerica,North America,39.1678705680251,-86.5230073019112
+University of Kansas,us,United States,northamerica,North America,38.9534918,-95.2630887995582
+Emory University,us,United States,northamerica,North America,33.79586765,-84.3277896062768
+Georgia State University,us,United States,northamerica,North America,33.75476135,-84.3881921847569
+Georgetown University,us,United States,northamerica,North America,38.90893925,-77.0745796206083
+Clemson University,us,United States,northamerica,North America,34.6731599224758,-82.8362291044056
+OHSU,us,United States,northamerica,North America,45.4988788536176,-122.685856736148
+Wayne State University,us,United States,northamerica,North America,42.35720515,-83.070949786914
+Towson University,us,United States,northamerica,North America,39.38966285,-76.6158924868259
+University of Arkansas,us,United States,northamerica,North America,36.09352375,-94.1770897949174
+University of North Carolina,us,United States,northamerica,North America,35.90503535,-79.0477532652511
+Columbia University,us,United States,northamerica,North America,40.80775585,-73.9616494698765
+NJIT,us,United States,northamerica,North America,40.7425900405581,-74.1793332307135
+University of Cincinnati,us,United States,northamerica,North America,39.1318613,-84.5157619558244
+Michigan Technological University,us,United States,northamerica,North America,47.1099114,-88.5511513291051
+University of Texas at San Antonio,us,United States,northamerica,North America,29.582022,-98.620112
+Drexel University,us,United States,northamerica,North America,39.9574,-75.190266563357
+University of Nevada,us,United States,northamerica,North America,36.1073399565009,-115.143353540605
+New York University,us,United States,northamerica,North America,40.72925325,-73.9962539360963
+University of Oregon,us,United States,northamerica,North America,44.0445294162958,-123.072691332487
+Stony Brook University,us,United States,northamerica,North America,40.9090809,-73.1205518027572
+University of Texas at Arlington,us,United States,northamerica,North America,30.285319,-97.734219
+University of Arizona,us,United States,northamerica,North America,32.2356427,-110.951744125426
+Tufts University,us,United States,northamerica,North America,42.40649125,-71.1180072540209
+Auburn University,us,United States,northamerica,North America,32.5919877,-85.4959487362446
+University of Tennessee,us,United States,northamerica,North America,35.9542493,-83.9307395
+Utah State University,us,United States,northamerica,North America,40.27941055,-111.71788683218
+Univ. of California - Santa Barbara,us,United States,northamerica,North America,34.41460245,-119.845810047014
+Portland State University,us,United States,northamerica,North America,45.51181205,-122.684929993829
+University of Southern Mississippi,us,United States,northamerica,North America,31.3286452,-89.3367311705755
+University of Louisiana - Lafayette,us,United States,northamerica,North America,30.21928995,-92.041383039763
+University at Albany - SUNY,us,United States,northamerica,North America,42.6851376924769,-73.8242753177362
+Boise State University,us,United States,northamerica,North America,43.6026273657216,-116.20004356318
+University of South Carolina,us,United States,northamerica,North America,33.9928298,-81.0268516571211
+University of Wyoming,us,United States,northamerica,North America,41.3144774,-105.564322859574
+Brown University,us,United States,northamerica,North America,41.8186395,-71.4088008882249
+University of Oklahoma,us,United States,northamerica,North America,35.1959878,-97.4457082759986
+Case Western Reserve University,us,United States,northamerica,North America,41.505188,-81.604614
+Rensselaer Polytechnic Institute,us,United States,northamerica,North America,42.72992195,-73.6795398245883
+Cleveland State University,us,United States,northamerica,North America,41.50214445,-81.6751670486689
+Louisiana State University,us,United States,northamerica,North America,30.4129525483215,-91.1797555388565
+University of Texas at Dallas,us,United States,northamerica,North America,32.9875855,-96.7497692780293
+Syracuse University,us,United States,northamerica,North America,43.01711285,-76.1185536000973
+IUPUI,us,United States,northamerica,North America,39.7748030260431,-86.177129598203
+Claremont Graduate University,us,United States,northamerica,North America,34.1103852,-117.717588368153
+Ohio State University,us,United States,northamerica,North America,40.006009,-83.01132
+Old Dominion University,us,United States,northamerica,North America,36.8862699,-76.3097247883973
+Temple University,us,United States,northamerica,North America,39.981188,-75.1562828075735
+Mississippi State University,us,United States,northamerica,North America,33.4551365372072,-88.7944341288248
+Kent State University,us,United States,northamerica,North America,41.1495763532396,-81.343605580425
+University of Massachusetts Lowell,us,United States,northamerica,North America,42.6550456363581,-71.324555469305
+University of Texas - El Paso,us,United States,northamerica,North America,31.7731477156693,-106.504736895301
+Texas State University,us,United States,northamerica,North America,29.8884765,-97.9447988584929
+University of Denver,us,United States,northamerica,North America,39.67831365,-104.962509218154
+Brandeis University,us,United States,northamerica,North America,42.36650945,-71.2580196483813
+Oakland University,us,United States,northamerica,North America,42.66663325,-83.2065575175658
+University of Michigan-Dearborn,us,United States,northamerica,North America,42.3172294,-83.2319393553883
+Lehigh University,us,United States,northamerica,North America,40.6068028,-75.3782488
+University of Missouri - Kansas City,us,United States,northamerica,North America,39.03924035,-94.5724865961871
+Indiana State University,us,United States,northamerica,North America,39.4711881358734,-87.4084683209421
+Missouri S&T,us,United States,northamerica,North America,37.9536824003106,-91.7756002798474
+Harvard University,us,United States,northamerica,North America,42.36790855,-71.126782374437
+Naval Postgraduate School,us,United States,northamerica,North America,36.596924629289,-121.876536696186
+University of Nebraska,us,United States,northamerica,North America,40.8206834,-96.7004831752174
+University of North Texas,us,United States,northamerica,North America,33.2098926,-97.1514762497725
+Tulane University,us,United States,northamerica,North America,29.94121955,-90.1201008917919
+Kansas State University,us,United States,northamerica,North America,39.1972358152522,-96.5846498000628
+Ohio University,us,United States,northamerica,North America,39.32300405,-82.1026768153317
+TTI Chicago,us,United States,northamerica,North America,41.7846581791225,-87.5925204288429
+University of Idaho,us,United States,northamerica,North America,46.72379775,-117.020438984365
+University of Nebraska - Omaha,us,United States,northamerica,North America,41.25779325,-96.0104763
+University of Hawaii at Manoa,us,United States,northamerica,North America,21.2982795,-157.818693560886
+Louisiana Tech University,us,United States,northamerica,North America,32.5299672265506,-92.651970638822
+Worcester Polytechnic Institute,us,United States,northamerica,North America,42.274315,-71.8084567455259
+Brigham Young University,us,United States,northamerica,North America,40.25501105,-111.649532571457
+University of Massachusetts Boston,us,United States,northamerica,North America,42.38898,-72.5287
+New Mexico State University,us,United States,northamerica,North America,32.27927053954,-106.748849423484
+Colorado School of Mines,us,United States,northamerica,North America,39.75269125,-105.222872055763
+Baylor University,us,United States,northamerica,North America,31.55043405,-97.1102905567766
+Illinois Institute of Technology,us,United States,northamerica,North America,41.8352554,-87.6264362207304
+Montana State University,us,United States,northamerica,North America,45.6671799349264,-111.054481626905
+University of Colorado - Denver,us,United States,northamerica,North America,40.00759835,-105.269100780178
+University of Tulsa,us,United States,northamerica,North America,36.1523306,-95.9459602387798
+Missouri University of Technology,us,United States,northamerica,North America,37.952962,-91.778002
+University of Miami,us,United States,northamerica,North America,25.7173173548,-80.2776970487219
+University of Mississippi,us,United States,northamerica,North America,34.3646125,-89.5396349102097
+Nova Southeastern University,us,United States,northamerica,North America,26.0782252572615,-80.2458147904871
+University of Georgia,us,United States,northamerica,North America,33.9404278,-83.373049049883
+University of Missouri,us,United States,northamerica,North America,38.6352837,-90.2316773318154
+University of Arkansas - Little Rock,us,United States,northamerica,North America,34.775925,-92.342097
+LIU Post,us,United States,northamerica,North America,28.6631238,-81.2349235
+UNC - Greensboro,us,United States,northamerica,North America,36.0655597257762,-79.8129809243854
+University of New Hampshire,us,United States,northamerica,North America,43.13826535,-70.9323817233416
+Southern Methodist University,us,United States,northamerica,North America,32.84180115,-96.7815281014706
+University of Alabama - Huntsville,us,United States,northamerica,North America,33.19345,-87.52251
+Florida Institute of Technology,us,United States,northamerica,North America,28.0642296,-80.6230097241205
+North Dakota State University,us,United States,northamerica,North America,46.897155,-96.8182654322129
+University of Memphis,us,United States,northamerica,North America,35.1189387,-89.9372195996589
+Boston College,us,United States,northamerica,North America,42.3354481,-71.1681386402306
+University of Maine,us,United States,northamerica,North America,44.8991352,-68.6663746152756
+ Wichita State University,us,United States,northamerica,North America,37.718847144063,-97.2900815768007
+Simmons University,us,United States,northamerica,North America,42.34143655,-71.1054491248606

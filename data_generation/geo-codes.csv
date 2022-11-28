@@ -1,0 +1,610 @@
+index,country,institution,lat,lon
+0,Greece,AUEB,37.9940338898775,23.732771540394
+1,Denmark,Aalborg University,57.01590705,9.9753082435574
+2,Finland,Aalto University,60.1860789,24.8281020744067
+3,Denmark,Aarhus University,56.1670905,10.2026176935929
+4,United Kingdom,Aberystwyth University,52.4181960583988,-4.0638425727573
+5,Egypt,American University in Cairo,30.0200950444477,31.4991564997708
+6,Lebanon,American University of Beirut,33.9000264,35.482383777521
+7,Israel,Ariel University,32.1032526549704,35.2078125421703
+8,Australia,Australian National University,-35.28121335,149.116778864645
+9,India,BITS Pilani,28.35866475,75.5882557813468
+10,India,BITS Pilani-Goa,15.3905132544127,73.8779362765171
+11,Bangladesh,BUET,23.7237949959699,90.3922153996855
+12,China,BUPT,39.9626973003545,116.358457049674
+13,Romania,Babeș-Bolyai University,46.7677836,23.5919765542802
+14,Israel,Bar-Ilan University,32.0691389925568,34.8430582556269
+15,Germany,Bauhaus University Weimar,50.97571335,11.3301091944102
+16,China,Beihang University,39.9809427,116.340978676549
+17,Israel,Ben-Gurion University of the Negev,31.2631254,34.8022385445842
+18,Germany,Bielefeld University,52.0376885,8.4932232835795
+19,Turkey,Bilkent University,39.8742606234104,32.7476176558953
+20,United Kingdom,Birkbeck University of London,51.5219430629579,-0.1305399071603
+21,Italy,Bocconi University,45.4497194,9.1887086720318
+22,Turkey,Boğaziçi University,41.08475,29.051
+23,Germany,Brandenburg University of Technology,51.7668738845552,14.3270593983896
+24,Czech Republic,Brno University of Technology,49.2014916076311,16.6032113025769
+25,United Kingdom,Brunel University London,51.5326092,-0.4740498907267
+26,Germany,Bundeswehr University Munich,48.0826927067999,11.6323775676104
+27,Germany,CISPA Helmholtz Center,49.25934725,7.0511131271582
+28,India,CMI,12.8283096974062,80.2201080400772
+29,France,CRIStAL,50.6069112216659,3.1375449037763
+30,Netherlands,CWI,52.355525909143,4.9512999967886
+31,United Kingdom,Cardiff University,51.4883511,-3.1774939616318
+32,Canada,Carleton University,45.3858581,-75.6950041168868
+33,Sweden,Chalmers/GU,57.6907665777087,11.9770490218487
+34,Czech Republic,Charles University,50.0889154,14.4161372076889
+35,China,Chinese Academy of Sciences,39.90933665,116.32971461229
+36,Hong Kong,Chinese University of Hong Kong,22.419297694053,114.204314423352
+37,Thailand,Chulalongkorn University,13.7382169589593,100.532533109398
+38,Hong Kong,City University of Hong Kong,22.336535,114.174392
+39,United Kingdom,City University of London,51.5276441,-0.1035989251818
+40,Canada,Concordia University,45.49741,-73.5771
+41,Cyprus,Cyprus University of Technology,34.67507365,33.0432836
+42,Czech Republic,Czech Technical University,50.1029026,14.3946353
+43,India,DAIICT,23.1918299086413,72.6283284864956
+44,Denmark,DTU,55.7854595583484,12.5203510303031
+45,Canada,Dalhousie University,44.6374062647519,-63.5872635152841
+46,Philippines,De La Salle University,14.5644630520076,120.993605080008
+47,United Kingdom,Durham University,54.779749,-1.581512
+48,Switzerland,EPFL,46.5186764062579,6.5670642564848
+49,Switzerland,ETH Zurich,47.3762871641418,8.5475958117697
+50,Canada,ETS Montreal,45.49497815,-73.5606740771318
+51,France,EURECOM,43.6142772316417,7.0712215577044
+52,France,Ecole Normale Superieure,48.7124728691453,2.1652601541326
+53,France,Ecole Normale Superieure de Cachan,48.8419351183424,2.3454039157881
+54,France,Ecole Normale Superieure de Lyon,45.7331947506505,4.8329532899993
+55,France,Ecole Normale Superieure de Rennes,48.0451896,-1.7457907
+56,Brazil,Federal University of Rio Grande,-30.03384,-51.21857
+57,Germany,Freie Universitaet Berlin,52.4479462,13.2779270719606
+58,Germany,Friedrich Schiller University Jena,50.92997,11.58994
+59,China,Fudan University,31.2973096700981,121.503639255614
+60,Turkey,Galatasaray University,41.0459923,29.0204624288813
+61,Germany,Goethe University Frankfurt,50.1275007988482,8.6678707867001
+62,United Kingdom,Goldsmiths University of London,51.47339855,-0.0373554777493
+63,Austria,Graz University of Technology,47.05821,15.4601947426462
+64,Canada,HEC Montreal,45.5036114,-73.6212922
+65,Hong Kong,HKUST,22.3363799375663,114.266452550678
+66,Russian Federation,HSE University,55.70229715,37.5317977274793
+67,China,HUST,30.5129765524995,114.420297055601
+68,Turkey,Hacettepe University,39.9298787549285,32.8666840877708
+69,Germany,Hamburg University of Technology,53.461,9.9692264303802
+70,"Korea, Republic of",Hanyang University,37.5571248482712,127.045548672916
+71,China,Harbin Institute of Technology,45.741589,126.625562634889
+72,Germany,Hasso Plattner Institute,52.393714,13.132289
+73,Israel,Hebrew University of Jerusalem,31.7918555,35.244723
+74,Germany,Heidelberg University,49.4190362652019,8.6708407842746
+75,United Kingdom,Heriot-Watt University,55.91029585,-3.3234475145584
+76,Hong Kong,Hong Kong Baptist University,22.3874201,114.2082222
+77,Germany,Humboldt University of Berlin,52.51858145,13.3928784024504
+78,China,Hunan University,28.17954925,112.941098467464
+79,India,IIIT Bangalore,12.84430185,77.6632920758883
+80,India,IIIT Delhi,28.54632595,77.2732550418079
+81,India,IIIT Hyderabad,17.4454957,78.3485469754447
+82,India,IISc Bangalore,13.0222347,77.5671832476811
+83,India,IIT (BHU) Varanasi,25.2621669421976,82.9892803113501
+84,India,IIT Bhubaneswar,20.14808125,85.676429806457
+85,India,IIT Bombay,19.1145814,72.9050020778437
+86,India,IIT Delhi,28.544794367848,77.1910512842372
+87,India,IIT Gandhinagar,23.2214555494913,72.6987878015274
+88,India,IIT Goa,15.4224484642187,73.980018759129
+89,India,IIT Guwahati,26.1898865928685,91.6932392058187
+90,India,IIT Hyderabad,17.5949379070476,78.1237589297497
+91,India,IIT Indore,22.52692755,75.9262065786575
+92,India,IIT Jodhpur,26.2713865,73.0333348298832
+93,India,IIT Kanpur,28.6132136595143,77.3576501960542
+94,India,IIT Kharagpur,22.31442745,87.3103920269174
+95,India,IIT Madras,12.9914769,80.2336786
+96,India,IIT Mandi,31.7752903317042,76.9861283421281
+97,India,IIT Patna,25.5384040904919,84.8540473389692
+98,India,IIT Roorkee,29.8653088798624,77.8961437088695
+99,India,IIT Ropar,30.9685248870991,76.4732942691027
+100,Spain,IMDEA Networks Institute,40.336812,-3.770478
+101,Spain,IMDEA Software Institute,40.406934,-3.835474
+102,India,IMSc,12.9941521579932,80.2471928014445
+103,Poland,IPI PAN,52.2258550601809,20.9498112849083
+104,"Iran, Islamic Republic of",IPM,35.7999349429513,51.4623983519974
+105,India,ISI Kolkata,22.6485833703987,88.3770845168627
+106,Austria,IST Austria,48.3109736,16.2586310889766
+107,Denmark,IT University of Copenhagen,55.65965525,12.5910768893446
+108,"Iran, Islamic Republic of",IUST,35.7420385936946,51.5056470030052
+109,United Kingdom,Imperial College London,51.4994284,-0.1797084
+110,Turkey,Istanbul Technical University,41.10504645,29.0263267657468
+111,Turkey,Izmir Institute of Technology,38.32247565,26.6378557469236
+112,Austria,JKU Linz,48.3362859048521,14.3180175380522
+113,Jordan,JUST,32.5371344622567,35.8553268665564
+114,Germany,Jacobs University Bremen,53.1677233,8.65116567867
+115,"Korea, Republic of",KAIST,36.3720822092459,127.360540201728
+116,Saudi Arabia,KAUST,22.3092962473904,39.1049115745297
+117,Thailand,KMUTNB,13.8192099182444,100.513987390361
+118,Sweden,KTH Royal Institute of Technology,59.201676,17.62032
+119,Belgium,KU Leuven,50.8489541962848,4.3561736081634
+120,Germany,Karlsruhe Institute of Technology,49.1018534,8.4331201592019
+121,Japan,Keio University,35.388459159228,139.426920146446
+122,Saudi Arabia,King Abdulaziz University,22.7889112850033,38.9612384065069
+123,United Kingdom,King's College London,51.5112793866759,-0.1157609672384
+124,"Korea, Republic of",Korea University,36.7636234349851,127.282090701736
+125,Turkey,Koç University,41.20315895,29.0728653562347
+126,Japan,Kyoto University,35.02704665,135.781437276675
+127,"Korea, Republic of",Kyung Hee University,37.59675,127.05189
+128,"Korea, Republic of",Kyungpook National University,14.604163,120.994347
+129,Germany,LMU Munich,48.1103982829765,11.4592156204676
+130,Pakistan,LUMS,31.4704312133747,74.4102893820453
+131,United Kingdom,Lancaster University,54.0140815,-2.7924393
+132,Lebanon,Lebanese American University,33.89283555,35.4774984415219
+133,Netherlands,Leiden University,52.16863385,4.4596630574213
+134,United Kingdom,Loughborough University,52.7626882,-1.2396365359627
+135,Sweden,Lund University,55.7126504,13.2107586594
+136,United Arab Emirates,MBZUAI,24.4326226841849,54.6182256346319
+137,Netherlands,Maastricht University,50.84720265,5.685941396293
+138,Australia,Macquarie University,-33.7740328,151.112694391948
+139,Czech Republic,Masaryk University,49.2099968,16.599248976309
+140,United Arab Emirates,Masdar Institute,24.4328082770057,54.6179252272407
+141,New Zealand,Massey University,-40.3844693,175.6164996
+142,Germany,Max Planck Society,49.2577959197564,7.0457946819863
+143,Canada,McGill University,45.50691775,-73.5791162596496
+144,Canada,McMaster University,43.2639397,-79.917825190293
+145,Canada,Memorial University of Newfoundland,47.585546,-52.736413
+146,Turkey,Middle East Technical University,39.87549675,32.7855350558467
+147,United Kingdom,Middlesex University,51.59029705,-0.229632209454
+148,Australia,Monash University,-37.78397455,144.958674326093
+149,Sweden,Mälardalen University,59.6176801,16.5420687396832
+150,Norway,NTNU,63.40868325,10.4689087405511
+151,Greece,NTUA,37.9877236808385,23.7316750038289
+152,China,NWPU,34.2459543116905,108.914049888195
+153,China,NYU Shanghai,31.2258448068267,121.534289472802
+154,China,Nanjing University,32.0565957,118.774088328078
+155,Singapore,Nanyang Technological University,1.3484104,103.682933207285
+156,"Taiwan, Province of China",National Cheng Kung University,22.9963081797453,120.22160927191
+157,"Taiwan, Province of China",National Chiao Tung University,22.9249187992733,120.295185761042
+158,India,National Institute of Technology Silchar,24.7570226493965,92.7923143555208
+159,"Taiwan, Province of China",National Taiwan University,25.0125874241934,121.54047506717
+160,"Taiwan, Province of China",National Tsing Hua University,24.7957515748525,120.996734270862
+161,Singapore,National University of Singapore,1.2962018,103.776899437848
+162,United Kingdom,Newcastle University,54.98017505,-1.6146802127188
+163,Canada,Ontario Tech University,43.94833105,-78.8981667808745
+164,United Kingdom,Open University UK,52.024788,-0.710401
+165,Japan,Osaka University,34.54561785,135.506207857222
+166,"Korea, Republic of",POSTECH,25.260404,55.293652
+167,Brazil,PUC-RIO,-22.97964355,-43.2331519647554
+168,Brazil,PUC-RS,-30.05516275,-51.1735084688585
+169,Germany,Paderborn University,51.70752095,8.772403972859
+170,China,Peking University,39.9867978944616,116.305895355776
+171,Italy,Politecnico di Milano,45.4784768,9.2295647
+172,Spain,Polytechnic University of Catalonia,41.3892674791653,2.1158581153253
+173,Canada,Polytechnique Montreal,45.5046735700706,-73.6132367459467
+174,Qatar,Qatar Computing Research Institute,25.3214944034773,51.4257523401864
+175,Qatar,Qatar University,25.3719714,51.4879578631829
+176,United Kingdom,Queen Mary University of London,51.5247272,-0.0393103466302
+177,United Kingdom,Queen's University Belfast,54.5842117,-5.9364324
+178,Australia,Queensland University of Technology,-27.4561036,153.013873681507
+179,Canada,Queen’s University,44.2254024919231,-76.4947978790672
+180,Australia,RMIT University,-37.8057346,144.96532162978
+181,Germany,RWTH Aachen,50.7791645,6.0689209712229
+182,Netherlands,Radboud University,51.8225096124685,5.8630998664195
+183,China,Renmin University of China,39.9695403999122,116.318878871117
+184,United Kingdom,Royal Holloway University of London,51.4260676727193,-0.5641729360832
+185,Canada,Royal Military College of Canada,44.2337735582221,-76.4675158306352
+186,Germany,Ruhr-University Bochum,51.4468461596812,7.2628314260979
+187,Canada,Ryerson University,43.6583244,-79.3789251568795
+188,China,SUFE,31.3064839808054,121.493877065412
+189,China,SUSTech,22.5944048222257,113.999465710759
+190,Singapore,SUTD,1.3409892926395,103.964024643201
+191,Germany,Saarland University,49.25437635,7.0414813520417
+192,Turkey,Sabancı University,40.8927159,29.3786332263582
+193,Italy,Sapienza University of Rome,41.90386,12.51489
+194,Italy,Scuola Superiore Sant'Anna,41.225046,15.386151
+195,"Korea, Republic of",Seoul National University,37.45917,126.95194
+196,China,Shandong University,36.3688722,120.6738368
+197,China,Shanghai Jiao Tong University,31.0245305308975,121.431986682427
+198,China,ShanghaiTech University,31.1794305,121.590234455011
+199,"Iran, Islamic Republic of",Sharif University of Technology,18.016475,-76.743473
+200,China,Shenzhen University,22.53590225,113.931474874922
+201,Canada,Simon Fraser University,49.2767096,-122.917802964388
+202,Norway,Simula UiB,60.3808724389788,5.3307461139789
+203,Singapore,Singapore Management University,1.29616795,103.850043659982
+204,China,Soochow University,25.0943692610997,121.544373371985
+205,India,South Asian University,28.48498195,77.2007196042725
+206,South Africa,Stellenbosch University,-33.93152195,18.8676655920625
+207,China,Sun Yat-sen University,23.09960335,113.292350873243
+208,Turkey,TOBB ETÜ,39.91925005,32.7937183136734
+209,Germany,TU Berlin,52.51101585,13.3269541409597
+210,Germany,TU Braunschweig,52.2737207024012,10.5290061063538
+211,Germany,TU Chemnitz,50.8139093,12.930433
+212,Germany,TU Clausthal,51.80195535,10.3455052758604
+213,Greece,TU Crete,35.5287854869714,24.0686059231571
+214,Germany,TU Darmstadt,49.8751687502729,8.6566441345661
+215,Netherlands,TU Delft,52.0019474936783,4.3733512928526
+216,Germany,TU Dortmund,51.4941529869868,7.4176284229629
+217,Germany,TU Dresden,51.0282765,13.7359827549352
+218,Netherlands,TU Eindhoven,51.4461583846586,5.4850210830395
+219,Germany,TU Freiberg,50.9248208,13.3318430359677
+220,Germany,TU Ilmenau,50.6825062160368,10.9336824137022
+221,Germany,TU Kaiserslautern,49.4248168438849,7.7557380229084
+222,Germany,TU Munich,48.1649995,11.59308615
+223,Austria,TU Wien,48.2061679,16.3666909
+224,Finland,Tampere University,61.4952774,23.7780918
+225,India,Tata Inst. of Fundamental Research,13.0937277922572,77.5763471130909
+226,Israel,Technion,32.7766610122786,35.0239317606227
+227,Israel,Tel Aviv University,32.1127779284039,34.804098019401
+228,Qatar,Texas A&M at Qatar,25.3145481192905,51.4392151806678
+229,"Korea, Republic of",The Catholic University of Korea,37.48601,126.80154
+230,Hong Kong,The Hong Kong Polytechnic University,22.3044867,114.179693456663
+231,Netherlands,Tilburg University,51.563718125034,5.0434553272196
+232,Japan,Tokyo Institute of Technology,35.51474565,139.483998133697
+233,China,Tongji University,31.28473925,121.496949085887
+234,Ireland,Trinity College Dublin,53.34366745,-6.2544447245118
+235,China,Tsinghua University,40.00229045,116.320962969691
+236,China,UESTC,31.83907195,117.264207478576
+237,Brazil,UFF,-22.8988366516533,-43.1314106387976
+238,Brazil,UFMG,-16.6817697253268,-43.840702700263
+239,Brazil,UFMS,-20.4988070759557,-54.6113523658263
+240,Brazil,UFPE,-8.9068859871073,-36.4941894850125
+241,Brazil,UFPR,-25.4270921854668,-49.2616155982695
+242,Brazil,UFRGS,-30.033833257765,-51.2189624711877
+243,Brazil,UFRJ,-22.9549545773273,-43.1697769657844
+244,Brazil,UFU,-18.5911201220986,-46.5170879309181
+245,Brazil,UNICAMP,-22.8189732996464,-47.0645060253051
+246,"Korea, Republic of",UNIST,35.573814,129.190789
+247,Australia,UNSW,-33.9175545,151.2291515
+248,Brazil,USP,-23.56096405,-46.7277080728997
+249,Brazil,USP-ICMC,-22.0071341564645,-47.8948142848381
+250,China,USTC,39.5912843761695,116.750680463602
+251,Argentina,Universidad Nacional de Córdoba,-31.4369591,-64.1876756399762
+252,Spain,Universidad Rey Juan Carlos,40.33611785,-3.8771203152794
+253,Chile,Universidad de Chile,-33.4445919994789,-70.6512388380205
+254,Spain,Universidad de Zaragoza,41.642203251565,-0.9000350199488
+255,Colombia,Universidad de los Andes,4.694193,-74.033362
+256,Brazil,Universidade Federal de Viçosa,-20.76763505,-42.8587854545281
+257,Portugal,Universidade NOVA de Lisboa,38.7328407,-9.1602002
+258,Brazil,Universidade de Brasília,-15.76387,-47.86926
+259,Portugal,Universidade de Lisboa,38.724267,-9.145577
+260,Ireland,University College Dublin,53.3062901082327,-6.2193161740214
+261,United Kingdom,University College London,51.5245658547974,-0.1335680328593
+262,Spain,University of A Coruña,43.3333127558019,-8.4086777563551
+263,United Kingdom,University of Aberdeen,57.164909,-2.10258
+264,Australia,University of Adelaide,-34.9189226,138.604236674107
+265,Canada,University of Alberta,53.52682,-113.524493735076
+266,Netherlands,University of Amsterdam,52.36813335,4.8898041557339
+267,Greece,University of Athens,37.97003795,23.7652366972004
+268,New Zealand,University of Auckland,-36.8660955,174.773733093619
+269,Germany,University of Augsburg,48.3316767465169,10.896295126576
+270,Germany,University of Bamberg,49.8934964611808,10.8869633442271
+271,United Kingdom,University of Bath,51.3780218784284,-2.3266561936703
+272,Germany,University of Bayreuth,49.9270796,11.5872266151287
+273,Norway,University of Bergen,60.36887575,5.3511115414867
+274,Switzerland,University of Bern,46.95097255,7.4386841308091
+275,United Kingdom,University of Birmingham,52.4505421574126,-1.9304598574148
+276,Germany,University of Bonn,50.7338124,7.1022465
+277,Germany,University of Bremen,53.10796455,8.8556645928284
+278,United Kingdom,University of Bristol,51.44962135,-2.578381992713
+279,Canada,University of British Columbia,49.2603181026393,-123.245596834766
+280,Argentina,University of Buenos Aires,-38.9394882,-68.0503365150456
+281,Canada,University of Calgary,51.0783651,-114.1283072
+282,United Kingdom,University of Cambridge,50.7945542,-1.0970158
+283,New Zealand,University of Canterbury,-43.5240781,172.580307415439
+284,South Africa,University of Cape Town,-33.95675585,18.467577702003
+285,China,University of Chinese Academy of Sciences,40.4081654875577,116.682149963735
+286,Denmark,University of Copenhagen,55.6801502,12.5723270014063
+287,Greece,University of Crete,35.3072756,25.0824948532192
+288,Germany,University of Duisburg-Essen,51.4276020347838,6.7986621067204
+289,United Kingdom,University of Dundee,56.4581201890962,-2.9827221585907
+290,Germany,University of Düsseldorf,51.24812155,6.7912485250105
+291,United Kingdom,University of Edinburgh,55.9427695968562,-3.1853461303925
+292,Germany,University of Erlangen–Nuremberg,49.5976478895543,11.0052970852739
+293,United Kingdom,University of Essex,51.8775470485692,0.9464666087502
+294,United Kingdom,University of Exeter,50.736854,-3.533407
+295,Germany,University of Freiburg,47.9934759685953,7.8460546598532
+296,United Kingdom,University of Glasgow,55.872287136836,-4.2904407837474
+297,Netherlands,University of Groningen,53.21967825,6.562514810379
+298,Canada,University of Guelph,43.535193,-80.2200997263746
+299,Germany,University of Göttingen,51.5421418340888,9.9359644154031
+300,Israel,University of Haifa,32.7611498918907,35.0193574654368
+301,Germany,University of Halle-Wittenberg,51.4858980478027,11.9692847351679
+302,Germany,University of Hamburg,53.5663920428111,9.9846946002866
+303,Germany,University of Hannover,52.3827479729056,9.7201602383285
+304,Finland,University of Helsinki,60.1710393,24.949155335163
+305,Germany,University of Hildesheim,52.1336440989382,9.976093694704
+306,Hong Kong,University of Hong Kong,22.283269,114.136744
+307,Austria,University of Innsbruck,47.26331595,11.3844733099545
+308,Greece,University of Ioannina,39.61565905,20.8395257335407
+309,Jordan,University of Jordan,40.542293,-112.014197
+310,Germany,University of Kassel,51.3227010362768,9.507452722314
+311,United Kingdom,University of Kent,51.29501575,1.06730108562
+312,Germany,University of Kiel,54.3433043412454,10.1144980530611
+313,Austria,University of Klagenfurt,46.61640255,14.2646809173082
+314,Germany,University of Koblenz-Landau,49.2042475875272,8.1071746639434
+315,Germany,University of Konstanz,47.6900886,9.1882438765003
+316,Italy,University of L'Aquila,42.3538791,13.4122495678531
+317,United Kingdom,University of Leeds,53.83755925,-1.5873917402175
+318,Germany,University of Leipzig,51.3131269,12.3735652330258
+319,United Kingdom,University of Liverpool,53.4045841009576,-2.965524307109
+320,Luxembourg,University of Luxembourg,49.62319225,6.1127596172391
+321,Germany,University of Lübeck,53.8344,10.70392
+322,Germany,University of Magdeburg,52.1402589106834,11.6448620309307
+323,Germany,University of Mainz,49.9923207142901,8.2406625484
+324,Malaysia,University of Malaya,3.1255683,101.655822547211
+325,Malta,University of Malta,35.9025978856597,14.4843566318761
+326,United Kingdom,University of Manchester,53.4657087,-2.2327343199076
+327,Canada,University of Manitoba,49.815622,-97.118363
+328,Germany,University of Mannheim,49.4837314896721,8.4620294504569
+329,Germany,University of Marburg,50.8091337057438,8.8108273137057
+330,Australia,University of Melbourne,-37.7970796,144.961301344143
+331,Italy,University of Molise,41.55380325,14.6648595846998
+332,Canada,University of Montreal,45.5024742653395,-73.61807955751
+333,Spain,University of Murcia,38.00615485,-1.1731258591277
+334,Germany,University of Münster,51.9631512818292,7.6131689677118
+335,Canada,University of New Brunswick,45.94553025,-66.6401831348669
+336,Australia,University of Newcastle,-32.893096099884,151.70411312518
+337,Cyprus,University of Nicosia,35.1660481,33.3149405528006
+338,United Kingdom,University of Nottingham,52.9387428,-1.2002956927457
+339,Germany,University of Oldenburg,53.1467332798413,8.1824588106326
+340,Germany,University of Osnabrück,52.2822423285881,8.024796323707
+341,New Zealand,University of Otago,-45.8649793,170.514614873508
+342,Canada,University of Ottawa,45.42252705,-75.6833904161118
+343,United Kingdom,University of Oxford,51.754643701573,-1.2541307672319
+344,Germany,University of Passau,48.5675912002338,13.4528685514326
+345,Greece,University of Piraeus,37.94173275,23.6530326182197
+346,Italy,University of Pisa,43.7175842147878,10.3975074649279
+347,Germany,University of Potsdam,52.4012932186896,13.0117166793696
+348,Australia,University of Queensland,-27.49741805,153.013169559836
+349,Canada,University of Regina,50.4152275,-104.588999962398
+350,Germany,University of Rostock,54.0755447800428,12.1036760598194
+351,Italy,University of Salerno,40.7708634925492,14.7910910073615
+352,Austria,University of Salzburg,47.7976422786572,13.0483345326651
+353,Italy,University of Sannio,41.1314497123166,14.7777915999781
+354,Canada,University of Saskatchewan,52.13441935,-106.6277768327
+355,United Kingdom,University of Sheffield,53.3815327,-1.4806602
+356,Germany,University of Siegen,50.9105223253221,8.0270533351527
+357,United Kingdom,University of Southampton,50.93703355,-1.4050090771323
+358,United Kingdom,University of St Andrews,56.3398198,-2.811793705315
+359,United Kingdom,University of Strathclyde,55.8621053596115,-4.2422506266362
+360,Germany,University of Stuttgart,48.781275004332,9.1723330118052
+361,United Kingdom,University of Surrey,51.24307815,-0.5900544877515
+362,United Kingdom,University of Sussex,50.86796665,-0.0877889936313
+363,Australia,University of Sydney,-33.88888125,151.189414257051
+364,Hungary,University of Szeged,46.25004545,20.1465033514681
+365,Estonia,University of Tartu,58.3808929785833,26.719651313121
+366,Australia,University of Technology Sydney,-33.8828784,151.200681195462
+367,Japan,University of Tokyo,35.71339,139.76232
+368,Canada,University of Toronto,43.663462,-79.3977596624806
+369,Italy,University of Trento,46.06682,11.12326
+370,Germany,University of Trier,49.7680581,6.6286901220607
+371,Japan,University of Tsukuba,36.1070526,140.10066020404
+372,Netherlands,University of Twente,52.23881,6.85035
+373,Germany,University of Tübingen,48.5294710741501,9.0430873528394
+374,Germany,University of Ulm,48.4233612406172,9.9550954811129
+375,Canada,University of Victoria,48.468468,-123.316619
+376,Austria,University of Vienna,48.2131284,16.3606859941145
+377,New Zealand,University of Waikato,-37.7858739,175.316766472976
+378,Poland,University of Warsaw,52.2402106,21.0188511155505
+379,United Kingdom,University of Warwick,52.3813073,-1.5639569481637
+380,Canada,University of Waterloo,43.4701994,-80.5452429377945
+381,Australia,University of Western Australia,-31.95040445,115.797901573576
+382,Canada,University of Windsor,42.30520135,-83.0664914402797
+383,Poland,University of Wroclaw,51.11399,17.03393
+384,Germany,University of Wuppertal,51.2447912118784,7.150070668981
+385,Germany,University of Würzburg,49.7879456863211,9.9355841935415
+386,United Kingdom,University of York,53.946058364681,-1.0510529695789
+387,Switzerland,University of Zurich,47.49684345,8.729807168095
+388,Switzerland,Università della Svizzera italiana,46.0109126,8.9581204718256
+389,France,Université Jean Monnet,45.748455,4.84387
+390,Canada,Université Laval,45.55889325,-73.7207895122344
+391,France,Université Paris Dauphine,48.87015115,2.2735218497104
+392,Canada,Université de Sherbrooke,45.37796365,-71.9274641760578
+393,Belgium,Université libre de Bruxelles,50.81347185,4.3812357292031
+394,Sweden,Uppsala University,59.85519,17.63149
+395,Netherlands,Utrecht University,52.09021,5.12233
+396,Thailand,VISTEC,13.0016529,101.441304
+397,Netherlands,VU Amsterdam,52.3337502237109,4.8664709168829
+398,New Zealand,Victoria University of Wellington,-36.8482415,174.767755969887
+399,Japan,Waseda University,35.7086885901049,139.719666981251
+400,Israel,Weizmann Institute of Science,31.9078499,34.8133409244421
+401,Canada,Western University,43.0088973,-81.2621821
+402,China,Westlake University,30.1360628,120.076566733948
+403,China,Wuhan University,30.5360577224699,114.364214609577
+404,China,Xi'an Jiaotong University,34.2474949,108.978972403026
+405,China,Xidian University,34.122235589824,108.839229368426
+406,"Korea, Republic of",Yonsei University,37.565,126.93833
+407,Canada,York University,43.7734302377529,-79.5024477589219
+408,Turkey,Yıldız Technical University,2.202113,102.247069
+409,China,Zhejiang University,30.3086751192926,120.086370751902
+410,Turkey,Özyeğin University,41.0293067437117,29.2592661557988
+411,United States,University of Kentucky,38.0310482709917,-84.5072956409078
+412,United States,CUNY,40.8155712187648,-73.9503800650906
+413,United States,Boston University,42.3501894,-71.1007011849742
+414,United States,University of Washington,47.6543466,-122.30806059473
+415,United States,George Mason University,38.83133325,-77.3079883887912
+416,United States,Colorado State University,40.5731621493555,-105.086774007425
+417,United States,Iowa State University,42.0264102167566,-93.6465267036978
+418,United States,University of Illinois at Chicago,41.870956022222,-87.6684381037012
+419,United States,Duke University,36.0001557,-78.9442297219588
+420,United States,Florida International University,25.7553898,-80.3762832779774
+421,United States,Oklahoma State University,34.0083179,-96.3756103445447
+422,United States,UCCS,38.8962428270091,-104.805273639991
+423,United States,University of Maryland - College Park,38.9869059414714,-76.9425545861769
+424,United States,Northeastern University,42.3390301,-71.0879129495318
+425,United States,Rutgers University,40.4855746,-74.4319015
+426,United States,Washington University in St. Louis,38.64724015,-90.3084017323959
+427,United States,University of Colorado Boulder,40.00759835,-105.269100780178
+428,United States,University of Notre Dame,41.70456775,-86.2382202601727
+429,United States,University of Chicago,41.79139685,-87.6008438719354
+430,United States,University of Pennsylvania,39.9493382,-75.1896440299813
+431,United States,Yale University,41.25713055,-72.9896696015223
+432,United States,Univ. of California - San Diego,32.8796278915765,-117.23429245175
+433,United States,Stanford University,37.43131385,-122.169365354983
+434,United States,University of Rochester,43.1303416718917,-77.6261213190145
+435,United States,University of Iowa,41.63110235,-91.5407520164205
+436,United States,Princeton University,40.33867515,-74.6583654913168
+437,United States,Carnegie Mellon University,40.4441897,-79.9427191839347
+438,United States,Pennsylvania State University,40.797993987716,-77.8603804706343
+439,United States,University of Connecticut,41.82175755,-72.2427753550532
+440,United States,New Mexico Tech,34.0659218789453,-106.904827797025
+441,United States,University of Florida,29.6328784,-82.3490132934012
+442,United States,Michigan State University,42.7013591354521,-84.4828049031234
+443,United States,George Washington University,38.8996783269514,-77.0479398489504
+444,United States,Texas Tech University,33.59375255,-101.899595523028
+445,United States,University of New Orleans,30.03043785,-90.049329358426
+446,United States,University of New Mexico,35.08663275,-106.620209405052
+447,United States,Texas A&M University,30.6184220578394,-96.3370663168497
+448,United States,Cornell University,42.4505507,-76.4783512955428
+449,United States,University of Central Florida,28.592364,-81.208607
+450,United States,Florida Atlantic University,26.3754297356371,-80.1006770640548
+451,United States,University of Minnesota,44.9863392,-93.179455802185
+452,United States,Vanderbilt University,36.14380105,-86.8028188909529
+453,United States,Johns Hopkins University,39.33020225,-76.6218535785834
+454,United States,Univ. of California - Santa Cruz,36.98204192868,-122.05961940329
+455,United States,Northern Arizona University,35.1834428,-111.655000378832
+456,United States,Wichita State University,37.718847144063,-97.2900493902945
+457,United States,Georgia Institute of Technology,33.776033,-84.3988408600158
+458,United States,Univ. of Maryland - Baltimore County,39.249303201415,-76.7114470442387
+459,United States,Univ. of Illinois at Urbana-Champaign,40.10056605,-88.2313127243461
+460,United States,Massachusetts Institute of Technology,42.3582529,-71.0966272383055
+461,United States,Arizona State University,33.4241234728117,-111.92803124435
+462,United States,Washington State University,46.7337724,-117.149760692864
+463,United States,University of Pittsburgh,40.44415295,-79.9624609514451
+464,United States,University of Massachusetts Amherst,42.38898,-72.5287
+465,United States,University of Texas at Austin,30.2845677836681,-97.7330558989517
+466,United States,DePaul University,41.92401995,-87.6547273147665
+467,United States,California Institute of Technology,34.13701375,-118.125288248796
+468,United States,University of Delaware,39.6810328,-75.7540184
+469,United States,University of Louisville,38.21332235,-85.7577075108187
+470,United States,Univ. of California - Irvine,33.6440883,-117.8555373
+471,United States,University of Utah,40.7628137,-111.836871913683
+472,United States,Univ. of California - Berkeley,37.8753497,-122.239633649188
+473,United States,Univ. of California - Los Angeles,34.0685121598217,-118.444644660239
+474,United States,Univ. of California - Davis,38.53379035,-121.790798921465
+475,United States,Binghamton University,42.08779975,-75.9706606561486
+476,United States,University of Wisconsin - Milwaukee,43.0781375937688,-87.8814643465627
+477,United States,Virginia Tech,37.22192675,-80.4272818401365
+478,United States,Stevens Institute of Technology,40.7448096,-74.0252392276461
+479,United States,University of South Florida,35.20447165,-85.9189530714194
+480,United States,Rochester Institute of Technology,43.08248835,-77.6729110237864
+481,United States,College of William and Mary,37.26908455,-76.7227368891729
+482,United States,West Virginia University,39.63595,-79.95545
+483,United States,Northwestern University,42.0551164,-87.6758111348217
+484,United States,Augusta University,33.4693345,-81.988562
+485,United States,Univ. of California - Riverside,33.96370575,-117.339780651706
+486,United States,Purdue University,40.43002715,-86.9264766875919
+487,United States,Univ. of California - Merced,37.3651866,-120.422730407179
+488,United States,University at Buffalo,40.6989871,-99.1104449825312
+489,United States,The University of Alabama,33.21208215,-87.5396740151865
+490,United States,UNC - Charlotte,35.3107104,-80.745231
+491,United States,University of Virginia,38.0410576,-78.5054996018357
+492,United States,University of Southern California,34.0218833,-118.28586662125
+493,United States,Western Michigan University,42.28333755,-85.6095067308074
+494,United States,University of Nevada Las Vegas,39.54158,-119.81491
+495,United States,Rice University,29.71679145,-95.4047811339379
+496,United States,University of Michigan,42.2942142,-83.710038935096
+497,United States,University of Vermont,44.4737365,-73.1941467970588
+498,United States,Air Force Institute of Technology,39.7819802,-84.0826014494441
+499,United States,Oregon State University,44.56305595,-123.283923633958
+500,United States,Florida State University,29.6328784,-82.3490132934012
+501,United States,University of Alabama - Birmingham,33.4979494060111,-86.8054833425009
+502,United States,University of Houston,29.7207902,-95.3440627149137
+503,United States,Virginia Commonwealth University,37.54612465,-77.4540608990755
+504,United States,University of Wisconsin - Madison,43.0763647118449,-89.412476772991
+505,United States,Dartmouth College,43.7043552627246,-72.2881999753837
+506,United States,North Carolina State University,35.7848634591786,-78.6817083639037
+507,United States,Indiana University,39.1678705680251,-86.5230073019112
+508,United States,University of Kansas,38.9534918,-95.2630887995582
+509,United States,Emory University,33.79586765,-84.3277896062768
+510,United States,Georgia State University,33.75476135,-84.3881921847569
+511,United States,Georgetown University,38.90893925,-77.0745796206083
+512,United States,Clemson University,34.6731599224758,-82.8362291044056
+513,United States,OHSU,45.4988788536176,-122.685856736148
+514,United States,Wayne State University,42.35720515,-83.070949786914
+515,United States,Towson University,39.38966285,-76.6158924868259
+516,United States,University of Arkansas,36.09352375,-94.1770897949174
+517,United States,University of North Carolina,35.90503535,-79.0477532652511
+518,United States,Columbia University,40.80775585,-73.9616494698765
+519,United States,NJIT,40.7425900405581,-74.1793332307135
+520,United States,University of Cincinnati,39.1318613,-84.5157619558244
+521,United States,Michigan Technological University,47.1099114,-88.5511513291051
+522,United States,University of Texas at San Antonio,29.582022,-98.620112
+523,United States,Drexel University,39.9574,-75.190266563357
+524,United States,University of Nevada,36.1073399565009,-115.143353540605
+525,United States,New York University,40.72925325,-73.9962539360963
+526,United States,University of Oregon,44.0445294162958,-123.072691332487
+527,United States,Stony Brook University,40.9090809,-73.1205518027572
+528,United States,University of Texas at Arlington,30.285319,-97.734219
+529,United States,University of Arizona,32.2356427,-110.951744125426
+530,United States,Tufts University,42.40649125,-71.1180072540209
+531,United States,Auburn University,32.5919877,-85.4959487362446
+532,United States,University of Tennessee,35.9542493,-83.9307395
+533,United States,Utah State University,40.27941055,-111.71788683218
+534,United States,Univ. of California - Santa Barbara,34.41460245,-119.845810047014
+535,United States,Portland State University,45.51181205,-122.684929993829
+536,United States,University of Southern Mississippi,31.3286452,-89.3367311705755
+537,United States,University of Louisiana - Lafayette,30.21928995,-92.041383039763
+538,United States,University at Albany - SUNY,42.6851376924769,-73.8242753177362
+539,United States,Boise State University,43.6026273657216,-116.20004356318
+540,United States,University of South Carolina,33.9928298,-81.0268516571211
+541,United States,University of Wyoming,41.3144774,-105.564322859574
+542,United States,Brown University,41.8186395,-71.4088008882249
+543,United States,University of Oklahoma,35.1959878,-97.4457082759986
+544,United States,Case Western Reserve University,41.505188,-81.604614
+545,United States,Rensselaer Polytechnic Institute,42.72992195,-73.6795398245883
+546,United States,Cleveland State University,41.50214445,-81.6751670486689
+547,United States,Louisiana State University,30.4129525483215,-91.1797555388565
+548,United States,University of Texas at Dallas,32.9875855,-96.7497692780293
+549,United States,Syracuse University,43.01711285,-76.1185536000973
+550,United States,IUPUI,39.7748030260431,-86.177129598203
+551,United States,Claremont Graduate University,34.1103852,-117.717588368153
+552,United States,Ohio State University,40.006009,-83.01132
+553,United States,Old Dominion University,36.8862699,-76.3097247883973
+554,United States,Temple University,39.981188,-75.1562828075735
+555,United States,Mississippi State University,33.4551365372072,-88.7944341288248
+556,United States,Kent State University,41.1495763532396,-81.343605580425
+557,United States,University of Massachusetts Lowell,42.6550456363581,-71.324555469305
+558,United States,University of Texas - El Paso,31.7731477156693,-106.504736895301
+559,United States,Texas State University,29.8884765,-97.9447988584929
+560,United States,University of Denver,39.67831365,-104.962509218154
+561,United States,Brandeis University,42.36650945,-71.2580196483813
+562,United States,Oakland University,42.66663325,-83.2065575175658
+563,United States,University of Michigan-Dearborn,42.3172294,-83.2319393553883
+564,United States,Lehigh University,40.6068028,-75.3782488
+565,United States,University of Missouri - Kansas City,39.03924035,-94.5724865961871
+566,United States,Indiana State University,39.4711881358734,-87.4084683209421
+567,United States,Missouri S&T,37.9536824003106,-91.7756002798474
+568,United States,Harvard University,42.36790855,-71.126782374437
+569,United States,Naval Postgraduate School,36.596924629289,-121.876536696186
+570,United States,University of Nebraska,40.8206834,-96.7004831752174
+571,United States,University of North Texas,33.2098926,-97.1514762497725
+572,United States,Tulane University,29.94121955,-90.1201008917919
+573,United States,Kansas State University,39.1972358152522,-96.5846498000628
+574,United States,Ohio University,39.32300405,-82.1026768153317
+575,United States,TTI Chicago,41.7846581791225,-87.5925204288429
+576,United States,University of Idaho,46.72379775,-117.020438984365
+577,United States,University of Nebraska - Omaha,41.25779325,-96.0104763
+578,United States,University of Hawaii at Manoa,21.2982795,-157.818693560886
+579,United States,Louisiana Tech University,32.5299672265506,-92.651970638822
+580,United States,Worcester Polytechnic Institute,42.274315,-71.8084567455259
+581,United States,Brigham Young University,40.25501105,-111.649532571457
+582,United States,University of Massachusetts Boston,42.38898,-72.5287
+583,United States,New Mexico State University,32.27927053954,-106.748849423484
+584,United States,Colorado School of Mines,39.75269125,-105.222872055763
+585,United States,Baylor University,31.55043405,-97.1102905567766
+586,United States,Illinois Institute of Technology,41.8352554,-87.6264362207304
+587,United States,Montana State University,45.6671799349264,-111.054481626905
+588,United States,University of Colorado - Denver,40.00759835,-105.269100780178
+589,United States,University of Tulsa,36.1523306,-95.9459602387798
+590,United States,Missouri University of Technology,37.952962,-91.778002
+591,United States,University of Miami,25.7173173548,-80.2776970487219
+592,United States,University of Mississippi,34.3646125,-89.5396349102097
+593,United States,Nova Southeastern University,26.0782252572615,-80.2458147904871
+594,United States,University of Georgia,33.9404278,-83.373049049883
+595,United States,University of Missouri,38.6352837,-90.2316773318154
+596,United States,University of Arkansas - Little Rock,34.775925,-92.342097
+597,United States,LIU Post,28.6631238,-81.2349235
+598,United States,UNC - Greensboro,36.0655597257762,-79.8129809243854
+599,United States,University of New Hampshire,43.13826535,-70.9323817233416
+600,United States,Southern Methodist University,32.84180115,-96.7815281014706
+601,United States,University of Alabama - Huntsville,33.19345,-87.52251
+602,United States,Florida Institute of Technology,28.0642296,-80.6230097241205
+603,United States,North Dakota State University,46.897155,-96.8182654322129
+604,United States,University of Memphis,35.1189387,-89.9372195996589
+605,United States,Boston College,42.3354481,-71.1681386402306
+606,United States,University of Maine,44.8991352,-68.6663746152756
+607,United States, Wichita State University,37.718847144063,-97.2900815768007
+608,United States,Simmons University,42.34143655,-71.1054491248606
