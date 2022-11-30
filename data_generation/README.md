@@ -2,22 +2,29 @@
 
 ## CSV File Overview
 
-Downloaded files from https://github.com/emeryberger/CSrankings: 
+Downloaded files from https://github.com/emeryberger/CSrankings are in the */data* directory: 
   
 * country-info.csv
 * csrankings.csv
 * generated-author-info.csv
 * dblp-aliases.csv
 
-geo-mapping.csv: Geographic information for each institution (country, region, geo-coordinates)
+generated files are in the */output* directory:
+
+* geo-codes-auto.csv
+* inst-geo-map.csv
+* geo-codes.csv
+* geo-mapping.csv (final geo file with geographic information for each institution (country, region, geo-coordinates)
 
 
 ## Virtual Environment 
 
-To run python code you must first activate the virtual environment
+Always run python code in the virutal environment of this directory
 
 ```{shell}
+virtualenv venv
 source venv/bin/activate
+pip install -r requirements.txt
 ```
 
 ## Generate Geographical Mapping
