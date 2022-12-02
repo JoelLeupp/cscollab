@@ -1,0 +1,493 @@
+,author,country,institution
+0,Abul Kashem,Bangladesh,BUET
+1,Adish Singla [SWS],Germany,Max Planck Society
+2,Aditya Thakur,United States,Univ. of California - Davis
+3,Agustin Fernández,Spain,Polytechnic University of Catalonia
+4,Alberto Raposo,Brazil,PUC-RIO
+5,Alessandro Garcia,Brazil,PUC-RIO
+6,Alessandro Salandrino,United States,University of Kansas
+7,Alexander Konovalov,United Kingdom,University of St Andrews
+8,Alexander O. Brodsky,Canada,Dalhousie University
+9,Alexandre Mota,Brazil,UFPE
+10,Alexandre Vasconcelos,Brazil,UFPE
+11,Ali Salehson,Sweden,Chalmers/GU
+12,Alice Haeyun Oh,"Korea, Republic of",KAIST
+13,Alison Hill,United States,OHSU
+14,Alvaro Cardenas,United States,Univ. of California - Santa Cruz
+15,Ameet S. Talwalkar,United States,Carnegie Mellon University
+16,Amr Mohamed,Qatar,Qatar University
+17,Ana Paiva,Portugal,Universidade de Lisboa
+18,Anderson Rocha,Brazil,UNICAMP
+19,Andrea Corradini,Italy,University of Pisa
+20,Andres Faina,Denmark,IT University of Copenhagen
+21,Andrew E. Johnson,United States,University of Illinois at Chicago
+22,Andrew PcPherson,United Kingdom,Queen Mary University of London
+23,Andriy Panchenko,Germany,Brandenburg University of Technology
+24,André C. P. L. F. Carvalho,Brazil,USP-ICMC
+25,André Vasconcelos,Portugal,Universidade de Lisboa
+26,Anelis Kaiser,Germany,University of Freiburg
+27,Angelo C. Morzenti,Italy,Politecnico di Milano
+28,Anil K. Jain,United States,Michigan State University
+29,Anna Kicheva,Austria,IST Austria
+30,Anna M. Antola,Italy,Politecnico di Milano
+31,Antonio Cortes Rossello,Spain,Polytechnic University of Catalonia
+32,Antonio Jose Rodriguez-Sanchez,Austria,University of Innsbruck
+33,Antonio Juan Hormigo,Spain,Polytechnic University of Catalonia
+34,Antonio R. Miele,Italy,Politecnico di Milano
+35,António Casimiro Castro,Portugal,Universidade de Lisboa
+36,António Grilo,Portugal,Universidade de Lisboa
+37,Anurag K. Srivastava,United States,Washington State University
+38,Arun Natarajan,United States,Oregon State University
+39,Athanasios Giannetsos,Denmark,DTU
+40,B. Berk Ustundag,Turkey,Istanbul Technical University
+41,Beatriz Vicoso,Austria,IST Austria
+42,Bengt Jonsson,Sweden,Uppsala University
+43,Benjamin Fuller,United States,University of Connecticut
+44,Berk Ustundag,Turkey,Istanbul Technical University
+45,Bernard Steenis,Luxembourg,University of Luxembourg
+46,Bert C. Huang,United States,Tufts University
+47,Bob Hendley,United Kingdom,University of Birmingham
+48,Bolette Sanford Pedersen,Denmark,University of Copenhagen
+49,Brent Carper,United States,Washington State University
+50,Bret Michael,United States,Naval Postgraduate School
+51,Brett McKinney,United States,University of Tulsa
+52,Bruno M. Nogueira,Brazil,UFMS
+53,Bulusu Uma Shankar,India,ISI Kolkata
+54,Caiwe De,China,Beihang University
+55,Cheng Tan 0005,United States,Northeastern University
+56,Chin-Lung Lu,"Taiwan, Province of China",National Tsing Hua University
+57,Chittaranjan Mandal,India,IIT Kharagpur
+58,Chris Doughty,United States,Northern Arizona University
+59,Chris Hundhausen,United States,Washington State University
+60,Chris R. Johnson,United States,University of Utah
+61,Christian Berger,Sweden,Chalmers/GU
+62,Christian Colombo,Malta,University of Malta
+63,Christian Holz,Switzerland,ETH Zurich
+64,Christian Jacob,Canada,University of Calgary
+65,Christian Thomsen,Denmark,Aalborg University
+66,Christina Penner,Canada,University of Manitoba
+67,Christoph Eick,United States,University of Houston
+68,Christoph Johann Feinauer,Italy,Bocconi University
+69,Christoph Sommer,Germany,Paderborn University
+70,Clark Barrett,United States,Stanford University
+71,Cornelia Verspoor 0001,Australia,University of Melbourne
+72,Crystal Hepp,United States,Northern Arizona University
+73,D. F. Wong,Hong Kong,Chinese University of Hong Kong
+74,D. T. Huynh,United States,University of Texas at Dallas
+75,Da-wei Li,United States,University of Vermont
+76,Daniel D. Lee [Tech],United States,Cornell University
+77,Daniel Hughes,Belgium,KU Leuven
+78,Daniel Rivero,Spain,University of A Coruña
+79,Daniel Russo,Denmark,Aalborg University
+80,Daniele Magazzini,United Kingdom,King's College London
+81,Danny Rakita,United States,Yale University
+82,Dany Dubé,Canada,Université Laval
+83,Daria Siekhaus,Austria,IST Austria
+84,Dave Robertson,United Kingdom,University of Edinburgh
+85,David Andersen,United States,Carnegie Mellon University
+86,David Andrew Ross,Australia,University of Queensland
+87,David Bainbridge,New Zealand,University of Waikato
+88,David Carrera,Spain,Polytechnic University of Catalonia
+89,David J. Feil-Seifer,United States,University of Nevada
+90,David J. Pearce,New Zealand,Victoria University of Wellington
+91,David Kaeli,United States,Northeastern University
+92,David L. Roberts,United States,North Carolina State University
+93,David May,United Kingdom,University of Bristol
+94,David Pearce 0005,New Zealand,Victoria University of Wellington
+95,David Yau,Singapore,SUTD
+96,Deborah Richards,Australia,Macquarie University
+97,Denis Nikitenko,Canada,University of Guelph
+98,Deying Li,China,Renmin University of China
+99,Dhabaleswar K. Panda,United States,Ohio State University
+100,Di Ma,United States,University of Michigan-Dearborn
+101,Dieter Otte,United States,Northern Arizona University
+102,Dilip P. Patil,India,IISc Bangalore
+103,Don Cleland,New Zealand,Massey University
+104,Donald Sheehy,United States,North Carolina State University
+105,Dong Nguyen,Netherlands,Utrecht University
+106,Doo­Hwan Bae,"Korea, Republic of",KAIST
+107,Drew Hendrickson,Netherlands,Tilburg University
+108,E.M.J. Huis in 't Veld,Netherlands,Tilburg University
+109,Edward Alexandru Todirica,Denmark,DTU
+110,Eilish O'Rourke,Australia,UNSW
+111,Elf Eldridge,New Zealand,Victoria University of Wellington
+112,Elias Procópio Duarte Júnior,Brazil,UFPR
+113,Elisa Ricci,Italy,University of Trento
+114,Elizabeth O'Neil,United States,University of Massachusetts Boston
+115,Emad M. Al-Shawakfa,Jordan,JUST
+116,Emanuel da Silva Diaz Estrada,Brazil,Federal University of Rio Grande
+117,Emmanuel Turner,New Zealand,University of Waikato
+118,Erden Tugcu,Turkey,Galatasaray University
+119,Erik Andreas Martens,Denmark,DTU
+120,Erland Holmström,Sweden,Chalmers/GU
+121,Essam Mansour,Canada,Concordia University
+122,Estrid He,Australia,RMIT University
+123,Ethel Chuajoy Ong,Philippines,De La Salle University
+124,Eva Benkova,Austria,IST Austria
+125,Eva M. Navarro-Lopez,United Kingdom,University of Manchester
+126,Eva Rodriguez,Spain,Polytechnic University of Catalonia
+127,Fadil Galjic,Sweden,KTH Royal Institute of Technology
+128,Fahrad Arbab,Netherlands,CWI
+129,Fangchu Yang,China,BUPT
+130,Fangxing Li,United States,University of Tennessee
+131,Federico Giovanni Poloni,Italy,University of Pisa
+132,Feng W. Zhu,United States,University of Alabama - Huntsville
+133,Fernando Moraes,Brazil,PUC-RS
+134,Flemming Stassen,Denmark,DTU
+135,Flávio Oliveira Silva,Brazil,UFU
+136,Foteini Paraskeva,Greece,University of Piraeus
+137,Francesco Musumeci,Italy,Politecnico di Milano
+138,Francesco Palmieri,Italy,University of Salerno
+139,Francisco García-Sánchez,Spain,University of Murcia
+140,Francisco Gomes,Sweden,Chalmers/GU
+141,Francisco Jordan Fernandez,Spain,Polytechnic University of Catalonia
+142,Frank Huess Hedlund,Denmark,DTU
+143,Frank Kramer,Germany,University of Augsburg
+144,Frank Mueller,United States,North Carolina State University
+145,Frank Stephan,Singapore,National University of Singapore
+146,Gabriel Mark Kuper,Italy,University of Trento
+147,Gaia Novarino,Austria,IST Austria
+148,Garry Marling,Australia,University of Queensland
+149,Gary Baumgartner,Canada,University of Toronto
+150,Gary Clifford,United States,Emory University
+151,Gary F. Pollice,United States,Worcester Polytechnic Institute
+152,Georg Danzl,Austria,IST Austria
+153,George Chailos,Cyprus,University of Nicosia
+154,George Fletcher,Netherlands,TU Eindhoven
+155,George Georgakopoulos,Greece,University of Crete
+156,Georgios Katsaros,Austria,IST Austria
+157,Gianpolo Cugola,Italy,Politecnico di Milano
+158,Gong Gu,United States,University of Tennessee
+159,Gregory Hooper,Australia,University of Queensland
+160,Guido A. Maier,Italy,Politecnico di Milano
+161,H. Bast 0001,Germany,University of Freiburg
+162,Hamdy Soliman,United States,New Mexico Tech
+163,Hana Hagras,United Kingdom,University of Essex
+164,Hans Burg,Netherlands,VU Amsterdam
+165,Hansenclever de França Bassani,Brazil,UFPE
+166,Harald Janovjak,Austria,IST Austria
+167,Harris E. Psillakis,Greece,NTUA
+168,Hasan Krad,Qatar,Qatar University
+169,Helle Hein,Estonia,University of Tartu
+170,HeuiSeok Lim,"Korea, Republic of",Korea University
+171,Hiroyuki Kido,United Kingdom,Cardiff University
+172,Hitoshi Yoshikawa,Japan,Kyoto University
+173,Hossein Asadi,"Iran, Islamic Republic of",Sharif University of Technology
+174,Humberto Martínez Barbera,Spain,University of Murcia
+175,Hyungsoo Jung,"Korea, Republic of",Hanyang University
+176,Hélio Lopes,Brazil,PUC-RIO
+177,IL-Chul Moon,"Korea, Republic of",KAIST
+178,Ioannis Katakis,Cyprus,University of Nicosia
+179,Isil Oz,Turkey,Izmir Institute of Technology
+180,J. A. dos Santos,Brazil,UFMG
+181,J. Blustein,Canada,Dalhousie University
+182,J. Eric Fosler,United States,Ohio State University
+183,J. G. Tanenbaum 0001,United States,Univ. of California - Irvine
+184,J. Jay Barber,United States,Northern Arizona University
+185,James Alexander Hendler,United States,Rensselaer Polytechnic Institute
+186,James Elder,Canada,York University
+187,James P. Clements,United States,Clemson University
+188,James P. Parkerson,United States,University of Arkansas
+189,James Wittig,United States,Vanderbilt University
+190,Jan Ehlers,Germany,Bauhaus University Weimar
+191,Jan Ingemar Markendahl,Sweden,KTH Royal Institute of Technology
+192,Jan Prins,United States,University of North Carolina
+193,Jane Hunter,Australia,University of Queensland
+194,Janet Hughes,United Kingdom,Open University UK
+195,Jaqueline Smith,Canada,University of Toronto
+196,Jason Jue,United States,University of Texas at Dallas
+197,Javier Cuenca,Spain,University of Murcia
+198,Jay Jackson,United States,Rochester Institute of Technology
+199,Jeanette Hällgren Kotaleski,Sweden,KTH Royal Institute of Technology
+200,Jeff Gray,United States,The University of Alabama
+201,Jeffrey Carver,United States,The University of Alabama
+202,Jerome Harri,France,EURECOM
+203,Jesus García Molina,Spain,University of Murcia
+204,Jia-Fu Xu,China,Nanjing University
+205,Jian-Xin Wu,China,Nanjing University
+206,Jim Ji,Qatar,Texas A&M at Qatar
+207,Jimmy J. Lin,Canada,University of Waterloo
+208,Jing Hua,United States,Wayne State University
+209,Jing-Ling Xue,Australia,UNSW
+210,Jingjing Li 01,China,UESTC
+211,Jingtao Yao,Canada,University of Regina
+212,Jiri Friml,Austria,IST Austria
+213,Joachim von Hacht,Sweden,Chalmers/GU
+214,Joaquin Vaschoren,Netherlands,TU Eindhoven
+215,Joemon Jose,United Kingdom,University of Glasgow
+216,Johan Sebastian Heesemann Rosenkilde,Denmark,DTU
+217,John Grundy,Australia,Monash University
+218,John Johnstone,United States,University of Alabama - Birmingham
+219,John Monaco,United States,Naval Postgraduate School
+220,John Paxton,United States,Montana State University
+221,John Shepherd,Australia,UNSW
+222,John Sheppard,United States,Montana State University
+223,Jonas Almström Duregård,Sweden,Chalmers/GU
+224,Jordi Perello Muntan,Spain,Polytechnic University of Catalonia
+225,Jose T. Palma,Spain,University of Murcia
+226,Joshua G. Tanenbaum,United States,Univ. of California - Irvine
+227,José F. Morales,Spain,IMDEA Software Institute
+228,José Francisco Morales,Spain,IMDEA Software Institute
+229,José M. Juarez,Spain,University of Murcia
+230,José Nicoletti Junior,Brazil,UFRGS
+231,Jozsef Csicsvari,Austria,IST Austria
+232,João M. Lemos,Portugal,Universidade de Lisboa
+233,João Paulo Teixeira,Portugal,Universidade de Lisboa
+234,Ju-yeon Jo,United States,University of Nevada Las Vegas
+235,Judith Simon,Germany,University of Hamburg
+236,Julian Garcia Gallego,Australia,Monash University
+237,Julie Williamson 0001,United Kingdom,University of Glasgow
+238,Julius Bonart,United Kingdom,University College London
+239,Jörg Peters,United States,University of Florida
+240,Jürgen Sauer,Germany,University of Oldenburg
+241,K. Hari Babu,India,BITS Pilani
+242,K. Haribabu,India,BITS Pilani
+243,K. P. Chow,Hong Kong,University of Hong Kong
+244,K. Sreenivas Rao,India,IIT Kharagpur
+245,K. Thulasiraman,United States,University of Oklahoma
+246,Kami E. Vaniea,United Kingdom,University of Edinburgh
+247,Karin Verspoor 0001,Australia,RMIT University
+248,Katarzyna Paluch,Poland,University of Wroclaw
+249,Katherine A. Daniel,Australia,Australian National University
+250,Katrina Faulkner,Australia,University of Adelaide
+251,Keith Soo,New Zealand,University of Waikato
+252,Kelly Lyons,Canada,University of Toronto
+253,Kendra Cooper,United States,University of Texas at Dallas
+254,Kenneth Alan Stafford,United States,Worcester Polytechnic Institute
+255,Keon Jang [SWS],Germany,Max Planck Society
+256,Kiron K. Skinner,United States,Carnegie Mellon University
+257,Kirstin Peterson,United States,Cornell University
+258,Klaus Diller,Germany,University of Koblenz-Landau
+259,Kok-Ming Leung,United States,New York University
+260,Kostantinos Kalpakis,United States,Univ. of Maryland - Baltimore County
+261,Kuldeep Singh Meel,Singapore,National University of Singapore
+262,Kwang­Moo Choe,"Korea, Republic of",KAIST
+263,Larry Wasserman,United States,Carnegie Mellon University
+264,Lawrence Hall,United States,University of South Florida
+265,Leila Ribeiro,Brazil,UFRGS
+266,Leilani Henrina Gilpin,United States,Univ. of California - Santa Cruz
+267,Leonid Sazanov,Austria,IST Austria
+268,Leslie Gasser,United States,Univ. of Illinois at Urbana-Champaign
+269,Li Li,Australia,Monash University
+270,Li Liao,United States,University of Delaware
+271,Li Weigang,Brazil,Universidade de Brasília
+272,Linda Ott,United States,Michigan Technological University
+273,Lingjia Liu,United States,University of Kansas
+274,Lingzhi Li,China,Soochow University
+275,Lorna MacDonald,Australia,University of Queensland
+276,Lotus Goldberg,United States,Brandeis University
+277,Luc J. Van Gool,Switzerland,ETH Zurich
+278,Luca Greco,Italy,University of Salerno
+279,Luca O. Breviglieri,Italy,Politecnico di Milano
+280,Léonor Beccera-Bonache,France,Université Jean Monnet
+281,M. Gopi,United States,Univ. of California - Irvine
+282,M. S. Ryoo,United States,Stony Brook University
+283,Mads Peter Sørensen,Denmark,DTU
+284,Mahbubur M. Rahim,Australia,Monash University
+285,Maksim Serbyn,Austria,IST Austria
+286,Manuel Álvarez Díaz,Spain,University of A Coruña
+287,Marcello La Rossa,Australia,University of Melbourne
+288,Marcin Kaminski,Poland,University of Warsaw
+289,Marco Aiello,Germany,University of Stuttgart
+290,Marco Molinaro,Brazil,PUC-RIO
+291,Margaret Hamilton,Australia,RMIT University
+292,Maria Angelica Reyes Muñoz,Spain,Polytechnic University of Catalonia
+293,Maria Bondessen,United States,Indiana University
+294,Maria Eugenia Occhiuto,Italy,University of Pisa
+295,Maria Luisa Gil Gomez,Spain,Polytechnic University of Catalonia
+296,Maria Wimmer,Germany,University of Koblenz-Landau
+297,Mario Romero Vega,Sweden,KTH Royal Institute of Technology
+298,Marius Ungarish,Israel,Technion
+299,Mark Keil,Canada,University of Saskatchewan
+300,Martin Bouchard,Canada,University of Ottawa
+301,Martin Bücker,Germany,Friedrich Schiller University Jena
+302,Martin Loomes,United Kingdom,Middlesex University
+303,Martin Skovgaard Andersen,Denmark,DTU
+304,Mary Lauren Benton,United States,Baylor University
+305,Matthew Weinberg,United States,Princeton University
+306,Matthias Ehrhardt,Germany,University of Wuppertal
+307,Matthias Gouthier,Germany,University of Koblenz-Landau
+308,Matthias Knorr,Portugal,Universidade NOVA de Lisboa
+309,Maximilian Jösch,Austria,IST Austria
+310,Melissa Ho,South Africa,University of Cape Town
+311,Meng He,Canada,Dalhousie University
+312,Michael Behrisch,Netherlands,Utrecht University
+313,Michael Hübner,Germany,Brandenburg University of Technology
+314,Michael J. Black [IS],Germany,Max Planck Society
+315,Michael Lewis,United States,University of Pittsburgh
+316,Michael Molloy,Canada,University of Toronto
+317,Michael Radermacher,United States,University of Vermont
+318,Michael Sheng,Australia,Macquarie University
+319,Michael Sixt,Austria,IST Austria
+320,Michael W. Tangermann,Germany,University of Freiburg
+321,Michael Wooldridge,United Kingdom,University of Oxford
+322,Michal Kozubek,Czech Republic,Masaryk University
+323,Michele Zito,United Kingdom,University of Liverpool
+324,Miguel A. Alonso,Spain,University of A Coruña
+325,Miguel P. Correia,Portugal,Universidade de Lisboa
+326,Mike Spivey,United Kingdom,University of Oxford
+327,Milena Radenkovic,United Kingdom,University of Nottingham
+328,Mingyue Jie,United States,University of Utah
+329,Minyi Li,Australia,RMIT University
+330,Mitsuru Shibayama,Japan,Kyoto University
+331,Mohamed Elmoursi,United Arab Emirates,Masdar Institute
+332,Mohammed E. Hoque,United States,University of Rochester
+333,Mrinal Kumar,India,IIT Bombay
+334,N. Raja,India,Tata Inst. of Fundamental Research
+335,Nabanita Das,India,ISI Kolkata
+336,Nancy Acemian,Canada,Concordia University
+337,Naoki Yoshinaga,Japan,University of Tokyo
+338,Naresh Babu M.,India,National Institute of Technology Silchar
+339,Neil Patwari,United States,Washington University in St. Louis
+340,Nick Faulkner,Australia,University of Adelaide
+341,Nicola Dell [Tech],United States,Cornell University
+342,Nisai H. Fuengwarodsakul,Thailand,KMUTNB
+343,Ole Christensen,Denmark,DTU
+344,Olga Marino Dews,Colombia,Universidad de los Andes
+345,Oliver Kramer,Germany,University of Oldenburg
+346,Oscar González,Colombia,Universidad de los Andes
+347,Owen Gottlieb,United States,Rochester Institute of Technology
+348,P. P. Chakrabarti,India,IIT Kharagpur
+349,Pablo Bofill Soliguer,Spain,Polytechnic University of Catalonia
+350,Pablo Rivas,United States,Baylor University
+351,Partha Pratim Roy,India,IIT Roorkee
+352,Patrick D. Pedrow,United States,Washington State University
+353,Patrick Shih,United States,Indiana University
+354,Paul Francis [SWS],Germany,Max Planck Society
+355,Paul Teal,New Zealand,Victoria University of Wellington
+356,Pavel Veselý,Czech Republic,Charles University
+357,Pawan Goyal,India,IIT Kharagpur
+358,Pawel Gorecki,Poland,University of Warsaw
+359,Pedram Rooshenas,United States,UNC - Charlotte
+360,Pedro José Sousa da Fonseca,United States,Purdue University
+361,Pedro M. Ferreira,Portugal,Universidade de Lisboa
+362,Pedro Petersen Moura Trancoso,Sweden,Chalmers/GU
+363,Pedro T. Monteiro,Portugal,Universidade de Lisboa
+364,Penny Sanderson,Australia,University of Queensland
+365,Peter A. Busch,Australia,Macquarie University
+366,Peter Fejer,United States,University of Massachusetts Boston
+367,Peter Krogstrup,Austria,IST Austria
+368,Peter Lundin,Sweden,Chalmers/GU
+369,Peter P. Popov,United Kingdom,City University of London
+370,Peter Rodgers,United Kingdom,University of Kent
+371,Petr Tůma,Czech Republic,Charles University
+372,Philip Zimmerman,Netherlands,TU Delft
+373,Pierluigi Sanpietro,Italy,Politecnico di Milano
+374,Pierre-Louis Bellec,Canada,University of Montreal
+375,Piyush P Kurur,India,IIT Kanpur
+376,Pontus Saito Stenetorp,United Kingdom,University College London
+377,Prosanta Hope,United Kingdom,University of Sheffield
+378,Qingchuan,Hong Kong,City University of Hong Kong
+379,Quin Yang 0008,United States,University of North Texas
+380,R. E. Ellis,Canada,Queen’s University
+381,R. Mukundan,New Zealand,University of Canterbury
+382,R. Ramanujam,India,IMSc
+383,Radu-Cristian Curticapean,Denmark,IT University of Copenhagen
+384,Rafael Pass [Tech],United States,Cornell University
+385,Raffaella Mirandola,Italy,Politecnico di Milano
+386,Ranko Lazic,United Kingdom,University of Warwick
+387,Rashid Rashid,New Zealand,Massey University
+388,Rassul Saeedipour,United States,University of Kansas
+389,Raymond K. Wong,Australia,UNSW
+390,Raza Abidi,Canada,Dalhousie University
+391,Renato José Da Silva Carmo,Brazil,UFPR
+392,Riaz Ahmed Shaikh,Saudi Arabia,King Abdulaziz University
+393,Ricardo N. Rodrigues,Brazil,Federal University of Rio Grande
+394,Ricardo S. Ferreira,Brazil,Universidade Federal de Viçosa
+395,Richard Bartle,United Kingdom,University of Essex
+396,Robert Dyer,United States,University of Nebraska
+397,Robert F. Kelly,United States,Stony Brook University
+398,Robert J. Stewart,United Kingdom,Heriot-Watt University
+399,Robert Kraut,United States,Carnegie Mellon University
+400,Robert Lindeman,New Zealand,University of Canterbury
+401,Robert M. Rioux,United States,Washington State University
+402,Roberto André Hexsel,Brazil,UFPR
+403,Ron Graham,United States,Univ. of California - San Diego
+404,Ronald Martin,United States,Augusta University
+405,Roque Meseguer Pallares,Spain,Polytechnic University of Catalonia
+406,Roy Poranne,Israel,University of Haifa
+407,Rui Abreu,Portugal,Universidade de Lisboa
+408,Ruppa (Tulsi) Thulasiram,Canada,University of Manitoba
+409,Russell Miller,United States,CUNY
+410,Ruth Letham,United Kingdom,University of St Andrews
+411,Ryuichi Shigemoto,Austria,IST Austria
+412,S. Ben Slimane,Sweden,KTH Royal Institute of Technology
+413,S. C. Cheung,Hong Kong,HKUST
+414,S. J. Wright,Australia,Monash University
+415,S. Q. Zheng,United States,University of Texas at Dallas
+416,S. V. Rao,India,IIT Guwahati
+417,Sajjad Haider,Australia,University of Technology Sydney
+418,Sam J. Guinea Montalvo,Italy,Politecnico di Milano
+419,Samuel R. Madden,United States,Massachusetts Institute of Technology
+420,Sandeep K. Juneja,India,Tata Inst. of Fundamental Research
+421,Sandip Roy,United States,Washington State University
+422,Sandra Siegert,Austria,IST Austria
+423,Sandra Uitdenbogerd,Australia,RMIT University
+424,Sandro Luigi Fiore,Italy,University of Trento
+425,Sang-hyo Park,"Korea, Republic of",Kyungpook National University
+426,Santanu Kumar Dash,United Kingdom,University of Surrey
+427,Saurabh Tiwari,India,DAIICT
+428,Selena Griffith,Australia,UNSW
+429,Serafeim Karampogias,Greece,University of Athens
+430,Simon Hippenmeyer,Austria,IST Austria
+431,Sin'ichi Satoh,Japan,University of Tokyo
+432,Soumya K. Ghosh,India,IIT Kharagpur
+433,Spencer Smith,Canada,McMaster University
+434,Stanley Williamson,United States,Univ. of California - San Diego
+435,Stavros Pouloukas,Cyprus,University of Nicosia
+436,Stefan Horst Sommer,Denmark,University of Copenhagen
+437,Steffen Becker,Germany,University of Stuttgart
+438,Stephen Wu,United States,OHSU
+439,Steve H. Harrison,United States,Virginia Tech
+440,Steven A. Wright,United Kingdom,University of York
+441,Steven J. Zilora,United States,Rochester Institute of Technology
+442,Stig Høgh,Denmark,DTU
+443,Sven Knutsson,Sweden,Chalmers/GU
+444,Sylvia Cremer,Austria,IST Austria
+445,Szymon M. Rusinkiewicz,United States,Princeton University
+446,Tae Oh,United States,Rochester Institute of Technology
+447,Takayuki Kanda,Japan,Kyoto University
+448,Tam Vu,United Kingdom,University of Oxford
+449,Tamas Hausel,Austria,IST Austria
+450,Tankurt Acarman,Turkey,Galatasaray University
+451,Terry Fancott,Canada,Concordia University
+452,Thanapong Suwanasri,Thailand,KMUTNB
+453,Thomas G. Fevens,Canada,Concordia University
+454,Thomas Noll,Germany,RWTH Aachen
+455,Thomas Rose,Germany,RWTH Aachen
+456,Thomas Sfikopoulos,Greece,University of Athens
+457,Tim Chen,Australia,University of Technology Sydney
+458,Tim French,Australia,University of Western Australia
+459,Tin Nguyen,United States,University of Nevada
+460,Ting-Ting Hwang,"Taiwan, Province of China",National Tsing Hua University
+461,Tobias Knopp,Germany,Hamburg University of Technology
+462,Tomás García Ferrari,New Zealand,University of Waikato
+463,Toni Lasilla,United Kingdom,University of Leeds
+464,Tony Kusalik,Canada,University of Saskatchewan
+465,Toru Ishida,Japan,Kyoto University
+466,Toshiyuki Nakata,Japan,University of Tokyo
+467,Trevor Erik Carlson,Singapore,National University of Singapore
+468,Uli Wagner,Austria,IST Austria
+469,Vasco Amaral,Portugal,Universidade NOVA de Lisboa
+470,Victor Winter,United States,University of Nebraska - Omaha
+471,W. Michelle Harris,United States,Rochester Institute of Technology
+472,Wagner Machado Nunan Zola,Brazil,UFPR
+473,Weizhi Meng,Denmark,DTU
+474,Weng Poo Kang,United States,Vanderbilt University
+475,Will Browne,Australia,Queensland University of Technology
+476,William Hoff,United States,Colorado School of Mines
+477,Xiaogang Ma,United States,University of Idaho
+478,Xiaohui Yu,China,Shandong University
+479,Xiaong-Dong Li,Australia,RMIT University
+480,Xinbo Gao,China,Xidian University
+481,Y. M. Ro,"Korea, Republic of",KAIST
+482,Y. Y. Yao,Canada,University of Regina
+483,Yi Mei,New Zealand,Victoria University of Wellington
+484,Ying Zou,Canada,Queen’s University
+485,YongHong Tian,China,Peking University
+486,Yongqiang zhao,China,NWPU
+487,Yoon Joon Lee,"Korea, Republic of",KAIST
+488,Zhennan Sun,China,Chinese Academy of Sciences
+489,Zhidan Liu,China,Shenzhen University
+490,Zhimeng Yin,Hong Kong,City University of Hong Kong
+491,Zuopeng (Justin) Zhang,United States,University of Nevada Las Vegas

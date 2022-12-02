@@ -14,7 +14,7 @@ generated files are in the */output* directory:
 * geo-codes-auto.csv
 * inst-geo-map.csv
 * geo-codes.csv
-* geo-mapping.csv (final geo file with geographic information for each institution (country, region, geo-coordinates)
+* geo-mapping.csv (final geo file with geographic information for each institution **country, region, geo-coordinates**)
 
 
 ## Virtual Environment 
