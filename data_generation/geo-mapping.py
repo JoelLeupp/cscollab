@@ -148,3 +148,12 @@ geo_mapping.describe()
 #        institution country_code   country_name   region_code    region_name         lat         lon
 # count          609          609            609           609            609  609.000000  609.000000
 # unique         609           55             55             6              6         NaN         NaN
+
+coordinates = []
+for _, row in geo_mapping.iterrows():
+    coordinates.append({"lat": row["lat"], "lon": row["lon"]})
+geo_mapping["coordinates"] = coordinates
+json_map = geo_mapping.drop(['lat', 'lon'], axis=1)
+json_map.to_json("output/geo-mapping.json", 
+                 orient="records", 
+                 indent = 3)
