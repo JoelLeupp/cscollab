@@ -152,8 +152,10 @@ geo_mapping.describe()
 coordinates = []
 for _, row in geo_mapping.iterrows():
     coordinates.append({"lat": row["lat"], "lon": row["lon"]})
-geo_mapping["coordinates"] = coordinates
+geo_mapping["coord"] = coordinates
 json_map = geo_mapping.drop(['lat', 'lon'], axis=1)
+json_map.columns = ['institution', 'country-id', 'country-name', 'region-id','region-name', 'coord']
 json_map.to_json("output/geo-mapping.json", 
-                 orient="records", 
-                 indent = 3)
+                 orient="records",
+                 indent=3)  
+
