@@ -6,15 +6,15 @@ import numpy as np
 import pandas as pd 
 import time
 
-
+# load csrankings data
 csrankings = pd.read_csv("data/csrankings.csv")
+# get all authors from csrankings
+authors = csrankings["name"].to_list()
 
 # dblp search author API
 def url(author):
     return "https://dblp.org/search/author?xauthor={}".format(author)
 
-# get all authors from csrankings
-authors = csrankings["name"].to_list()
 
 # author pid map
 authors_pid = []
@@ -51,14 +51,14 @@ for author in authors:
 
 # save result as csv
 author_pid_table = pd.DataFrame(authors_pid)
-author_pid_table.to_csv("output/authors_pid_3.csv")
-author_pid_table = pd.read_csv("output/authors_pid_4.csv")
+author_pid_table[["author", "pid"]].to_csv("output/authors_pid_all.csv", index=False)
 
+author_pid_table = pd.read_csv("output/authors_pid_all.csv")
 
 # check for which other the pid cound not be found 
 not_found = author_pid_table[author_pid_table["pid"].isnull()]["author"].to_list()
 
-geo_mapping = author_pid_table = pd.read_csv("output/geo-mapping.csv")
+geo_mapping =  pd.read_csv("output/geo-mapping.csv")
 
 missing_countries = []
 for a in not_found:
@@ -72,6 +72,22 @@ missing_countries = pd.DataFrame(missing_countries)
 missing_countries["country"].value_counts()
 missing_countries.to_csv("output/missing_authors.csv")
 
+missing_countries = pd.read_csv("output/missing_authors.csv")
+
 # check the missing authors in austria germany and switzerland
 missing_countries[missing_countries["country"] == "Switzerland"]
 missing_countries[missing_countries["country"] == "Germany"]
+
+# create unique pid set
+author_pid_table = pd.read_csv("output/authors_pid_all.csv")
+author_pid_table = author_pid_table[~author_pid_table["pid"].isnull()]
+pids = author_pid_table["pid"].unique()
+author_pid_unique_name = []
+for id in pids:
+    author_list = author_pid_table[author_pid_table["pid"]==id]
+    # if there are several possible names for a single pid take the first one of the alphabetic order
+    author_pid_unique_name.append({"author": author_list.iloc[0,0], "pid": author_list.iloc[0,1]})
+author_pid_unique = pd.DataFrame(author_pid_unique_name)
+author_pid_unique.to_csv("output/authors_pid_unique.csv", index=False)
+author_pid_unique = pd.read_csv("output/authors_pid.csv")
+author_pid_unique.describe()
