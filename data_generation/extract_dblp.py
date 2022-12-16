@@ -31,3 +31,7 @@ print(etree.tostring(ele[70], pretty_print=True))
 for sub in ele[70]:
     print(sub.tag)
 
+import edn_format
+edn_format.dumps([{"a": 1}, {"c": 4}, {"b": 3}], keyword_keys=True, indent=True)
+edn_format.loads("{:node/v 2 node/u 1}")
+

@@ -45,5 +45,14 @@ To connect the data from csranking with the dblp the author names from csranking
 
 The file *missing_authors.csv* is a list of all authors and their affiliation for which the script couldn't find an excat match. Looking at this file it can be seen that 49 authors affiliated with Switzerland, Germany or Austria are missing. For those missing authors I manualy looked at the result of the API https://dblp.org/search/author?xauthor and if there are multiple options I checked the API https://dblp.org/pid/$pid$.xml with all possible pid's and checked the affiliation to manualy find the matching pid. For some authors like "Anelis Kaiser" there is no person registerd in the dblp with such a name and no authors can be found. For others there are two differnt author names in csrankings.csv like "Christian Holz 0001" and "Christian Holz" but they are actualy the same person. In some cases the name from csranking.csv had multiple occurences in dblp and dblp adds a 4 digit number at the end of the name for this cases the matching pid can be found by checking all the matches. With manualy going through the 49 authors from GE,CH,AU additional 18 authors could be mapped.
 
-Lastly, the names in csrankings are not unique for one person, meaning the same other (same pid) can have multiple occurences with different name variations like "Kalinka Regina Lucas Jaquie Castelo Branco" or "Kalinka R. L. J. C. Branco" or "Kalinka Branco" are all mapped to the same pid and are therefor the same person. The dataset *authors_pid_all.csv* is trimmed suched that the pid to name mapping is a one to one mapping and this results in the file *authors_pid.csv* with 20986 unique authors.  
+Lastly, the names in csrankings are not unique for one person, meaning the same other (same pid) can have multiple occurences with different name variations like "Kalinka Regina Lucas Jaquie Castelo Branco" or "Kalinka R. L. J. C. Branco" or "Kalinka Branco" are all mapped to the same pid and are therefor the same person. The dataset *authors_pid_all.csv* is trimmed suched that the pid to name mapping is a one to one mapping and this results in the file *authors_pid.csv* with 20986 unique authors. 
+
+## Extract DBLP data
+
+Latest XML dump dowloaded at 12.12.2022 from https://dblp.org/xml/
+
+DBLP XML APIs:
+
+* Proceedings (records in general): https://dblp.org/rec/*$crossref*.xml
+* All records assosiated with a certain pid: https://dblp.org/pid/*$pid*.xml
 

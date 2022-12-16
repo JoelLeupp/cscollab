@@ -55,11 +55,11 @@ country_info = country_info[cols]
 country_info.columns = ['institution', 'country_code', 'country_name', 'region_code','region_name']
 
 # write new country-info in csv file
-country_info.to_csv("output/inst-geo-map.csv", index=False)
+country_info.to_csv("output/mapping/inst-geo-map.csv", index=False)
 
 
 # view inst-geo-map.csv
-inst_geo_map = pd.read_csv("output/inst-geo-map.csv")
+inst_geo_map = pd.read_csv("output/mapping/inst-geo-map.csv")
 print(inst_geo_map.describe())
 
 
@@ -132,17 +132,17 @@ print("OK: {}\nWATCH: {}\nWRONG: {}".format(sum(inst_geo_codes["status"] == "OK"
 inst_geo_codes.to_csv("geo-codes-auto.csv")
 
 # load manualy completed geo codes
-geo_codes = pd.read_csv("output/geo-codes.csv", index_col = "index")
+geo_codes = pd.read_csv("output/mapping/geo-codes.csv", index_col = "index")
 
 # create final institutional geo mapping with geo-codes included 
 geo_mapping = inst_geo_map
 geo_mapping["lat"] = geo_codes["lat"]
 geo_mapping["lon"] = geo_codes["lon"]
-geo_mapping.to_csv("output/geo-mapping.csv", index=False)
+geo_mapping.to_csv("output/mapping/geo-mapping.csv", index=False)
 
 
 # check final file
-geo_mapping = pd.read_csv("output/geo-mapping.csv")
+geo_mapping = pd.read_csv("output/mapping/geo-mapping.csv")
 geo_mapping.describe()
 
 #        institution country_code   country_name   region_code    region_name         lat         lon
@@ -155,7 +155,7 @@ for _, row in geo_mapping.iterrows():
 geo_mapping["coord"] = coordinates
 json_map = geo_mapping.drop(['lat', 'lon'], axis=1)
 json_map.columns = ['institution', 'country-id', 'country-name', 'region-id','region-name', 'coord']
-json_map.to_json("output/geo-mapping.json", 
+json_map.to_json("output/mapping/geo-mapping.json", 
                  orient="records",
                  indent=3)  
 
