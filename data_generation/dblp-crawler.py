@@ -40,7 +40,6 @@ output = {
 author_pid = pd.read_csv("output/pid/authors_pid.csv")
 pids = author_pid["pid"].to_list()
 
-author_pid[author_pid["pid"]=="21/8067"]
 
 # dblp xml record url
 def url_rec(key):
@@ -83,7 +82,8 @@ def proceeding_struct(id, title, year):
     return {"id": id, "title": title, "year": year}
 
 
-for count, pid in enumerate(pids):
+inital_count = 6000
+for count, pid in enumerate(pids[6000:]):
 
     # get xml records of the pid
     root = get_xml(url_pid(pid))
@@ -93,7 +93,7 @@ for count, pid in enumerate(pids):
         continue
 
     # save the number of records for that pid (might be useful information to weight authors)
-    output["publication_n"][pid] = root.attrib.get("n")
+    output["publication_n"][pid] = int(root.attrib.get("n"))
 
     # loop through all inproceedings assosiated with that pid
     inproccedings = root.findall("./r/inproceedings")
@@ -152,7 +152,7 @@ for count, pid in enumerate(pids):
             output["inproceedings_dropouts"].append(key)
             
         if (count > 0) and (count % 1000 == 0):
-            with open(os.path.join(output_dir, "output_{}.json".format(count)), "w") as write_file:
+            with open(os.path.join(output_dir, "output_{}.json".format(count+inital_count)), "w") as write_file:
                 json.dump(output, write_file, indent=3) 
             
 with open(os.path.join(output_dir, "output_final.json"), "w") as write_file:
@@ -165,3 +165,13 @@ with open(os.path.join(output_dir, "output_final.json"), "w") as write_file:
 # len(output["missing_authors"])
 # len(output["publication_n"])
 # dict(sorted(output["missing_authors"].items(), key=lambda item: item[1]))
+
+with open(os.path.join(output_dir, "output_6000.json"), "r") as f:
+    output = json.load(f)
+
+inproceedings = output["proceeding_ids"]
+collabs = output["collabs"]
+pid = 't/AMinTjoa'
+collab_pid = list(filter(lambda x: x["node/u"]==pid, collabs))
+rec_pid = list(map(lambda x: x["rec/id"], collab_pid))
+output["error_pids"]
