@@ -31,11 +31,16 @@ output = {
 # edges for the collaboration network
 "collabs": [],
 
+# pids with a failed request
+"error_pids" : []
+
 }
 
 # get all pids from csrankings
-author_pid = pd.read_csv("output/mapping/authors_pid.csv")
+author_pid = pd.read_csv("output/pid/authors_pid.csv")
 pids = author_pid["pid"].to_list()
+
+author_pid[author_pid["pid"]=="21/8067"]
 
 # dblp xml record url
 def url_rec(key):
@@ -47,10 +52,16 @@ def url_pid(pid):
 
 # dblp API request
 def get_xml(dblp_url):
-    r = requests.get(dblp_url)
-    #time.sleep(0.5)
-    root = ET.fromstring(r.content) 
-    return root
+    try:
+        r = requests.get(dblp_url)
+        time.sleep(1) # to prevent temporary timeout
+        root = ET.fromstring(r.content) 
+        return root
+    except:
+         time.sleep(5) # 
+         return None
+    
+
 
 # edge id conisting of the two pids and the dblp record key
 def gen_edge_id(pid_u, pid_v, key):
@@ -71,10 +82,15 @@ def inproceeding_struct(id, title, year, crossref):
 def proceeding_struct(id, title, year):
     return {"id": id, "title": title, "year": year}
 
-for pid in pids:
+
+for count, pid in enumerate(pids):
 
     # get xml records of the pid
     root = get_xml(url_pid(pid))
+
+    if not root:
+        output["error_pids"].append(pid)
+        continue
 
     # save the number of records for that pid (might be useful information to weight authors)
     output["publication_n"][pid] = root.attrib.get("n")
@@ -135,7 +151,11 @@ for pid in pids:
         else: 
             output["inproceedings_dropouts"].append(key)
             
-with open(os.path.join(output_dir, "output.json"), "w") as write_file:
+        if (count > 0) and (count % 1000 == 0):
+            with open(os.path.join(output_dir, "output_{}.json".format(count)), "w") as write_file:
+                json.dump(output, write_file, indent=3) 
+            
+with open(os.path.join(output_dir, "output_final.json"), "w") as write_file:
     json.dump(output, write_file, indent=3)
 
 # len(output["collabs"])
