@@ -8,10 +8,10 @@ from lxml import etree as ElementTree
 import gzip
 import timeit
 import time
+from itertools import combinations
 
 dblp_path = 'data/dblp.xml'
 output_dir = "output/dblp" 
-
 
 def clear_element(element):
     """Free up memory for temporary element tree after processing the element"""
@@ -24,9 +24,8 @@ def clear_element(element):
 def proceeding_struct(id, title, conf, year):
     return {"id": id, "title": title, "conf": conf, "year": year}
 
-
+# extract all proceedings from dblp
 def parse_proceedings(cut_off = 2005):
-    
     proceedings = []   
     
     with gzip.open('data/dblp.xml.gz') as f:
@@ -56,42 +55,110 @@ def parse_proceedings(cut_off = 2005):
 
     with open(os.path.join(output_dir, "proceedings.json"), "w") as write_file:
         json.dump(proceedings, write_file, indent=3,ensure_ascii=False)
+    
 
+# create proceedings datastructure 
+def author_struct(pid, name):
+    return {"pid": pid, "name": name}
 
-parse_proceedings()
+# extract all authors with name and pid from dblp
+def parse_authors():
+    authors = []   
+    with gzip.open('data/dblp.xml.gz') as f:
+
+        for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True):
+            
+            if node.tag == "www":
+                key = node.attrib["key"]
+                # check if the webpage is a dblp homepage of an author
+                if not "homepages/" in key:
+                    clear_element(node)
+                    continue 
+                # extract pid which is used in the homepage path
+                pid = key.split("homepages/")[1]
+                for author in node.findall("./author"):
+                    
+                    authors.append(author_struct(pid, author.text))
+                
+                clear_element(node)
+            elif node.tag in ["article", "inproceedings" ,"proceedings"]:
+                clear_element(node)
+
+    with open(os.path.join(output_dir, "authors.json"), "w") as write_file:
+        json.dump(authors, write_file, indent=3,ensure_ascii=False)
+
 
 with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
     proceedings = json.load(f)
+
+with open(os.path.join(output_dir, "authors.json"), "r") as f:
+    authors = json.load(f)
     
 
-# print(ElementTree.tostring(node, pretty_print=True))
+proceedings_ids = list(map(lambda x: x["id"], proceedings))
 
+name_pid_map = {}
+for author in authors:
+    name_pid_map[author["name"]] = author["pid"]
+    
+    
+# parse inproceedings
 
+# create inproceedings datastructure 
+def inproceeding_struct(id, title, year, crossref):
+    return {"id": id, "title": title, "year": year, "crossref": crossref}
 
+# edge id conisting of the two pids and the dblp record key
+def gen_edge_id(pid_u, pid_v, key):
+    return "{}-{}-{}".format(pid_u, pid_v, key)
 
-outputfname = os.path.join(output_dir, "authors.xml")
+# create edge datastructure for the collaboratioin network
+def edge_struct(pid_u, pid_v, key):
+    return {"node/u": pid_u,
+            "node/v": pid_v,
+            "rec/id": key, # dblp record key for the inproceedings
+            "edge/id": gen_edge_id(pid_u, pid_v, key)}
+    
+inproceedings = []   
+collabs = []
+comb = combinations([1, 2, 3], 2)
+
+cut_off = 2005
 count = 0
-output = open(outputfname, "w")
-output.write("""
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE dblp SYSTEM "dblp-2019-11-22.dtd">
-<dblp>""")
-
 with gzip.open('data/dblp.xml.gz') as f:
-
-    for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True):
-
-        if count >= 10:
-            break
-        
-        if node.tag == "www":
-            count +=1
-    
-            output.write(ElementTree.tostring(node, pretty_print=True).decode("ISO-8859-1"))
-            clear_element(node)
-       
             
-output.write("</dblp>")
-output.close()
+    for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True):
+        
+        if node.tag == "inproceedings":
+            
+            key = node.attrib["key"] 
+            title = node.find("title").text
+            year = int(node.find("year").text)
+            # only consider proceedings later than the year 2005
+            if (year < cut_off):
+                clear_element(node)
+                continue
+            crossref = node.find("crossref").text
+            # crossref_ele = node.find("crossref")
+            # crossref = crossref_ele.text if crossref_ele is not None else key.split("/")[1]
+            
+            # ignore inproceeding if it is not a valid reference (proceeding before cut off date)
+            if crossref not in proceedings_ids:
+                clear_element(node)
+                continue
+            
+            authors =(list(map(lambda x: name_pid_map[x.text], node.findall("author"))))
+            comb = combinations(authors, 2)
+            for c in comb:
+                collabs.append(edge_struct(c[0], c[1], key))
+            
+            inproceedings.append(inproceeding_struct(key, title, year, crossref))
+            
+            clear_element(node)
 
-shrink_persons()
+
+with open(os.path.join(output_dir, "inproceedings.json"), "w") as write_file:
+    json.dump(inproceedings, write_file, indent=3,ensure_ascii=False)
+    
+with open(os.path.join(output_dir, "collabs.json"), "w") as write_file:
+    json.dump(collabs, write_file, indent=3,ensure_ascii=False)
