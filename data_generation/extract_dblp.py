@@ -7,10 +7,11 @@ import json
 from lxml import etree as ElementTree
 import gzip
 import timeit
+import time
 
 dblp_path = 'data/dblp.xml'
+output_dir = "output/dblp" 
 
-parser = ElementTree.XMLParser(attribute_defaults=True, load_dtd=True)
 
 def clear_element(element):
     """Free up memory for temporary element tree after processing the element"""
@@ -18,110 +19,51 @@ def clear_element(element):
     while element.getprevious() is not None:
         del element.getparent()[0]
 
-count = 0
-db_iter = ElementTree.iterparse(source=dblp_path, dtd_validation=True, load_dtd=True)
-for _, element in db_iter:
-    if element.tag == "proceedings":
-        for child in element:
-            print("{}: {}".format(child.tag, child.text))
-        # key = element.attrib["key"]
-        # is_conf = key.split("/")[0] == "conf"
-        # title_ele = element.find("title")
-        # if title_ele:
-        #    break 
-    else:
-        clear_element(element)
-        
-ElementTree.tostring(element)
 
-#_with open(dblp_path, mode="r") as f:
+# create proceedings datastructure 
+def proceeding_struct(id, title, conf, year):
+    return {"id": id, "title": title, "conf": conf, "year": year}
 
-with gzip.open("data/dblp.xml.gz") as f:  
+
+def parse_proceedings(cut_off = 2005):
     
-    oldnode = None
-
-    for (event, node) in ElementTree.iterparse(f, events=["start", "end"]):
-        
-        if oldnode is not None:
-                oldnode.clear()
-        oldnode = node
-        
-        print(node.text)
-        
-            
-        # if node.tag == "proceedings":
-        #     break
-            # for child in node:
-            #     print("{}: {}".format(child.tag, child.text))
-       
-parser = ElementTree.XMLParser(attribute_defaults=True, load_dtd=True)
-
-
-def parseDBLP():
-
-    # with open("dblp.xml", mode="r") as f:
-    proceedings = []
-
+    proceedings = []   
+    
     with gzip.open('data/dblp.xml.gz') as f:
-        
-        oldnode = None
-        count = 0
-
-        for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True, events=["start", "end"]):
+                
+        for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True):
             
-            if count >= 10:
-                break
-            
-            if oldnode is not None:
-                oldnode.clear()
-            oldnode = node
-            
-            if node.tag == "article":
-                for child in node:
-                    print("{}: {}".format(child.tag, child.text))
-                count += 1
-            
-            # if node.tag == "proceedings":
-            #     for child in element:
-            #         print("{}: {}".format(child.tag, child.text))
-            
-      
-parseDBLP()      
- 
+            if node.tag == "proceedings":
+                
+                key = node.attrib["key"] 
+                # only consider conferences
+                if key.split("/")[0] != "conf":
+                    clear_element(node)
+                    continue
+                
+                title = node.find("title").text
+                year = int(node.find("year").text)
+                # only consider proceedings later than the year 2005
+                if (year < cut_off):
+                    clear_element(node)
+                    continue
+                conf_ele = node.find("booktitle")
+                conf = conf_ele.text if conf_ele is not None else key.split("/")[1]
+                
+                proceedings.append(proceeding_struct(key, title, conf, year))
+                clear_element(node)
 
-start = timeit.timeit()       
-with gzip.open('data/dblp.xml.gz') as f:
-            
-    oldnode = None
-    count = 0
 
-    for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True, events=["start", "end"]):
-        
-        if oldnode is not None:
-            oldnode.clear()
-        oldnode = node
-        
-        count +=1
-        
-        # if node.tag == "proceedings":
-        #     for child in node:
-        #             print("{}: {}".format(child.tag, child.text))
-        #     count += 1
-end = timeit.timeit()
-print(end - start)
+    with open(os.path.join(output_dir, "proceedings.json"), "w") as write_file:
+        json.dump(proceedings, write_file, indent=3,ensure_ascii=False)
 
-db_iter = ElementTree.iterparse(source=dblp_path, dtd_validation=False, load_dtd=True)
-for _, element in db_iter:
-    if element.tag == "proceedings":
-        for child in element:
-            print("{}: {}".format(child.tag, child.text))
-    clear_element(element)
 
-print(etree.tostring(ele[70], pretty_print=True))
-for sub in ele[70]:
-    print(sub.tag)
+parse_proceedings()
 
-import edn_format
-edn_format.dumps([{"a": 1}, {"c": 4}, {"b": 3}], keyword_keys=True, indent=True)
-edn_format.loads("{:node/v 2 node/u 1}")
+with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
+    proceedings = json.load(f)
+    
+
+# print(ElementTree.tostring(node, pretty_print=True))
+
 
