@@ -9,6 +9,7 @@ import gzip
 import timeit
 import time
 from itertools import combinations
+from fuzzywuzzy import fuzz
 
 dblp_path = 'data/dblp.xml'
 output_dir = "output/dblp" 
@@ -138,9 +139,23 @@ with gzip.open('data/dblp.xml.gz') as f:
             if (year < cut_off):
                 clear_element(node)
                 continue
-            crossref = node.find("crossref").text
-            # crossref_ele = node.find("crossref")
-            # crossref = crossref_ele.text if crossref_ele is not None else key.split("/")[1]
+            # crossref = node.find("crossref").text
+            crossref_ele = node.find("crossref")
+            if crossref_ele is not None:
+                crossref = crossref_ele.text
+            else:
+                # infer crossref from url
+                inprocceding_url = node.find("url").text
+                crossref_url = inprocceding_url.split("db/")[1].split(".html#")[0]
+                ratios = list(map(lambda x: (x,fuzz.token_set_ratio('conf/eles/eles2012', x)), proceedings_ids))
+                best_match = sorted(ratios, key= lambda x :x[1], reverse=True)[0]
+                if best_match[1] < 80:
+                    print(best_match)
+                    clear_element(node)
+                    continue
+                else: 
+                    crossref = best_match[0]  
+            
             
             # ignore inproceeding if it is not a valid reference (proceeding before cut off date)
             if crossref not in proceedings_ids:
@@ -153,8 +168,10 @@ with gzip.open('data/dblp.xml.gz') as f:
                 collabs.append(edge_struct(c[0], c[1], key))
             
             inproceedings.append(inproceeding_struct(key, title, year, crossref))
-            
             clear_element(node)
+            
+        elif node.tag in ["article", "proceedings" ,"www"]:
+                clear_element(node)
 
 
 with open(os.path.join(output_dir, "inproceedings.json"), "w") as write_file:
@@ -162,3 +179,6 @@ with open(os.path.join(output_dir, "inproceedings.json"), "w") as write_file:
     
 with open(os.path.join(output_dir, "collabs.json"), "w") as write_file:
     json.dump(collabs, write_file, indent=3,ensure_ascii=False)
+    
+
+
