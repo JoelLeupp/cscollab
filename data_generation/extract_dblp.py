@@ -67,3 +67,31 @@ with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
 # print(ElementTree.tostring(node, pretty_print=True))
 
 
+
+
+outputfname = os.path.join(output_dir, "authors.xml")
+count = 0
+output = open(outputfname, "w")
+output.write("""
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE dblp SYSTEM "dblp-2019-11-22.dtd">
+<dblp>""")
+
+with gzip.open('data/dblp.xml.gz') as f:
+
+    for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True):
+
+        if count >= 10:
+            break
+        
+        if node.tag == "www":
+            count +=1
+    
+            output.write(ElementTree.tostring(node, pretty_print=True).decode("ISO-8859-1"))
+            clear_element(node)
+       
+            
+output.write("</dblp>")
+output.close()
+
+shrink_persons()

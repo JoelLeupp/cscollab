@@ -51,6 +51,9 @@ Lastly, the names in csrankings are not unique for one person, meaning the same 
 
 Latest XML dump dowloaded at 12.12.2022 from https://dblp.org/xml/
 
+* dblp-2022-12-01.xml.gz: https://dblp.org/xml/release/dblp-2022-12-01.xml.gz
+* dblp-2019-11-22.dtd: https://dblp.org/xml/release/dblp-2019-11-22.dtd
+
 DBLP XML APIs:
 
 * Proceedings (records in general): https://dblp.org/rec/*$crossref*.xml
