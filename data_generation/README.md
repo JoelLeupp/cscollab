@@ -59,3 +59,60 @@ DBLP XML APIs:
 * Proceedings (records in general): https://dblp.org/rec/*$crossref*.xml
 * All records assosiated with a certain pid: https://dblp.org/pid/*$pid*.xml
 
+The file *parse_dblp.py* containes the parsers for the dblp.xml dump which extracts data abpout the authors, in/proceedings and collaborations and saves them in form of json files in the *output/dblp* directory
+
+Output file overview:
+
+### authors.json (3'220'379 authors)
+
+```{shell}
+[
+   {
+      "pid": "308/3672",
+      "name": "Raden Putra"
+   },
+   ...
+]
+```
+
+### proceedings.json (41'507 proceedings)
+
+```{shell}
+[
+   {
+      "id": "conf/coopis/2022",
+      "title": "Cooperative Information Systems - 28th International Conference, CoopIS 2022, Bozen-Bolzano, Italy, October 4-7, 2022, Proceedings",
+      "conf": "CoopIS",
+      "year": 2022
+   },
+   ...
+]
+```
+
+### inproceedings.json (2'542'194 proceedings)
+
+```{shell}
+[
+   {
+      "id": "conf/coopis/WangLG22",
+      "title": "Bi2E: Bidirectional Knowledge Graph Embeddings Based on Subject-Object Feature Spaces.",
+      "year": 2022,
+      "crossref": "conf/coopis/2022"
+   },
+   ...
+]
+```
+
+### collabs.json (15'641'542 collaborations)
+
+```{shell}
+[
+   {
+      "node/u": "75/3158",
+      "node/v": "53/4014",
+      "rec/id": "conf/coopis/WangLG22",
+      "edge/id": "75/3158-53/4014-conf/coopis/WangLG22"
+   },
+   ...
+]
+```
