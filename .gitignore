@@ -1,7 +1,11 @@
 # dblp xml dump
 dblp.xml
 dblp.dtd
+dblp.xml.gz
+dblp-2019-11-22.dtd
 
+# large output files
+data_generation/output/dblp
 
 
 # Byte-compiled / optimized / DLL files
