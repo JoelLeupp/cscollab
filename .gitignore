@@ -5,7 +5,8 @@ dblp.xml.gz
 dblp-2019-11-22.dtd
 
 # large output files
-data_generation/output/dblp
+data_generation/output/dblp/*
+data_generation/output/graph/*
 
 
 # Byte-compiled / optimized / DLL files
