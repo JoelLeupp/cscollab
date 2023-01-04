@@ -11,11 +11,39 @@ Downloaded files from https://github.com/emeryberger/CSrankings are in the */dat
 
 generated files are in the */output* directory:
 
+*/mapping*
+
+Files for geographical and institutional mapping:
+
 * geo-codes-auto.csv
 * inst-geo-map.csv
 * geo-codes.csv
 * geo-mapping.csv (final geo file with geographic information for each institution **country, region, geo-coordinates**)
 
+*/pid*
+
+Name to pid mapping from authors in csrankings:
+
+* authors_pid_all.csv
+* authors_pid_not_unique.csv
+* missing_authors.csv
+* authors_pid.csv
+
+
+*/dblp*
+
+Data extraction from the dblp xml dump:
+
+* authors.json
+* collabs.json
+* inproceedings.json
+* proceedings.json
+
+*/graph*
+
+Combination of dblp and csrankings in a node and edge data structure 
+
+* node_authors.json
 
 ## Virtual Environment 
 
