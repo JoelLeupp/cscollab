@@ -1,5 +1,5 @@
 # ignore kuzu_db
-kuzu_db/*
+kuzu_db
 
 # dblp xml dump
 dblp.xml
