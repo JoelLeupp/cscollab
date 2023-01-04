@@ -71,9 +71,14 @@ def gen_author_nodes():
     if len(list(filter(lambda x: x.get("affiliation"), author_nodes))) != len(author_pid_csrankings):
         return False
     
+    #save as json
     with open(os.path.join(output_dir, "nodes_authors.json"), "w") as write_file:
         json.dump(author_nodes, write_file, indent=3,ensure_ascii=False)
     
+    # save as csv
+    author_nodes_df = pd.DataFrame(author_nodes, columns = ["pid", "name", "affiliation", "homepage", "scholarid"])
+    author_nodes_df.to_csv(os.path.join(output_dir, "nodes_authors.csv"), index=False)  
     
 gen_author_nodes()
+
 
