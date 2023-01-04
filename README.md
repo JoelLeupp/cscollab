@@ -1,1 +1,1 @@
-# Using Graph Neural Networks to Visualize the Landscape of Computer Science Collaborations 
+# Interactive Visualization of Scientific Collaboration Networks based on Graph Neural Networks
