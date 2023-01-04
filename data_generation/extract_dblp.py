@@ -4,6 +4,7 @@ import os
 import sys
 import pandas as pd
 import json
+import ijson
 from  parse_dblp import parse_proceedings, parse_authors, parse_proceedings
 
 dblp_path = 'data/dblp.xml'
@@ -28,12 +29,17 @@ proceedings_ids = list(map(lambda x: x["id"], proceedings))
 name_pid_map = {}
 for author in authors:
     name_pid_map[author["name"]] = author["pid"]
+    
 
 # parse proceedings and collabs
 # parse_proceedings(proceedings_ids, name_pid_map)
     
-with open(os.path.join(output_dir, "collabs.json"), "r") as f:
-    collabs = json.load(f)
-
 with open(os.path.join(output_dir, "inproceedings.json"), "r") as f:
     inproceedings = json.load(f)
+
+counter = 0
+with open(os.path.join(output_dir, "collabs.json"), "r") as f:
+    #collabs = json.load(f)
+    for item in ijson.items(f, 'item'):
+        counter+=1
+  
