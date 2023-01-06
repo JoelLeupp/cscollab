@@ -23,7 +23,7 @@ def gen_author_nodes():
     with open(os.path.join("output/dblp", "authors.json"), "r") as f:
         authors = json.load(f)
     
-    author_pid_csrankings = pd.read_csv("output/pid/authors_pid.csv")
+    author_pid_csrankings = pd.read_csv("output/pid/authors-pid.csv")
 
     csrankings = pd.read_csv("data/csrankings.csv")
 
@@ -77,8 +77,13 @@ def gen_author_nodes():
     
     # save as csv
     author_nodes_df = pd.DataFrame(author_nodes, columns = ["pid", "name", "affiliation", "homepage", "scholarid"])
-    author_nodes_df.to_csv(os.path.join(output_dir, "nodes_authors.csv"), index=False)  
+    author_nodes_df.to_csv(os.path.join(output_dir, "nodes_authors.csv"), 
+                           index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
     
+# generate graph data
 gen_author_nodes()
+
+# with open(os.path.join(output_dir, "nodes_authors.json"), "r") as f:
+#     author_nodes = json.load(f)
 
 

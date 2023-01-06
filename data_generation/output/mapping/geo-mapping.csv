@@ -1,4 +1,4 @@
-institution,country_code,country_name,region_code,region_name,lat,lon
+institution,country-id,country-name,region-id,region-name,lat,lon
 AUEB,gr,Greece,europe,Europe,37.9940338898775,23.732771540394
 Aalborg University,dk,Denmark,europe,Europe,57.01590705,9.9753082435574
 Aalto University,fi,Finland,europe,Europe,60.1860789,24.8281020744067

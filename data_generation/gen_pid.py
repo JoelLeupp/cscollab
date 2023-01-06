@@ -51,9 +51,9 @@ for author in authors:
 
 # save result as csv
 author_pid_table = pd.DataFrame(authors_pid)
-author_pid_table[["author", "pid"]].to_csv("output/pid/authors_pid_all.csv", index=False)
+author_pid_table[["author", "pid"]].to_csv("output/pid/authors-pid-all.csv", index=False)
 
-author_pid_table = pd.read_csv("output/pid/authors_pid_all.csv")
+author_pid_table = pd.read_csv("output/pid/authors-pid-all.csv")
 
 # check for which other the pid cound not be found 
 not_found = author_pid_table[author_pid_table["pid"].isnull()]["author"].to_list()
@@ -70,16 +70,16 @@ for a in not_found:
     
 missing_countries = pd.DataFrame(missing_countries)
 missing_countries["country"].value_counts()
-missing_countries.to_csv("output/pid/missing_authors.csv")
+missing_countries.to_csv("output/pid/missing-authors.csv")
 
-missing_countries = pd.read_csv("output/pid/missing_authors.csv")
+missing_countries = pd.read_csv("output/pid/missing-authors.csv")
 
 # check the missing authors in austria germany and switzerland
 missing_countries[missing_countries["country"] == "Switzerland"]
 missing_countries[missing_countries["country"] == "Germany"]
 
 # create unique pid set
-author_pid_table = pd.read_csv("output/pid/authors_pid_all.csv")
+author_pid_table = pd.read_csv("output/pid/authors-pid-all.csv")
 author_pid_table = author_pid_table[~author_pid_table["pid"].isnull()]
 pids = author_pid_table["pid"].unique()
 author_pid_unique_name = []
@@ -88,6 +88,6 @@ for id in pids:
     # if there are several possible names for a single pid take the first one of the alphabetic order
     author_pid_unique_name.append({"author": author_list.iloc[0,0], "pid": author_list.iloc[0,1]})
 author_pid_unique = pd.DataFrame(author_pid_unique_name)
-author_pid_unique.to_csv("output/pid/authors_pid_unique.csv", index=False)
-author_pid_unique = pd.read_csv("output/pid/authors_pid.csv")
+author_pid_unique.to_csv("output/pid/authors-pid.csv", index=False)
+author_pid_unique = pd.read_csv("output/pid/authors-pid.csv")
 author_pid_unique.describe()
