@@ -1,4 +1,6 @@
+#--------------------------------------------------------------------------
 # get the internal author id (pid) from dblp for every author in csrankings
+#--------------------------------------------------------------------------
 
 import requests 
 import xml.etree.ElementTree as ET 
@@ -85,9 +87,19 @@ pids = author_pid_table["pid"].unique()
 author_pid_unique_name = []
 for id in pids:
     author_list = author_pid_table[author_pid_table["pid"]==id]
+    
     # if there are several possible names for a single pid take the first one of the alphabetic order
     author_pid_unique_name.append({"author": author_list.iloc[0,0], "pid": author_list.iloc[0,1]})
+    
+# save output as csv
 author_pid_unique = pd.DataFrame(author_pid_unique_name)
 author_pid_unique.to_csv("output/pid/authors-pid.csv", index=False)
+
+# view output file
 author_pid_unique = pd.read_csv("output/pid/authors-pid.csv")
 author_pid_unique.describe()
+#             author         pid
+# count        20986       20986
+# unique       20986       20986
+# top     A Min Tjoa  t/AMinTjoa
+
