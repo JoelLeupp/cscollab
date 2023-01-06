@@ -37,8 +37,6 @@ pip install -r requirements.txt
 
 ## Generate Geographical Mapping
 
-Main output: geo-mapping.csv 
-
 The script *geo-mapping.py* takes the *country-info.csv* and *csrankings.csv* and generates the file *inst-geo-map.csv* which consists of all institutions present in csrankings and adds region/country codes and labels for each institution. 
 
 With the API https://api.geoapify.com/v1/geocode/search? the script searches for geo-coordinates for every institution. If there is a match, the name of the found building is compared with the name of the institution using the levenstein distance to veryfy the match and assign a status (OK, WATCH, WRONG) to the result and generates the file *geo-codes-auto.csv*. In the file 210 Institutions where OK, 263 where on WATCH and for 136 the API no geo-coordinates where found.
@@ -47,7 +45,7 @@ The file *geo-codes.csv* was edited manualy by going through the file *geo-codes
 
 Lastly the file *geo-codes.csv* and *inst-geo-map.csv* are joined together to create the file *geo-mapping.csv*. The file *geo-mapping.json* is an adaptation of *geo-mapping.csv* with a slithly differernt structure. 
 
-geo-mapping.csv head:
+geo-mapping.csv (609 institutions):
 
 institution|country-id|country-name|region-id|region-name|lat|lon
 | -------- | ------- |------- |------- |------- |------- |------- |
@@ -60,9 +58,9 @@ To connect the data from csranking with the dblp the author names from csranking
 
 The file *missing-authors.csv* is a list of all authors and their affiliation for which the script couldn't find an excat match. Looking at this file it can be seen that 49 authors affiliated with Switzerland, Germany or Austria are missing. For those missing authors I manualy looked at the result of the API https://dblp.org/search/author?xauthor and if there are multiple options I checked the API https://dblp.org/pid/$pid$.xml with all possible pid's and checked the affiliation to manualy find the matching pid. For some authors like "Anelis Kaiser" there is no person registerd in the dblp with such a name and no authors can be found. For others there are two differnt author names in csrankings.csv like "Christian Holz 0001" and "Christian Holz" but they are actualy the same person. In some cases the name from csranking.csv had multiple occurences in dblp and dblp adds a 4 digit number at the end of the name for this cases the matching pid can be found by checking all the matches. With manualy going through the 49 authors from GE,CH,AU additional 18 authors could be mapped.
 
-Lastly, the names in csrankings are not unique for one person, meaning the same other (same pid) can have multiple occurences with different name variations like "Kalinka Regina Lucas Jaquie Castelo Branco" or "Kalinka R. L. J. C. Branco" or "Kalinka Branco" are all mapped to the same pid and are therefor the same person. The dataset *authors-pid-all.csv* is trimmed suched that the pid to name mapping is a one to one mapping and this results in the file *authors-pid.csv* with 20986 unique authors. 
+Lastly, the names in csrankings are not unique for one person, meaning an author can have multiple occurences with different name variations like "Kalinka Regina Lucas Jaquie Castelo Branco" or "Kalinka R. L. J. C. Branco" or "Kalinka Branco" which are all mapped to the same pid and are therefor the same person. The dataset *authors-pid-all.csv* is trimmed suched that the pid to name mapping is a one to one mapping and this results in the file *authors-pid.csv*. 
 
-authors-pid.csv head:
+authors-pid.csv (20986 unique authors):
 
 | author  | pid |
 | ------------- | ------------- |

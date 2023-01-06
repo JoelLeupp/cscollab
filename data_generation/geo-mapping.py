@@ -1,12 +1,19 @@
-# Geographic mapping of institutions
+#-----------------------------------------
+# Geographic mapping of institutions 
+#-----------------------------------------
 
 import pandas as pd
 
+# csranking import
 csrankings = pd.read_csv("data/csrankings.csv")
 print(csrankings.describe())
 
 country_info = pd.read_csv("data/country-info.csv")
 print(country_info.describe())
+
+
+# clean and improve csrankings country file
+#-------------------------------------------------
 
 # get missing affiliation in the country-info.csv
 missing_inst= list(filter(lambda x: x not in country_info["institution"].to_list(), 
@@ -63,11 +70,13 @@ inst_geo_map = pd.read_csv("output/mapping/inst-geo-map.csv")
 print(inst_geo_map.describe())
 
 
-# get geo-coordinates of institutions
+# Get geo-coordinates of institutions
+# -----------------------------------------------
+
 # use https://www.geoapify.com/
 import requests
 from requests.structures import CaseInsensitiveDict
-from fuzzywuzzy import fuzz
+from fuzzywuzzy import fuzz #fuzzy search for best match
 
 def geo_api_url(institution, country):
     text = "University, {}, {}".format(institution,country)
@@ -78,7 +87,6 @@ def geo_api_url(institution, country):
 headers = CaseInsensitiveDict()
 headers["Accept"] = "application/json"
 
-
 geo_codes = []
 def empty_prop(institution, country):   
     return     {"country": country,
@@ -86,7 +94,7 @@ def empty_prop(institution, country):
                 "name" : None,
                 "lat" : None ,
                 "lon": None,
-                "fuzz-ratio": None,
+                "fuzz-ratio": None, 
                 "status": "WRONG"}
     
 # institution = "Bielefeld University"
@@ -130,6 +138,10 @@ print("OK: {}\nWATCH: {}\nWRONG: {}".format(sum(inst_geo_codes["status"] == "OK"
 # WATCH: 263
 # WRONG: 136
 inst_geo_codes.to_csv("geo-codes-auto.csv")
+
+
+# Create final combined output
+# -----------------------------------------------
 
 # load manualy completed geo codes
 geo_codes = pd.read_csv("output/mapping/geo-codes.csv", index_col = "index")
