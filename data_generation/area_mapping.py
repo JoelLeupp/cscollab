@@ -19,10 +19,17 @@ output_dir = "output/dblp"
 # load proceedings
 with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
     proceedings = json.load(f)
-
-# areas as defined by csrankings 
-with open(os.path.join("data", "areas-csrankings.json"), "r") as f:
+    
+    
+# with open(os.path.join(output_dir, "proceedings.json"), "w") as outfile:
+#     outfile.write(json.dumps(proceedings, indent=3))
+    
+# load areas 
+with open(os.path.join(output_dir, "area-mapping.json"), "r") as f:
     area_map = json.load(f)
+
+ai_areas = area_map["ai"]["areas"]
+
 
     
 aiAreas = ["ai", "vision", "mlmining", "nlp", "inforet"]
@@ -44,7 +51,9 @@ proceeding_conf = list(map(lambda x: x["conf"], proceedings))
 # all conferences in dblp
 unique_conf =  set(list(map(lambda x: x["id"].split("/")[1], proceedings)))
 
-
+# search_conf = "naacl"
+# found_conf = list(filter(lambda x: re.search(search_conf, x["title"] , re.IGNORECASE), proceedings))
+# list(set(list(map(lambda x: x["id"].split("/")[1], found_conf))))
 
 # top rank 200 machine learning conferences from reasearch.com
 top_conf= {"ai": {"label": "AI",
@@ -70,13 +79,15 @@ top_conf= {"ai": {"label": "AI",
                        "da":["dac","iccad"],
                        "embedded":["emsoft","rtas","rtss"]}}
 
+
+
+
+
 all_conf = reduce(lambda x, y: x+y, top_conf["ml"].values())
 top_proceedings = list(filter(lambda x: x["id"].split("/")[1] in all_conf , proceedings))
 
 
-search_conf = "naacl"
-found_conf = list(filter(lambda x: re.search(search_conf, x["title"] , re.IGNORECASE), proceedings))
-list(set(list(map(lambda x: x["id"].split("/")[1], found_conf))))
+
 
 
 

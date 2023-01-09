@@ -105,7 +105,7 @@ def edge_struct(pid_u, pid_v, key):
             "rec/id": key, # dblp record key for the inproceedings
             "edge/id": gen_edge_id(pid_u, pid_v, key)}
     
-def parse_proceedings(proceedings_ids, name_pid_map):
+def parse_inproceedings(proceedings_ids, name_pid_map):
     inproceedings = []   
     collabs = []
     comb = combinations([1, 2, 3], 2)
@@ -119,7 +119,7 @@ def parse_proceedings(proceedings_ids, name_pid_map):
             if node.tag == "inproceedings":
                 
                 key = node.attrib["key"] 
-                title = node.find("title").text
+                title = re.sub("\n","",''.join(node.find("title").itertext())) #node.find("title").text
                 year = int(node.find("year").text)
                 # only consider proceedings later than the year 2005
                 if (year < cut_off):
@@ -167,5 +167,3 @@ def parse_proceedings(proceedings_ids, name_pid_map):
     with open(os.path.join(output_dir, "collabs.json"), "w") as write_file:
         json.dump(collabs, write_file, indent=3,ensure_ascii=False)
     
-
-
