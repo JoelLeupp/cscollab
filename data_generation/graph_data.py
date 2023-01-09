@@ -5,6 +5,7 @@ import sys
 import pandas as pd
 import json
 import ijson
+from functools import reduce
 
 output_dir = "output/graph" 
 
@@ -86,4 +87,53 @@ gen_author_nodes()
 # with open(os.path.join(output_dir, "nodes_authors.json"), "r") as f:
 #     author_nodes = json.load(f)
 
+# area mapping 
+# ------------------------------------------------------
+output_dblp = "output/dblp" 
 
+# load proceedings
+with open(os.path.join(output_dblp, "proceedings.json"), "r") as f:
+    proceedings = json.load(f)
+    
+# load areas 
+with open(os.path.join(output_dblp, "area-mapping.json"), "r") as f:
+    area_map = json.load(f)
+
+# generate area node structure
+area_nodes = list(map(lambda x: {"id":x[0], "label": x[1]["label"]}, area_map.items()))
+
+area_df = pd.DataFrame(area_nodes, columns = ["id", "label"])
+area_df.to_csv(os.path.join(output_dir, "area_nodes.csv"), 
+                        index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
+
+# generate sub area node structure
+ai_areas = area_map["ai"]["areas"] # only ai area so far
+
+sub_area_nodes = list(map(lambda x: {"id":x[0], "label": x[1]["label"]}, ai_areas.items()))
+
+# save as csv
+sub_area_df = pd.DataFrame(sub_area_nodes, columns = ["id", "label"])
+sub_area_df.to_csv(os.path.join(output_dir, "sub_area_nodes.csv"), 
+                        index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
+
+# generate connection between subarea and area
+belongs_to = []
+for area in ["ai"]: #area_map.keys()
+    for sub_area in area_map[area]["areas"].keys():
+        belongs_to.append((sub_area, area))
+    
+sub_area_of =  pd.DataFrame(belongs_to)
+sub_area_of.to_csv(os.path.join(output_dir, "sub_area_of_edges.csv"), 
+                        index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
+
+# generate connection between conference and subarea
+conf_belongs_to = []
+for area in ["ai"]: #area_map.keys()
+    for sub_area, conferences in area_map[area]["areas"].items():
+        sub_area_conf = list(filter(lambda x: x["conf"] in conferences["conferences"], proceedings))
+        conf_belongs_to.append(list(map(lambda x: (x["id"],sub_area), sub_area_conf)))
+        
+conf_belongs_to = reduce(lambda x, y: x+y, conf_belongs_to)
+conf_belongs_to_df =  pd.DataFrame(conf_belongs_to)
+conf_belongs_to_df.to_csv(os.path.join(output_dir, "conf_belongs_to_edges.csv"), 
+                        index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
