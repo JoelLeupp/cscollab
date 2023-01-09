@@ -121,7 +121,7 @@ Output file overview:
 ]
 ```
 
-### inproceedings.json (2'542'194 proceedings)
+### inproceedings.json (2'542'194 inproceedings)
 
 ```{shell}
 [

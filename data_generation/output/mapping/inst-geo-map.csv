@@ -1,4 +1,4 @@
-institution,country_code,country_name,region_code,region_name
+institution,country_id,country_name,region_id,region_name
 AUEB,gr,Greece,europe,Europe
 Aalborg University,dk,Denmark,europe,Europe
 Aalto University,fi,Finland,europe,Europe

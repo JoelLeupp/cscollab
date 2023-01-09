@@ -9,8 +9,9 @@ from functools import reduce
 
 output_dir = "output/graph" 
 
-# combine dblp and csranking data
 # generate author node structures 
+#--------------------------------------------------------------------------------
+# combine dblp and csranking data
 def author_struct(pid, name, affiliation=None, homepage=None, scholarid=None):
     info = {"pid": pid, 
             "name": name, 
@@ -87,9 +88,25 @@ gen_author_nodes()
 # with open(os.path.join(output_dir, "nodes_authors.json"), "r") as f:
 #     author_nodes = json.load(f)
 
-# area mapping 
-# ------------------------------------------------------
+# generate in/proceedings node and  structures 
+#--------------------------------------------------------------------------------
 output_dblp = "output/dblp" 
+
+# load proceedings
+with open(os.path.join(output_dblp, "proceedings.json"), "r") as f:
+    proceedings = json.load(f)
+    
+# load inproceedings
+with open(os.path.join(output_dblp, "inproceedings.json"), "r") as f:
+    inproceedings = json.load(f)
+
+proceedings_df = pd.DataFrame(proceedings)
+proceedings_df.to_csv(os.path.join(output_dir, "nodes_proceedings.csv"), 
+                        index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
+
+# computer science area graph data 
+# ------------------------------------------------------
+
 
 # load proceedings
 with open(os.path.join(output_dblp, "proceedings.json"), "r") as f:
@@ -103,7 +120,7 @@ with open(os.path.join(output_dblp, "area-mapping.json"), "r") as f:
 area_nodes = list(map(lambda x: {"id":x[0], "label": x[1]["label"]}, area_map.items()))
 
 area_df = pd.DataFrame(area_nodes, columns = ["id", "label"])
-area_df.to_csv(os.path.join(output_dir, "area_nodes.csv"), 
+area_df.to_csv(os.path.join(output_dir, "nodes_area.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
 
 # generate sub area node structure
@@ -113,7 +130,7 @@ sub_area_nodes = list(map(lambda x: {"id":x[0], "label": x[1]["label"]}, ai_area
 
 # save as csv
 sub_area_df = pd.DataFrame(sub_area_nodes, columns = ["id", "label"])
-sub_area_df.to_csv(os.path.join(output_dir, "sub_area_nodes.csv"), 
+sub_area_df.to_csv(os.path.join(output_dir, "nodes_sub_area.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
 
 # generate connection between subarea and area
@@ -123,7 +140,7 @@ for area in ["ai"]: #area_map.keys()
         belongs_to.append((sub_area, area))
     
 sub_area_of =  pd.DataFrame(belongs_to)
-sub_area_of.to_csv(os.path.join(output_dir, "sub_area_of_edges.csv"), 
+sub_area_of.to_csv(os.path.join(output_dir, "edges_sub_area_of.csv"), 
                         index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
 
 # generate connection between conference and subarea
@@ -135,5 +152,6 @@ for area in ["ai"]: #area_map.keys()
         
 conf_belongs_to = reduce(lambda x, y: x+y, conf_belongs_to)
 conf_belongs_to_df =  pd.DataFrame(conf_belongs_to)
-conf_belongs_to_df.to_csv(os.path.join(output_dir, "conf_belongs_to_edges.csv"), 
+conf_belongs_to_df.to_csv(os.path.join(output_dir, "edges_conf_belongs_to.csv"), 
                         index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
+

@@ -9,7 +9,10 @@ dblp-2019-11-22.dtd
 
 # large output files
 data_generation/output/dblp/*
-data_generation/output/graph/*
+data_generation/output/graph/edges_collabs.csv
+data_generation/output/graph/nodes_inproceedings.csv
+data_generation/output/graph/edges_crossref.csv
+# data_generation/output/graph/*
 
 
 # Byte-compiled / optimized / DLL files
