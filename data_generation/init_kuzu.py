@@ -87,13 +87,36 @@ conn.execute("""CREATE REL TABLE SubAreaOf(
                 FROM SubArea TO Area)""")
 
 # load data in db
+#---------------- nodes --------------------------------------------------------------------
 conn.execute('COPY Author FROM "output/graph/nodes_authors.csv" (DELIM=";")')
 conn.execute('COPY Proceeding FROM "output/graph/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Inproceeding FROM "output/graph/nodes_inproceedings_short.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Institution FROM "output/graph/nodes_institution.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Country FROM "output/graph/nodes_countries.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Region FROM "output/graph/nodes_regions.csv" (DELIM=";", HEADER=true)')
+conn.execute('COPY Area FROM "output/graph/nodes_area.csv" (DELIM=";", HEADER=true)')
+#---------------- edges --------------------------------------------------------------------
+conn.execute('COPY SubArea FROM "output/graph/nodes_sub_area.csv" (DELIM=";", HEADER=true)')
+conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";")')
+conn.execute('COPY Affiliation FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
+conn.execute('COPY Crossref FROM "output/graph/edges_crossref.csv" (DELIM=";")')
+conn.execute('COPY BelongsToArea FROM "output/graph/edges_conf_belongs_to.csv" (DELIM=";")')
+conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";")')
 
+#------------- drop tables------------
+# conn.execute("DROP TABLE Collaboration")
+# conn.execute("DROP TABLE Affiliation")
+# conn.execute("DROP TABLE Crossref")
+# conn.execute("DROP TABLE BelongsToArea")
+# conn.execute("DROP TABLE SubAreaOf")
+# conn.execute("DROP TABLE Author")
+# conn.execute("DROP TABLE Inproceeding")
+# conn.execute("DROP TABLE Proceeding")
+# conn.execute("DROP TABLE Institution")
+# conn.execute("DROP TABLE Country")
+# conn.execute("DROP TABLE Region")
+# conn.execute("DROP TABLE Area")
+# conn.execute("DROP TABLE SubArea")
 
 # check data
 results = conn.execute('MATCH (x:Region) RETURN *;').getAsDF()            
@@ -113,5 +136,4 @@ inproceedings_rec[311]
 #                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
 
 
-# drop tables
-conn.execute("DROP TABLE Inproceeding")
+
