@@ -161,3 +161,42 @@ Output file overview:
    ...
 ]
 ```
+
+# Computer Science Area Mapping
+
+The mapping of conferences to computer science areas is saved under output/dblp/area-mapping.json 
+and the file area_mapping.py was used to support the creation of the file.
+
+The areas are inspired by [csrankings.org](https://csrankings.org/) and [research.com](https://research.com/). 
+All the conferences present in csrankings are also in the area-mapping and since the focus is on the field of AI
+the top 200 rank AI related conferences rated by research.com are also present included in the mapping as well 
+as the as well as the conferences regarding AI listed on  [List_of_computer_science_conferences](https://en.wikipedia.org/wiki/List_of_computer_science_conferences#Artificial_intelligence)
+
+The areas are categorized as follows:
+
+| Area                    | Sub Area                              |
+|-------------------------|---------------------------------------|
+| AI                      | Computer Vision                       |
+| AI                      | Artificial Intelligence               |
+| AI                      | Natural language Processing           |
+| AI                      | Machine Learning                      |
+| AI                      | Information Retrieval                 |
+| Systems                 | Computer Hardware and Architecture    |
+| Systems                 | Computer Networks and Communications  |
+| Systems                 | Computer Security and Cryptography    |
+| Systems                 | Databases & Information Systems       |
+| Systems                 | High-performance computing            |
+| Systems                 | Web, Mobile & Multimedia Technologies |
+| Systems                 | Measurement & perf. analysis          |
+| Systems                 | Operating systems                     |
+| Systems                 | Programming languages                 |
+| Systems                 | Software engineering                  |
+| Systems                 | Design automation                     |
+| Systems                 | Embedded & real-time systems          |
+| Theory                  | Computational Theory and Mathematics  |
+| Interdisciplinary Areas | Biomedical & Medical Engineering      |
+| Interdisciplinary Areas | Computer graphics                     |
+| Interdisciplinary Areas | Economics & computation               |
+| Interdisciplinary Areas | Human-computer interaction            |
+| Interdisciplinary Areas | Robotics                              |
+| Interdisciplinary Areas | Visualization                         |

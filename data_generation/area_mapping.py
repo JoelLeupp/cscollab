@@ -21,21 +21,11 @@ with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
     proceedings = json.load(f)
     
     
-# with open(os.path.join(output_dir, "proceedings.json"), "w") as outfile:
-#     outfile.write(json.dumps(proceedings, indent=3))
-    
 # load areas 
 with open(os.path.join(output_dir, "area-mapping.json"), "r") as f:
     area_map = json.load(f)
 
 ai_areas = area_map["ai"]["areas"]
-
-
-    
-aiAreas = ["ai", "vision", "mlmining", "nlp", "inforet"]
-systemsAreas = ["arch", "comm", "sec", "mod", "da", "bed", "hpc", "mobile", "metrics", "ops", "plan", "soft"]
-theoryAreas = ["act", "crypt", "log"]
-interdisciplinaryAreas = ["bio", "graph", "ecom", "chi", "robotics", "visualization"]
 
 
 all_conf_csrankings = list(map(lambda x: x["area"], area_map))
@@ -65,22 +55,51 @@ top_conf= {"ai": {"label": "AI",
                                                                       "pkdd","recsys","iccpr","miccai","pakdd","mlsp","acml","icml","naacl","mod","ruleml"]},
                     "ir": {"label": "Information Retrieval", "conferences": ["sigir","wsdm","cikm","isita","msr","cidr","asunam","mir","bigcom","sdm","ecir","ismir","fusion"]}}
                     },
-           "systems": {"architecture":["arch","asplos","isca","micro","hpca"],
-                       "networks": ["iccomm","sigcomm","nsdi"],
-                       "security":["sec","ccs","sp","uss","ndss","pet"],
-                       "databases":["sigmod","vldb","icde","pods"],
-                       "hpc": ["hpc","sc","hpdc","ics"],
-                       "mobile":["mobicom","mobisys","sensys"],
-                       "web":["iswc", "semweb","www"],
-                       "metrics":["imca","sigmetrics"],
-                       "os":["osdi","sosp","fast","usenix","eurosys"],
-                       "pl":["pldi","popl","icfp","oopsla"],
-                       "se":["se","fse","icse","kbse","issta"],
-                       "da":["dac","iccad"],
-                       "embedded":["emsoft","rtas","rtss"]}}
-
-
-
+           "systems": {"label": "Systems",
+                       "areas":
+                        {"architecture": {"label": "Computer Hardware and Architecture", 
+                                          "conferences":["arch","asplos","isca","micro","hpca"]},
+                       "networks":  {"label": "Computer Networks and Communications", 
+                                     "conferences": ["iccomm","sigcomm","nsdi"]},
+                       "security":{"label": "Computer Security and Cryptography", 
+                                   "conferences":  ["sec","ccs","sp","uss","ndss","pet","crypto","eurocrypt"]},
+                       "databases":{"label": "Databases & Information Systems", 
+                                   "conferences":["sigmod","vldb","icde","pods"]},
+                       "hpc": {"label": "High-performance computing", 
+                                   "conferences":["hpc","sc","hpdc","ics"]},
+                       "mobile+web":{"label": "Web, Mobile & Multimedia Technologies", 
+                                   "conferences":["mobicom","mobisys","sensys","iswc", "semweb","www"]},
+                       "metrics":{"label": "Measurement & perf. analysis", 
+                                   "conferences":["imca","sigmetrics"]},
+                       "os":{"label": "Operating systems", 
+                                   "conferences":["osdi","sosp","fast","usenix","eurosys"]},
+                       "pl":{"label": "Programming languages", 
+                                   "conferences":["pldi","popl","icfp","oopsla"]},
+                       "se":{"label": "Software engineering", 
+                                   "conferences":["se","fse","icse","kbse","issta"]},
+                       "da":{"label": "Design automatio", 
+                                   "conferences":["dac","iccad"]},
+                       "embedded":{"label": "Embedded & real-time systems", 
+                                   "conferences":["emsoft","rtas","rtss"]}}},
+           "theory": {"label": "Theory",
+                       "areas": {"math":{"label": "Computational Theory and Mathematics", 
+                                   "conferences":["focs","soda","stoc","cav","lics"]}}},
+           "interdiscip" : 
+               {"label": "Interdisciplinary Areas",
+                       "areas": {"bio":{"label": "Biomedical & Medical Engineering", 
+                                   "conferences":["ismb","recomb"]},
+                                 "graphics":{"label": "Computer graphics", 
+                                   "conferences":["siggraph","siggrapha"]},
+                                 "eco":{"label": "Economics & computation", 
+                                   "conferences":[]},
+                                 "hci":{"label": "Human-computer interaction", 
+                                   "conferences":["chi","huc","pervasive","uist"]},
+                                 "robotics":{"label": "Robotics", 
+                                   "conferences":["icra","iros","rss"]},
+                                 "vis":{"label": "Visualization", 
+                                   "conferences":["visualization","vr"]}
+                                 }}
+           }
 
 
 all_conf = reduce(lambda x, y: x+y, top_conf["ml"].values())

@@ -152,18 +152,18 @@ area_df.to_csv(os.path.join(output_dir, "nodes_area.csv"),
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
 
 # generate sub area node structure
-ai_areas = area_map["ai"]["areas"] # only ai area so far
-
-sub_area_nodes = list(map(lambda x: {"id":x[0], "label": x[1]["label"]}, ai_areas.items()))
-
-# save as csv
-sub_area_df = pd.DataFrame(sub_area_nodes, columns = ["id", "label"])
+all_sub_area_nodes = []
+for area in area_map.keys():
+    sub_area_nodes = list(map(lambda x: {"id":x[0], "label": x[1]["label"]}, area_map[area]["areas"].items()))
+    all_sub_area_nodes = all_sub_area_nodes + sub_area_nodes 
+    
+sub_area_df = pd.DataFrame(all_sub_area_nodes, columns = ["id", "label"])
 sub_area_df.to_csv(os.path.join(output_dir, "nodes_sub_area.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
 
 # generate connection between subarea and area
 belongs_to = []
-for area in ["ai"]: #area_map.keys()
+for area in area_map.keys(): 
     for sub_area in area_map[area]["areas"].keys():
         belongs_to.append((sub_area, area))
     

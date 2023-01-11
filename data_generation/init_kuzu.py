@@ -98,8 +98,8 @@ conn.execute('COPY Institution FROM "output/graph/nodes_institution.csv" (DELIM=
 conn.execute('COPY Country FROM "output/graph/nodes_countries.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Region FROM "output/graph/nodes_regions.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Area FROM "output/graph/nodes_area.csv" (DELIM=";", HEADER=true)')
-#---------------- edges --------------------------------------------------------------------
 conn.execute('COPY SubArea FROM "output/graph/nodes_sub_area.csv" (DELIM=";", HEADER=true)')
+#---------------- edges --------------------------------------------------------------------
 conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Affiliation FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
 conn.execute('COPY Crossref FROM "output/graph/edges_crossref.csv" (DELIM=";")')
@@ -123,8 +123,8 @@ conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";
 # conn.execute("DROP TABLE SubArea")
 
 # check data
-results = conn.execute('MATCH (x:Inproceeding) RETURN DISTINCT x.year;').getAsDF()            
-print(results)
-print(results.shape)
+# results = conn.execute('MATCH (x:Inproceeding) RETURN DISTINCT x.year;').getAsDF()            
+# print(results)
+# print(results.shape)
 
 
