@@ -105,13 +105,10 @@ def edge_struct(pid_u, pid_v, key):
             "rec/id": key, # dblp record key for the inproceedings
             "edge/id": gen_edge_id(pid_u, pid_v, key)}
     
-def parse_inproceedings(proceedings_ids, name_pid_map):
+def parse_inproceedings(proceedings_ids, name_pid_map, cut_off = 2005):
     inproceedings = []   
     collabs = []
-    comb = combinations([1, 2, 3], 2)
-
-    cut_off = 2005
-    count = 0
+    
     with gzip.open('data/dblp.xml.gz') as f:
                 
         for (event, node) in ElementTree.iterparse(f, dtd_validation=True, load_dtd=True):
@@ -133,7 +130,7 @@ def parse_inproceedings(proceedings_ids, name_pid_map):
                     # infer crossref from url
                     inprocceding_url = node.find("url").text
                     crossref_url = inprocceding_url.split("db/")[1].split(".html#")[0]
-                    ratios = list(map(lambda x: (x,fuzz.token_set_ratio('conf/eles/eles2012', x)), proceedings_ids))
+                    ratios = list(map(lambda x: (x,fuzz.token_set_ratio(crossref_url, x)), proceedings_ids))
                     best_match = sorted(ratios, key= lambda x :x[1], reverse=True)[0]
                     if best_match[1] < 80:
                         print(best_match)
@@ -148,8 +145,11 @@ def parse_inproceedings(proceedings_ids, name_pid_map):
                     clear_element(node)
                     continue
                 
+                # list of auhtor pids 
                 authors =(list(map(lambda x: name_pid_map[x.text], node.findall("author"))))
+                # pairwise combination of authors
                 comb = combinations(authors, 2)
+                # create collaboration edge struct (only in one direction to save memory)
                 for c in comb:
                     collabs.append(edge_struct(c[0], c[1], key))
                 

@@ -1,9 +1,11 @@
 import kuzu
 import pandas as pd
 import json
+import time
 
 # create db 
 db = kuzu.database('./kuzu_db')
+# db.resize_buffer_manager(4147483648) # buffer pool size 2GB
 conn = kuzu.connection(db)
 
 # create schema
@@ -28,10 +30,11 @@ conn.execute("""CREATE NODE TABLE Proceeding(
                 PRIMARY KEY (id))""")
 
 # inproceeding
+conn.execute("DROP TABLE Inproceeding")
 conn.execute("""CREATE NODE TABLE Inproceeding(
                 id STRING, 
                 title STRING, 
-                year INT64,   
+                year INT64,
                 PRIMARY KEY (id))""")
 
 # institution
@@ -68,7 +71,7 @@ conn.execute("""CREATE NODE TABLE SubArea(
 # -------- Edges ----------
 # collaborations
 conn.execute("""CREATE REL TABLE Collaboration(
-                FROM Author TO Author)""")
+                FROM Author TO Author, record STRING, id STRING)""")
 
 # affiliation
 conn.execute("""CREATE REL TABLE Affiliation(
@@ -90,18 +93,19 @@ conn.execute("""CREATE REL TABLE SubAreaOf(
 #---------------- nodes --------------------------------------------------------------------
 conn.execute('COPY Author FROM "output/graph/nodes_authors.csv" (DELIM=";")')
 conn.execute('COPY Proceeding FROM "output/graph/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
-conn.execute('COPY Inproceeding FROM "output/graph/nodes_inproceedings_short.csv" (DELIM=";", HEADER=true)')
+conn.execute('COPY Inproceeding FROM "output/graph/nodes_inproceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Institution FROM "output/graph/nodes_institution.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Country FROM "output/graph/nodes_countries.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Region FROM "output/graph/nodes_regions.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Area FROM "output/graph/nodes_area.csv" (DELIM=";", HEADER=true)')
 #---------------- edges --------------------------------------------------------------------
 conn.execute('COPY SubArea FROM "output/graph/nodes_sub_area.csv" (DELIM=";", HEADER=true)')
-conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";")')
+conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Affiliation FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
 conn.execute('COPY Crossref FROM "output/graph/edges_crossref.csv" (DELIM=";")')
 conn.execute('COPY BelongsToArea FROM "output/graph/edges_conf_belongs_to.csv" (DELIM=";")')
 conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";")')
+
 
 #------------- drop tables------------
 # conn.execute("DROP TABLE Collaboration")
@@ -119,21 +123,8 @@ conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";
 # conn.execute("DROP TABLE SubArea")
 
 # check data
-results = conn.execute('MATCH (x:Region) RETURN *;').getAsDF()            
-print(results.head())
+results = conn.execute('MATCH (x:Inproceeding) RETURN DISTINCT x.year;').getAsDF()            
+print(results)
 print(results.shape)
-
-inproceedings_df = pd.read_csv("output/graph/nodes_inproceedings.csv", sep=";")
-inproceedings_rec = json.loads(inproceedings_df.to_json(orient="records"))
-
-for i, rec in enumerate(inproceedings_rec):
-    print(i)
-    conn.execute('CREATE (p:Proceeding {{id: "{}", title: "{}", year:{}}})'.format(rec["id"],rec["title"],rec["year"]))
-    
-inproceedings_rec[311]
-
-# inproceedings_df.iloc[:100].to_csv("output/graph/nodes_inproceedings_short.csv", 
-#                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
-
 
 

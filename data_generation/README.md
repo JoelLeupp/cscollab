@@ -33,7 +33,20 @@ Generated files are in the */output* directory:
 
 */graph* (Combination of dblp and csrankings in a node and edge data structure):
 
-* node_authors.json
+* edges_affiliated.csv
+* edges_collabs.csv
+* edges_conf_belongs_to.csv
+* edges_crossref.csv
+* edges_in_region.csv
+* edges_sub_area_of.csv
+* nodes_area.csv
+* nodes_authors.csv
+* nodes_countries.csv
+* nodes_inproceedings.csv # replaced \\\\" with \\\\\\\"
+* nodes_institution.csv
+* nodes_proceedings.csv
+* nodes_regions.csv
+* nodes_sub_area.csv
 
 
 ## Virtual Environment 

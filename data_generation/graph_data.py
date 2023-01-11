@@ -107,11 +107,11 @@ proceedings_df.to_csv(os.path.join(output_dir, "nodes_proceedings.csv"),
 
 # generate nodes for inproceedings
 inproceedings_df = pd.DataFrame(inproceedings, columns=["id","title","year"])
-inproceedings_df["title"] = list(map(lambda x: re.sub(";|:","",x), inproceedings_df["title"].to_list()))
+# exclude all special characters tp not get any errors when reading the strings into the db
+inproceedings_df["title"] = list(map(lambda x: re.sub("\]|\[|;|,|:","",x), inproceedings_df["title"].to_list()))
+inproceedings_df["year"] = inproceedings_df["year"].astype('int')
 inproceedings_df.to_csv(os.path.join(output_dir, "nodes_inproceedings.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
-    
-# no_title = inproceedings_df[inproceedings_df["title"].isnull()]
 
 # generate edges for crossref (connection between inproceedings and proceedings)
 crossref = []

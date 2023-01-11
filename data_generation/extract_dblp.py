@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 import json
 import ijson
-from  parse_dblp import parse_proceedings, parse_authors, parse_proceedings
+from  parse_dblp import parse_proceedings, parse_authors, parse_inproceedings
 
 dblp_path = 'data/dblp.xml'
 output_dir = "output/dblp" 
@@ -32,7 +32,7 @@ for author in authors:
     
 
 # parse proceedings and collabs
-# parse_proceedings(proceedings_ids, name_pid_map)
+# parse_inproceedings(proceedings_ids, name_pid_map)
     
 with open(os.path.join(output_dir, "inproceedings.json"), "r") as f:
     inproceedings = json.load(f)
