@@ -170,8 +170,31 @@ and the file area_mapping.py was used to support the creation of the file.
 The areas are inspired by [csrankings.org](https://csrankings.org/) and [research.com](https://research.com/). 
 All the conferences present in csrankings are also in the area-mapping and since the focus is on the field of AI
 the top 200 rank AI related conferences rated by research.com are also present included in the mapping as well 
-as the as well as the conferences regarding AI listed on  [List_of_computer_science_conferences](https://en.wikipedia.org/wiki/List_of_computer_science_conferences#Artificial_intelligence)
+as the as well as the conferences regarding AI listed on  [List_of_computer_science_conferences](https://en.wikipedia.org/wiki/List_of_computer_science_conferences#Artificial_intelligence). The categorized conferences include 2168 proceedings and 
+231'586 inproceedings.
 
+file structure of area-mapping.json
+```{shell}
+{
+   "ai":{
+       "label":"AI",
+       "areas":{
+          "vision":{
+             "label":"Computer Vision",
+             "conferences":[
+                "iccv",
+                "cvpr",
+                "eccv",
+                "bmvc",
+                "accv",
+                "avss"
+             ]
+          },
+          ...
+   },
+   ...
+}
+```
 The areas are categorized as follows:
 
 | Area                    | Sub Area                              |

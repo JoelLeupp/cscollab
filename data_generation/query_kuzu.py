@@ -20,14 +20,15 @@ print(country_map.head(),"\n", country_map.shape)
 # get computer science area and sub-areas
 area_mapping = conn.execute('''  
                 MATCH (s:SubArea)-[o:SubAreaOf]->(a:Area) 
-                RETURN *;
+                RETURN a.label, s.label;
                 ''').getAsDF()            
 print(area_mapping,"\n", area_mapping.shape)
 
-# get all proceedings that are categorized with an area
+# get all inproceedings that are categorized with an area
 proceedings_all = conn.execute('''  
-                MATCH (p:Proceeding)-[b:BelongsToArea]->(a:SubArea) 
-                RETURN  p;
+                MATCH (p:Proceeding)-[b:BelongsToArea]->(a:SubArea),
+                (i:Inproceeding)-[c:Crossref]->(p)
+                RETURN  i;
                 ''').getAsDF()            
 print(proceedings_all.head(),"\n", proceedings_all.shape)
 
