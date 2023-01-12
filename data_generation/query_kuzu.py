@@ -28,7 +28,7 @@ print(area_mapping,"\n", area_mapping.shape)
 proceedings_all = conn.execute('''  
                 MATCH (p:Proceeding)-[b:BelongsToArea]->(a:SubArea),
                 (i:Inproceeding)-[c:Crossref]->(p)
-                RETURN  i;
+                RETURN  p;
                 ''').getAsDF()            
 print(proceedings_all.head(),"\n", proceedings_all.shape)
 
@@ -40,3 +40,14 @@ proceedings_in_sub = conn.execute('''
                 RETURN  p;
                 '''.format(sub_area)).getAsDF()            
 print(proceedings_in_sub.head(),"\n", proceedings_in_sub.shape)
+
+# get all inproceedings of an area
+area = "ai"
+proceedings_in_area = conn.execute('''  
+                MATCH 
+                (sa:SubArea)-[s:SubAreaOf]->(a:Area {{id:"{}"}}), 
+                (p:Proceeding)-[b:BelongsToArea]->(sa),
+                (i:Inproceeding)-[c:Crossref]->(p)
+                RETURN  i;
+                '''.format(area)).getAsDF()            
+print(proceedings_in_area.head(),"\n", proceedings_in_area.shape)

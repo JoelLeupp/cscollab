@@ -104,7 +104,15 @@ DBLP XML APIs:
 * All records assosiated with a certain pid: https://dblp.org/pid/*$pid*.xml
 
 
-The file *parse_dblp.py* containes the parsers for the dblp.xml dump which extracts data abpout the authors, in/proceedings and collaborations and saves them in form of json files in the *output/dblp* directory
+The file *parse_dblp.py* containes the parsers for the dblp.xml dump and the extract_dblp.py runs the parsers and extracts data abpout the authors, in/proceedings and collaborations later than the year 2005 and saves them in form of json files in the *output/dblp* directory.
+
+Parsers:
+
+*  parse_proceedings(cut_off=2005): outputs the file proceedings.json (41'507 proceedings)
+*  parse_authors(): outputs the file authors.json  (3'220'379 authors) The pid is the unique dblp person identifier. In the xml file is no clear mapping of pid and author names but there is a “www” xml element tag which lists all dblp pages and every author has a dblp homepage and the url of the dblp homepage uses the pid. This way the pid can be extracted and mapped to all names occurring in the author homepage record under the “www” tag. In the dblp dataset an author can have multiple name versions like “Kalinka R. L. J. C. Branco" and "Kalinka Branco" is the same author and mapped to the same pid. Therefor the authors.json file can have multiple occurrences of the same author (pid) in combination with different names.
+* parse_inproceedings(proceedings_ids, name_pid_map, cut_off=2005): outputs the files inproceedings.json (2'542'194 inproceedings) and collabs.json (15'641'542 collaborations) In the xml file the authors of the inproceedings are listed with their name and not pid this is why a mapping of name->pid (generated from authors.json) is given as input such that for every pairwise author combination in an inproceeding the collaboration can be constructed with their pid’s and the id of the inproceeding and create an additional collaboration id (edge/id) that is a combination of the 3. 
+The inproceeding must have a cross-reference to the proceeding to which they belong but unfortunately this is not always the case and the crossref tag is sometimes missing. However, the dblp url of the inpoceeding and the id of the corresponding proceeding are very similar and have a root part in common. This is why as an additional input all the ids of proceedings taken from the proceeding.json is given such that the url could be matched with a fuzzy search to a proceeding id and this proceeding could than be taken as the crossref id. If no clear match could be made the inproceeding or the provided corssref is not a valid id the proceeding is getting ignored. This guarantees us that all inproceedings have a valid reference to an available proceeding.
+
 
 Output file overview:
 
@@ -169,9 +177,9 @@ and the file area_mapping.py was used to support the creation of the file.
 
 The areas are inspired by [csrankings.org](https://csrankings.org/) and [research.com](https://research.com/). 
 All the conferences present in csrankings are also in the area-mapping and since the focus is on the field of AI
-the top 200 rank AI related conferences rated by research.com are also present included in the mapping as well 
-as the as well as the conferences regarding AI listed on  [List_of_computer_science_conferences](https://en.wikipedia.org/wiki/List_of_computer_science_conferences#Artificial_intelligence). The categorized conferences include 2168 proceedings and 
-231'586 inproceedings.
+the top 200 rank AI related conferences rated by research.com are also included in the mapping as well 
+as the conferences regarding AI listed on  [List_of_computer_science_conferences](https://en.wikipedia.org/wiki/List_of_computer_science_conferences#Artificial_intelligence). The categorized AI conferences include 2160 proceedings and 
+229'958 inproceedings and all categorized conferences include 5488 proceedings and 391'856 inproceedings.
 
 file structure of area-mapping.json
 ```{shell}
