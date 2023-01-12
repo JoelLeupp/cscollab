@@ -94,6 +94,9 @@ conn.execute("""CREATE REL TABLE BelongsToConf(
 conn.execute("""CREATE REL TABLE BelongsToArea(
                 FROM Proceeding TO SubArea)""")
 
+# InRegion
+conn.execute("""CREATE REL TABLE InRegion(
+                FROM Country TO Region)""")
 # subarea 
 conn.execute("""CREATE REL TABLE SubAreaOf(
                 FROM SubArea TO Area)""")
@@ -116,6 +119,7 @@ conn.execute('COPY Crossref FROM "output/graph/edges_crossref.csv" (DELIM=";")')
 conn.execute('COPY BelongsToConf FROM "output/graph/edges_belongs_to_conf.csv" (DELIM=";")')
 conn.execute('COPY BelongsToArea FROM "output/graph/edges_belongs_to_area.csv" (DELIM=";")')
 conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";")')
+conn.execute('COPY InRegion FROM "output/graph/edges_in_region.csv" (DELIM=";")')
 
 
 #------------- drop tables------------
