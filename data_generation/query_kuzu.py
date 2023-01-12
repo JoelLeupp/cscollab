@@ -58,3 +58,19 @@ conn.execute('''MATCH
                 (p:Proceeding {id:"conf/aaai/2011learning"})-[b:BelongsToConf]->(c:Conference)
                 RETURN c.title;
                 ''').getAsDF() 
+
+
+# get all auhtors and institutions for which we have an affiliation
+csranking_authors = conn.execute('''  
+                MATCH (a:Author)-[af:Affiliation]->(c:Institution)
+                RETURN a.name,c;
+                ''').getAsDF()       
+print(csranking_authors.head(),"\n", csranking_authors.shape)
+
+# get all collaborations from cs rankings
+csranking_collabs = conn.execute('''  
+                MATCH (a:Author)-[c:Collaboration]->(b:Author)
+                RETURN count(c.record)
+                ''').getAsDF()       
+print(csranking_collabs.head(),"\n", csranking_collabs.shape)
+
