@@ -6,6 +6,9 @@ import pandas as pd
 import json
 import ijson
 from functools import reduce
+import urllib3
+from bs4 import BeautifulSoup as BS
+import time
 
 output_dir = "output/graph" 
 
@@ -133,6 +136,40 @@ collabs_df = pd.DataFrame(collabs)
 collabs_df.to_csv(os.path.join(output_dir, "edges_collabs.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\") 
 
+# Generate Conference Nodes and Connections to Proceedings
+#----------------------------------------------------------------------------------------------
+
+# get all conference ids
+conf=list(set(list(map(lambda x: x["conf"],proceedings))))
+
+# get the conference name from the dblp conference/index.html page 
+http = urllib3.PoolManager()
+conferences = []
+
+for cid in conf[len(conferences):]:
+    # url of dblp conference page
+    url = "https://dblp.org/db/conf/{}/index.html".format(cid)
+    response = http.request('GET', url)
+    # wait to not get blocked by the dblp server
+    time.sleep(0.5)
+    soup = BS(response.data)
+    # the title of the conference page is the confernce name
+    title = soup.find('h1').text
+    conferences.append({"id":cid, "title":title})
+
+conferences_df = pd.read_csv(os.path.join(output_dir, "nodes_conferences.csv"),sep=";")
+conferences_df = pd.DataFrame(conferences)
+# get rid of all special characters that could mess up the csv
+conferences_df["title"] = list(map(lambda x: re.sub("\]|\[|;|,|:|'|\n|\"|\\\\","",x), conferences_df["title"].to_list()))
+conferences_df.to_csv(os.path.join(output_dir, "nodes_conferences.csv"), 
+                        index=False, header=True, sep=";",doublequote=False, escapechar="\\") 
+ 
+# generate edges as relations from proceeding to conference
+belongs_to_conf = list(map(lambda x: {"proceeding": x["id"], "conference": x["conf"]}, proceedings))
+belongs_to_conf_df = pd.DataFrame(belongs_to_conf)
+belongs_to_conf_df.to_csv(os.path.join(output_dir, "edges_belongs_to_conf.csv"), 
+                        index=False, header=False, sep=";",doublequote=False, escapechar="\\") 
+
 # computer science area graph data 
 # ------------------------------------------------------
 
@@ -173,14 +210,14 @@ sub_area_of.to_csv(os.path.join(output_dir, "edges_sub_area_of.csv"),
 
 # generate connection between conference and subarea
 conf_belongs_to = []
-for area in ["ai"]: #area_map.keys()
+for area in area_map.keys(): #area_map.keys()
     for sub_area, conferences in area_map[area]["areas"].items():
         sub_area_conf = list(filter(lambda x: x["conf"] in conferences["conferences"], proceedings))
         conf_belongs_to.append(list(map(lambda x: (x["id"],sub_area), sub_area_conf)))
         
 conf_belongs_to = reduce(lambda x, y: x+y, conf_belongs_to)
 conf_belongs_to_df =  pd.DataFrame(conf_belongs_to)
-conf_belongs_to_df.to_csv(os.path.join(output_dir, "edges_conf_belongs_to.csv"), 
+conf_belongs_to_df.to_csv(os.path.join(output_dir, "edges_belongs_to_area.csv"), 
                         index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
 
 # Geographical and institutional graph data

@@ -30,11 +30,16 @@ conn.execute("""CREATE NODE TABLE Proceeding(
                 PRIMARY KEY (id))""")
 
 # inproceeding
-conn.execute("DROP TABLE Inproceeding")
 conn.execute("""CREATE NODE TABLE Inproceeding(
                 id STRING, 
                 title STRING, 
                 year INT64,
+                PRIMARY KEY (id))""")
+
+# conference
+conn.execute("""CREATE NODE TABLE Conference(
+                id STRING, 
+                title STRING, 
                 PRIMARY KEY (id))""")
 
 # institution
@@ -81,6 +86,10 @@ conn.execute("""CREATE REL TABLE Affiliation(
 conn.execute("""CREATE REL TABLE Crossref(
                 FROM Inproceeding TO Proceeding)""")
 
+# BelongsToConf
+conn.execute("""CREATE REL TABLE BelongsToConf(
+                FROM Proceeding TO Conference)""")
+
 # area of conference
 conn.execute("""CREATE REL TABLE BelongsToArea(
                 FROM Proceeding TO SubArea)""")
@@ -94,6 +103,7 @@ conn.execute("""CREATE REL TABLE SubAreaOf(
 conn.execute('COPY Author FROM "output/graph/nodes_authors.csv" (DELIM=";")')
 conn.execute('COPY Proceeding FROM "output/graph/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Inproceeding FROM "output/graph/nodes_inproceedings.csv" (DELIM=";", HEADER=true)')
+conn.execute('COPY Conference FROM "output/graph/nodes_conferences.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Institution FROM "output/graph/nodes_institution.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Country FROM "output/graph/nodes_countries.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Region FROM "output/graph/nodes_regions.csv" (DELIM=";", HEADER=true)')
@@ -103,7 +113,8 @@ conn.execute('COPY SubArea FROM "output/graph/nodes_sub_area.csv" (DELIM=";", HE
 conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Affiliation FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
 conn.execute('COPY Crossref FROM "output/graph/edges_crossref.csv" (DELIM=";")')
-conn.execute('COPY BelongsToArea FROM "output/graph/edges_conf_belongs_to.csv" (DELIM=";")')
+conn.execute('COPY BelongsToConf FROM "output/graph/edges_belongs_to_conf.csv" (DELIM=";")')
+conn.execute('COPY BelongsToArea FROM "output/graph/edges_belongs_to_area.csv" (DELIM=";")')
 conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";")')
 
 
@@ -116,6 +127,7 @@ conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";
 # conn.execute("DROP TABLE Author")
 # conn.execute("DROP TABLE Inproceeding")
 # conn.execute("DROP TABLE Proceeding")
+# conn.execute("DROP TABLE Conference")
 # conn.execute("DROP TABLE Institution")
 # conn.execute("DROP TABLE Country")
 # conn.execute("DROP TABLE Region")
@@ -123,7 +135,7 @@ conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";
 # conn.execute("DROP TABLE SubArea")
 
 # check data
-# results = conn.execute('MATCH (x:Inproceeding) RETURN DISTINCT x.year;').getAsDF()            
+# results = conn.execute('MATCH (x:Conference) RETURN DISTINCT x.title;').getAsDF()            
 # print(results)
 # print(results.shape)
 

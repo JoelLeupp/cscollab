@@ -51,3 +51,10 @@ proceedings_in_area = conn.execute('''
                 RETURN  i;
                 '''.format(area)).getAsDF()            
 print(proceedings_in_area.head(),"\n", proceedings_in_area.shape)
+
+
+# get the conference name of a proceeding
+conn.execute('''MATCH 
+                (p:Proceeding {id:"conf/aaai/2011learning"})-[b:BelongsToConf]->(c:Conference)
+                RETURN c.title;
+                ''').getAsDF() 
