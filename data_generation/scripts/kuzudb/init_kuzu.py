@@ -5,7 +5,7 @@ import time
 
 # create db 
 db = kuzu.database('./kuzu_db')
-# db.resize_buffer_manager(4147483648) # buffer pool size 2GB
+# db.resize_buffer_manager(6147483648) # buffer pool size 
 conn = kuzu.connection(db)
 
 # create schema

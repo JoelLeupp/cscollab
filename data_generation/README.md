@@ -2,7 +2,7 @@
 
 ## Data File Overview
 
-Downloaded files from https://github.com/emeryberger/CSrankings are in the */data* directory: 
+Downloaded files from https://github.com/emeryberger/CSrankings are in the *data/* directory: 
   
 * country-info.csv
 * csrankings.csv
@@ -10,7 +10,7 @@ Downloaded files from https://github.com/emeryberger/CSrankings are in the */dat
 
 Generated files are in the */output* directory:
 
-*/mapping* (Files for geographical and institutional mapping):
+*mapping/* (Files for geographical and institutional mapping):
 
 * geo-codes-auto.csv
 * inst-geo-map.csv
@@ -18,20 +18,20 @@ Generated files are in the */output* directory:
 * geo-mapping.json
 * geo-mapping.csv (final geo file with geographic information for each institution **country, region, geo-coordinates**)
 
-*/pid* (Name to pid mapping from authors in csrankings):
+*pid/* (Name to pid mapping from authors in csrankings):
 
 * authors-pid-all.csv
 * missing-authors.csv
 * authors-pid.csv
   
-*/dblp* (Data extraction from the dblp xml dump):
+*dblp/* (Data extraction from the dblp xml dump):
 
 * authors.json
 * collabs.json
 * inproceedings.json
 * proceedings.json
 
-*/graph* (Combination of dblp and csrankings in a node and edge data structure):
+*graph/* (Combination of dblp and csrankings in a node and edge data structure):
 
 * edges_affiliated.csv
 * edges_collabs.csv
@@ -51,7 +51,7 @@ Generated files are in the */output* directory:
 
 ## Virtual Environment 
 
-Always run python code in the virutal environment of this directory
+Use *data_generation/* as the working directory and always run python code in the virutal environment of this directory
 
 ```{shell}
 virtualenv venv
@@ -61,7 +61,7 @@ pip install -r requirements.txt
 
 ## Generate Geographical Mapping
 
-The script *geo-mapping.py* takes the *country-info.csv* and *csrankings.csv* and generates the file *inst-geo-map.csv* which consists of all institutions present in csrankings and adds region/country codes and labels for each institution. 
+The script *scripts/csrankings/geo-mapping.py* takes the *country-info.csv* and *csrankings.csv* and generates the file *inst-geo-map.csv* which consists of all institutions present in csrankings and adds region/country codes and labels for each institution. 
 
 With the API https://api.geoapify.com/v1/geocode/search? the script searches for geo-coordinates for every institution. If there is a match, the name of the found building is compared with the name of the institution using the levenstein distance to veryfy the match and assign a status (OK, WATCH, WRONG) to the result and generates the file *geo-codes-auto.csv*. In the file 210 Institutions where OK, 263 where on WATCH and for 136 the API no geo-coordinates where found.
 
@@ -78,7 +78,7 @@ institution|country-id|country-name|region-id|region-name|lat|lon
 
 ## Author Name to ID Mapping
 
-To connect the data from csranking with the dblp the author names from csranking must be mapped with the internal author ID (pid) from dblp. The file *gen_pid.py* is used to generate this mapping. With the help of the dblp API https://dblp.org/search/author? the script could exactly identify and get the pid of over 98% of the authors in *csrankings.csv*. The result is saved in the file *authors_pid_all.csv*. 
+To connect the data from csranking with the dblp the author names from csranking must be mapped with the internal author ID (pid) from dblp. The file *scripts/csrankings/gen_pid.py* is used to generate this mapping. With the help of the dblp API https://dblp.org/search/author? the script could exactly identify and get the pid of over 98% of the authors in *csrankings.csv*. The result is saved in the file *authors_pid_all.csv*. 
 
 The file *missing-authors.csv* is a list of all authors and their affiliation for which the script couldn't find an excat match. Looking at this file it can be seen that 49 authors affiliated with Switzerland, Germany or Austria are missing. For those missing authors I manualy looked at the result of the API https://dblp.org/search/author?xauthor and if there are multiple options I checked the API https://dblp.org/pid/$pid$.xml with all possible pid's and checked the affiliation to manualy find the matching pid. For some authors like "Anelis Kaiser" there is no person registerd in the dblp with such a name and no authors can be found. For others there are two differnt author names in csrankings.csv like "Christian Holz 0001" and "Christian Holz" but they are actualy the same person. In some cases the name from csranking.csv had multiple occurences in dblp and dblp adds a 4 digit number at the end of the name for this cases the matching pid can be found by checking all the matches. With manualy going through the 49 authors from GE,CH,AU additional 18 authors could be mapped.
 
@@ -104,7 +104,7 @@ DBLP XML APIs:
 * All records assosiated with a certain pid: https://dblp.org/pid/*$pid*.xml
 
 
-The file *parse_dblp.py* containes the parsers for the dblp.xml dump and the extract_dblp.py runs the parsers and extracts data abpout the authors, in/proceedings and collaborations later than the year 2005 and saves them in form of json files in the *output/dblp* directory.
+The file *scripts/dblp/parse_dblp.py* containes the parsers for the dblp.xml dump and the scripts/dblp/extract_dblp.py runs the parsers and extracts data abpout the authors, in/proceedings and collaborations later than the year 2005 and saves them in form of json files in the *output/dblp* directory.
 
 Parsers:
 
@@ -173,7 +173,7 @@ Output file overview:
 # Computer Science Area Mapping
 
 The mapping of conferences to computer science areas is saved under output/dblp/area-mapping.json 
-and the file area_mapping.py was used to support the creation of the file.
+and the file scripts/dblp/area_mapping.py was used to support the creation of the file.
 
 The areas are inspired by [csrankings.org](https://csrankings.org/) and [research.com](https://research.com/). 
 All the conferences present in csrankings are also in the area-mapping and since the focus is on the field of AI
