@@ -1,13 +1,15 @@
 #-------------------------------------
-# example of usefull queries on the kuzu db 
+# A Collection of usefull queries on the kuzu db 
+#-------------------------------------
 
 import kuzu
 import pandas as pd
 import numpy as np
 import json
 
-# create db 
-db = kuzu.database('./kuzu_db')
+# connect to db
+db = kuzu.database(database_path='./kuzu_db', buffer_pool_size=4294967296)
+# db.resize_buffer_manager(4294967296) # buffer pool size 4GB
 conn = kuzu.connection(db)
 
 # get country region mapping
@@ -70,7 +72,72 @@ print(csranking_authors.head(),"\n", csranking_authors.shape)
 # get all collaborations from cs rankings
 csranking_collabs = conn.execute('''  
                 MATCH (a:Author)-[c:Collaboration]->(b:Author)
-                RETURN count(c.record)
+                WHERE 
+                c.year >= 2010
+                AND
+                a.affiliation IS NOT NULL
+                AND 
+                b.affiliation IS NOT NULL
+                RETURN a.name, b.name, count(c.record) AS weight
                 ''').getAsDF()       
 print(csranking_collabs.head(),"\n", csranking_collabs.shape)
 
+# get all collaborations between instituions from cs rankings
+csranking_collabs = conn.execute('''  
+                MATCH (c:Country)-[i:InRegion]->(r:Region) 
+                WHERE 
+                c.year >= 2010
+                AND
+                a.affiliation IS NOT NULL
+                AND 
+                b.affiliation IS NOT NULL
+                RETURN a.affiliation, b.affiliation, count(c.record) AS weight
+                ''').getAsDF()       
+print(csranking_collabs.head(),"\n", csranking_collabs.shape)
+
+# get all institutuions from country
+csranking_collabs = conn.execute('''  
+                MATCH 
+                (i:Institution)-[l:LocatedIn]->(c:Country),
+                (c)-[ir:InRegion]->(r:Region)
+                WHERE c.id = "ch"
+                RETURN i.name, c.name
+                ''').getAsDF()       
+print(csranking_collabs.head(),"\n", csranking_collabs.shape)
+
+result = conn.execute('''  
+                MATCH 
+                (i:Institution)-[l:LocatedIn]->(c:Country)-[ir:InRegion]->(r:Region),
+                (a:Author)-[af:Affiliation]->(i),
+                (a)-[col:Collaboration]->(b:Author)
+                WHERE r.id = "europe"
+                RETURN DISTINCT col.record
+                ''').getAsDF()       
+print(result.head(),"\n", result.shape)
+
+
+rec_from_ch_inst = result["col.record"]
+
+result = conn.execute('''  
+                MATCH 
+                (i:Institution)-[l:LocatedIn]->(c:Country)-[ir:InRegion]->(r:Region)
+                WHERE r.id = "europe"
+                RETURN DISTINCT i.name
+                ''').getAsDF()       
+print(result.head(),"\n", result.shape)
+
+european_inst = result["i.name"].values
+
+def as_string(l):
+    s = '['
+    for i in l:
+        s += '"' + i + '", '
+    return s[:-2] + "]"
+
+result = conn.execute('''UNWIND {} AS x
+                         WITH x
+                         MATCH (a:Author)-[af:Affiliation]->(i:Institution)
+                         WHERE i.name = x
+                         RETURN a.pid
+                         '''.format(as_string(european_inst))).getAsDF()       
+print(result.head(),"\n", result.shape)

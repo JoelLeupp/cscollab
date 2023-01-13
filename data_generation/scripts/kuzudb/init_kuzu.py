@@ -4,8 +4,8 @@ import json
 import time
 
 # create db 
-db = kuzu.database('./kuzu_db')
-# db.resize_buffer_manager(6147483648) # buffer pool size 
+db = kuzu.database(database_path='./kuzu_db', buffer_pool_size=4294967296)
+# db.resize_buffer_manager(4294967296) # buffer pool size 4GB
 conn = kuzu.connection(db)
 
 # create schema
@@ -76,11 +76,15 @@ conn.execute("""CREATE NODE TABLE SubArea(
 # -------- Edges ----------
 # collaborations
 conn.execute("""CREATE REL TABLE Collaboration(
-                FROM Author TO Author, record STRING, id STRING)""")
+                FROM Author TO Author, record STRING, year INT64, id STRING)""")
 
 # affiliation
 conn.execute("""CREATE REL TABLE Affiliation(
                 FROM Author TO Institution)""")
+
+# located in
+conn.execute("""CREATE REL TABLE LocatedIn(
+                FROM Institution TO Country)""")
 
 # crossref
 conn.execute("""CREATE REL TABLE Crossref(
@@ -120,9 +124,11 @@ conn.execute('COPY BelongsToConf FROM "output/graph/edges_belongs_to_conf.csv" (
 conn.execute('COPY BelongsToArea FROM "output/graph/edges_belongs_to_area.csv" (DELIM=";")')
 conn.execute('COPY SubAreaOf FROM "output/graph/edges_sub_area_of.csv" (DELIM=";")')
 conn.execute('COPY InRegion FROM "output/graph/edges_in_region.csv" (DELIM=";")')
+conn.execute('COPY LocatedIn FROM "output/graph/edges_located_in.csv" (DELIM=";")')
 
 
 #------------- drop tables------------
+# conn.execute("DROP TABLE LocatedIn")
 # conn.execute("DROP TABLE Collaboration")
 # conn.execute("DROP TABLE Affiliation")
 # conn.execute("DROP TABLE Crossref")
@@ -137,6 +143,7 @@ conn.execute('COPY InRegion FROM "output/graph/edges_in_region.csv" (DELIM=";")'
 # conn.execute("DROP TABLE Region")
 # conn.execute("DROP TABLE Area")
 # conn.execute("DROP TABLE SubArea")
+
 
 # check data
 # results = conn.execute('MATCH (x:Conference) RETURN DISTINCT x.title;').getAsDF()            
