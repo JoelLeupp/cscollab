@@ -17,6 +17,18 @@ conn.execute("""CREATE NODE TABLE Author(
                 pid STRING, 
                 name STRING, 
                 affiliation STRING, 
+                country STRING,
+                homepage STRING, 
+                scholarid STRING, 
+                PRIMARY KEY (pid))""")
+
+# author csrankings 
+# author
+conn.execute("""CREATE NODE TABLE AuthorCS(
+                pid STRING, 
+                name STRING, 
+                affiliation STRING, 
+                country STRING,
                 homepage STRING, 
                 scholarid STRING, 
                 PRIMARY KEY (pid))""")
@@ -78,9 +90,17 @@ conn.execute("""CREATE NODE TABLE SubArea(
 conn.execute("""CREATE REL TABLE Collaboration(
                 FROM Author TO Author, record STRING, year INT64, id STRING)""")
 
+# collaborations csrankings
+conn.execute("""CREATE REL TABLE CollaborationCS(
+                FROM AuthorCS TO AuthorCS, record STRING, year INT64, id STRING)""")
+
 # affiliation
 conn.execute("""CREATE REL TABLE Affiliation(
                 FROM Author TO Institution)""")
+
+# affiliation
+conn.execute("""CREATE REL TABLE AffiliationCS(
+                FROM AuthorCS TO Institution)""")
 
 # located in
 conn.execute("""CREATE REL TABLE LocatedIn(
@@ -108,6 +128,7 @@ conn.execute("""CREATE REL TABLE SubAreaOf(
 # load data in db
 #---------------- nodes --------------------------------------------------------------------
 conn.execute('COPY Author FROM "output/graph/nodes_authors.csv" (DELIM=";")')
+conn.execute('COPY AuthorCS FROM "output/graph/nodes_authors_csrankings.csv" (DELIM=";")')
 conn.execute('COPY Proceeding FROM "output/graph/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Inproceeding FROM "output/graph/nodes_inproceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Conference FROM "output/graph/nodes_conferences.csv" (DELIM=";", HEADER=true)')
@@ -118,7 +139,9 @@ conn.execute('COPY Area FROM "output/graph/nodes_area.csv" (DELIM=";", HEADER=tr
 conn.execute('COPY SubArea FROM "output/graph/nodes_sub_area.csv" (DELIM=";", HEADER=true)')
 #---------------- edges --------------------------------------------------------------------
 conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";", HEADER=true)')
+conn.execute('COPY CollaborationCS FROM "output/graph/edges_collabs_csrankings.csv" (DELIM=";")')
 conn.execute('COPY Affiliation FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
+conn.execute('COPY AffiliationCS FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
 conn.execute('COPY Crossref FROM "output/graph/edges_crossref.csv" (DELIM=";")')
 conn.execute('COPY BelongsToConf FROM "output/graph/edges_belongs_to_conf.csv" (DELIM=";")')
 conn.execute('COPY BelongsToArea FROM "output/graph/edges_belongs_to_area.csv" (DELIM=";")')
@@ -129,12 +152,16 @@ conn.execute('COPY LocatedIn FROM "output/graph/edges_located_in.csv" (DELIM=";"
 
 #------------- drop tables------------
 # conn.execute("DROP TABLE LocatedIn")
+# conn.execute("DROP TABLE InRegion")
 # conn.execute("DROP TABLE Collaboration")
+# conn.execute("DROP TABLE CollaborationCS")
 # conn.execute("DROP TABLE Affiliation")
+# conn.execute("DROP TABLE AffiliationCS")
 # conn.execute("DROP TABLE Crossref")
 # conn.execute("DROP TABLE BelongsToArea")
 # conn.execute("DROP TABLE SubAreaOf")
 # conn.execute("DROP TABLE Author")
+# conn.execute("DROP TABLE AuthorCS")
 # conn.execute("DROP TABLE Inproceeding")
 # conn.execute("DROP TABLE Proceeding")
 # conn.execute("DROP TABLE Conference")
@@ -151,3 +178,12 @@ conn.execute('COPY LocatedIn FROM "output/graph/edges_located_in.csv" (DELIM=";"
 # print(results.shape)
 
 
+# test_csv = pd.read_csv("data/test/test.csv")
+
+# conn.execute("""CREATE NODE TABLE TEST(
+#                 name STRING,
+#                 PRIMARY KEY (name))""")
+# conn.execute('COPY TEST FROM "data/test/test.csv"')
+# conn.execute('MATCH (x:Institution) RETURN *;').getAsDF()[20:30]
+
+# conn.execute("DROP TABLE TEST")
