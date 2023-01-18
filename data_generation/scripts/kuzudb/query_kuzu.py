@@ -123,6 +123,7 @@ def get_csranking_authors():
 # csranking_authors = get_csranking_authors() 
 # print(csranking_authors.head(),"\n", csranking_authors.shape)
 
+# get all in/proceedings of a conference with name
 def get_conference(conf):
     result = conn.execute('''  
                     MATCH 
@@ -135,6 +136,18 @@ def get_conference(conf):
 # result = get_conference()   
 # print(result.head(),"\n", result.shape)
 
+def get_csauthors(country_id = None, region_id = "wd"):
+    result = conn.execute('''  
+                MATCH 
+                (a:AuthorCS)-[af:AffiliationCS]->
+                (i:Institution)-[l:LocatedIn]->
+                (c:Country)-[ir:InRegion]->(r:Region)
+                WHERE r.id = "dach"
+                RETURN a.pid, a.name,i
+                ''').getAsDF()       
+    print(result.head(),"\n", result.shape) 
+
+
 # get all collaborations from cs rankings
 result = get_by_area({  "area_id" : "ai", 
                         "area_type":  "a", 
@@ -144,7 +157,6 @@ result = get_by_area({  "area_id" : "ai",
 ai_inproceedings = result["i.id"].values
 ai_inproceedings_idx = dict(zip(ai_inproceedings,np.repeat(True, len(ai_inproceedings))))
 
-print(result.head(),"\n", result.shape)
 result = conn.execute('''
                         MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
                         RETURN x.pid, y.pid, col
@@ -164,7 +176,7 @@ collabs_ai_sorted = pd.DataFrame(collabs_ai_tuples, columns = ["author_a", "auth
     
 grouped = collabs_ai_sorted.groupby(["author_a", "author_b"])["rec"].count().sort_values(ascending=False).reset_index() 
 
-conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
+test1=conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
                 WHERE 
                 (x.pid = "c/XilinChen" AND y.pid = "s/ShiguangShan") 
                 OR 
@@ -175,6 +187,7 @@ conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
                 WHERE a.id = "ai" AND i.id = record AND i.year > 2010
                 RETURN x, y, record
                 ''').getAsDF()  
+
 
 
 # get all collaborations between instituions from cs rankings
@@ -202,11 +215,11 @@ print(csranking_collabs.head(),"\n", csranking_collabs.shape)
 
 result = conn.execute('''  
                 MATCH 
-                (i:Institution)-[l:LocatedIn]->(c:Country)-[ir:InRegion]->(r:Region),
-                (a:Author)-[af:Affiliation]->(i),
-                (a)-[col:Collaboration]->(b:Author)
-                WHERE r.id = "europe"
-                RETURN DISTINCT col.record
+                (a:AuthorCS)-[af:AffiliationCS]->
+                (i:Institution)-[l:LocatedIn]->
+                (c:Country)-[ir:InRegion]->(r:Region)
+                WHERE r.id = "dach"
+                RETURN a.pid, a.name,i
                 ''').getAsDF()       
 print(result.head(),"\n", result.shape)
 
