@@ -60,7 +60,7 @@ def get_by_area(area_config):
     if area_id or cut_off:
         clauses = []
         if cut_off:
-            clauses.append("{}.year > {}".format(return_type,cut_off))
+            clauses.append("{}.year >= {}".format(return_type,cut_off))
         if area_id:
             clauses.append('{}.id = "{}"'.format(area_type,area_id))
         where_clause =  "WHERE " + " AND ".join(clauses)
@@ -112,16 +112,6 @@ def get_conference_name(proceeding_list):
 # proceeding_list = ['conf/ijcnn/2011', 'conf/ijcnn/2017', 'conf/ijcnn/2021','conf/mod/2016', 'conf/mod/2021-1']
 # get_conference_name(proceeding_list)
 
-# get all auhtors and institutions for which we have an affiliation
-def get_csranking_authors():
-    result = conn.execute('''  
-                    MATCH (a:Author)-[af:Affiliation]->(i:Institution)
-                    RETURN a.pid, a.name, i.name, i.lat, i.lon;
-                    ''').getAsDF()   
-    result.columns=["pid", "name", "institution", "lat", "lon"]
-    return result 
-# csranking_authors = get_csranking_authors() 
-# print(csranking_authors.head(),"\n", csranking_authors.shape)
 
 # get all in/proceedings of a conference with name
 def get_conference(conf):
@@ -136,45 +126,108 @@ def get_conference(conf):
 # result = get_conference()   
 # print(result.head(),"\n", result.shape)
 
+# get authors from csranking with their affiliation filtered on region/country
 def get_csauthors(country_id = None, region_id = "wd"):
+     
+    if country_id:
+        where_clause = 'c.id = "{}"'.format(country_id)
+    else:
+        where_clause = 'r.id = "{}"'.format(region_id)
+    
     result = conn.execute('''  
                 MATCH 
                 (a:AuthorCS)-[af:AffiliationCS]->
                 (i:Institution)-[l:LocatedIn]->
                 (c:Country)-[ir:InRegion]->(r:Region)
-                WHERE r.id = "dach"
+                WHERE {}
                 RETURN a.pid, a.name,i
-                ''').getAsDF()       
-    print(result.head(),"\n", result.shape) 
+                '''.format(where_clause)).getAsDF()  
+    result.columns = ["pid", "name", "institution", "lat", "lon"]  
+    return result
+# result = get_csauthors(region_id="dach")
+# print(result.head(),"\n", result.shape)
 
-
-# get all collaborations from cs rankings
-result = get_by_area({  "area_id" : "ai", 
-                        "area_type":  "a", 
-                        "cut_off":2010,
-                        "return_type" :"i"})
-
-ai_inproceedings = result["i.id"].values
-ai_inproceedings_idx = dict(zip(ai_inproceedings,np.repeat(True, len(ai_inproceedings))))
-
-result = conn.execute('''
-                        MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
-                        RETURN x.pid, y.pid, col
-                        ''').getAsDF()       
-print(result.head(),"\n", result.shape)
-collabs_ai = result[list(map(lambda x: ai_inproceedings_idx.get(x, False), result["col.record"]))]
-
-# sort authors alphabetically to make sure the collaborations between authors is correctly aggregated
-collabs_ai_tuples = []
-for _, row in collabs_ai.iterrows():
-    if row["x.pid"]>row["y.pid"]:
-        row_tuple = (row["y.pid"],row["x.pid"],row["col.record"])
-    else :
-        row_tuple = (row["x.pid"],row["y.pid"],row["col.record"])
-    collabs_ai_tuples.append(row_tuple)
-collabs_ai_sorted = pd.DataFrame(collabs_ai_tuples, columns = ["author_a", "author_b", "rec"])
+# get collaboration of author/institution filtered on region and area 
+# collab_config = {"area_id" : "ai", 
+#                "area_type":  "a", 
+#                "region_id":"dach",
+#                "country_id":None,
+#                "strict_boundary":True
+#                }
+def get_collaboration(collab_config):
     
-grouped = collabs_ai_sorted.groupby(["author_a", "author_b"])["rec"].count().sort_values(ascending=False).reset_index() 
+    area_id = collab_config.get("area_id")
+    area_type =  collab_config.get("area_type")
+    region_id = collab_config.get("region_id")
+    country_id =collab_config.get("country_id")
+    strict_boundary = collab_config.get("area_type", True)
+
+    # get authors from given region
+    csauthors_region = get_csauthors(country_id=country_id, region_id=region_id)
+    csauthors_region_idx = dict(zip(csauthors_region["pid"],np.repeat(True, csauthors_region.shape[0])))
+
+    # get all inproceedings from cs rankings from an area
+    inproceedings_of_area = get_by_area({  "area_id" : area_id, 
+                            "area_type": area_type, 
+                            "return_type" :"i"})
+
+
+    inproceedings = inproceedings_of_area["i.id"].values
+    inproceedings_idx = dict(zip(inproceedings,np.repeat(True, len(inproceedings))))
+
+    # get all collaborations from csrankings authors
+    collab = conn.execute('''MATCH (a:AuthorCS)-[col:CollaborationCS]->(b:AuthorCS)
+                             RETURN a.pid AS a, b.pid AS b, col.record AS rec, col.year AS year''').getAsDF() 
+
+    # filter collaboration by area
+    collabs_area = collab[list(map(lambda x: inproceedings_idx.get(x, False), collab["rec"]))]
+
+    # sort authors alphabetically to make sure the collaborations between authors is correctly aggregated
+    def order_tuple(row):
+        if row["a"]>row["b"]:
+            row_tuple = (row["b"],row["a"],row["rec"], row["year"])
+        else:
+            row_tuple = (row["a"],row["b"],row["rec"], row["year"])
+        return row_tuple
+    
+    # get ordered collaboration tuples
+    collabs_tuples = np.array(list(map(lambda x: order_tuple(x[1]),collabs_area.iterrows())))
+
+    # check if author is part of given region
+    x_in_region = list(map(lambda x: csauthors_region_idx.get(x[0], False), collabs_tuples))
+    y_in_region = list(map(lambda x: csauthors_region_idx.get(x[1], False), collabs_tuples))
+
+    # exclude authors based on regional constraints
+    if strict_boundary:
+        # both authors must be from given region
+        region_filter = np.logical_and(x_in_region,y_in_region)
+    else: 
+        # at least one author must be from given region
+        region_filter = np.logical_or(x_in_region,y_in_region)
+
+    # collaborations filtered on regional constraint
+    collabs_tuples_filtered = collabs_tuples[region_filter]
+    collabs_sorted = pd.DataFrame(collabs_tuples_filtered, columns = ["a", "b", "rec", "year"])
+    collabs_sorted = collabs_sorted.astype({"year":'int'})
+    return collabs_sorted
+
+collabs_sorted = get_collaboration(
+            {"area_id" : "ai", 
+            "area_type":  "a", 
+            "region_id":"dach",
+            "strict_boundary":True
+            })
+collabs_sorted[collabs_sorted["year"]>=2018]
+
+# get all csauthors and create a mapping pid->institution
+csauthors_all = get_csauthors()
+author_inst_map = dict(zip(csauthors_all["pid"],csauthors_all["institution"]))
+
+collab = "institution"
+if collab == "institution":
+    collabs_ai_sorted = collabs_ai_sorted.replace(author_inst_map)
+
+grouped = collabs_ai_sorted.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
 
 test1=conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
                 WHERE 
@@ -189,165 +242,8 @@ test1=conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
                 ''').getAsDF()  
 
 
-
-# get all collaborations between instituions from cs rankings
-csranking_collabs = conn.execute('''  
-                MATCH (c:Country)-[i:InRegion]->(r:Region) 
-                WHERE 
-                c.year >= 2010
-                AND
-                a.affiliation IS NOT NULL
-                AND 
-                b.affiliation IS NOT NULL
-                RETURN a.affiliation, b.affiliation, count(c.record) AS weight
-                ''').getAsDF()       
-print(csranking_collabs.head(),"\n", csranking_collabs.shape)
-
-# get all institutuions from country
-csranking_collabs = conn.execute('''  
-                MATCH 
-                (i:Institution)-[l:LocatedIn]->(c:Country),
-                (c)-[ir:InRegion]->(r:Region)
-                WHERE c.id = "ch"
-                RETURN i.name, c.name
-                ''').getAsDF()       
-print(csranking_collabs.head(),"\n", csranking_collabs.shape)
-
-result = conn.execute('''  
-                MATCH 
-                (a:AuthorCS)-[af:AffiliationCS]->
-                (i:Institution)-[l:LocatedIn]->
-                (c:Country)-[ir:InRegion]->(r:Region)
-                WHERE r.id = "dach"
-                RETURN a.pid, a.name,i
-                ''').getAsDF()       
-print(result.head(),"\n", result.shape)
-
-
-rec_from_ch_inst = result["col.record"]
-
-result = conn.execute('''  
-                MATCH 
-                (i:Institution)-[l:LocatedIn]->(c:Country)-[ir:InRegion]->(r:Region)
-                WHERE c.id = "ch"
-                RETURN DISTINCT i.name
-                ''').getAsDF()       
-print(result.head(),"\n", result.shape)
-
-#result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-dach_inst = result["i.name"].values
-
-def list_as_string(l):
-    s = '['
-    for i in l:
-        s += '"{}", '.format(i)
-    return s[:-2] + "]"
-
-result = conn.execute('''UNWIND {} AS x
-                         WITH x
-                         MATCH 
-                         (a:Author)-[af:Affiliation]->(i:Institution),
-                         (a)-[col:Collaboration]->(b:Author)
-                         WHERE  i.name = x
-                         RETURN col.id
-                         '''.format(list_as_string(dach_inst))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute('''UNWIND {} AS x
-                         WITH x
-                         MATCH 
-                         (a:Author)-[af:Affiliation]->(i:Institution),
-                         (a)-[c:Collaboration]->(b:Author)
-                         WHERE  i.name = x
-                         RETURN a.name, b.name, c.record
-                         UNION
-                         UNWIND {} AS x
-                         WITH x
-                         MATCH 
-                         (b:Author)-[af:Affiliation]->(i:Institution),
-                         (a:Author)-[c:Collaboration]->(b)
-                         WHERE  i.name = x
-                         RETURN a.name, b.name, c.record
-                         '''.format(list_as_string(dach_inst),list_as_string(dach_inst))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute('''UNWIND {} AS x
-                         WITH x
-                         MATCH 
-                         (a:Author)-[af:Affiliation]->(i:Institution)
-                         WHERE  i.name = x
-                         RETURN a.pid
-                         '''.format(list_as_string(dach_inst))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-dach_authors = result["a.pid"].values
-
-result = conn.execute('''UNWIND {} AS dach_authors1
-                         WITH dach_authors1
-                         UNWIND {} AS dach_authors2
-                         WITH dach_authors1, dach_authors2
-                         MATCH 
-                         (a:Author)-[c:Collaboration]->(b:Author)
-                         WHERE  a.pid = dach_authors1 AND b.pid = dach_authors2
-                         RETURN a.pid, b.pid, c.record
-                         '''.format(list_as_string(dach_authors),list_as_string(dach_authors))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute(''' MATCH 
-                         (a:Author)
-                         RETURN a.pid
-                         '''.format(list_as_string(dach_authors),list_as_string(dach_authors))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute('''MATCH 
-                         (a:Author)-[af1:Affiliation]->(i2:Institution)-[l1:LocatedIn]->(c1:Country)-[ir1:InRegion]->(r:Region),
-                         (b:Author)-[af2:Affiliation]->(i1:Institution)-[l2:LocatedIn]->(c2:Country)-[ir2:InRegion]->(r),
-                         (a)-[col:Collaboration]->(b)
-                         WHERE r.id = "dach"
-                         RETURN a.pid, b.pid, col.record, c1.name, c2.name
-                         '''.format(list_as_string(dach_authors),list_as_string(dach_authors))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-
-ch_inst = ['EPFL', 'ETH Zurich', 'University of Bern', 'University of Zurich','Università della Svizzera italiana']
-result = conn.execute('''MATCH 
-                         (c1:Country)-[ir1:InRegion]->(r1:Region),
-                         (c2:Country)-[ir2:InRegion]->(r2:Region),
-                         (a:Author)-[col:Collaboration]->(b:Author)
-                         WHERE 
-                         a.country = c1.id AND r1.id = "dach" AND b.country = c2.id AND r2.id = "dach"
-                         RETURN a.pid, b.pid
-                         ''').getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute('''UNWIND ["ch","at","de"] AS dach_region
-                         WITH dach_region 
-                         MATCH 
-                         (a:Author)-[col:Collaboration]->(b:Author)
-                         WHERE 
-                         a.country = "de" AND b.country = dach_region AND col.year > 2005
-                         RETURN a.pid, b.pid, count(col.record)
-                         '''.format(list_as_string(ai_inproceedings))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute('''MATCH (a:Author)-[col:Collaboration]->(b:Author)
-                         WHERE 
-                         a.country = "ch" AND b.country = "de" AND col.year > 2005
-                         RETURN a.pid, b.pid, count(col.record)
-                         ''').getAsDF()       
-print(result.head(),"\n", result.shape)
-
-result = conn.execute('''UNWIND {} AS ch_inst
-                        WITH ch_inst
-                        MATCH 
-                        (a:Author)-[col:Collaboration]->(b:Author)
-                        WHERE a.affiliation = ch_inst
-                        RETURN a.name, a.affiliation
-                        '''.format(list_as_string(ch_inst))).getAsDF()       
-print(result.head(),"\n", result.shape)
-
-t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-t = t.str.decode(encoding = 'utf-8')
+# t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+# t = t.str.decode(encoding = 'utf-8')
 
 
 
