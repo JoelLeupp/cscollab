@@ -12,6 +12,19 @@ db = kuzu.database(database_path='./kuzu_db', buffer_pool_size=4294967296)
 # db.resize_buffer_manager(8589934592) 
 conn = kuzu.connection(db)
 
+# config for global filters
+# if strict_boundary is True all authors must be from the given region 
+# else at least one author must be from given region
+config = {  "from_year": 2005,
+            "to_year": 2023,
+            "area_id" : "ai", 
+            "area_type": "a", 
+            "region_id": "wd",
+            "country_id": None,
+            "strict_boundary": True,
+            "institution":False
+            }
+            
 # helper function to convert lists as strings
 def list_as_string(l):
     s = '['
@@ -45,22 +58,26 @@ def get_area_mapping():
 # get proceedings and inproceedings filtered by area/subarea
 # area_type: a if main area s if sub area
 # return_type: p if proceeding area i if inproceeding
+# example: 
 # area_config = {"area_id" : "ai", 
 #                "area_type":  "a", 
 #                "cut_off":None,
 #                "return_type" :"p"}
 def get_by_area(area_config):
     
-    cut_off = area_config.get("cut_off")
+    from_year = area_config.get("from_year")
+    to_year = area_config.get("to_year")
     return_type = area_config.get("return_type","p")
     area_id = area_config.get("area_id")
     area_type =  area_config.get("area_type")
     
     # generate where clause
-    if area_id or cut_off:
+    if area_id or from_year or to_year:
         clauses = []
-        if cut_off:
-            clauses.append("{}.year >= {}".format(return_type,cut_off))
+        if from_year:
+            clauses.append("{}.year >= {}".format(return_type,from_year))
+        if to_year:
+            clauses.append("{}.year < {}".format(return_type,to_year))
         if area_id:
             clauses.append('{}.id = "{}"'.format(area_type,area_id))
         where_clause =  "WHERE " + " AND ".join(clauses)
@@ -154,13 +171,13 @@ def get_csauthors(country_id = None, region_id = "wd"):
 #                "country_id":None,
 #                "strict_boundary":True
 #                }
-def get_collaboration(collab_config):
+def get_collaboration(collab_config={}):
     
     area_id = collab_config.get("area_id")
     area_type =  collab_config.get("area_type")
-    region_id = collab_config.get("region_id")
+    region_id = collab_config.get("region_id","wd")
     country_id =collab_config.get("country_id")
-    strict_boundary = collab_config.get("area_type", True)
+    strict_boundary = collab_config.get("strict_boundary", True)
 
     # get authors from given region
     csauthors_region = get_csauthors(country_id=country_id, region_id=region_id)
@@ -211,35 +228,103 @@ def get_collaboration(collab_config):
     collabs_sorted = collabs_sorted.astype({"year":'int'})
     return collabs_sorted
 
-collabs_sorted = get_collaboration(
-            {"area_id" : "ai", 
-            "area_type":  "a", 
-            "region_id":"dach",
-            "strict_boundary":True
-            })
-collabs_sorted[collabs_sorted["year"]>=2018]
+# collabs = get_collaboration(
+#             {"area_id" : "ai", 
+#             "area_type":  "a", 
+#             "region_id":"dach",
+#             "strict_boundary":True
+#             })
+# collabs_sorted = get_collaboration()
 
-# get all csauthors and create a mapping pid->institution
-csauthors_all = get_csauthors()
-author_inst_map = dict(zip(csauthors_all["pid"],csauthors_all["institution"]))
+# generate a weighted collaboration based on author or instituion from a set of collaborations
+# example collabs = get_collaboration()
+def weighted_collab(collabs,from_year=None, to_year = None, institution = False):
+    # get all csauthors and create a mapping pid->institution
+    csauthors_all = get_csauthors()
+    author_inst_map = dict(zip(csauthors_all["pid"],csauthors_all["institution"]))
 
-collab = "institution"
-if collab == "institution":
-    collabs_ai_sorted = collabs_ai_sorted.replace(author_inst_map)
+    if institution:
+        collabs["a"] = list(map(lambda x: author_inst_map[x], collabs["a"].values))
+        collabs["b"] = list(map(lambda x: author_inst_map[x], collabs["b"].values))
+        # make sure to weight the collaboration between institutions  
+        # only once per inproceeding even if multiple auhtors collaborated
+        collabs = collabs.drop_duplicates()
+    # only consider collabs later or equal to the cut_off year
+    if from_year:
+        collabs = collabs[collabs["year"]>=from_year]
+    if to_year:
+        collabs = collabs[collabs["year"]<to_year]
+    
+    # count collaborations between authors or institutions
+    weighted = collabs.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
+    weighted.columns = ["a", "b", "weight"]  
+    return weighted
+# collabs = get_collaboration(
+#             {"area_id" : "ai", 
+#             "area_type":  "a", 
+#             "region_id":"dach",
+#             "strict_boundary":True
+#             })
+# weighted_collab(collabs, cut_off = 2010, institution=True)
 
-grouped = collabs_ai_sorted.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
+# wraper for the combination of get_collaboration() and weighted_collab()
+def get_weighted_collab(config={}):
+    
+    institution = config.get("institution")
+    from_year = config.get("from_year")
+    to_year = config.get("to_year")
+    
+    collabs = get_collaboration(config)
+    weighted = weighted_collab(collabs, from_year = from_year,to_year=to_year, institution=institution)
+    return weighted
+# get_weighted_collab({   "from_year": 2010,
+#                         "area_id" : "ai", 
+#                         "area_type":  "a", 
+#                         "region_id":"dach",
+#                         "strict_boundary":True,
+#                         "institution":False
+#                         })
+get_weighted_collab({"from_year": 2010, "institution":True})
 
-test1=conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
+
+# get all the collaborations between two authors with the constraints given in the config
+def get_collab_pid(pid_x, pid_y, config={}):
+    
+    # get constraints from config
+    from_year = config.get("from_year")
+    to_year = config.get("to_year")
+    area_id = config.get("area_id")
+    area_type = config.get("area_type","a")
+    
+    # generate where clause
+    if area_id or from_year or to_year:
+        clauses = []
+        if from_year:
+            clauses.append("i.year >= {}".format(from_year))
+        if to_year:
+            clauses.append("i.year < {}".format(to_year))
+        if area_id:
+            clauses.append('{}.id = "{}"'.format(area_type,area_id))
+        where_clause =  "WHERE i.id = record AND " + " AND ".join(clauses)
+    else: 
+        where_clause = "WHERE i.id = record"
+    
+    # get all the collaboration inproceedings, proceedings and conferences between the two pids 
+    result = conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
                 WHERE 
-                (x.pid = "c/XilinChen" AND y.pid = "s/ShiguangShan") 
+                (x.pid = "{0}" AND y.pid = "{1}") 
                 OR 
-                (y.pid = "c/XilinChen" AND x.pid = "s/ShiguangShan")
+                (y.pid = "{0}" AND x.pid = "{1}") 
                 WITH x.pid as x, y.pid as y, col.record as record
-                MATCH (p:Proceeding)-[b:BelongsToArea]->(s:SubArea)-[o:SubAreaOf]->(a:Area),
-                (i:Inproceeding)-[c:Crossref]->(p)
-                WHERE a.id = "ai" AND i.id = record AND i.year > 2010
-                RETURN x, y, record
-                ''').getAsDF()  
+                MATCH (p:Proceeding)-[ba:BelongsToArea]->(s:SubArea)-[o:SubAreaOf]->(a:Area),
+                (i:Inproceeding)-[c:Crossref]->(p)-[bc:BelongsToConf]->(conf:Conference)
+                {2}
+                RETURN i.year, i.id, i.title, p.id, p.title, conf.id, conf.title
+                '''.format(pid_x,pid_y,where_clause)).getAsDF() 
+    result.columns = ["year", "inproceeding_id", "inproceeding_title", "proceeding_id", 
+                      "proceeding_title", "conference_id", "conference_title"]
+    return result
+# get_collab_pid("24/8616","61/5017", {"from_year": 2010,"area_id" : "ai", "area_type":  "a"})
 
 
 # t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
