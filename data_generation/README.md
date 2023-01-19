@@ -231,3 +231,7 @@ The areas are categorized as follows:
 | Interdisciplinary Areas | Human-computer interaction            |
 | Interdisciplinary Areas | Robotics                              |
 | Interdisciplinary Areas | Visualization                         |
+
+## KUZU DB
+![kuzudb Graph schema](https://user-images.githubusercontent.com/34285164/213498109-4aae7d73-0b77-4d22-ab0d-0e3445c44004.svg)
+
