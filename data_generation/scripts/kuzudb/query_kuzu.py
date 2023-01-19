@@ -284,7 +284,7 @@ def get_weighted_collab(config={}):
 #                         "strict_boundary":True,
 #                         "institution":False
 #                         })
-get_weighted_collab({"from_year": 2010, "institution":True})
+# get_weighted_collab({"from_year": 2010, "institution":True})
 
 
 # get all the collaborations between two authors with the constraints given in the config
@@ -326,6 +326,68 @@ def get_collab_pid(pid_x, pid_y, config={}):
     return result
 # get_collab_pid("24/8616","61/5017", {"from_year": 2010,"area_id" : "ai", "area_type":  "a"})
 
+# get all the collaborations between two authors with the constraints given in the config
+def get_collab_institution(inst_x, inst_y, config={}):
+    
+    # get constraints from config
+    from_year = config.get("from_year")
+    to_year = config.get("to_year")
+    area_id = config.get("area_id")
+    area_type = config.get("area_type","a")
+    
+    # generate where clause
+    if from_year or to_year:
+        clauses = []
+        if from_year:
+            clauses.append("col.year >= {}".format(from_year))
+        if to_year:
+            clauses.append("col.year < {}".format(to_year))
+
+        where_clause_collab =  " AND " + " AND ".join(clauses)
+    else: 
+        where_clause_collab = ""
+    
+    # get all the collaboration inproceedings, proceedings and conferences between the two pids 
+    collab_inst = conn.execute('''MATCH (x:AuthorCS)-[col:CollaborationCS]->(y:AuthorCS)
+                WHERE x.affiliation = "{0}" AND y.affiliation = "{1}"{2}
+                RETURN DISTINCT col.record AS rec
+                '''.format(inst_x,inst_y,where_clause_collab)).getAsDF() 
+    collab_inst_rec = collab_inst["rec"].values
+    collab_inst_idx = dict(zip(collab_inst_rec,np.repeat(True, len(collab_inst_rec))))
+    
+    if area_id or from_year or to_year:
+        clauses = []
+        if from_year:
+            clauses.append("i.year >= {}".format(from_year))
+        if to_year:
+            clauses.append("i.year < {}".format(to_year))
+        if area_id:
+            clauses.append('{}.id = "{}"'.format(area_type,area_id))
+        where_clause =  "WHERE " + " AND ".join(clauses)
+    else: 
+        where_clause = ""
+    
+    # filter inproceedings by area and year constraint
+    inproceedings_area = conn.execute('''
+                        MATCH (p:Proceeding)-[ba:BelongsToArea]->(s:SubArea)-[o:SubAreaOf]->(a:Area),
+                        (i:Inproceeding)-[c:Crossref]->(p)-[bc:BelongsToConf]->(conf:Conference)
+                        {}
+                        RETURN i.year, i.id, i.title, p.id, p.title, conf.id, conf.title
+                        '''.format(where_clause)).getAsDF() 
+    inproceedings_area.columns = ["year", "inproceeding_id", "inproceeding_title", "proceeding_id", 
+                      "proceeding_title", "conference_id", "conference_title"]
+               
+    # filter by the constraint on the instittution
+    inproceedings_area= inproceedings_area[list(map(
+                                            lambda x: collab_inst_idx.get(x,False),
+                                            inproceedings_area["inproceeding_id"]))]
+    
+    # remove dublicates from collaborations within the institution
+    inproceedings_area = inproceedings_area.drop_duplicates()
+
+    return inproceedings_area
+# get_collab_institution("Tsinghua University","Tsinghua University",{"from_year": 2010})
+# get_weighted_collab({"from_year": 2010, "institution":True})
 
 # t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
 # t = t.str.decode(encoding = 'utf-8')
