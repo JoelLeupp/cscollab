@@ -3,6 +3,7 @@ import re
 import os
 import sys
 import pandas as pd
+import numpy as np
 import json
 import ijson
 from functools import reduce
@@ -86,7 +87,7 @@ def gen_author_nodes():
                            index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
     
 # generate graph data
-gen_author_nodes()
+# gen_author_nodes()
 
 # with open(os.path.join(output_dir, "nodes_authors.json"), "r") as f:
 #     author_nodes = json.load(f)
@@ -131,8 +132,14 @@ crossref_df.to_csv(os.path.join(output_dir, "edges_crossref.csv"),
 # load collaborations
 with open(os.path.join(output_dblp, "collabs.json"), "r") as f:
     collabs = json.load(f)
-    
+
+# include the year of the inproceeding in the collaboration (faster queries)    
+year_index = dict(zip(inproceedings_df["id"],inproceedings_df["year"]))
+for c in collabs:
+    c["rec/year"]=year_index[c["rec/id"]]
+
 collabs_df = pd.DataFrame(collabs)
+collabs_df = collabs_df.reindex(columns=['node/u', 'node/v', 'rec/id', 'rec/year', 'edge/id'])
 collabs_df.to_csv(os.path.join(output_dir, "edges_collabs.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\") 
 
@@ -227,8 +234,13 @@ conf_belongs_to_df.to_csv(os.path.join(output_dir, "edges_belongs_to_area.csv"),
 geo_mapping = pd.read_csv(os.path.join("output/mapping", "geo-mapping.csv"))
     
 nodes_institution = geo_mapping[["institution","lat","lon"]]
-nodes_institution.to_csv(os.path.join(output_dir, "nodes_institution.csv"), 
+nodes_institution.to_csv(os.path.join(output_dir, "nodes_institution.csv"), encoding="utf-8",
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
+
+# map institution to country
+edges_located_in = geo_mapping[["institution","country-id"]]
+edges_located_in.to_csv(os.path.join(output_dir, "edges_located_in.csv"), encoding="utf-8",
+                        index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
 
 geo_mapping_rec = json.loads(geo_mapping.to_json(orient="records"))
 
@@ -240,12 +252,23 @@ countries_df.to_csv(os.path.join(output_dir, "nodes_countries.csv"),
 
 # node regions
 regions = list(set(list(map(lambda x: (x["region-id"], x["region-name"]), geo_mapping_rec))))
+
+# add germany speaking region DACH and region world
+regions += [('dach','DACH'),('wd',"World")]
+
 regions_df =  pd.DataFrame(regions, columns=["id","name"])
 regions_df.to_csv(os.path.join(output_dir, "nodes_regions.csv"), 
                         index=False, header=True, sep=";",doublequote=False, escapechar="\\")  
 
 # map countries to regions
 in_region = list(set(list(map(lambda x: (x["country-id"], x["region-id"]), geo_mapping_rec))))
+
+# add DACH
+in_region += [('ch','dach'),('de','dach'),('at','dach')]
+
+# add world
+in_region += list(map(lambda x: (x,'wd') ,set(geo_mapping["country-id"].values)))
+
 in_region_df =  pd.DataFrame(in_region)
 in_region_df.to_csv(os.path.join(output_dir, "edges_in_region.csv"), 
                         index=False, header=False, sep=";",doublequote=False, escapechar="\\")
@@ -253,11 +276,24 @@ in_region_df.to_csv(os.path.join(output_dir, "edges_in_region.csv"),
 # map author to affiliation
 author_nodes = pd.read_csv(os.path.join(output_dir, "nodes_authors.csv"),
                            sep=";", names=["pid", "name", "affiliation", "homepage", "scholarid"])
+
+inst_country_map = dict(zip(edges_located_in["institution"],edges_located_in["country-id"]))
+
+list(map(lambda x: inst_country_map.get(x,np.nan), author_nodes["affiliation"].values))
+author_nodes_rec = json.loads(author_nodes.to_json(orient="records"))
+
+
+author_nodes_df = pd.DataFrame(author_nodes, columns = ["pid", "name", "affiliation", "homepage", "scholarid"])
+author_nodes_df["country"]=list(map(lambda x: inst_country_map.get(x,np.nan), author_nodes["affiliation"].values))
+author_nodes_df = author_nodes_df.reindex(columns=['pid', 'name', 'affiliation', 'country','homepage', 'scholarid'])
+author_nodes_df.to_csv(os.path.join(output_dir, "nodes_authors.csv"), 
+                        index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
+
 author_nodes_rec = json.loads(author_nodes.to_json(orient="records"))
 
 csrankings_authors = list(filter(lambda x: x.get("affiliation"), author_nodes_rec))
 
 affiliated = list(map(lambda x: (x["pid"], x["affiliation"]), csrankings_authors))
 affiliated_df =  pd.DataFrame(affiliated)
-affiliated_df.to_csv(os.path.join(output_dir, "edges_affiliated.csv"), 
+affiliated_df.to_csv(os.path.join(output_dir, "edges_affiliated.csv"), encoding="utf-8", 
                         index=False, header=False, sep=";",doublequote=False, escapechar="\\")

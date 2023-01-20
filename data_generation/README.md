@@ -232,9 +232,44 @@ The areas are categorized as follows:
 | Interdisciplinary Areas | Robotics                              |
 | Interdisciplinary Areas | Visualization                         |
 
+## Graph Data - Combine Datasets
+
+The file *scripts/graph/graph_data.py* is used to combine data from csrankings and dblpdb and bring it in a node/relation structure in the form of csv files
+which are saved under the directory *output/graph/* which can than be directly used to integrate the data into a graph database. While combining
+the two data sources the script always checks for the validity of the data (some pids from the csrankings datasets where invalid and had to be corrected) also the titles of 
+inproceedings or names of authors are cleaned from special characters such that it can be read into the kuzudb without complications. 
+
+The title of conferences couldn't be extracted from the dblp.xml dump but the conference id is contained in the proceeding id. On the dblp website there is a page for conferences which include the conference id in the url and the title (h1 tag) is equal to the title of the conference. This way the script could generate from the proceedings a conference node and a relation form conferences to proceedings. Also the script added two new regions not present in the csrankings geo-mapping.csv namely the region "DACH" (CH, AT, DE) and "World" which includes all countries. Since there are over 3mil authors and 15mil collaborations extracted from the dblp.xml dump but mainly only the authors and collaborations between authors from csranking are of interest (they are the only ones which contain affiliations and can be mapped to countries), a trimmed version of the author (nodes_authors_csrankings.csv) and collaborations (edges_collabs_csrankings.csv) is also created and is merely a subset of the main files. 
+
 ## KUZU DB
 
-An overview of the schema and a summary of the entries can be seen in the diagram below. The Circles represent nodes and the lines/arrows relations. The numbers below/next to the name of the node/relation represent the number of entries in the db. The bullet points are the properties of the node/relations and a black bold bullet entry means that it is the primary key. Some properties are colored, which means that the properties with the same colors are identical and can be matched. (This is mainly for performance reasons to enable faster queries and reduce the number of joins)
+The in-process property graph database management system (GDBMS) [kuzudb](https://kuzudb.com/) is used to store and query the generated graph data. The files used to integrate
+the data into kuzu db and provide imporant queries are under the direcotry *scripts/kuzudb/*. 
+
+*init_kuzu.py* creates a disc based instance of the kuzudb, defines all the schemas of the nodes and relations and finaly loads all the data from *output/graph/* into the 
+respective nodes and relations in the db.An overview of the schema and a summary of the entries can be seen in the diagram below. The circles represent nodes and the lines/arrows relations. The numbers below/next to the name of the node/relation represent the number of entries in the db. The bullet points are the properties of the node/relations and a black bold property means that it is used as the primary key. Some properties are colored, where the properties with the same color are identical and can be matched. (This is mainly for performance reasons to enable faster queries and reduce the number of joins)
 
 ![kuzudb_schema](https://user-images.githubusercontent.com/34285164/213651650-d266e3b6-4e36-485d-935a-d51f8d69cdaa.svg)
 
+The script *init_kuzu.py* contains functions which perform important queries which can later be used for the analytics, GNN and frontend. 
+A general idea which is consitent over all functions is that there is a main configuration for the filtering:
+
+* Time interval of interest: Which years to consider given with starting year "from" and an end year "to". If from is not given it will take the first available year (2005) and if to is not given it will take the latest (2023)
+* Area of interest: The computer science area or sub-area to consider given by its id and the type ("a" for area and "s" for sub-area). If no area is specified consider all.
+* Regioanl Interst: Region or country of interest given by their id. With an additional configuration "strict_boundary" which if set to "true" only consideres collaborations of authors within the given region but if it is set to "false" only one author in collaboration must be from the given region.
+
+This conifg is given as input for almost all query functions but not all entries are used by every query. 
+
+Example config (means one is interested only in the data later or equal to the year 2010, which is assosiated with the field of AI and only collaborations and authors with the german speaking DACH region):
+
+```{shell}
+{  "from_year": 2010,
+   "to_year": None,
+   "area_id" : "ai", 
+   "area_type": "a", 
+   "region_id": "dach",
+   "country_id": None,
+   "strict_boundary": True,
+   "institution":False
+}
+```
