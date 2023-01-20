@@ -49,7 +49,8 @@ def get_area_mapping():
                          (c:Conference)
                          WHERE p.conf = c.id
                          RETURN DISTINCT a.id, a.label, s.id, s.label, p.conf, c.title;
-                    ''').getAsDF()      
+                    ''').getAsDF()     
+    result.columns = ["area-id","area-label","sub-area-id","sub-area-label", "conference-id","conference-title"] 
     return result    
 
 # area_mapping = get_area_mapping()
@@ -100,8 +101,8 @@ def get_by_area(area_config):
 
 # result = get_by_area({  "area_id" : "ai", 
 #                         "area_type":  "a", 
-#                         "cut_off":2010,
-#                         "return_type" :"p"})
+#                         "from_year":2010,
+#                         "return_type" :"i"})
 # print(result.head(),"\n", result.shape)
 
 # result = get_by_area({  "area_id" : "vision", 
@@ -114,7 +115,7 @@ def get_by_area(area_config):
 # print(result.head(),"\n", result.shape)
 
 
-# get the conference name of a given proceedings
+# get the conference name of given proceedings
 def get_conference_name(proceeding_list):
     result = conn.execute('''UNWIND {} AS proceedings
                     WITH proceedings

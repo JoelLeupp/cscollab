@@ -257,10 +257,11 @@ A general idea which is consitent over all functions is that there is a main con
 * Time interval of interest: Which years to consider given with starting year "from" and an end year "to". If from is not given it will take the first available year (2005) and if to is not given it will take the latest (2023)
 * Area of interest: The computer science area or sub-area to consider given by its id and the type ("a" for area and "s" for sub-area). If no area is specified consider all.
 * Regioanl Interst: Region or country of interest given by their id. With an additional configuration "strict_boundary" which if set to "true" only consideres collaborations of authors within the given region but if it is set to "false" only one author in collaboration must be from the given region.
+* Institutional or Author interst: If institution is set to true one is interested in the collaborations between institutions else one is interest in collaborations between authors.
 
 This conifg is given as input for almost all query functions but not all entries are used by every query. 
 
-Example config (means one is interested only in the data later or equal to the year 2010, which is assosiated with the field of AI and only collaborations and authors with the german speaking DACH region):
+Example config where one is interested only in the data later or equal to the year 2010, which is assosiated with the field of AI and only collaborations and authors within the german speaking DACH region:
 
 ```{shell}
 {  "from_year": 2010,
@@ -273,3 +274,100 @@ Example config (means one is interested only in the data later or equal to the y
    "institution":False
 }
 ```
+
+Because of the large size of some tables in the db not all queries could be written in a single [cypher](https://kuzudb.com/docs/cypher) query
+since there would be to many joins and conditions that lead to a memory error or very slow performance. This is why some queries are split up and joined/
+aggregated with python. The functions are optimzed and if needed broken in multiple functions to make it easier to add a smart cacheing. 
+
+See below some example of function:
+
+**get_region_mapping()**
+
+output is a flat table off all countires and regions with the shape (113,4):
+
+| country-id | country-name   | region-id | region-name |
+|------------|----------------|-----------|-------------|
+| cz         | Czech Republic | europe    | Europe      |
+| hu         | Hungary        | europe    | Europe      |
+
+**get_area_mapping()**
+
+output is a flat table off all areas, sub-areas and the corresponding conferences with the shape (128, 6):
+
+| area-id | area-label | sub-area-id | sub-area-label                     | conference-id | conference-title                                  |
+|---------|------------|-------------|------------------------------------|---------------|---------------------------------------------------|
+| systems | Systems    | security    | Computer Security and Cryptography | ndss          | Network and Distributed System Security Sympos... |
+| systems | Systems    | security    | Computer Security and Cryptography | sp            | IEEE Symposium on Security and Privacy (S&P)      |
+| ai      | AI         | ml          | Machine Learning                   | ijcnn         | IEEE International Joint Conference on Neural ... |
+
+**get_by_area(config={:keys [from_year, to_year, return_type, area_id, area_type]})**
+
+The function gives back a table with all the inproceedings (return_type="i") or proceedings (return_type="p") that are from the computer science 
+area given by the config within the given timespan. 
+
+example output of get_by_area({"area_id":"ai", "area_type":"a", "from_year":2010, "return_type":"p"}):
+
+| id              | title                                             | conf  | year |   |
+|-----------------|---------------------------------------------------|-------|------|---|
+| conf/ijcnn/2010 | International Joint Conference on Neural Netwo... | ijcnn | 2010 |   |
+| conf/ijcnn/2011 | The 2011 International Joint Conference on Neu... | ijcnn | 2011 |   |
+| conf/ijcnn/2017 | 2017 International Joint Conference on Neural ... | ijcnn | 2017 |   |
+
+**get_conference(conf)**
+
+get all the inproceedings and proceedings from a given confernce id.
+
+example output from get_conference("aaai"):
+
+| p.id           | p.title                                           | year | i.id                  | i.title                                           |
+|----------------|---------------------------------------------------|------|-----------------------|---------------------------------------------------|
+| conf/aaai/2016 | Proceedings of the Thirtieth AAAI Conference o... | 2016 | conf/aaai/SternKS16   | Implementing Troubleshooting with Batch Repair.   |
+| conf/aaai/2019 | The Thirty-Third AAAI Conference on Artificial... | 2019 | conf/aaai/MarinoMTL19 | Evolving Action Abstractions for Real-Time Pla... |
+| conf/aaai/2021 | Thirty-Fifth AAAI Conference on Artificial Int... | 2021 | conf/aaai/WangX21     | Efficient Object-Level Visual Context Modeling... |
+
+**get_weighted_collab(config={})**
+
+This function is a wrapper function which combines the functions get_collaboration(config={}) which gets all the collaboration based on the constraints from the config 
+and weighted_collab(collabs, config = {}) which aggregates the collaborations to a weighted collaboration based on authors or institutions. The result is table that
+contains two author pids or two institution names and a weight (number of collaborations). This relation is undirected and each pair is unique. 
+
+example output from get_weighted_collab({from_year":2010, "area_id":"ai", "area_type":"a", "region_id":"dach","strict_boundary":True}):
+
+| a         | b       | weight |
+|-----------|---------|--------|
+| 24/8616   | 61/5017 | 94     |
+| 69/4806-1 | 87/6573 | 46     |
+| 69/4806-1 | 95/1130 | 41     |
+
+example output get_weighted_collab({"from_year": 2010, "institution":True}) which get the weighted worldwide collaborations of proceedings that are assosiated with a
+computer science area.
+
+| a                           | b                           | weight |
+|-----------------------------|-----------------------------|--------|
+| Tsinghua University         | Tsinghua University         | 993    |
+| Chinese Academy of Sciences | Chinese Academy of Sciences | 780    |
+| Peking University           | Peking University           | 673    |
+
+**get_collab_pid(pid_x, pid_y, config={})**
+
+Get all in/proceedings and conferences of the collaborations between two authors identified by their pid based on the constraints from the given config.
+
+example output of get_collab_pid("24/8616","61/5017"):
+
+| year | inproceeding_id         | inproceeding_title                     | proceeding_id  | proceeding_title               | conference_id | conference_title                    |
+|------|-------------------------|----------------------------------------|----------------|--------------------------------|---------------|-------------------------------------|
+| 2021 | conf/bmvc/LiuGGT21      | Deep Line Encoding for Monocular...    | conf/bmvc/2021 | 32nd British Machine Vision... | bmvc          | British Machine Vision Conference   |
+| 2019 | conf/bmvc/TripathiDGT19 | Tracking the Known and the Unknown...  | conf/bmvc/2019 | 30th British Machine Vision... | bmvc          | British Machine Vision Conference   |
+| 2021 | conf/iccv/LiangS0GT21   | Mutual Affine Network for Spatially... | conf/iccv/2021 | 2021 IEEE/CVF International... | iccv          | IEEE International Conference on... |
+
+**get_collab_institution(inst_x, inst_y, config={})**
+
+get all in/proceedings and conferences of the collaborations between two institutions based on the constraints of the config
+
+example output of get_collab_institution("Tsinghua University","Tsinghua University", {"from_year": 2010}):
+
+| year | inproceeding_id            | inproceeding_title                      | proceeding_id  | proceeding_title            | conference_id | conference_title                  |
+|------|----------------------------|-----------------------------------------|----------------|-----------------------------|---------------|-----------------------------------|
+| 2020 | conf/ndss/CaoXS0GX20       | When Match Fields Do Not Need to Ma...  | conf/ndss/2020 | 27th Annual Network and ... | ndss          | Network and Distributed System... |
+| 2020 | conf/ndss/ZhangLWLCHG0XW20 | Poseidon Mitigating Volumetric DDoS...  | conf/ndss/2020 | 27th Annual Network and ... | ndss          | Network and Distributed System... |
+| 2012 | conf/ndss/JiangLLLDW12     | Ghost Domain Names Revoked Yet Still... | conf/ndss/2012 | 19th Annual Network and ... | ndss          | Network and Distributed System... |
