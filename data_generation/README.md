@@ -233,5 +233,8 @@ The areas are categorized as follows:
 | Interdisciplinary Areas | Visualization                         |
 
 ## KUZU DB
-![kuzudb Graph schema](https://user-images.githubusercontent.com/34285164/213498109-4aae7d73-0b77-4d22-ab0d-0e3445c44004.svg)
+
+An overview of the schema and a summary of the entries can be seen in the diagram below. The Circles represent nodes and the lines/arrows relations. The numbers below/next to the name of the node/relation represent the number of entries in the db. The bullet points are the properties of the node/relations and a black bold bullet entry means that it is the primary key. Some properties are colored, which means that the properties with the same colors are identical and can be matched. (This is mainly for performance reasons to enable faster queries and reduce the number of joins)
+
+![kuzudb_schema](https://user-images.githubusercontent.com/34285164/213651650-d266e3b6-4e36-485d-935a-d51f8d69cdaa.svg)
 
