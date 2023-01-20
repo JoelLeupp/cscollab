@@ -34,15 +34,19 @@ Generated files are in the */output* directory:
 *graph/* (Combination of dblp and csrankings in a node and edge data structure):
 
 * edges_affiliated.csv
+* edges_belongs_to_area.csv
+* edges_belongs_to_conf.csv
 * edges_collabs.csv
-* edges_conf_belongs_to.csv
+* edges_collabs_csrankings.csv
 * edges_crossref.csv
 * edges_in_region.csv
+* edges_located_in.csv
 * edges_sub_area_of.csv
 * nodes_area.csv
 * nodes_authors.csv
+* nodes_authors_csrankings.csv
 * nodes_countries.csv
-* nodes_inproceedings.csv # replaced \\\\" with \\\\\\\"
+* nodes_inproceedings.csv 
 * nodes_institution.csv
 * nodes_proceedings.csv
 * nodes_regions.csv
@@ -307,11 +311,11 @@ area given by the config within the given timespan.
 
 example output of get_by_area({"area_id":"ai", "area_type":"a", "from_year":2010, "return_type":"p"}):
 
-| id              | title                                             | conf  | year |   |
-|-----------------|---------------------------------------------------|-------|------|---|
-| conf/ijcnn/2010 | International Joint Conference on Neural Netwo... | ijcnn | 2010 |   |
-| conf/ijcnn/2011 | The 2011 International Joint Conference on Neu... | ijcnn | 2011 |   |
-| conf/ijcnn/2017 | 2017 International Joint Conference on Neural ... | ijcnn | 2017 |   |
+| id              | title                                             | conf  | year |
+|-----------------|---------------------------------------------------|-------|------|
+| conf/ijcnn/2010 | International Joint Conference on Neural Netwo... | ijcnn | 2010 |
+| conf/ijcnn/2011 | The 2011 International Joint Conference on Neu... | ijcnn | 2011 |
+| conf/ijcnn/2017 | 2017 International Joint Conference on Neural ... | ijcnn | 2017 |
 
 **get_conference(conf)**
 
