@@ -279,11 +279,11 @@ Because of the large size of some tables in the db not all queries could be writ
 since there would be to many joins and conditions that lead to a memory error or very slow performance. This is why some queries are split up and joined/
 aggregated with python. The functions are optimzed and if needed broken in multiple functions to make it easier to add a smart cacheing. 
 
-See below some example of function:
+### Query Functions
 
 **get_region_mapping()**
 
-output is a flat table off all countires and regions with the shape (113,4):
+output is a flat table of all countries and regions with the shape (113,4):
 
 | country-id | country-name   | region-id | region-name |
 |------------|----------------|-----------|-------------|
@@ -292,7 +292,7 @@ output is a flat table off all countires and regions with the shape (113,4):
 
 **get_area_mapping()**
 
-output is a flat table off all areas, sub-areas and the corresponding conferences with the shape (128, 6):
+output is a flat table of all areas, sub-areas and the corresponding conferences with the shape (128, 6):
 
 | area-id | area-label | sub-area-id | sub-area-label                     | conference-id | conference-title                                  |
 |---------|------------|-------------|------------------------------------|---------------|---------------------------------------------------|
