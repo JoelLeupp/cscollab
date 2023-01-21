@@ -21,11 +21,11 @@ with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
 
 with open(os.path.join(output_dir, "authors.json"), "r") as f:
     authors = json.load(f)
-    
-# get all valid proceeding ids
+     
+""" get all valid proceeding ids """
 proceedings_ids = list(map(lambda x: x["id"], proceedings))
 
-# map every author name to its pid
+""" map every author name to its pid """
 name_pid_map = {}
 for author in authors:
     name_pid_map[author["name"]] = author["pid"]

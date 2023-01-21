@@ -1,10 +1,10 @@
-#----------------------------------------------------
-# Categorize proceedings into computer science areas 
-# 
-# This is a helper file for the creation of the area-mapping.json
-# dblp conf html page example: https://dblp.uni-trier.de/db/conf/ai/index.html
-# conference ranking: https://research.com/conference-rankings/computer-science/machine-learning
-#----------------------------------------------------
+"""
+Categorize proceedings into computer science areas 
+
+This is a helper file for the creation of the area-mapping.json
+dblp conf html page example: https://dblp.uni-trier.de/db/conf/ai/index.html
+conference ranking: https://research.com/conference-rankings/computer-science/machine-learning
+"""
 
 import pandas as pd
 import numpy as np
@@ -17,12 +17,12 @@ from functools import reduce
 
 output_dir = "output/dblp" 
 
-# load proceedings
+""" load proceedings """
 with open(os.path.join(output_dir, "proceedings.json"), "r") as f:
     proceedings = json.load(f)
     
     
-# load areas 
+""" load areas  """
 with open(os.path.join(output_dir, "area-mapping.json"), "r") as f:
     area_map = json.load(f)
 
@@ -38,15 +38,15 @@ def get_title(area):
     
 proceeding_conf = list(map(lambda x: x["conf"], proceedings))
 
-# all conferences in dblp
+""" all conferences in dblp """
 unique_conf =  set(list(map(lambda x: x["id"].split("/")[1], proceedings)))
 
-# get all proceedings that include the search_conf somewhere in their name
+""" get all proceedings that include the search_conf somewhere in their name """
 search_conf = "intelligence"
 found_conf = list(filter(lambda x: re.search(search_conf, x["title"] , re.IGNORECASE), proceedings))
 list(set(list(map(lambda x: x["id"].split("/")[1], found_conf))))
 
-# top rank 200 machine learning conferences from reasearch.com
+""" top rank 200 machine learning conferences from reasearch.com """
 top_conf= {"ai": {"label": "AI",
                   "areas": 
                     { "vision": {"label": "Computer Vision", "conferences": ["iccv","cvpr", "eccv","bmvc","accv","avss"]},

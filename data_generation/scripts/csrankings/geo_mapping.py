@@ -1,10 +1,10 @@
-#-----------------------------------------
-# Geographic mapping of institutions 
-#-----------------------------------------
+
+""" Geographic mapping of institutions """
+
 
 import pandas as pd
 
-# csranking import
+""" csranking import """
 csrankings = pd.read_csv("data/csrankings.csv")
 print(csrankings.describe())
 
@@ -12,26 +12,26 @@ country_info = pd.read_csv("data/country-info.csv")
 print(country_info.describe())
 
 
-# clean and improve csrankings country file
-#-------------------------------------------------
+""" clean and improve csrankings country file """
 
-# get missing affiliation in the country-info.csv
+
+""" get missing affiliation in the country-info.csv """
 missing_inst= list(filter(lambda x: x not in country_info["institution"].to_list(), 
        csrankings["affiliation"].unique()))
 
-# map canada to the northamerica region
+""" map canada to the northamerica region """
 country_info["region"].replace("canada", "northamerica", inplace=True)
 
-# strip whitespaces in region
+""" strip whitespaces in region """
 country_info["region"] = list(map(lambda x: x.strip(), country_info["region"]))
 
-# all missing affiliations are in the USA
-# add us affiliation to country-info
+"""all missing affiliations are in the USA
+add us affiliation to country-info"""
 country_info = pd.concat([country_info,
                           pd.DataFrame(list(map(lambda x: [x,"northamerica" , "us"], missing_inst)),
                                  columns=country_info.columns)]) 
 
-# add country names to country-info
+""" add country names to country-info """
 country_names_csv = "https://pkgstore.datahub.io/core/country-list/data_csv/data/d7c9d7cfb42cb69f4422dec222dbbaa8/data_csv.csv"
 country_names = pd.read_csv(country_names_csv)
 
@@ -46,7 +46,7 @@ def get_country_name(abbrv):
 
 country_info["countryname"] = list(map(get_country_name, country_info["countryabbrv"]))
 
-# add region names to country-info
+""" add region names to country-info """
 regions = {"europe": "Europe", 
            "africa": "Africa", 
            "asia" :"Asia",
@@ -56,24 +56,24 @@ regions = {"europe": "Europe",
 
 country_info["regionname"] = list(map(lambda x: regions[x], country_info["region"]))
 
-# rearange and rename columns
+""" rearange and rename columns """
 cols = ['institution', 'countryabbrv', 'countryname', 'region','regionname']
 country_info = country_info[cols]
 country_info.columns = ['institution', 'country_code', 'country_name', 'region_code','region_name']
 
-# write new country-info in csv file
+""" write new country-info in csv file """
 country_info.to_csv("output/mapping/inst-geo-map.csv", index=False)
 
 
-# view inst-geo-map.csv
+""" view inst-geo-map.csv """
 inst_geo_map = pd.read_csv("output/mapping/inst-geo-map.csv")
 print(inst_geo_map.describe())
 
 
-# Get geo-coordinates of institutions
-# -----------------------------------------------
+""" Get geo-coordinates of institutions """
 
-# use https://www.geoapify.com/
+
+""" use https://www.geoapify.com/ """
 import requests
 from requests.structures import CaseInsensitiveDict
 from fuzzywuzzy import fuzz #fuzzy search for best match
@@ -97,7 +97,7 @@ def empty_prop(institution, country):
                 "fuzz-ratio": None, 
                 "status": "WRONG"}
     
-# institution = "Bielefeld University"
+# institution = "Bielefeld University" 
 # country = "Germany"
 for _, row in inst_geo_map.iterrows():
     institution = row["institution"]
@@ -105,7 +105,7 @@ for _, row in inst_geo_map.iterrows():
     resp = requests.get(geo_api_url(institution, country), headers=headers)
     res = resp.json()
 
-    # sort results by importance and only take the most important result
+    """ sort results by importance and only take the most important result """
     features = res["features"]
     if features == []:
         geo_codes.append(empty_prop(institution, country))
@@ -140,20 +140,20 @@ print("OK: {}\nWATCH: {}\nWRONG: {}".format(sum(inst_geo_codes["status"] == "OK"
 inst_geo_codes.to_csv("geo-codes-auto.csv")
 
 
-# Create final combined output
-# -----------------------------------------------
+""" Create final combined output """
 
-# load manualy completed geo codes
+
+""" load manualy completed geo codes """
 geo_codes = pd.read_csv("output/mapping/geo-codes.csv", index_col = "index")
 
-# create final institutional geo mapping with geo-codes included 
+""" create final institutional geo mapping with geo-codes included  """
 geo_mapping = inst_geo_map
 geo_mapping["lat"] = geo_codes["lat"]
 geo_mapping["lon"] = geo_codes["lon"]
 geo_mapping.to_csv("output/mapping/geo-mapping.csv", index=False)
 
 
-# check final file
+""" check final file """
 geo_mapping = pd.read_csv("output/mapping/geo-mapping.csv")
 geo_mapping.describe()
 

@@ -3,16 +3,18 @@ import pandas as pd
 import json
 import time
 
-# create db 
+""" create db """
 db = kuzu.database(database_path='./kuzu_db', buffer_pool_size=8294967296)
 # db.resize_buffer_manager(4294967296) # buffer pool size 4GB
 conn = kuzu.connection(db)
 
-# create schema
-#-------------------------------------------
+"""
+create schema
+"""
 
-# -------- Nodes ----------
-# author
+
+""" -------- Nodes ---------- """
+""" author"""
 conn.execute("""CREATE NODE TABLE Author(
                 pid STRING, 
                 name STRING, 
@@ -22,8 +24,7 @@ conn.execute("""CREATE NODE TABLE Author(
                 scholarid STRING, 
                 PRIMARY KEY (pid))""")
 
-# author csrankings 
-# author
+""" author csrankings """
 conn.execute("""CREATE NODE TABLE AuthorCS(
                 pid STRING, 
                 name STRING, 
@@ -33,7 +34,7 @@ conn.execute("""CREATE NODE TABLE AuthorCS(
                 scholarid STRING, 
                 PRIMARY KEY (pid))""")
 
-# proceeding
+""" proceeding """
 conn.execute("""CREATE NODE TABLE Proceeding(
                 id STRING, 
                 title STRING, 
@@ -41,92 +42,92 @@ conn.execute("""CREATE NODE TABLE Proceeding(
                 year INT64,   
                 PRIMARY KEY (id))""")
 
-# inproceeding
+""" inproceeding"""
 conn.execute("""CREATE NODE TABLE Inproceeding(
                 id STRING, 
                 title STRING, 
                 year INT64,
                 PRIMARY KEY (id))""")
 
-# conference
+""" conference """
 conn.execute("""CREATE NODE TABLE Conference(
                 id STRING, 
                 title STRING, 
                 PRIMARY KEY (id))""")
 
-# institution
+""" institution """
 conn.execute("""CREATE NODE TABLE Institution(
                 name STRING, 
                 lat DOUBLE, 
                 lon DOUBLE,  
                 PRIMARY KEY (name))""")
 
-# country
+""" country """
 conn.execute("""CREATE NODE TABLE Country(
                 id STRING, 
                 name STRING, 
                 PRIMARY KEY (id))""")
 
-# Region
+""" Region """
 conn.execute("""CREATE NODE TABLE Region(
                 id STRING, 
                 name STRING, 
                 PRIMARY KEY (id))""")
 
-# area
+""" area """
 conn.execute("""CREATE NODE TABLE Area(
                 id STRING, 
                 label STRING, 
                 PRIMARY KEY (id))""")
 
-# sub area
+""" sub area """
 conn.execute("""CREATE NODE TABLE SubArea(
                 id STRING, 
                 label STRING, 
                 PRIMARY KEY (id))""")
 
-# -------- Edges ----------
-# collaborations
+""" -------- Edges ----------"""
+""" collaborations """
 conn.execute("""CREATE REL TABLE Collaboration(
                 FROM Author TO Author, record STRING, year INT64, id STRING)""")
 
-# collaborations csrankings
+""" collaborations csrankings """
 conn.execute("""CREATE REL TABLE CollaborationCS(
                 FROM AuthorCS TO AuthorCS, record STRING, year INT64, id STRING)""")
 
-# affiliation
+""" affiliation """
 conn.execute("""CREATE REL TABLE Affiliation(
                 FROM Author TO Institution)""")
 
-# affiliation
+""" affiliation """
 conn.execute("""CREATE REL TABLE AffiliationCS(
                 FROM AuthorCS TO Institution)""")
 
-# located in
+""" located in """
 conn.execute("""CREATE REL TABLE LocatedIn(
                 FROM Institution TO Country)""")
 
-# crossref
+""" crossref """
 conn.execute("""CREATE REL TABLE Crossref(
                 FROM Inproceeding TO Proceeding)""")
 
-# BelongsToConf
+""" BelongsToConf """
 conn.execute("""CREATE REL TABLE BelongsToConf(
                 FROM Proceeding TO Conference)""")
 
-# area of conference
+""" area of conference """
 conn.execute("""CREATE REL TABLE BelongsToArea(
                 FROM Proceeding TO SubArea)""")
 
-# InRegion
+""" InRegion """
 conn.execute("""CREATE REL TABLE InRegion(
                 FROM Country TO Region)""")
-# subarea 
+""" subarea """
 conn.execute("""CREATE REL TABLE SubAreaOf(
                 FROM SubArea TO Area)""")
 
-# load data in db
-#---------------- nodes --------------------------------------------------------------------
+""" load data in db"""
+"""---------------- nodes --------------------------------------------------------------------"""
 conn.execute('COPY Author FROM "output/graph/nodes_authors.csv" (DELIM=";")')
 conn.execute('COPY AuthorCS FROM "output/graph/nodes_authors_csrankings.csv" (DELIM=";")')
 conn.execute('COPY Proceeding FROM "output/graph/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
@@ -137,7 +138,7 @@ conn.execute('COPY Country FROM "output/graph/nodes_countries.csv" (DELIM=";", H
 conn.execute('COPY Region FROM "output/graph/nodes_regions.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Area FROM "output/graph/nodes_area.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY SubArea FROM "output/graph/nodes_sub_area.csv" (DELIM=";", HEADER=true)')
-#---------------- edges --------------------------------------------------------------------
+"""---------------- edges --------------------------------------------------------------------"""
 conn.execute('COPY Collaboration FROM "output/graph/edges_collabs.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY CollaborationCS FROM "output/graph/edges_collabs_csrankings.csv" (DELIM=";")')
 conn.execute('COPY Affiliation FROM "output/graph/edges_affiliated.csv" (DELIM=";")')
@@ -150,7 +151,7 @@ conn.execute('COPY InRegion FROM "output/graph/edges_in_region.csv" (DELIM=";")'
 conn.execute('COPY LocatedIn FROM "output/graph/edges_located_in.csv" (DELIM=";")')
 
 
-#------------- drop tables------------
+"""------------- drop tables------------"""
 # conn.execute("DROP TABLE LocatedIn")
 # conn.execute("DROP TABLE InRegion")
 # conn.execute("DROP TABLE Collaboration")
@@ -172,7 +173,7 @@ conn.execute('COPY LocatedIn FROM "output/graph/edges_located_in.csv" (DELIM=";"
 # conn.execute("DROP TABLE SubArea")
 
 
-# check data
+# """ check data """
 # results = conn.execute('MATCH (x:Conference) RETURN DISTINCT x.title;').getAsDF()            
 # print(results)
 # print(results.shape)

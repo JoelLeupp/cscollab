@@ -1,4 +1,5 @@
-# crawl dblp records for all authors in csranking
+""" crawl dblp records for all authors in csranking """
+
 import pandas as pd
 import json
 import requests 
@@ -36,21 +37,23 @@ output = {
 
 }
 
-# get all pids from csrankings
+""" get all pids from csrankings """
 author_pid = pd.read_csv("output/pid/authors_pid.csv")
 pids = author_pid["pid"].to_list()
 
 
-# dblp xml record url
 def url_rec(key):
+    """ dblp xml record url """
     return "https://dblp.org/rec/{}.xml".format(key)
 
-# dblp xml all records for a certain pid
+
 def url_pid(pid):
+    """ dblp xml all records for a certain pid """
     return "https://dblp.org/pid/{}.xml".format(pid)
 
-# dblp API request
+
 def get_xml(dblp_url):
+    """ dblp API request """
     try:
         r = requests.get(dblp_url)
         time.sleep(1) # to prevent temporary timeout
@@ -62,47 +65,51 @@ def get_xml(dblp_url):
     
 
 
-# edge id conisting of the two pids and the dblp record key
+
 def gen_edge_id(pid_u, pid_v, key):
+    """ edge id conisting of the two pids and the dblp record key """
     return "{}-{}-{}".format(pid_u, pid_v, key)
 
-# create edge datastructure for the collaboratioin network
+
 def edge_struct(pid_u, pid_v, key):
+    """ create edge datastructure for the collaboratioin network """
     return {"node/u": pid_u,
             "node/v": pid_v,
             "rec/id": key, # dblp record key for the inproceedings
             "edge/id": gen_edge_id(pid_u, pid_v, key)}
     
-# create inproceedings datastructure 
+
 def inproceeding_struct(id, title, year, crossref):
+    """ create inproceedings datastructure  """
     return {"id": id, "title": title, "year": year, "crossref": crossref}
 
-# create proceedings datastructure 
+
 def proceeding_struct(id, title, year):
+    """ create proceedings datastructure """ 
     return {"id": id, "title": title, "year": year}
 
 
 inital_count = 6000
 for count, pid in enumerate(pids[6000:]):
 
-    # get xml records of the pid
+    """ get xml records of the pid """
     root = get_xml(url_pid(pid))
 
     if not root:
         output["error_pids"].append(pid)
         continue
 
-    # save the number of records for that pid (might be useful information to weight authors)
+    """save the number of records for that pid (might be useful information to weight authors) """
     output["publication_n"][pid] = int(root.attrib.get("n"))
 
-    # loop through all inproceedings assosiated with that pid
+    """ loop through all inproceedings assosiated with that pid """
     inproccedings = root.findall("./r/inproceedings")
     for inprocceding in inproccedings:
         key = inprocceding.attrib["key"]
         title = inprocceding.find("title").text
         year = int(inprocceding.find("year").text)
         
-        # crossref is sometimes missing in dblp if that happens take the proceedings id from the url
+        """ crossref is sometimes missing in dblp if that happens take the proceedings id from the url """
         crossref_ele = inprocceding.find("crossref")
         if crossref_ele:
             crossref = crossref_ele.text
@@ -110,42 +117,41 @@ for count, pid in enumerate(pids[6000:]):
             inprocceding_url = inprocceding.find("url").text
             crossref = inprocceding_url.split("db/")[1].split(".html#")[0]
             
-        # get the collaborations
+        """ get the collaborations """
         collab_count = 0
         authors =  inprocceding.findall("author")
         for a in authors: 
-            # if no pid exist take the authors name
+            """if no pid exist take the authors name """
             p = a.attrib.get("pid", a.text) 
             
-            # ignore the main pid
+            """ ignore the main pid """
             if p == pid:
                 continue
-            # check if the pid occures in csrankings
             elif p in pids:
-                
+                """ check if the pid occures in csrankings """
                 edge_id = gen_edge_id(pid, p, key)
                 mirror_id = gen_edge_id(p, pid, key)
                 ids_edges = list(map(lambda x : x["edge/id"],  output["collabs"]))
                 
-                # check if edge already exist (sicne edges unirected check both ways)
+                """ check if edge already exist (sicne edges unirected check both ways) """
                 if not (edge_id in ids_edges or mirror_id in ids_edges):
                 
-                    # add the collaboration
+                    """ add the collaboration """
                     edge = edge_struct(pid, p, key)
                     output["collabs"].append(edge)
                     collab_count +=1
             else:
-                # count occurences of authors in dblp but not in csrankings
+                """ count occurences of authors in dblp but not in csrankings """
                 output["missing_authors"][p] = output["missing_authors"].get(p, 0) + 1
                 
-        # only add the inproceeding and the corresponding proceeding if there is a collaboration
+        """ only add the inproceeding and the corresponding proceeding if there is a collaboration """
         if collab_count > 0:
-            # add the inproceeding if inproceeding does not exist yet 
+            """ add the inproceeding if inproceeding does not exist yet  """
             ids_inproceedings = list(map(lambda x : x["id"],  output["inproceedings"]))
             if not key in ids_inproceedings:
                 output["inproceedings"].append(inproceeding_struct(key, title, year, crossref))
 
-            # add the crossref proceeding id if it does not exist yet 
+            """ add the crossref proceeding id if it does not exist yet  """
             if not crossref in output["proceeding_ids"]:
                 output["proceeding_ids"].append(crossref)
         else: 

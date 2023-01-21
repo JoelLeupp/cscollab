@@ -1,12 +1,12 @@
 import kuzu
 
-# create db 
+""" create db """
 db = kuzu.database('./kuzu_db')
 conn = kuzu.connection(db)
 
-# create schema
+""" create schema """
 
-## author
+"""author """
 conn.execute("""CREATE NODE TABLE 
                 Author( pid STRING, 
                         name STRING, 
@@ -15,7 +15,7 @@ conn.execute("""CREATE NODE TABLE
                         scholarid STRING, 
                         PRIMARY KEY (pid))""")
                    
-## Institution
+""" Institution """
 conn.execute("""CREATE NODE TABLE  
                 Institution(    institution STRING, 
                                 country_code STRING, 
@@ -27,12 +27,12 @@ conn.execute("""CREATE NODE TABLE
                                 PRIMARY KEY (institution))""")
 
 
-# load author data in db
+""" load author data in db """
 conn.execute('COPY Author FROM "output/graph/nodes_authors.csv" (DELIM=";")')
 
 conn.execute('COPY Institution FROM "output/mapping/geo-mapping.csv" (HEADER=true)')
 
-# check data
+""" check data """
 results = conn.execute('''  MATCH (a:Author) 
                             WHERE a.affiliation IS NOT NULL 
                             RETURN a.pid, a.name, a.affiliation;''').getAsDF()
@@ -43,7 +43,7 @@ results.shape
 results = conn.execute('''  MATCH (i:Institution) 
                             RETURN *;''').getAsDF()
 
-# delete relationships 
+""" delete relationships """
 # conn.execute('DROP TABLE Author')
 
 conn.execute("CREATE NODE TABLE Person(name STRING, inst STRING, PRIMARY KEY (name))")
@@ -53,7 +53,7 @@ conn.execute("CREATE REL TABLE Collab(FROM Person TO Person, paper INT64)")
 
  
 
-# load data
+""" load data """
 conn.execute('COPY Person FROM "data/test/author.csv"')
 conn.execute('COPY Paper FROM "data/test/paper.csv"')
 conn.execute('COPY Contributed FROM "data/test/contributed.csv"')
@@ -61,8 +61,8 @@ conn.execute('COPY Collab FROM "data/test/collabs.csv"')
 
  
 
-# query
-conn.execute('MATCH (a:Person) where a.inst = "A" RETURN a.name;').getAsDF()
+""" query """
+conn.execute('MATCH (c:Country)-[ir:InRegion]->(r:Region) RETURN c;').getAsDF()
 
 conn.execute('''MATCH (a:Person)-[c:Contributed]->(p:Paper) 
                 where a.inst = "A" RETURN p.id, a.name;''').getAsDF()
@@ -83,9 +83,9 @@ conn.execute('''MATCH (a:Person)-[c:Collab]->(b:Person)
 
 
 
-# delete
+""" delete """
 
-conn.execute("DROP TABLE contributed")
-conn.execute("DROP TABLE Author")
-conn.execute("DROP TABLE Paper")
+# conn.execute("DROP TABLE contributed")
+# conn.execute("DROP TABLE Author")
+# conn.execute("DROP TABLE Paper")
 
