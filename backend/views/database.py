@@ -114,3 +114,49 @@ def get_weighted_collab(**kwargs):
     result = query.get_weighted_collab(config=config)
     result_json =  json.loads(result.to_json(orient="records"))
     return jsonify(result_json)
+
+
+@blueprint.route(route_path('get_collab_pid'), methods=['POST'])
+@doc(summary="get all the collaborations between two authors with the constraints given in the config",
+    description =   """example :config =    {  "from_year": 2010,\n
+                                                "area_id" : "ai", \n
+                                                "area_type":  "a"}""",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'config': fields.Str(default="{}"),
+             'pid_x':fields.Str(),
+             'pid_y':fields.Str()})
+def get_collab_pid(**kwargs):
+    config = json.loads(kwargs["config"])
+    pid_x = kwargs["pid_x"]
+    pid_y = kwargs["pid_y"]
+    cache_key = "get_collab_pid_{}_{}_{}".format(pid_x,pid_y,kwargs["config"])
+    result_json = cache.get(cache_key)
+    if (pid_x and pid_y and config) and (result_json is None):
+        result = query.get_collab_pid(pid_x, pid_y, config=config)
+        result_json =  json.loads(result.to_json(orient="records"))
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)
+
+
+@blueprint.route(route_path('get_collab_institution'), methods=['POST'])
+@doc(summary="get all the collaborations between two authors with the constraints given in the config",
+    description =   """example :config =    {  "from_year": 2010,\n
+                                                "area_id" : "ai", \n
+                                                "area_type":  "a"}""",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'config': fields.Str(default="{}"),
+             'inst_x':fields.Str(),
+             'inst_y':fields.Str()})
+def get_collab_institution(**kwargs):
+    config = json.loads(kwargs["config"])
+    inst_x = kwargs["inst_x"]
+    inst_y = kwargs["inst_y"]
+    cache_key = "get_collab_institution_{}_{}_{}".format(inst_x,inst_y,kwargs["config"])
+    result_json = cache.get(cache_key)
+    if (inst_x and inst_y and config) and (result_json is None):
+        result = query.get_collab_institution(inst_x, inst_y, config=config)
+        result_json =  json.loads(result.to_json(orient="records"))
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)

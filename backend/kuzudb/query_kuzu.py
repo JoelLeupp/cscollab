@@ -346,7 +346,7 @@ def get_collab_pid(pid_x, pid_y, config={}):
 
 
 def get_collab_institution(inst_x, inst_y, config={}):
-    """ get all the collaborations between two authors with the constraints given in the config """
+    """ get all the collaborations between two institutions with the constraints given in the config """
     
     """ get constraints from config """
     from_year = config.get("from_year")
