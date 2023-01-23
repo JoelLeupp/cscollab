@@ -1,0 +1,609 @@
+AUEB;gr
+Aalborg University;dk
+Aalto University;fi
+Aarhus University;dk
+Aberystwyth University;uk
+American University in Cairo;eg
+American University of Beirut;lb
+Ariel University;il
+Australian National University;au
+BITS Pilani;in
+BITS Pilani-Goa;in
+BUET;bd
+BUPT;cn
+Babeș-Bolyai University;ro
+Bar-Ilan University;il
+Bauhaus University Weimar;de
+Beihang University;cn
+Ben-Gurion University of the Negev;il
+Bielefeld University;de
+Bilkent University;tr
+Birkbeck University of London;uk
+Bocconi University;it
+Boğaziçi University;tr
+Brandenburg University of Technology;de
+Brno University of Technology;cz
+Brunel University London;uk
+Bundeswehr University Munich;de
+CISPA Helmholtz Center;de
+CMI;in
+CRIStAL;fr
+CWI;nl
+Cardiff University;uk
+Carleton University;ca
+Chalmers/GU;se
+Charles University;cz
+Chinese Academy of Sciences;cn
+Chinese University of Hong Kong;hk
+Chulalongkorn University;th
+City University of Hong Kong;hk
+City University of London;uk
+Concordia University;ca
+Cyprus University of Technology;cy
+Czech Technical University;cz
+DAIICT;in
+DTU;dk
+Dalhousie University;ca
+De La Salle University;ph
+Durham University;uk
+EPFL;ch
+ETH Zurich;ch
+ETS Montreal;ca
+EURECOM;fr
+Ecole Normale Superieure;fr
+Ecole Normale Superieure de Cachan;fr
+Ecole Normale Superieure de Lyon;fr
+Ecole Normale Superieure de Rennes;fr
+Federal University of Rio Grande;br
+Freie Universitaet Berlin;de
+Friedrich Schiller University Jena;de
+Fudan University;cn
+Galatasaray University;tr
+Goethe University Frankfurt;de
+Goldsmiths University of London;uk
+Graz University of Technology;at
+HEC Montreal;ca
+HKUST;hk
+HSE University;ru
+HUST;cn
+Hacettepe University;tr
+Hamburg University of Technology;de
+Hanyang University;kr
+Harbin Institute of Technology;cn
+Hasso Plattner Institute;de
+Hebrew University of Jerusalem;il
+Heidelberg University;de
+Heriot-Watt University;uk
+Hong Kong Baptist University;hk
+Humboldt University of Berlin;de
+Hunan University;cn
+IIIT Bangalore;in
+IIIT Delhi;in
+IIIT Hyderabad;in
+IISc Bangalore;in
+IIT (BHU) Varanasi;in
+IIT Bhubaneswar;in
+IIT Bombay;in
+IIT Delhi;in
+IIT Gandhinagar;in
+IIT Goa;in
+IIT Guwahati;in
+IIT Hyderabad;in
+IIT Indore;in
+IIT Jodhpur;in
+IIT Kanpur;in
+IIT Kharagpur;in
+IIT Madras;in
+IIT Mandi;in
+IIT Patna;in
+IIT Roorkee;in
+IIT Ropar;in
+IMDEA Networks Institute;es
+IMDEA Software Institute;es
+IMSc;in
+IPI PAN;pl
+IPM;ir
+ISI Kolkata;in
+IST Austria;at
+IT University of Copenhagen;dk
+IUST;ir
+Imperial College London;uk
+Istanbul Technical University;tr
+Izmir Institute of Technology;tr
+JKU Linz;at
+JUST;jo
+Jacobs University Bremen;de
+KAIST;kr
+KAUST;sa
+KMUTNB;th
+KTH Royal Institute of Technology;se
+KU Leuven;be
+Karlsruhe Institute of Technology;de
+Keio University;jp
+King Abdulaziz University;sa
+King's College London;uk
+Korea University;kr
+Koç University;tr
+Kyoto University;jp
+Kyung Hee University;kr
+Kyungpook National University;kr
+LMU Munich;de
+LUMS;pk
+Lancaster University;uk
+Lebanese American University;lb
+Leiden University;nl
+Loughborough University;uk
+Lund University;se
+MBZUAI;ae
+Maastricht University;nl
+Macquarie University;au
+Masaryk University;cz
+Masdar Institute;ae
+Massey University;nz
+Max Planck Society;de
+McGill University;ca
+McMaster University;ca
+Memorial University of Newfoundland;ca
+Middle East Technical University;tr
+Middlesex University;uk
+Monash University;au
+Mälardalen University;se
+NTNU;no
+NTUA;gr
+NWPU;cn
+NYU Shanghai;cn
+Nanjing University;cn
+Nanyang Technological University;sg
+National Cheng Kung University;tw
+National Chiao Tung University;tw
+National Institute of Technology Silchar;in
+National Taiwan University;tw
+National Tsing Hua University;tw
+National University of Singapore;sg
+Newcastle University;uk
+Ontario Tech University;ca
+Open University UK;uk
+Osaka University;jp
+POSTECH;kr
+PUC-RIO;br
+PUC-RS;br
+Paderborn University;de
+Peking University;cn
+Politecnico di Milano;it
+Polytechnic University of Catalonia;es
+Polytechnique Montreal;ca
+Qatar Computing Research Institute;qa
+Qatar University;qa
+Queen Mary University of London;uk
+Queen's University Belfast;uk
+Queensland University of Technology;au
+Queen’s University;ca
+RMIT University;au
+RWTH Aachen;de
+Radboud University;nl
+Renmin University of China;cn
+Royal Holloway University of London;uk
+Royal Military College of Canada;ca
+Ruhr-University Bochum;de
+Ryerson University;ca
+SUFE;cn
+SUSTech;cn
+SUTD;sg
+Saarland University;de
+Sabancı University;tr
+Sapienza University of Rome;it
+Scuola Superiore Sant'Anna;it
+Seoul National University;kr
+Shandong University;cn
+Shanghai Jiao Tong University;cn
+ShanghaiTech University;cn
+Sharif University of Technology;ir
+Shenzhen University;cn
+Simon Fraser University;ca
+Simula UiB;no
+Singapore Management University;sg
+Soochow University;cn
+South Asian University;in
+Stellenbosch University;za
+Sun Yat-sen University;cn
+TOBB ETÜ;tr
+TU Berlin;de
+TU Braunschweig;de
+TU Chemnitz;de
+TU Clausthal;de
+TU Crete;gr
+TU Darmstadt;de
+TU Delft;nl
+TU Dortmund;de
+TU Dresden;de
+TU Eindhoven;nl
+TU Freiberg;de
+TU Ilmenau;de
+TU Kaiserslautern;de
+TU Munich;de
+TU Wien;at
+Tampere University;fi
+Tata Inst. of Fundamental Research;in
+Technion;il
+Tel Aviv University;il
+Texas A&M at Qatar;qa
+The Catholic University of Korea;kr
+The Hong Kong Polytechnic University;hk
+Tilburg University;nl
+Tokyo Institute of Technology;jp
+Tongji University;cn
+Trinity College Dublin;ie
+Tsinghua University;cn
+UESTC;cn
+UFF;br
+UFMG;br
+UFMS;br
+UFPE;br
+UFPR;br
+UFRGS;br
+UFRJ;br
+UFU;br
+UNICAMP;br
+UNIST;kr
+UNSW;au
+USP;br
+USP-ICMC;br
+USTC;cn
+Universidad Nacional de Córdoba;ar
+Universidad Rey Juan Carlos;es
+Universidad de Chile;cl
+Universidad de Zaragoza;es
+Universidad de los Andes;co
+Universidade Federal de Viçosa;br
+Universidade NOVA de Lisboa;pt
+Universidade de Brasília;br
+Universidade de Lisboa;pt
+University College Dublin;ie
+University College London;uk
+University of A Coruña;es
+University of Aberdeen;uk
+University of Adelaide;au
+University of Alberta;ca
+University of Amsterdam;nl
+University of Athens;gr
+University of Auckland;nz
+University of Augsburg;de
+University of Bamberg;de
+University of Bath;uk
+University of Bayreuth;de
+University of Bergen;no
+University of Bern;ch
+University of Birmingham;uk
+University of Bonn;de
+University of Bremen;de
+University of Bristol;uk
+University of British Columbia;ca
+University of Buenos Aires;ar
+University of Calgary;ca
+University of Cambridge;uk
+University of Canterbury;nz
+University of Cape Town;za
+University of Chinese Academy of Sciences;cn
+University of Copenhagen;dk
+University of Crete;gr
+University of Duisburg-Essen;de
+University of Dundee;uk
+University of Düsseldorf;de
+University of Edinburgh;uk
+University of Erlangen–Nuremberg;de
+University of Essex;uk
+University of Exeter;uk
+University of Freiburg;de
+University of Glasgow;uk
+University of Groningen;nl
+University of Guelph;ca
+University of Göttingen;de
+University of Haifa;il
+University of Halle-Wittenberg;de
+University of Hamburg;de
+University of Hannover;de
+University of Helsinki;fi
+University of Hildesheim;de
+University of Hong Kong;hk
+University of Innsbruck;at
+University of Ioannina;gr
+University of Jordan;jo
+University of Kassel;de
+University of Kent;uk
+University of Kiel;de
+University of Klagenfurt;at
+University of Koblenz-Landau;de
+University of Konstanz;de
+University of L'Aquila;it
+University of Leeds;uk
+University of Leipzig;de
+University of Liverpool;uk
+University of Luxembourg;lu
+University of Lübeck;de
+University of Magdeburg;de
+University of Mainz;de
+University of Malaya;my
+University of Malta;mt
+University of Manchester;uk
+University of Manitoba;ca
+University of Mannheim;de
+University of Marburg;de
+University of Melbourne;au
+University of Molise;it
+University of Montreal;ca
+University of Murcia;es
+University of Münster;de
+University of New Brunswick;ca
+University of Newcastle;au
+University of Nicosia;cy
+University of Nottingham;uk
+University of Oldenburg;de
+University of Osnabrück;de
+University of Otago;nz
+University of Ottawa;ca
+University of Oxford;uk
+University of Passau;de
+University of Piraeus;gr
+University of Pisa;it
+University of Potsdam;de
+University of Queensland;au
+University of Regina;ca
+University of Rostock;de
+University of Salerno;it
+University of Salzburg;at
+University of Sannio;it
+University of Saskatchewan;ca
+University of Sheffield;uk
+University of Siegen;de
+University of Southampton;uk
+University of St Andrews;uk
+University of Strathclyde;uk
+University of Stuttgart;de
+University of Surrey;uk
+University of Sussex;uk
+University of Sydney;au
+University of Szeged;hu
+University of Tartu;ee
+University of Technology Sydney;au
+University of Tokyo;jp
+University of Toronto;ca
+University of Trento;it
+University of Trier;de
+University of Tsukuba;jp
+University of Twente;nl
+University of Tübingen;de
+University of Ulm;de
+University of Victoria;ca
+University of Vienna;at
+University of Waikato;nz
+University of Warsaw;pl
+University of Warwick;uk
+University of Waterloo;ca
+University of Western Australia;au
+University of Windsor;ca
+University of Wroclaw;pl
+University of Wuppertal;de
+University of Würzburg;de
+University of York;uk
+University of Zurich;ch
+Università della Svizzera italiana;ch
+Université Jean Monnet;fr
+Université Laval;ca
+Université Paris Dauphine;fr
+Université de Sherbrooke;ca
+Université libre de Bruxelles;be
+Uppsala University;se
+Utrecht University;nl
+VISTEC;th
+VU Amsterdam;nl
+Victoria University of Wellington;nz
+Waseda University;jp
+Weizmann Institute of Science;il
+Western University;ca
+Westlake University;cn
+Wuhan University;cn
+Xi'an Jiaotong University;cn
+Xidian University;cn
+Yonsei University;kr
+York University;ca
+Yıldız Technical University;tr
+Zhejiang University;cn
+Özyeğin University;tr
+University of Kentucky;us
+CUNY;us
+Boston University;us
+University of Washington;us
+George Mason University;us
+Colorado State University;us
+Iowa State University;us
+University of Illinois at Chicago;us
+Duke University;us
+Florida International University;us
+Oklahoma State University;us
+UCCS;us
+University of Maryland - College Park;us
+Northeastern University;us
+Rutgers University;us
+Washington University in St. Louis;us
+University of Colorado Boulder;us
+University of Notre Dame;us
+University of Chicago;us
+University of Pennsylvania;us
+Yale University;us
+Univ. of California - San Diego;us
+Stanford University;us
+University of Rochester;us
+University of Iowa;us
+Princeton University;us
+Carnegie Mellon University;us
+Pennsylvania State University;us
+University of Connecticut;us
+New Mexico Tech;us
+University of Florida;us
+Michigan State University;us
+George Washington University;us
+Texas Tech University;us
+University of New Orleans;us
+University of New Mexico;us
+Texas A&M University;us
+Cornell University;us
+University of Central Florida;us
+Florida Atlantic University;us
+University of Minnesota;us
+Vanderbilt University;us
+Johns Hopkins University;us
+Univ. of California - Santa Cruz;us
+Northern Arizona University;us
+Wichita State University;us
+Georgia Institute of Technology;us
+Univ. of Maryland - Baltimore County;us
+Univ. of Illinois at Urbana-Champaign;us
+Massachusetts Institute of Technology;us
+Arizona State University;us
+Washington State University;us
+University of Pittsburgh;us
+University of Massachusetts Amherst;us
+University of Texas at Austin;us
+DePaul University;us
+California Institute of Technology;us
+University of Delaware;us
+University of Louisville;us
+Univ. of California - Irvine;us
+University of Utah;us
+Univ. of California - Berkeley;us
+Univ. of California - Los Angeles;us
+Univ. of California - Davis;us
+Binghamton University;us
+University of Wisconsin - Milwaukee;us
+Virginia Tech;us
+Stevens Institute of Technology;us
+University of South Florida;us
+Rochester Institute of Technology;us
+College of William and Mary;us
+West Virginia University;us
+Northwestern University;us
+Augusta University;us
+Univ. of California - Riverside;us
+Purdue University;us
+Univ. of California - Merced;us
+University at Buffalo;us
+The University of Alabama;us
+UNC - Charlotte;us
+University of Virginia;us
+University of Southern California;us
+Western Michigan University;us
+University of Nevada Las Vegas;us
+Rice University;us
+University of Michigan;us
+University of Vermont;us
+Air Force Institute of Technology;us
+Oregon State University;us
+Florida State University;us
+University of Alabama - Birmingham;us
+University of Houston;us
+Virginia Commonwealth University;us
+University of Wisconsin - Madison;us
+Dartmouth College;us
+North Carolina State University;us
+Indiana University;us
+University of Kansas;us
+Emory University;us
+Georgia State University;us
+Georgetown University;us
+Clemson University;us
+OHSU;us
+Wayne State University;us
+Towson University;us
+University of Arkansas;us
+University of North Carolina;us
+Columbia University;us
+NJIT;us
+University of Cincinnati;us
+Michigan Technological University;us
+University of Texas at San Antonio;us
+Drexel University;us
+University of Nevada;us
+New York University;us
+University of Oregon;us
+Stony Brook University;us
+University of Texas at Arlington;us
+University of Arizona;us
+Tufts University;us
+Auburn University;us
+University of Tennessee;us
+Utah State University;us
+Univ. of California - Santa Barbara;us
+Portland State University;us
+University of Southern Mississippi;us
+University of Louisiana - Lafayette;us
+University at Albany - SUNY;us
+Boise State University;us
+University of South Carolina;us
+University of Wyoming;us
+Brown University;us
+University of Oklahoma;us
+Case Western Reserve University;us
+Rensselaer Polytechnic Institute;us
+Cleveland State University;us
+Louisiana State University;us
+University of Texas at Dallas;us
+Syracuse University;us
+IUPUI;us
+Claremont Graduate University;us
+Ohio State University;us
+Old Dominion University;us
+Temple University;us
+Mississippi State University;us
+Kent State University;us
+University of Massachusetts Lowell;us
+University of Texas - El Paso;us
+Texas State University;us
+University of Denver;us
+Brandeis University;us
+Oakland University;us
+University of Michigan-Dearborn;us
+Lehigh University;us
+University of Missouri - Kansas City;us
+Indiana State University;us
+Missouri S&T;us
+Harvard University;us
+Naval Postgraduate School;us
+University of Nebraska;us
+University of North Texas;us
+Tulane University;us
+Kansas State University;us
+Ohio University;us
+TTI Chicago;us
+University of Idaho;us
+University of Nebraska - Omaha;us
+University of Hawaii at Manoa;us
+Louisiana Tech University;us
+Worcester Polytechnic Institute;us
+Brigham Young University;us
+University of Massachusetts Boston;us
+New Mexico State University;us
+Colorado School of Mines;us
+Baylor University;us
+Illinois Institute of Technology;us
+Montana State University;us
+University of Colorado - Denver;us
+University of Tulsa;us
+Missouri University of Technology;us
+University of Miami;us
+University of Mississippi;us
+Nova Southeastern University;us
+University of Georgia;us
+University of Missouri;us
+University of Arkansas - Little Rock;us
+LIU Post;us
+UNC - Greensboro;us
+University of New Hampshire;us
+Southern Methodist University;us
+University of Alabama - Huntsville;us
+Florida Institute of Technology;us
+North Dakota State University;us
+University of Memphis;us
+Boston College;us
+University of Maine;us
+ Wichita State University;us
+Simmons University;us
