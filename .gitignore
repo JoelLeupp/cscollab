@@ -1,5 +1,7 @@
 # ignore kuzu_db
 kuzu_db
+db
+
 
 # dblp xml dump
 dblp.xml
@@ -12,6 +14,9 @@ data_generation/output/dblp/*
 data_generation/output/graph/edges_collabs.csv
 data_generation/output/graph/nodes_inproceedings.csv
 data_generation/output/graph/edges_crossref.csv
+backend/kuzudb/data/edges_collabs.csv
+backend/kuzudb/data/nodes_inproceedings.csv
+backend/kuzudb/data/graph/edges_crossref.csv
 # data_generation/output/graph/*
 
 

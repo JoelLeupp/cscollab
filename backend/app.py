@@ -4,10 +4,12 @@ from exceptions import InvalidUsage
 from swagger_spec import register_api
 from views import common
 from views import swagger
+from views import database
 
 # Register Flask blueprints
 def register_blueprints(app):
     app.register_blueprint(common.blueprint)
+    app.register_blueprint(database.blueprint)
     app.register_blueprint(swagger.blueprint)
 
 def register_errorhandlers(app):
