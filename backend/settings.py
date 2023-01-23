@@ -8,7 +8,7 @@ class Config(object):
     #STATIC_FOLDER = "./public"
     APISPEC_SWAGGER_UI_URL = None
     APISPEC_SPEC = APISpec(
-        title='CSCOLLAB BACKEND',
+        title='CSCOLLAB BACKEND APIS',
         openapi_version='3.0.2',
         info=dict(description="""Swagger documentation of APIs provided by the cscollab backend used for the Master Thesis
                   'Interactive Visualization of Scientific Collaboration Networks based on Graph Neural Networks'"""),

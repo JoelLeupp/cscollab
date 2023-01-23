@@ -14,7 +14,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-# Start the Server
+## Start the Server
 
 The server will run at http://127.0.0.1:8030 and the swagger API documentation can be found at /swagger-ui
 
@@ -22,3 +22,7 @@ The server will run at http://127.0.0.1:8030 and the swagger API documentation c
 source venv/bin/activate
 make server
 ```
+
+## overview APIs
+
+![swagger api](swagger_apis.PNG)
