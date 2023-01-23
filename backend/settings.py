@@ -14,7 +14,8 @@ class Config(object):
         version='v1',
         plugins=[MarshmallowPlugin()],
     )
-    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
+    CACHE_TYPE = 'SimpleCache',
+    CACHE_DEFAULT_TIMEOUT= 300
 
 class ProdConfig(Config):
     """Production configuration."""

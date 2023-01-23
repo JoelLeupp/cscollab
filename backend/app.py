@@ -2,6 +2,7 @@ from flask import Flask
 from settings import ProdConfig, DevConfig
 from exceptions import InvalidUsage
 from swagger_spec import register_api
+from cache import cache
 from views import common
 from views import swagger
 from views import database
@@ -31,6 +32,7 @@ def create_app(config_object=DevConfig):
     app.static_url_path = ''
     app.url_map.strict_slashes = False
     app.config.from_object(config_object)
+    cache.init_app(app)
     register_blueprints(app)
     register_errorhandlers(app)
     app.__docs__ = register_api(app)

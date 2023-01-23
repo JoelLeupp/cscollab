@@ -1,7 +1,8 @@
 from flask_apispec import FlaskApiSpec
 import views.common as common
+import views.database as database
 
-VIEWS = [common]
+VIEWS = [common,database]
 
 
 def get_registered_function(module):
