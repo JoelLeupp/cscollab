@@ -86,3 +86,14 @@ input = {"inst_x": "Tsinghua University","inst_y": "Tsinghua University", "confi
 x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
+
+""" get graph analytics"""
+url = "http://127.0.0.1:8030/api/analytics/get_analytics"
+input = {"nodes": [1, 2, 3, 4],
+         "edges": [[2,1],[2,4],[1,3],[3,2],[1,4]], 
+         "weighted":False,
+         "top": 5}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res["statistics"])
+print(res["centralities"])

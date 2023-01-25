@@ -6,11 +6,13 @@ from cache import cache
 from views import common
 from views import swagger
 from views import database
+from views import analytics
 
 # Register Flask blueprints
 def register_blueprints(app):
     app.register_blueprint(common.blueprint)
     app.register_blueprint(database.blueprint)
+    app.register_blueprint(analytics.blueprint)
     app.register_blueprint(swagger.blueprint)
 
 def register_errorhandlers(app):

@@ -16,3 +16,9 @@ edges=[tuple(row.values) for _,row in data.iterrows()]
 """get graph statistics"""
 G = stat.gen_graph(nodes, edges, weighted=True)
 stat.get_statistics(G)
+
+"""get top centralities"""
+stat.get_centralities(G, weighted=True, top=5)
+
+# G = stat.gen_graph([1, 2, 3, 4], [[2,1],[2,4],[1,3],[3,2],[1,4]])
+# stat.get_statistics(G)

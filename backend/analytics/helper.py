@@ -63,9 +63,6 @@ nx.number_connected_components(G)
 degree_centrality= (sorted(nx.centrality.degree_centrality(G).items(), 
                     key=lambda item: item[1], reverse=True))
 
-degree_centrality_weighted= (sorted(nx.centrality.degree_centrality(G).items(), 
-                    key=lambda item: item[1], reverse=True))
-
 
 betweenness_centrality=(sorted(nx.centrality.betweenness_centrality(G).items(),
                         key=lambda item: item[1], reverse=True))
