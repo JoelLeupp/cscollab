@@ -110,9 +110,13 @@ def get_collaboration(**kwargs):
      responses=make_swagger_response([]))
 @use_kwargs({'config': fields.Str(default="{}")})
 def get_weighted_collab(**kwargs):
-    config = json.loads(kwargs["config"])
-    result = query.get_weighted_collab(config=config)
-    result_json =  json.loads(result.to_json(orient="records"))
+    config = json.loads(kwargs.get("config","{}"))
+    cache_key = "get_weighted_collab_{}".format(config)
+    result_json = cache.get(cache_key)
+    if config and (result_json is None):
+        result = query.get_weighted_collab(config=config)
+        result_json =  json.loads(result.to_json(orient="records"))
+        cache.set(cache_key, result_json)
     return jsonify(result_json)
 
 
