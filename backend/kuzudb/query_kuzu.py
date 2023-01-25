@@ -7,6 +7,8 @@ import pandas as pd
 import numpy as np
 import json
 
+pd.options.mode.chained_assignment = None
+
 """ connect to db """
 db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=4294967296)
 # db.resize_buffer_manager(8589934592) 4294967296
@@ -176,6 +178,101 @@ def get_csauthors(country_id = None, region_id = "wd"):
 # result = get_csauthors(region_id="dach")
 # print(result.head(),"\n", result.shape)
 
+def get_flat_collaboration():
+    """get collaboration of csranking author with country and area information"""
+
+    """ get all collaborations from csrankings authors """
+    collab = conn.execute('''MATCH (a:AuthorCS)-[col:CollaborationCS]->(b:AuthorCS)
+                             RETURN a.pid AS a_pid, b.pid AS b_pid, col.record AS rec_id, col.year AS year''').getAsDF() 
+
+    """ get authors country mapping """
+    author_country = conn.execute(''' MATCH 
+                                    (a:AuthorCS)-[af:AffiliationCS]->
+                                    (i:Institution)-[l:LocatedIn]->(c:Country)
+                                    RETURN a.pid AS a, c.id AS country''').getAsDF() 
+    country_mapping = dict(zip(author_country["a"],author_country["country"]))
+
+    """ inproceeding sub-area mapping """
+    ip_area = conn.execute( '''MATCH 
+                            (i:Inproceeding)-[c:Crossref]->(p:Proceeding)-[ba:BelongsToArea]->(s:SubArea)
+                            RETURN i.id AS rec, s.id AS area
+                            ''').getAsDF() 
+    ip_area_mapping = dict(zip(ip_area["rec"],ip_area["area"]))
+    
+    """ only consider records which have an area assignment"""
+    has_area = list(map(lambda x: True if ip_area_mapping.get(x) else False, collab["rec_id"]))
+    collab_filtered = collab[has_area]
+
+    """add country and area data to collab"""
+    collab_filtered["a_country"]=list(map(lambda x: country_mapping[x], collab_filtered["a_pid"]))
+    collab_filtered["b_country"]=list(map(lambda x: country_mapping[x], collab_filtered["b_pid"]))
+    collab_filtered["rec_sub_area"]=list(map(lambda x: ip_area_mapping[x], collab_filtered["rec_id"]))
+    return collab_filtered
+
+def filter_collab(collab, config = {}):
+    """filter flat collaborationn
+    config = {  "area_ids" : ["ai","systems"], 
+                "sub_area_ids":  ["robotics","bio"], 
+                "region_ids":["europe","northamerica"],
+                "country_ids":["jp","sg"],
+                "strict_boundary":True
+                }"""
+    
+    area_ids = config.get("area_ids")
+    sub_area_ids =  config.get("sub_area_ids")
+    region_ids = config.get("region_ids",["wd"])
+    country_ids =config.get("country_ids")
+    strict_boundary = config.get("strict_boundary", True)
+    
+    """region filters"""
+    region_mapping = get_region_mapping()
+    country_filter = list(map(lambda x: x in country_ids , region_mapping["country-id"]))
+    region_filter = list(map(lambda x: x in region_ids , region_mapping["region-id"]))
+    countries = set(region_mapping[np.logical_or(country_filter,region_filter)]["country-id"])
+    
+    a_in_region = list(map(lambda x: x in countries , collab["a_country"]))
+    b_in_region = list(map(lambda x: x in countries , collab["b_country"]))
+    
+    """ exclude authors based on regional constraints """
+    if strict_boundary:
+        """ both authors must be from given region """
+        collab_country_filter = np.logical_and(a_in_region,b_in_region)
+    else: 
+        """ at least one author must be from given region """
+        collab_country_filter = np.logical_or(a_in_region,b_in_region)
+
+    """ area filters """
+    area_mapping = get_area_mapping()
+    area_filter = list(map(lambda x: x in area_ids , area_mapping["area-id"]))
+    sub_area_filter = list(map(lambda x: x in sub_area_ids , area_mapping["sub-area-id"]))
+    areas = set(area_mapping[np.logical_or(area_filter,sub_area_filter)]["sub-area-id"])
+    collab_area_filter = list(map(lambda x: x in areas , collab["rec_sub_area"]))
+    
+    """filter collaborations based on region and areas"""
+    collab_filtered = collab[np.logical_and(collab_country_filter,collab_area_filter)][["a_pid","b_pid","rec_id","year"]]
+    collab_filtered.columns = ["a","b","rec","year"]
+    
+    def order_tuple(row):
+        """ sort authors alphabetically to make sure the collaborations between authors is correctly aggregated """
+        if row["a"]>row["b"]:
+            row_tuple = (row["b"],row["a"],row["rec"], row["year"])
+        else:
+            row_tuple = (row["a"],row["b"],row["rec"], row["year"])
+        return row_tuple
+    
+    """ get ordered collaboration tuples """
+    collabs_tuples = np.array(list(map(lambda x: order_tuple(x[1]),collab_filtered.iterrows())))
+    collab_sorted = pd.DataFrame(collabs_tuples, columns = ["a","b","rec","year"])
+    collab_sorted = collab_sorted.astype({"year":'int'})
+    return collab_sorted
+# collab = get_flat_collaboration()
+# config = {  "area_ids" : ["ai","systems"], 
+#             "sub_area_ids":  ["robotics","bio"], 
+#             "region_ids":["europe","northamerica"],
+#             "country_ids":["jp","sg"],
+#             "strict_boundary":True
+#             }
+# collab_filtered = filter_collab(collab,config)
 
 def get_collaboration(collab_config={}):
     """get collaboration of author/institution filtered on region and area 
@@ -410,6 +507,3 @@ def get_collab_institution(inst_x, inst_y, config={}):
 
 # t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
 # t = t.str.decode(encoding = 'utf-8')
-
-
-
