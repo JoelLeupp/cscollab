@@ -8,4 +8,4 @@ docker-build:
 	docker build --tag python-docker .
 
 docker-run:
-	docker run -d -p 5000:8030 python-docker
+	docker run -d -p 8030:8030 python-docker

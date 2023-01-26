@@ -10,7 +10,7 @@ import json
 pd.options.mode.chained_assignment = None
 
 """ connect to db """
-db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=4294967296)
+db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=2147483648)
 # db.resize_buffer_manager(8589934592) 4294967296
 conn = kuzu.connection(db)
 
