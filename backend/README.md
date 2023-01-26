@@ -23,21 +23,12 @@ source venv/bin/activate
 make server
 ```
 
-For the deployment build a docker image and run the server from the docker container which
-will be available at port 8030:
+For the deployment build a docker image and run the docker container containing the backend server which will be available at port 8030:
 
 ```{shell}
-# create image 
-make docker-build
-# run container
-make docker-run
-# view containers
-docker ps
-# stop container
-docker stop CONTAINER_ID
-# remove container
-docker rm CONTAINER_ID
-```
+make docker-build 
+make docker-run 
+``` 
 
 
 ## Overview APIs
