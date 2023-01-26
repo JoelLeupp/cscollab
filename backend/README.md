@@ -16,16 +16,35 @@ pip install -r requirements.txt
 
 ## Start the Server
 
-The server will run at http://127.0.0.1:8030 and the swagger API documentation can be found at /swagger-ui
+For local tests the server can simpy be started with unicorn as follows:
 
 ```{shell}
 source venv/bin/activate
 make server
 ```
 
+For the deployment build a docker image and run the server from the docker container which
+will be available at port 8030:
+
+```{shell}
+# create image 
+make docker-build
+# run container
+make docker-run
+# view containers
+docker ps
+# stop container
+docker stop CONTAINER_ID
+# remove container
+docker rm CONTAINER_ID
+```
+
+
 ## Overview APIs
 
-![swagger api](swagger_apis.PNG)
+The swagger API documentation can be found at */swagger-ui*
+
+![swagger api](public/img/swagger_apis.PNG)
 
 ## Graph Analysis
 
