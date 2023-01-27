@@ -1,8 +1,8 @@
 # Backend Server 
 
 The backend is created with [flask](https://flask.palletsprojects.com/en/2.2.x/) and the file *server.py* starts the flask server 
-and in the file *app.py* the backend is defined. Under the *views/* directory all the endpoints area defined. To create a documentation of the APIs
-the library swagger-ui-bundle is used.
+and in the file *app.py* the backend is defined. Under the *views/* directory all the endpoints area defined (db queries and analytics) and caching and exception handling 
+is used to optimize the APIs. For the documentation of the APIs [swagger](https://swagger.io/tools/swagger-ui/) is used.
 
 ## Virtual Environment 
 
@@ -16,14 +16,14 @@ pip install -r requirements.txt
 
 ## Start the Server
 
-For local tests the server can simpy be started with unicorn as follows:
+For local tests the server can simpy be started with [gunicorn](https://flask.palletsprojects.com/en/2.2.x/deploying/gunicorn/) as follows:
 
 ```{shell}
 source venv/bin/activate
 make server
 ```
 
-For the deployment build a docker image and run the docker container containing the backend server which will be available at port 8030:
+For the deployment build a [docker](https://www.docker.com/) image and run the docker container containing the backend server which will be available at port 8030:
 
 ```{shell}
 make docker-build 
