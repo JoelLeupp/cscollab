@@ -97,3 +97,18 @@ x = requests.post(url, json = input)
 res = json.loads(x.content)
 print(res["statistics"])
 print(res["centralities"])
+
+
+""" get graph analytics from weighted collaboration graph"""
+url = "http://127.0.0.1:8030/api/analytics/get_analytics_collab"
+config = {  "from_year": 2010,
+            "area_id" : "ai", 
+            "area_type":  "a", 
+            "region_id":"dach",
+            "strict_boundary":True,
+            "institution":False}
+input = {"config":json.dumps(config), "top": 3}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res["statistics"])
+print(res["centralities"])
