@@ -47,6 +47,13 @@ x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
 
+""" get collaboration of author plus area, country and institution information"""
+url = "http://127.0.0.1:8030/api/db/get_flat_collaboration"
+input = {"ignore_area": False}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
 
 """ get weighted collaboration of author"""
 url = "http://127.0.0.1:8030/api/db/get_weighted_collab"

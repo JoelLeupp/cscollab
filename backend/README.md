@@ -26,6 +26,7 @@ make server
 For the deployment build a [docker](https://www.docker.com/) image and run the docker container containing the backend server which will be available at port 8030:
 
 ```{shell}
+sudo service docker start
 make docker-build 
 make docker-run 
 ``` 

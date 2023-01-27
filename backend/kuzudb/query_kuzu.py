@@ -183,7 +183,8 @@ def get_flat_collaboration(ignore_area=False):
 
     """ get all collaborations from csrankings authors """
     collab = conn.execute('''MATCH (a:AuthorCS)-[col:CollaborationCS]->(b:AuthorCS)
-                             RETURN a.pid AS a_pid, b.pid AS b_pid, col.record AS rec_id, col.year AS year''').getAsDF() 
+                             RETURN a.pid, b.pid, col.record, col.year, a.affiliation, b.affiliation''').getAsDF() 
+    collab.columns = ["a_pid","b_pid","rec_id","year", "a_inst","b_inst"]
     
     """ get authors country mapping """
     author_country = conn.execute(''' MATCH 
