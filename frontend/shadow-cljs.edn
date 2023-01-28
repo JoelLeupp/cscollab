@@ -1,0 +1,33 @@
+{:deps {:aliases [:cljs]},
+ :dev-http {8080 "public/"},
+ :nrepl {:port 3333},
+ :builds
+ {:app
+  {:output-dir "public/js"
+   :asset-path "js"
+   :output-feature-set :es6
+   :target :browser
+   :modules
+   {:main
+    {:entries [app.core]
+     :init-fn app.core/main
+     }}
+   :devtools {:repl-pprint true
+              :preloads [day8.re-frame-10x.preload ]}
+   :dev {:compiler-options
+         {:closure-warnings
+          {:global-this :off}
+          :closure-defines
+          {"day8.re_frame.tracing.trace_enabled_QMARK_"
+           true
+           "re_frame.trace.trace_enabled_QMARK_"
+           true
+           re-frame.trace.trace-enabled?
+           true}}}
+   :release
+   {:output-dir "output/js"
+    :compiler-options
+    {:output-feature-set :es6
+     :infer-externs :auto
+     :optimizations :advanced
+     :externs ["datascript/externs.js"]}}}}}

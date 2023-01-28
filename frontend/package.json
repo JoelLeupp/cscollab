@@ -1,0 +1,51 @@
+{
+    "name": "shadow-cljs-browser",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "watch": "shadow-cljs watch app -A:dev",
+        "compile": "shadow-cljs compile app",
+        "release": "shadow-cljs release app",
+        "html": "mkdir -p target && cp assets/index.html target/",
+        "serve": "yarn html && http-server target/",
+        "del": "rm -r target/*",
+        "build": "yarn release && yarn html && yarn serve"
+    },
+    "author": "",
+    "license": "MIT",
+    "devDependencies": {
+        "http-server": "latest",
+        "shadow-cljs": "latest"
+    },
+    "dependencies": {
+        "@date-io/core": "latest",
+        "@date-io/date-fns": "latest",
+        "@emotion/react": "latest",
+        "@emotion/styled": "latest",
+        "@mui/icons-material": "latest",
+        "@mui/material": "latest",
+        "core-js": "latest",
+        "create-react-class": "latest",
+        "cytoscape": "^3.17.1",
+        "cytoscape-dagre": "^2.3.2",
+        "cytoscape-fcose": "^2.1.0",
+        "date-fns": "latest",
+        "framer-motion": "latest",
+        "highlight.js": "11.1.0",
+        "motion": "latest",
+        "plotly.js": "latest",
+        "prop-types": "latest",
+        "react": "latest",
+        "react-beautiful-dnd": "latest",
+        "react-cytoscapejs": "^1.2.1",
+        "react-dom": "latest",
+        "react-lorem-ipsum": "latest",
+        "react-plotly.js": "latest",
+        "react-transition-group": "latest",
+        "react-virtualized-auto-sizer": "latest",
+        "react-vis": "latest",
+        "react-window": "latest",
+        "xregexp": "latest"
+    }
+}
