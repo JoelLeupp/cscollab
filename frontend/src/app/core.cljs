@@ -3,6 +3,7 @@
    ["react-dom/client" :refer (createRoot)]
    [app.db :as db]
    [reagent.core :as r]
+   [day8.re-frame.http-fx] ; add http-xhrio events
    [re-frame.core :refer (dispatch dispatch-sync)]
    [app.router :as router :refer (init-routes!)]
    [app.views :refer (app routes)]))

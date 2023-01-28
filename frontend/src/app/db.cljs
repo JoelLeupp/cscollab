@@ -1,7 +1,8 @@
 (ns app.db
   (:require
    [re-frame.core :refer
-    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
+    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
+   [ajax.core :as ajax :refer (json-request-format json-response-format)]))
 
 (def default-db
   ^{:inspect "@re-frame.db/app-db"}

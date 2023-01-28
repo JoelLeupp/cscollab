@@ -1,0 +1,1026 @@
+[
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "ndss",
+      "conference-title": "Network and Distributed System Security Symposium (NDSS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "sp",
+      "conference-title": "IEEE Symposium on Security and Privacy (S&P)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "ijcnn",
+      "conference-title": "IEEE International Joint Conference on Neural Network (IJCNN)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "cikm",
+      "conference-title": "International Conference on Information and Knowledge Management (CIKM)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "pl",
+      "sub-area-label": "Programming languages",
+      "conference-id": "icfp",
+      "conference-title": "ACM SIGPLAN International Conference on Functional Programming (ICFP)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "mlsp",
+      "conference-title": "International Workshop on Machine Learning for Signal Processing (MLSP)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "improve",
+      "conference-title": "International Conference on Image Processing and Vision Engineering (IMPROVE)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "isita",
+      "conference-title": "International Symposium on Information Theory and its Applications (ISITA)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "vision",
+      "sub-area-label": "Computer Vision",
+      "conference-id": "iccv",
+      "conference-title": "IEEE International Conference on Computer Vision (ICCV)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "architecture",
+      "sub-area-label": "Computer Hardware and Architecture",
+      "conference-id": "isca",
+      "conference-title": "International Symposium on Computer Architecture (ISCA)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "acl",
+      "conference-title": "Annual Meeting of the Association for Computational Linguistics (ACL)"
+   },
+   {
+      "area-id": "theory",
+      "area-label": "Theory",
+      "sub-area-id": "math",
+      "sub-area-label": "Computational Theory and Mathematics",
+      "conference-id": "lics",
+      "conference-title": "ACM/IEEE Symposium on Logic in Computer Science (LICS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "se",
+      "sub-area-label": "Software engineering",
+      "conference-id": "kbse",
+      "conference-title": "International Conference on Automated Software Engineering (ASE)"
+   },
+   {
+      "area-id": "theory",
+      "area-label": "Theory",
+      "sub-area-id": "math",
+      "sub-area-label": "Computational Theory and Mathematics",
+      "conference-id": "focs",
+      "conference-title": "IEEE Annual Symposium on Foundations of Computer Science (FOCS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "aips",
+      "conference-title": "International Conference on Automated Planning and Scheduling (ICAPS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "mobile+web",
+      "sub-area-label": "Web, Mobile & Multimedia Technologies",
+      "conference-id": "mobicom",
+      "conference-title": "ACM/IEEE International Conference on Mobile Computing and Networking (MobiCom)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "naacl",
+      "conference-title": "North American Chapter of the Association for Computational Linguistics (NAACL)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "fgr",
+      "conference-title": "IEEE International Conference on Automatic Face & Gesture Recognition (FG)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "metrics",
+      "sub-area-label": "Measurement & perf. analysis",
+      "conference-id": "sigmetrics",
+      "conference-title": "Measurement and Modeling of Computer Systems (SIGMETRICS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "vision",
+      "sub-area-label": "Computer Vision",
+      "conference-id": "accv",
+      "conference-title": "Asian Conference on Computer Vision (ACCV)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "hpc",
+      "sub-area-label": "High-performance computing",
+      "conference-id": "hpdc",
+      "conference-title": "IEEE International Symposium on High-Performance Parallel Distributed Computing (HPDC)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "pkdd",
+      "conference-title": "European Conference on Principles of Data Mining and Knowledge Discovery (PKDD)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "colt",
+      "conference-title": "Annual Conference Computational Learning Theory (COLT)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "aistats",
+      "conference-title": "International Conference on Artificial Intelligence and Statistics (AISTATS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "networks",
+      "sub-area-label": "Computer Networks and Communications",
+      "conference-id": "nsdi",
+      "conference-title": "Symposium on Networked Systems Design and Implementation (NSDI)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "bio",
+      "sub-area-label": "Biomedical & Medical Engineering",
+      "conference-id": "ismb",
+      "conference-title": "Intelligent Systems in Molecular Biology (ISMB)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "architecture",
+      "sub-area-label": "Computer Hardware and Architecture",
+      "conference-id": "hpca",
+      "conference-title": "International Symposium on High-Performance Computer Architecture (HPCA)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "vision",
+      "sub-area-label": "Computer Vision",
+      "conference-id": "eccv",
+      "conference-title": "European Conference on Computer Vision (ECCV)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "mobile+web",
+      "sub-area-label": "Web, Mobile & Multimedia Technologies",
+      "conference-id": "www",
+      "conference-title": "The Web Conference (WWW)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "embedded",
+      "sub-area-label": "Embedded & real-time systems",
+      "conference-id": "rtss",
+      "conference-title": "IEEE Real-Time Systems Symposium (RTSS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "nips",
+      "conference-title": "Conference on Neural Information Processing Systems (NeurIPS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "uss",
+      "conference-title": "USENIX Security Symposium"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "sigir",
+      "conference-title": "Annual International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "sdm",
+      "conference-title": "SIAM International Conference on Data Mining (SDM)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "da",
+      "sub-area-label": "Design automation",
+      "conference-id": "iccad",
+      "conference-title": "International Conference on Computer Aided Design (ICCAD)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "cidr",
+      "conference-title": "Conference on Innovative Data Systems Research (CIDR)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "dmbd",
+      "conference-title": "International Conference on Data Mining and Big Data (DMBD)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "se",
+      "sub-area-label": "Software engineering",
+      "conference-id": "se",
+      "conference-title": "Software Engineering (SE)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "databases",
+      "sub-area-label": "Databases & Information Systems",
+      "conference-id": "pods",
+      "conference-title": "ACM SIGACT-SIGMOD-SIGART Symposium on Principles of Database Systems (PODS)"
+   },
+   {
+      "area-id": "theory",
+      "area-label": "Theory",
+      "sub-area-id": "math",
+      "sub-area-label": "Computational Theory and Mathematics",
+      "conference-id": "stoc",
+      "conference-title": "Symposium on the Theory of Computing (STOC)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "eurocrypt",
+      "conference-title": "International Conference on the Theory and Application of Cryptographic Techniques (EUROCRYPT)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "ismir",
+      "conference-title": "International Society for Music Information Retrieval Conference (ISMIR)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "mobile+web",
+      "sub-area-label": "Web, Mobile & Multimedia Technologies",
+      "conference-id": "semweb",
+      "conference-title": "International Semantic Web Conference (ISWC)"
+   },
+   {
+      "area-id": "theory",
+      "area-label": "Theory",
+      "sub-area-id": "math",
+      "sub-area-label": "Computational Theory and Mathematics",
+      "conference-id": "cav",
+      "conference-title": "International Conference on Computer Aided Verification (CAV)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "crypto",
+      "conference-title": "Annual International Cryptology Conference (CRYPTO)"
+   },
+   {
+      "area-id": "theory",
+      "area-label": "Theory",
+      "sub-area-id": "math",
+      "sub-area-label": "Computational Theory and Mathematics",
+      "conference-id": "soda",
+      "conference-title": "ACM-SIAM Symposium on Discrete Algorithms (SODA)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "graphics",
+      "sub-area-label": "Computer graphics",
+      "conference-id": "siggrapha",
+      "conference-title": "ACM SIGGRAPH Conference and Exhibition on Computer Graphics and Interactive Techniques in Asia (SIGGRAPH Asia)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "aies",
+      "conference-title": "AAAI/ACM Conference on AI Ethics and Society (AIES)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "iui",
+      "conference-title": "International Conference on Intelligent User Interfaces (IUI)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "asru",
+      "conference-title": "Automatic Speech Recognition & Understanding (ASRU)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "se",
+      "sub-area-label": "Software engineering",
+      "conference-id": "issta",
+      "conference-title": "International Symposium on Software Testing and Analysis (ISSTA)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "ruleml",
+      "conference-title": "International Web Rule Symposium (RuleML)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "hpc",
+      "sub-area-label": "High-performance computing",
+      "conference-id": "ics",
+      "conference-title": "International Conference on Supercomputing (ICS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "interspeech",
+      "conference-title": "Conference of the International Speech Communication Association (INTERSPEECH)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "ijcnlp",
+      "conference-title": "International Joint Conference on Natural Language Processing (IJCNLP)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "hpc",
+      "sub-area-label": "High-performance computing",
+      "conference-id": "sc",
+      "conference-title": "International Conference for High Performance Computing Networking Storage and Analysis (SC)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "ecir",
+      "conference-title": "European Conference on Information Retrieval (ECIR)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "pl",
+      "sub-area-label": "Programming languages",
+      "conference-id": "popl",
+      "conference-title": "ACM-SIGACT Symposium on Principles of Programming Languages (POPL)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "databases",
+      "sub-area-label": "Databases & Information Systems",
+      "conference-id": "sigmod",
+      "conference-title": "ACM SIGMOD Conference (SIGMOD)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "pakdd",
+      "conference-title": "Pacific-Asia Conference on Knowledge Discovery and Data Mining (PAKDD)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "pl",
+      "sub-area-label": "Programming languages",
+      "conference-id": "pldi",
+      "conference-title": "ACM-SIGPLAN Symposium on Programming Language Design and Implementation (PLDI)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "hci",
+      "sub-area-label": "Human-computer interaction",
+      "conference-id": "chi",
+      "conference-title": "ACM Conference on Human Factors in Computing Systems (CHI)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "ivs",
+      "conference-title": "IEEE Intelligent Vehicles Symposium (IV)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "os",
+      "sub-area-label": "Operating systems",
+      "conference-id": "eurosys",
+      "conference-title": "European Conference on Computer Systems (EuroSys)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "os",
+      "sub-area-label": "Operating systems",
+      "conference-id": "sosp",
+      "conference-title": "Symposium on Operating Systems Principles (SOSP)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "cicling",
+      "conference-title": "Conference on Intelligent Text Processing and Computational Linguistics (CICLing)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "os",
+      "sub-area-label": "Operating systems",
+      "conference-id": "osdi",
+      "conference-title": "USENIX Symposium on Operating Systems Design and Implementation (OSDI)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "bio",
+      "sub-area-label": "Biomedical & Medical Engineering",
+      "conference-id": "recomb",
+      "conference-title": "Annual International Conference on Research in Computational Molecular Biology (RECOMB)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "graphics",
+      "sub-area-label": "Computer graphics",
+      "conference-id": "siggraph",
+      "conference-title": "International Conference on Computer Graphics and Interactive Techniques (SIGGRAPH)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "ai",
+      "conference-title": "Canadian Conference on Artificial Intelligence (AI)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "icdar",
+      "conference-title": "IEEE International Conference on Document Analysis and Recognition (ICDAR)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "hci",
+      "sub-area-label": "Human-computer interaction",
+      "conference-id": "uist",
+      "conference-title": "ACM Symposium on User Interface Software and Technology (UIST)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "aaai",
+      "conference-title": "AAAI Conference on Artificial Intelligence (AAAI)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "databases",
+      "sub-area-label": "Databases & Information Systems",
+      "conference-id": "vldb",
+      "conference-title": "Very Large Data Bases Conference (VLDB)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "vision",
+      "sub-area-label": "Computer Vision",
+      "conference-id": "cvpr",
+      "conference-title": "Computer Vision and Pattern Recognition (CVPR)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "networks",
+      "sub-area-label": "Computer Networks and Communications",
+      "conference-id": "iccomm",
+      "conference-title": "International Conference on Communications (COMM)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "hci",
+      "sub-area-label": "Human-computer interaction",
+      "conference-id": "pervasive",
+      "conference-title": "International Conference on Pervasive Computing (Pervasive)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "da",
+      "sub-area-label": "Design automation",
+      "conference-id": "dac",
+      "conference-title": "Design Automation Conference (DAC)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "msr",
+      "conference-title": "IEEE Working Conference on Mining Software Repositories (MSR)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "fusion",
+      "conference-title": "International Conference on Information Fusion (FUSION)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "vis",
+      "sub-area-label": "Visualization",
+      "conference-id": "vr",
+      "conference-title": "IEEE Conference on Virtual Reality and 3D User Interfaces (VR)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "architecture",
+      "sub-area-label": "Computer Hardware and Architecture",
+      "conference-id": "micro",
+      "conference-title": "Annual IEEE/ACM International Symposium on Microarchitecture (MICRO)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "recsys",
+      "conference-title": "ACM Conference on Recommender Systems (RecSys)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "mobile+web",
+      "sub-area-label": "Web, Mobile & Multimedia Technologies",
+      "conference-id": "mobisys",
+      "conference-title": "ACM SIGMOBILE International Conference on Mobile Systems Applications and Services (MobiSys)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "sec",
+      "conference-title": "IFIP International Information Security Conference (SEC)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "vision",
+      "sub-area-label": "Computer Vision",
+      "conference-id": "bmvc",
+      "conference-title": "British Machine Vision Conference (BMVC)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "mlmta",
+      "conference-title": "International Conference on Machine Learning Models Technologies and Applications (MLMTA)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "lrec",
+      "conference-title": "International Conference on Language Resources and Evaluation (LREC)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "architecture",
+      "sub-area-label": "Computer Hardware and Architecture",
+      "conference-id": "arch",
+      "conference-title": "International Workshop on Applied Verification of Continuous and Hybrid Systems (ARCH)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "architecture",
+      "sub-area-label": "Computer Hardware and Architecture",
+      "conference-id": "asplos",
+      "conference-title": "International Conference on Architectural Support for Programming Languages and Operating Systems (ASPLOS)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "robotics",
+      "sub-area-label": "Robotics",
+      "conference-id": "icra",
+      "conference-title": "IEEE International Conference on Robotics and Automation (ICRA)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "os",
+      "sub-area-label": "Operating systems",
+      "conference-id": "usenix",
+      "conference-title": "USENIX Annual Technical Conference (USENIX ATC)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "ccs",
+      "conference-title": "Conference on Computer and Communications Security (CCS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "se",
+      "sub-area-label": "Software engineering",
+      "conference-id": "fse",
+      "conference-title": "Fast Software Encryption Workshop (FSE)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "acml",
+      "conference-title": "Asian Conference on Machine Learning (ACML)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "robotics",
+      "sub-area-label": "Robotics",
+      "conference-id": "rss",
+      "conference-title": "Robotics Science and Systems Conference (RSS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "icml",
+      "conference-title": "International Conference on Machine Learning (ICML)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "embedded",
+      "sub-area-label": "Embedded & real-time systems",
+      "conference-id": "rtas",
+      "conference-title": "IEEE Real Time Technology and Applications Symposium (RTAS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "wsdm",
+      "conference-title": "Web Search and Data Mining (WSDM)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "hci",
+      "sub-area-label": "Human-computer interaction",
+      "conference-id": "huc",
+      "conference-title": "Ubiquitous Computing (UbiComp)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "security",
+      "sub-area-label": "Computer Security and Cryptography",
+      "conference-id": "pet",
+      "conference-title": "International Symposium on Privacy Enhancing Technologies (PETS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "ijcai",
+      "conference-title": "International Joint Conference on Artificial Intelligence (IJCAI)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "pl",
+      "sub-area-label": "Programming languages",
+      "conference-id": "oopsla",
+      "conference-title": "ACM SIGPLAN International Conference on Object-Oriented Programming Systems Languages and Applications (OOPSLA)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "itsc",
+      "conference-title": "International Conference on Intelligent Transportation Systems (ITSC)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "mir",
+      "conference-title": "International Conference on Multimedia Retrieval (ICMR)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "iclr",
+      "conference-title": "International Conference on Learning Representations (ICLR)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "vision",
+      "sub-area-label": "Computer Vision",
+      "conference-id": "avss",
+      "conference-title": "Advanced Video and Signal Based Surveillance (AVSS)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "databases",
+      "sub-area-label": "Databases & Information Systems",
+      "conference-id": "icde",
+      "conference-title": "IEEE International Conference on Data Engineering (ICDE)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "icde",
+      "conference-title": "IEEE International Conference on Data Engineering (ICDE)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "vis",
+      "sub-area-label": "Visualization",
+      "conference-id": "visualization",
+      "conference-title": "IEEE Visualization Conference (VIS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "eacl",
+      "conference-title": "Conference of the European Chapter of the Association for Computational Linguistics (EACL)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "mobile+web",
+      "sub-area-label": "Web, Mobile & Multimedia Technologies",
+      "conference-id": "iswc",
+      "conference-title": "IEEE International Symposium on Wearable Computers (ISWC)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "embedded",
+      "sub-area-label": "Embedded & real-time systems",
+      "conference-id": "emsoft",
+      "conference-title": "International Conference on Embedded Software (EMSOFT)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "os",
+      "sub-area-label": "Operating systems",
+      "conference-id": "fast",
+      "conference-title": "USENIX Conference on File and Storage Technologies (FAST)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "kdd",
+      "conference-title": "ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "bigcom",
+      "conference-title": "International Conference on Big Data Computing and Communications (BigCom)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "hpc",
+      "sub-area-label": "High-performance computing",
+      "conference-id": "hpc",
+      "conference-title": "International Advanced Research Workshop on High Performance Computing (HPC)"
+   },
+   {
+      "area-id": "interdiscip",
+      "area-label": "Interdisciplinary Areas",
+      "sub-area-id": "robotics",
+      "sub-area-label": "Robotics",
+      "conference-id": "iros",
+      "conference-title": "IEEE/RJS International Conference on Intelligent RObots and Systems (IROS)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "slt",
+      "conference-title": "Spoken Language Technology Workshop (SLT)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "iccpr",
+      "conference-title": "International Conferences on Computing and Pattern Recognition (ICCPR)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "mobile+web",
+      "sub-area-label": "Web, Mobile & Multimedia Technologies",
+      "conference-id": "sensys",
+      "conference-title": "ACM International Conference on Embedded Networked Sensor Systems (SenSys)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "nlp",
+      "sub-area-label": "Natural language Processing",
+      "conference-id": "emnlp",
+      "conference-title": "Conference on Empirical Methods in Natural Language Processing (EMNLP)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "networks",
+      "sub-area-label": "Computer Networks and Communications",
+      "conference-id": "sigcomm",
+      "conference-title": "Conference on Applications Technologies Architectures and Protocols for Computer Communication (SIGCOMM)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ai",
+      "sub-area-label": "Artificial Intelligence",
+      "conference-id": "uai",
+      "conference-title": "Conference on Uncertainty in Artificial Intelligence (UAI)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "miccai",
+      "conference-title": "International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ir",
+      "sub-area-label": "Information Retrieval",
+      "conference-id": "asunam",
+      "conference-title": "International Conference on Advances in Social Networks Analysis and Mining (ASONAM)"
+   },
+   {
+      "area-id": "ai",
+      "area-label": "AI",
+      "sub-area-id": "ml",
+      "sub-area-label": "Machine Learning",
+      "conference-id": "mod",
+      "conference-title": "International Conference on Machine Learning Optimization and Data Science (LOD)"
+   },
+   {
+      "area-id": "systems",
+      "area-label": "Systems",
+      "sub-area-id": "se",
+      "sub-area-label": "Software engineering",
+      "conference-id": "icse",
+      "conference-title": "International Conference on Software Engineering (ICSE)"
+   }
+]

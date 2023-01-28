@@ -2,7 +2,6 @@
   (:require
    [cljs.reader]))
 
-
 (defn s->id [s]
   (if (js/Number.isNaN (js/parseInt s))
     (keyword s)
