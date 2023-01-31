@@ -3,13 +3,14 @@
 ## Tooling
 
 ### Prerequisites
-For the development of the frontend [clojure](https://clojure.org/guides/getting_started) (requires Java) is used in combination with [Node.js](https://nodejs.org/en/) an the NPM package manager.
+For the development of the frontend [clojure](https://clojure.org/guides/getting_started) (requires Java and the Maven project manager) is used in combination with [Node.js](https://nodejs.org/en/) an the NPM package manager.
 
 The required software could be installed with the following commands:
 
 ```bash
 apt update
 apt install default-jre #install java
+apt install maven 
 brew install clojure/tools/clojure #install clojure
 apt install nodejs 
 apt install npm 

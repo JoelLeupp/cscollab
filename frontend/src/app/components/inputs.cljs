@@ -71,6 +71,24 @@
                    switch-args)]
    (when label-on [:> mui-typography typo-args label-on])])
 
+(defn checkbox [{:keys [:id :label :args]}]
+  (let [default-args 
+        (util/deep-merge 
+         {:checked @(subscribe [::db/user-input-field id])
+          :on-change
+          (fn [event]
+            (dispatch [::db/set-user-input id
+                       (-> event .-target .-checked)]))}
+         args)
+        comp
+        [:> mui-checkbox default-args]]
+    (if label
+      [:> mui-form-control-label {:control comp :label label}]
+      comp
+      )))
+
+
+
 (defn textfield [{:keys [:id :label :args :multiline? :style :helper-text]}]
   [:> mui-text-field (util/deep-merge
                       {:style style

@@ -22,5 +22,6 @@
                      :collapsable? true
                      :content-args {:style
                                     {:grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
-                     :components nil}]]]]))
+                     :components 
+                     [[i/checkbox {:id :checkbox}]]}]]]]))
 
