@@ -6,7 +6,9 @@
    [app.common.user-input :refer (input-panel)]
    [re-frame.core :refer (dispatch subscribe)]
    ["react-lorem-ipsum" :refer (loremIpsum)]
+   [app.components.lists :as lists]
    [app.db :as db]
+   [app.cscollab.filter-panel :refer (filter-panel)]
    [reagent.core :as r]))
 
 
@@ -16,12 +18,5 @@
      [acl/section
       [acl/title-white "Landscape of Scientific Collaborations"]
       [acl/content
-       [input-panel {:id :input-panel
-                     :start-closed false
-                     :header "Filters"
-                     :collapsable? true
-                     :content-args {:style
-                                    {:grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
-                     :components 
-                     [[i/checkbox {:id :checkbox}]]}]]]]))
+       [filter-panel]]]]))
 

@@ -1,7 +1,7 @@
 (ns app.db
   (:require
    [re-frame.core :refer
-    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
+    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)] 
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
 
 (def default-db
@@ -15,7 +15,7 @@
 
 (reg-event-db
  ::initialize-db
- (fn [_ _]
+ (fn [_ _] 
    default-db))
 
 (reg-sub
@@ -109,7 +109,11 @@
    (let [id (if (vector? id) id [id])]
      {:db (assoc-in db (into [:ui-states] id) value)})))
 
-
+(reg-event-fx
+ ::update-ui-states
+ (fn [{db :db} [_ id f]]
+   (let [id (if (vector? id) id [id])]
+     {:db (update-in db (into [:ui-states] id) f)})))
 
 
 (comment

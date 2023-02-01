@@ -83,7 +83,7 @@
         comp
         [:> mui-checkbox default-args]]
     (if label
-      [:> mui-form-control-label {:control comp :label label}]
+      [:> mui-form-control-label {:control (r/as-element comp) :label label}]
       comp
       )))
 
