@@ -18,57 +18,6 @@
    ["@mui/material/IconButton" :default mui-icon-button]))
 
 
-#_(defn list-test []
-  [:> mui-list {:dense false :sx {:max-width 350 :width "100%"}} 
-   [:> mui-list-item-button
-    {:key :a :disablePadding true}
-    [:> mui-list-item-icon
-     [:> mui-checkbox
-      {:checked  @(subscribe [::db/user-input-field [:list :a]])
-       :on-click
-       (fn []
-         (dispatch [::db/update-user-input [:list :a]
-                    #(if % false true)]))}]]
-    [:>  mui-list-item-text {:primary "list item a" 
-                             :primary-typography-props 
-                             {:font-size 20
-                              :font-weight :medium}}]] 
-   [:> mui-list-item-button
-    {:key :b :disablePadding true
-     :on-click
-     (fn []
-       (dispatch [::db/update-ui-states [:list :open]
-                  #(if % false true)]))}
-    [:> mui-list-item-icon
-     [:> mui-checkbox
-      {:checked  @(subscribe [::db/user-input-field [:list :b]])
-       :on-click
-       (fn []
-         (dispatch [::db/update-user-input [:list :b]
-                    #(if % false true)]))}]]
-    [:>  mui-list-item-text {:primary "list item b"}]
-    (if @(subscribe [::db/ui-states-field [:list :open]])
-      [:> ic-expand-less]
-      [:> ic-expand-more])]
-   [:> mui-collapse {:in @(subscribe [::db/ui-states-field [:list :open]])
-                     :timeout :auto
-                     :unmountOnExit true}
-    [:> mui-list {:dense false}
-     [:> mui-list-item-button
-      {:key :a :disablePadding true :sx {:pl 4}}
-      [:> mui-list-item-icon
-       [:> mui-checkbox
-        {:checked  @(subscribe [::db/user-input-field [:list :c]])
-         :on-click
-         (fn []
-           (dispatch [::db/update-user-input [:list :c]
-                      #(if % false true)]))}]]
-      [:>  mui-list-item-text {:primary "list item c"}]]]]
-   ])
-
-(def content [{:id :a :label "main item" :style {:font-size 20
-                                                 :font-weight :medium}}
-              {:id :b :label "second item" :children [{ :id :c :label "sub-item"}]}])
 
 (defn checkbox-list [{:keys [style list-args id subheader content]}]
   "generate a nested list with checkboxes"
@@ -92,28 +41,35 @@
       list-args)
      (for [c (if content-sub @content-sub content)]
        (list
-        [:> mui-list-item-button
+        [:> mui-list-item
          {:key (:id c) :disablePadding true
-          :on-click
-          (or (:on-click c)
-              (when (:children c)
-                (fn []
-                  (dispatch [::db/update-ui-states (conj [id (:id c)] :open?)
-                             #(if % false true)]))))}
+          :secondary-action
+          (when (:children c)
+            (r/as-element
+             [:> mui-icon-button
+              {:on-click
+               (or (:on-click c)
+                   (fn []
+                     (dispatch [::db/update-ui-states (conj [id (:id c)] :open?)
+                                #(if % false true)])))}
+              (if @(subscribe [::db/ui-states-field (conj [id (:id c)] :open?)])
+                [:> ic-expand-less]
+                [:> ic-expand-more])]))}
          [:> mui-list-item-icon
           [:> mui-checkbox
-           {:checked  @(subscribe [::db/user-input-field [id (:id c)]])
-            :on-click
-            (or (:on-click c)
-                (fn []
-                  (dispatch [::db/update-user-input [id (:id c)]
+           {:checked  
+            (contains? @(subscribe [::db/user-input-field id]) (:id c)) 
+            #_@(subscribe [::db/user-input-field [id (:id c)]])
+            :on-change
+            (or (:on-change c)
+                (fn [e]
+                  (dispatch [::db/set-user-input-selection id
+                             (:id c)
+                             (-> e .-target .-checked)])
+                  #_(dispatch [::db/update-user-input [id (:id c)]
                              #(if % false true)])))}]]
          [:>  mui-list-item-text {:primary (:label c)
-                                  :primary-typography-props (:style c)}]
-         (when (:children c)
-           (if @(subscribe [::db/ui-states-field (conj [id (:id c)] :open?)])
-             [:> ic-expand-less]
-             [:> ic-expand-more]))]
+                                  :primary-typography-props (:style c)}]]
         (when (:children c)
           [:> mui-collapse
            {:in @(subscribe [::db/ui-states-field (conj [id (:id c)] :open?)])
@@ -126,11 +82,19 @@
                [:> mui-list-item-icon
                 [:> mui-checkbox
                  {:indeterminate false
-                  :checked  @(subscribe [::db/user-input-field
+                  :checked  
+                  (contains? @(subscribe [::db/user-input-field id]) (keyword (:id c) (:id sub)))
+                  #_@(subscribe [::db/user-input-field
                                          [id (keyword (:id c) (:id sub))]])
-                  :on-click
-                  (or (:on-click sub)
-                      (fn []
+                  :on-change
+                  (or (:on-change sub)
+                      (fn [e]
+                        (dispatch [::db/set-user-input-selection id
+                                   (keyword (:id c) (:id sub))
+                                   (-> e .-target .-checked)])
+                        #_(dispatch [::db/update-user-input [id (:id c)]
+                                     #(if % false true)]))
+                      #_(fn []
                         (dispatch [::db/update-user-input
                                    [id (keyword (:id c) (:id sub))]
                                    #(if % false true)])))}]]
@@ -138,12 +102,6 @@
                 {:primary (:label sub)
                  :primary-typography-props (:style sub)}]])]])))]))
 
-(defn list-test []
-  [checkbox-list
-   {:id :nested-list
-    :list-args {:dense false :sx {:max-width 350 :width "100%"}}
-    :content content}]
-  )
 
 (defn menu [{:keys [style list-args label-id subheader content content-sub]}]
   (fn [{:keys [style list-args label-id subheader content content-sub]}]

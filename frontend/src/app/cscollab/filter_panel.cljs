@@ -40,20 +40,18 @@
 
 
 
-
 (defn area-checkbox-list []
   (let
    [content (subscribe [::area-checkbox-content])]
     (fn []
       (when @content 
         [lists/checkbox-list
-         {:id :area-checkbox
+         {:id :area-checkbox-1
           :list-args {:dense false :sx {:max-width 400 :width "100%"}}
           :content-sub content}]))))
 
 (defn area-filter []
-  [area-checkbox-list]
-  )
+  [area-checkbox-list])
 
 (defn filter-panel []
   [input-panel
@@ -66,4 +64,4 @@
     :components
     [[area-filter]]}])
 
-(comment @(subscribe [::area-checkbox-content-y]))
+(comment @(subscribe [::area-checkbox-content]))
