@@ -13,7 +13,9 @@
      :init-fn app.core/main
      }}
    :devtools {:repl-pprint true
-              :preloads [day8.re-frame-10x.preload ]}
+              :autoload true
+              :preloads [shadow.remote.runtime.cljs.browser
+                         day8.re-frame-10x.preload ]}
    :dev {:compiler-options
          {:closure-warnings
           {:global-this :off}
