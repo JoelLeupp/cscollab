@@ -18,12 +18,56 @@
    ["@mui/material/IconButton" :default mui-icon-button]))
 
 
+#_(when-not
+ (clojure.set/subset?
+  (set (map #(keyword (:id c) (:id %)) (:children c)))
+  @(subscribe [::db/user-input-field id]))
+  (dispatch [::db/set-user-input-selection id (:id c) false]))
 
-(defn checkbox-list [{:keys [style list-args id subheader content]}]
+(defn checkbox-list [{:keys [style list-args id subheader content content-sub]}]
   "generate a nested list with checkboxes"
+  #_(doseq [c (if content-sub @content-sub content)]
+    (add-watch
+     (subscribe [::db/user-input-field [id]])
+     (keyword (:id c) :watcher)
+     (fn [_ _ _ new-state]
+       (if (and
+            (:children c)
+            (clojure.set/subset?
+             (set (map #(keyword (:id c) (:id %)) (:children c)))
+             new-state))
+         (dispatch [::db/set-user-input-selection id (:id c) true])
+         (dispatch [::db/set-user-input-selection id (:id c) false]))))) 
+(let [all-ids 
+      (set
+       (flatten
+        (map (fn [c]
+               (let [id (:id c)
+                     children
+                     (when (:children c)
+                       (map #(keyword id (:id %)) (:children c)))]
+                 (concat [id] children)))
+             (if content-sub @content-sub content))))]
+  (add-watch
+   (subscribe [::db/user-input-field [id]])
+   (keyword id :watcher)
+   (fn [_ _ _ new-state]
+     (doseq [c (if content-sub @content-sub content)]
+       (when (= :all (:id c))
+          (if (= (count all-ids) (count new-state))
+            (dispatch [::db/set-user-input-selection id :all true])
+            (dispatch [::db/set-user-input-selection id :all false])
+            ))
+       (when (:children c)
+         (if
+          (clojure.set/subset?
+           (set (map #(keyword (:id c) (:id %)) (:children c)))
+           new-state)
+           (dispatch [::db/set-user-input-selection id (:id c) true])
+           (dispatch [::db/set-user-input-selection id (:id c) false]))))))
   (fn [{:keys [style list-args id subheader content content-sub]}]
     ^{:key [@(subscribe [::db/user-input-field [id]])
-            @(subscribe [::db/ui-states-field [id]])]} 
+            @(subscribe [::db/ui-states-field [id]])]}
     [:> mui-list
      (util/deep-merge
       (merge
@@ -57,9 +101,24 @@
                 [:> ic-expand-more])]))}
          [:> mui-list-item-icon
           [:> mui-checkbox
-           {:checked  
-            (contains? @(subscribe [::db/user-input-field id]) (:id c)) 
+           {:checked
+            (contains? @(subscribe [::db/user-input-field id]) (:id c))
             #_@(subscribe [::db/user-input-field [id (:id c)]])
+            :indeterminate
+            (when (not (contains? @(subscribe [::db/user-input-field id]) (:id c)))
+              (if (= :all (:id c))
+                (when  (and
+                        (> (count @(subscribe [::db/user-input-field id])) 0)
+                        (not
+                         (= (count all-ids)
+                            (count @(subscribe [::db/user-input-field id])))))
+                  true)
+                (when
+                 (and
+                  (:children c) 
+                  (some #(= (name (:id c)) (namespace %))
+                        @(subscribe [::db/user-input-field id])))
+                  true)))
             :on-change
             (or (:on-change c)
                 (fn [e]
@@ -67,15 +126,7 @@
                     ;remove or add all ids/sub-ids
                     (dispatch
                      [::db/set-user-input-selection id
-                      (set
-                       (flatten
-                        (map (fn [c]
-                               (let [id (:id c)
-                                     children
-                                     (when (:children c)
-                                       (map #(keyword id (:id %)) (:children c)))]
-                                 (concat [id] children)))
-                             (if content-sub @content-sub content))))
+                      all-ids
                       (-> e .-target .-checked)]))
                   (when (:children c)
                     ; remove or add all children
@@ -101,27 +152,29 @@
                [:> mui-list-item-icon
                 [:> mui-checkbox
                  {:indeterminate false
-                  :checked  
+                  :checked
                   (contains? @(subscribe [::db/user-input-field id]) (keyword (:id c) (:id sub)))
                   #_@(subscribe [::db/user-input-field
                                  [id (keyword (:id c) (:id sub))]])
                   :on-change
-                  (or (:on-change sub)
-                      (fn [e]
-                        (dispatch [::db/set-user-input-selection id
-                                   (keyword (:id c) (:id sub))
-                                   (-> e .-target .-checked)])
-                        #_(dispatch [::db/update-user-input [id (:id c)]
-                                     #(if % false true)]))
-                      #_(fn []
-                          (dispatch [::db/update-user-input
-                                     [id (keyword (:id c) (:id sub))]
-                                     #(if % false true)])))}]]
+                  (or
+                   (:on-change sub)
+                   (fn [e]
+                     (dispatch [::db/set-user-input-selection id
+                                (keyword (:id c) (:id sub))
+                                (-> e .-target .-checked)])
+                     #_(dispatch [::db/update-user-input [id (:id c)]
+                                  #(if % false true)]))
+                   #_(fn []
+                       (dispatch [::db/update-user-input
+                                  [id (keyword (:id c) (:id sub))]
+                                  #(if % false true)])))}]]
                [:>  mui-list-item-text
                 {:primary (:label sub)
-                 :primary-typography-props (:style sub)}]])]])))]))
+                 :primary-typography-props (:style sub)}]])]])))])))
 (comment
   (def content @(subscribe [:app.cscollab.filter-panel/area-checkbox-content]))
+  (count (map vals content))
   (set 
    (flatten
         (map (fn [c]
