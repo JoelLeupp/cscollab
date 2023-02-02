@@ -73,11 +73,17 @@
  ::set-user-input-selection
  (fn [{db :db} [_ id value add?]]
    (let [id (if (vector? id) id [id])]
-     {:db (update-in db (into [:user-input] id)
-                     (if (or add? (nil? add?))
-                       (fnil conj #{})
-                       (fnil disj #{})) 
-                     value)})))
+     {:db (update-in
+           db
+           (into [:user-input] id)
+           (if (or add? (nil? add?))
+             (if (set? value)
+               (fnil clojure.set/union #{})
+               (fnil conj #{}))
+             (if (set? value)
+               (fnil clojure.set/difference #{})
+               (fnil disj #{})))
+           value)})))
 
 (reg-event-fx
  ::update-user-input

@@ -23,7 +23,7 @@
   "generate a nested list with checkboxes"
   (fn [{:keys [style list-args id subheader content content-sub]}]
     ^{:key [@(subscribe [::db/user-input-field [id]])
-            @(subscribe [::db/ui-states-field [id]])]}
+            @(subscribe [::db/ui-states-field [id]])]} 
     [:> mui-list
      (util/deep-merge
       (merge
@@ -63,11 +63,30 @@
             :on-change
             (or (:on-change c)
                 (fn [e]
+                  (when (= (:id c) :all)
+                    ;remove or add all ids/sub-ids
+                    (dispatch
+                     [::db/set-user-input-selection id
+                      (set
+                       (flatten
+                        (map (fn [c]
+                               (let [id (:id c)
+                                     children
+                                     (when (:children c)
+                                       (map #(keyword id (:id %)) (:children c)))]
+                                 (concat [id] children)))
+                             (if content-sub @content-sub content))))
+                      (-> e .-target .-checked)]))
+                  (when (:children c)
+                    ; remove or add all children
+                    (dispatch [::db/set-user-input-selection id
+                               (set (map #(keyword (:id c) (:id %)) (:children c)))
+                               (-> e .-target .-checked)]))
                   (dispatch [::db/set-user-input-selection id
                              (:id c)
                              (-> e .-target .-checked)])
                   #_(dispatch [::db/update-user-input [id (:id c)]
-                             #(if % false true)])))}]]
+                               #(if % false true)])))}]]
          [:>  mui-list-item-text {:primary (:label c)
                                   :primary-typography-props (:style c)}]]
         (when (:children c)
@@ -85,7 +104,7 @@
                   :checked  
                   (contains? @(subscribe [::db/user-input-field id]) (keyword (:id c) (:id sub)))
                   #_@(subscribe [::db/user-input-field
-                                         [id (keyword (:id c) (:id sub))]])
+                                 [id (keyword (:id c) (:id sub))]])
                   :on-change
                   (or (:on-change sub)
                       (fn [e]
@@ -95,13 +114,30 @@
                         #_(dispatch [::db/update-user-input [id (:id c)]
                                      #(if % false true)]))
                       #_(fn []
-                        (dispatch [::db/update-user-input
-                                   [id (keyword (:id c) (:id sub))]
-                                   #(if % false true)])))}]]
+                          (dispatch [::db/update-user-input
+                                     [id (keyword (:id c) (:id sub))]
+                                     #(if % false true)])))}]]
                [:>  mui-list-item-text
                 {:primary (:label sub)
                  :primary-typography-props (:style sub)}]])]])))]))
-
+(comment
+  (def content @(subscribe [:app.cscollab.filter-panel/area-checkbox-content]))
+  (set 
+   (flatten
+        (map (fn [c]
+               (let [id (:id c)
+                     children
+                     (when (:children c)
+                       (map #(keyword id (:id %)) (:children c)))]
+                 (concat [id] children)))
+             content)))
+  (def c (second content))
+  (clojure.set/difference #{1 2 3} #{2 1})
+  (set? #{})
+  (when (:children c) 
+    (map #(keyword (:id c) (:id %)) (:children c)))
+  @(subscribe [::db/user-input-field [:area-checkbox]])
+  )
 
 (defn menu [{:keys [style list-args label-id subheader content content-sub]}]
   (fn [{:keys [style list-args label-id subheader content content-sub]}]

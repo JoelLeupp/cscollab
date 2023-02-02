@@ -46,7 +46,7 @@
     (fn []
       (when @content 
         [lists/checkbox-list
-         {:id :area-checkbox-1
+         {:id :area-checkbox
           :list-args {:dense false :sx {:max-width 400 :width "100%"}}
           :content-sub content}]))))
 
