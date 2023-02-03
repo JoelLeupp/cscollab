@@ -2,6 +2,7 @@
   (:require
    [datascript.core :as d]
    [app.db :as db]
+   [app.util :as util]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)] 
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
@@ -71,7 +72,7 @@
       #(into
         {}
         [{:id
-          (-> % first first)
+          (util/s->id (-> % first first))
           :label
           (-> % first second)}
          {:sub-areas
@@ -79,28 +80,49 @@
            (fn [[k v]]
              (into
               {}
-              [{:id (first k) :label (second k)}
+              [{:id (util/s->id (first k)) :label (second k)}
                {:conferences
                 (mapv (fn [x] (hash-map
-                               :id (:conference-id x)
+                               :id (util/s->id (:conference-id x))
                                :label (:conference-title x)))
                       v)}]))
            (group-by (juxt :sub-area-id :sub-area-label) (second %)))}])
       (group-by (juxt :area-id :area-label) area-mapping)))))
 
 
+(reg-sub
+ ::nested-region
+ :<- [::region-mapping]
+ (fn
+   [region-mapping]
+   "generates a nested structure out of the flat region-mapping table like:
+    [{:id * 
+      :label * 
+      :countries [{:id *
+                   :label *} 
+                 ...]} ...]"
+   (when region-mapping
+     (mapv
+      #(into
+        {}
+        [{:id
+          (util/s->id (-> % first first))
+          :label
+          (-> % first second)}
+         {:countries
+          (mapv
+           (fn [[k _]]
+             (hash-map :id (util/s->id (first k)) :label (second k)))
+           (group-by (juxt :country-id :country-name) (second %)))}])
+      (group-by (juxt :region-id :region-name) region-mapping)))))
+
 
 (comment
   (get-json-data)
   (def area-mapping @(subscribe [::db/data-field [:area-mapping]]))
-  (def group-area (group-by (juxt :area-id :area-label) area-mapping))
-  (map #(-> % first) group-area)
-  @(subscribe [::nested-area-t])
-  (map :id area-dict)
-  (first area-mapping)
-  @(subscribe [::db/data-field [:csauthors]])
-  (def collab @(subscribe [::db/data-field [:collab]]))
-  (first collab)
-  @(subscribe [::db/data-field [:region_mapping]])
-  (into {} [{:id 1} {:a [1 2 3]}])
+  @(subscribe [::nested-area])
+  @(subscribe [::area-mapping])
+  (def region-mapping @(subscribe [::region-mapping]))
+  @(subscribe [::nested-region])
+  (filter #(not (= )))
   )

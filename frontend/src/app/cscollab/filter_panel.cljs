@@ -9,6 +9,7 @@
    [app.components.lists :as lists]))
 
 
+;; AREA FILTER
 (reg-sub
  ::area-checkbox-content
  :<- [::data/nested-area]
@@ -25,7 +26,7 @@
            (if (= idx -1) ##Inf idx))
         nested-area)
        all-area-item
-       {:id :all :label "All Areas" :style {:font-size 20 :font-weight :medium}}
+       {:id :all :label "All Areas" :style {:font-size 18 :font-weight :medium}}
        list-items
        (for [area sorted-nested-area]
          (merge
@@ -47,11 +48,61 @@
       (when @content 
         [lists/checkbox-list
          {:id :area-checkbox
+          :subheader "Select Computer Science Areas"
+          :style {:subheader {:font-size 18}}
           :list-args {:dense false :sx {:max-width 400 :width "100%"}}
-          :content-sub content}]))))
+          :content @content}]))))
 
-(defn area-filter []
-  [area-checkbox-list])
+(def nested-region @(subscribe [::data/nested-region]))
+
+;; REGION FILTER
+(reg-sub
+ ::region-checkbox-content
+ :<- [::data/nested-region]
+ (fn
+   [nested-region]
+   "generates the checkbox content structure"
+   (when nested-region
+     (let
+      [sorted-nested-region
+       (sort-by
+        #(let [idx
+               (.indexOf
+                (clj->js [:europe :dach :northamerica :southamerica :asia :australasia :africa])
+                (clj->js (:id %)))]
+           (if (= idx -1) ##Inf idx))
+        nested-region)
+       world-item
+       {:id :all 
+        :label (or (:label (first (filter #(= (:id %) :wd) sorted-nested-region))) "All")
+        :style {:font-size 18 :font-weight :medium}}
+       list-items
+       (for [region (filter #(not (= (:id %) :wd)) sorted-nested-region)]
+         (merge
+          {:id  (:id region)
+           :label (:label region)}
+          (when (:countries region)
+            {:children
+             (for [country (:countries region)]
+               {:id  (:id country)
+                :label (:label country)})})))]
+       (into [world-item] list-items)))))
+
+
+
+(defn region-checkbox-list []
+  (let
+   [content (subscribe [::region-checkbox-content])]
+    (fn []
+      (when @content
+        [lists/checkbox-list
+         {:id :region-checkbox
+          :subheader "Select Region and Countries"
+          :style {:subheader {:font-size 18}}
+          :list-args {:dense false :sx {:max-width 400 :width "100%"}}
+          :namespace-id? false
+          :content @content}]))))
+
 
 (defn filter-panel []
   [input-panel
@@ -62,6 +113,7 @@
     :content-args {:style
                    {:grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
     :components
-    [[area-filter]]}])
+    [[area-checkbox-list]
+     [region-checkbox-list]]}])
 
 (comment @(subscribe [::area-checkbox-content]))
