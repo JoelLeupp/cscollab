@@ -25,4 +25,8 @@ make docker-build  && make docker-run
 
 The frontend is built with the ClojureScript framework re-frame and uses Material UI for user interface components. 
 
-To run the frontend start a server in the output directory. 
+To run the frontend start a server in the output directory:
+
+```bash
+python3 -m http.server 8080
+```
