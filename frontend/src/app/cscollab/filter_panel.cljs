@@ -6,7 +6,8 @@
    [app.util :as util]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
-   [app.components.lists :as lists]))
+   [app.components.lists :as lists]
+   [app.components.inputs :as i]))
 
 
 ;; AREA FILTER
@@ -53,7 +54,9 @@
           :list-args {:dense false :sx {:max-width 400 :width "100%"}}
           :content @content}]))))
 
-(def nested-region @(subscribe [::data/nested-region]))
+(defn area-filter []
+  [area-checkbox-list])
+
 
 ;; REGION FILTER
 (reg-sub
@@ -103,6 +106,14 @@
           :namespace-id? false
           :content @content}]))))
 
+(defn region-filter []
+  [:div
+   [region-checkbox-list]
+   [:div {:title "Only consider collaborations within the selected regions/countries"}
+    [i/switch
+     {:id :strict-boundary
+      #_:label-off
+      :label-on "strict country restriction"}]]])
 
 (defn filter-panel []
   [input-panel
@@ -113,7 +124,50 @@
     :content-args {:style
                    {:grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
     :components
-    [[area-checkbox-list]
-     [region-checkbox-list]]}])
+    [[area-filter]
+     [region-filter]]}])
 
-(comment @(subscribe [::area-checkbox-content]))
+(reg-sub
+ ::selected-countries
+ :<- [::db/user-input-field [:region-checkbox]]
+ :<- [::data/region-mapping]
+ (fn [[selection-region-checkbox region-mapping]]
+   (when (and selection-region-checkbox region-mapping)
+     (vec
+      (clojure.set/intersection
+       selection-region-checkbox
+       (into #{} (map #(keyword (:country-id %)) region-mapping)))))))
+
+(reg-sub
+ ::selected-regions
+ :<- [::db/user-input-field [:region-checkbox]]
+ :<- [::data/region-mapping]
+ (fn [[selection-region-checkbox region-mapping]]
+   (when (and selection-region-checkbox region-mapping)
+     (vec
+      (clojure.set/intersection
+       selection-region-checkbox
+       (into #{} (map #(keyword (:region-id %)) region-mapping)))))))
+
+(reg-sub
+ ::selected-areas
+ :<- [::db/user-input-field [:area-checkbox]] 
+ (fn [selection-area-checkbox]
+   (when selection-area-checkbox
+     (vec (filter #(not (namespace %)) selection-area-checkbox)))))
+
+(reg-sub
+ ::selected-sub-areas
+ :<- [::db/user-input-field [:area-checkbox]]
+ (fn [selection-area-checkbox]
+   (when selection-area-checkbox
+     (mapv #(keyword (name %)) (filter namespace selection-area-checkbox)))))
+
+
+(comment
+  @(subscribe [::area-checkbox-content])
+  @(subscribe [::selected-regions])
+  @(subscribe [::selected-countries])
+  @(subscribe [::selected-areas])
+  @(subscribe [::selected-sub-areas]) 
+  )
