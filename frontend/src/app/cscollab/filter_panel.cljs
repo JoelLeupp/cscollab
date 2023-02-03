@@ -112,6 +112,7 @@
    [:div {:title "Only consider collaborations within the selected regions/countries"}
     [i/switch
      {:id :strict-boundary
+      :default true
       #_:label-off
       :label-on "strict country restriction"}]]])
 
@@ -132,37 +133,34 @@
  :<- [::db/user-input-field [:region-checkbox]]
  :<- [::data/region-mapping]
  (fn [[selection-region-checkbox region-mapping]]
-   (when (and selection-region-checkbox region-mapping)
-     (vec
-      (clojure.set/intersection
-       selection-region-checkbox
-       (into #{} (map #(keyword (:country-id %)) region-mapping)))))))
+   (when (and selection-region-checkbox region-mapping) 
+     (clojure.set/intersection
+      selection-region-checkbox
+      (into #{} (map #(keyword (:country-id %)) region-mapping))))))
 
 (reg-sub
  ::selected-regions
  :<- [::db/user-input-field [:region-checkbox]]
  :<- [::data/region-mapping]
  (fn [[selection-region-checkbox region-mapping]]
-   (when (and selection-region-checkbox region-mapping)
-     (vec
-      (clojure.set/intersection
-       selection-region-checkbox
-       (into #{} (map #(keyword (:region-id %)) region-mapping)))))))
+   (when (and selection-region-checkbox region-mapping) 
+     (clojure.set/intersection
+      selection-region-checkbox
+      (into #{} (map #(keyword (:region-id %)) region-mapping))))))
 
 (reg-sub
  ::selected-areas
  :<- [::db/user-input-field [:area-checkbox]] 
  (fn [selection-area-checkbox]
    (when selection-area-checkbox
-     (vec (filter #(not (namespace %)) selection-area-checkbox)))))
+     (set (filter #(not (namespace %)) selection-area-checkbox)))))
 
 (reg-sub
  ::selected-sub-areas
  :<- [::db/user-input-field [:area-checkbox]]
  (fn [selection-area-checkbox]
    (when selection-area-checkbox
-     (mapv #(keyword (name %)) (filter namespace selection-area-checkbox)))))
-
+     (set (mapv #(keyword (name %)) (filter namespace selection-area-checkbox))))))
 
 (comment
   @(subscribe [::area-checkbox-content])

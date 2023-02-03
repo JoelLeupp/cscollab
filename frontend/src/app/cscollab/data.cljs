@@ -4,7 +4,7 @@
    [app.db :as db]
    [app.util :as util]
    [re-frame.core :refer
-    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)] 
+    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
 
 
@@ -25,7 +25,7 @@
  (fn [{db :db} [_ id m]]
    {:db (assoc-in db [:data id] m)}))
 
-(defn get-json-data [] 
+(defn get-json-data []
   (dispatch [::get-json-file "data/get_area_mapping.json" :area-mapping])
   (dispatch [::get-json-file "data/get_csauthors.json" :csauthors])
   (dispatch [::get-json-file "data/get_flat_collaboration.json" :collab])
@@ -34,7 +34,7 @@
 (reg-sub
  ::area-mapping
  :<- [::db/data-field [:area-mapping]]
- (fn [m] 
+ (fn [m]
    (when m m)))
 
 (reg-sub
@@ -117,12 +117,9 @@
       (group-by (juxt :region-id :region-name) region-mapping)))))
 
 
+
 (comment
-  (get-json-data)
+  (first @(subscribe [::collab]))
   (def area-mapping @(subscribe [::db/data-field [:area-mapping]]))
   @(subscribe [::nested-area])
-  @(subscribe [::area-mapping])
-  (def region-mapping @(subscribe [::region-mapping]))
-  @(subscribe [::nested-region])
-  (filter #(not (= )))
-  )
+  @(subscribe [::area-mapping]))

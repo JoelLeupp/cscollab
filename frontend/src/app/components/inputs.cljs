@@ -60,7 +60,9 @@
       ^{:key value}
       [:> mui-form-control-label {:value value :control (r/as-element [:> mui-radio]) :label label}])]])
 
-(defn switch [{:keys [:stack-args :typo-args :switch-args :label-off :label-on :id]}]
+(defn switch [{:keys [:stack-args :typo-args :switch-args :label-off :label-on :id :default]}]
+  (when (nil? @(subscribe [::db/user-input-field id]))
+    (dispatch [::db/set-user-input id (or default false)]))
   [:> mui-stack (util/deep-merge {:spacing 1 :direction :row :align-items :center} stack-args)
    (when label-off [:> mui-typography typo-args label-off])
    [:> mui-switch (util/deep-merge
