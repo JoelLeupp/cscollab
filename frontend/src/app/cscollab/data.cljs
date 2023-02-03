@@ -122,4 +122,5 @@
   (first @(subscribe [::collab]))
   (def area-mapping @(subscribe [::db/data-field [:area-mapping]]))
   @(subscribe [::nested-area])
-  @(subscribe [::area-mapping]))
+  (first @(subscribe [::area-mapping]))
+  (first @(subscribe [::region-mapping])))

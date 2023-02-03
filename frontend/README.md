@@ -20,6 +20,14 @@ apt install npm
 
 The application is built with the [ClojureScript](https://clojurescript.org/index) framework [re-frame](https://day8.github.io/re-frame/re-frame/), which leverages [React](https://reactjs.org/) and [Reagent](https://reagent-project.github.io/). For the UI design and components google's material UI library [mui](https://mui.com/) is used. The required cljs packages are defined under *deps.edn and* the packages are downloaded automatically when the project is compiled with [shadow-cljs](https://shadow-cljs.github.io/docs/UsersGuide.html). The javascipt packages are defined under *package-lock.json* and can be installed with "npm i --save" 
 
+## Start Frontend
+
+The release version of the frontend can be started by simply creating a python http server in the output direcotry:
+
+```bash
+python3 -m http.server 8080
+```
+
 ## File Ovierview
 ```
 ├── src/app
@@ -41,8 +49,6 @@ The application is built with the [ClojureScript](https://clojurescript.org/inde
 │   ├── data              # static data files
 │   ├── js                # generated compiled js files
 │   ├── index.html
-├── target
-│   ├── index.js          # generated file by shadow-cljs
 ├── output                # directory of the project release
 ├── deps.edn              # cljs package requirements
 ├── shadow-cljs.edn       # shadow-cljs project configuration 

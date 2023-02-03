@@ -1,0 +1,680 @@
+[
+   {
+      "country-id": "cz",
+      "country-name": "Czech Republic",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "hu",
+      "country-name": "Hungary",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "it",
+      "country-name": "Italy",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "ch",
+      "country-name": "Switzerland",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "dk",
+      "country-name": "Denmark",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "es",
+      "country-name": "Spain",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "ro",
+      "country-name": "Romania",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "no",
+      "country-name": "Norway",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "nl",
+      "country-name": "Netherlands",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "gr",
+      "country-name": "Greece",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "mt",
+      "country-name": "Malta",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "ru",
+      "country-name": "Russian Federation",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "il",
+      "country-name": "Israel",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "cy",
+      "country-name": "Cyprus",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "fr",
+      "country-name": "France",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "lu",
+      "country-name": "Luxembourg",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "de",
+      "country-name": "Germany",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "ie",
+      "country-name": "Ireland",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "pt",
+      "country-name": "Portugal",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "pl",
+      "country-name": "Poland",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "ee",
+      "country-name": "Estonia",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "fi",
+      "country-name": "Finland",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "at",
+      "country-name": "Austria",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "be",
+      "country-name": "Belgium",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "uk",
+      "country-name": "United Kingdom",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "se",
+      "country-name": "Sweden",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "tr",
+      "country-name": "Turkey",
+      "region-id": "europe",
+      "region-name": "Europe"
+   },
+   {
+      "country-id": "th",
+      "country-name": "Thailand",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "cn",
+      "country-name": "China",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "jo",
+      "country-name": "Jordan",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "bd",
+      "country-name": "Bangladesh",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "ae",
+      "country-name": "United Arab Emirates",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "qa",
+      "country-name": "Qatar",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "in",
+      "country-name": "India",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "sa",
+      "country-name": "Saudi Arabia",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "hk",
+      "country-name": "Hong Kong",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "tw",
+      "country-name": "Taiwan, Province of China",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "ir",
+      "country-name": "Iran, Islamic Republic of",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "ph",
+      "country-name": "Philippines",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "jp",
+      "country-name": "Japan",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "my",
+      "country-name": "Malaysia",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "lb",
+      "country-name": "Lebanon",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "pk",
+      "country-name": "Pakistan",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "kr",
+      "country-name": "Korea, Republic of",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "sg",
+      "country-name": "Singapore",
+      "region-id": "asia",
+      "region-name": "Asia"
+   },
+   {
+      "country-id": "nz",
+      "country-name": "New Zealand",
+      "region-id": "australasia",
+      "region-name": "Australasia"
+   },
+   {
+      "country-id": "au",
+      "country-name": "Australia",
+      "region-id": "australasia",
+      "region-name": "Australasia"
+   },
+   {
+      "country-id": "br",
+      "country-name": "Brazil",
+      "region-id": "southamerica",
+      "region-name": "South America"
+   },
+   {
+      "country-id": "co",
+      "country-name": "Colombia",
+      "region-id": "southamerica",
+      "region-name": "South America"
+   },
+   {
+      "country-id": "cl",
+      "country-name": "Chile",
+      "region-id": "southamerica",
+      "region-name": "South America"
+   },
+   {
+      "country-id": "ar",
+      "country-name": "Argentina",
+      "region-id": "southamerica",
+      "region-name": "South America"
+   },
+   {
+      "country-id": "za",
+      "country-name": "South Africa",
+      "region-id": "africa",
+      "region-name": "Africa"
+   },
+   {
+      "country-id": "eg",
+      "country-name": "Egypt",
+      "region-id": "africa",
+      "region-name": "Africa"
+   },
+   {
+      "country-id": "us",
+      "country-name": "United States",
+      "region-id": "northamerica",
+      "region-name": "North America"
+   },
+   {
+      "country-id": "ca",
+      "country-name": "Canada",
+      "region-id": "northamerica",
+      "region-name": "North America"
+   },
+   {
+      "country-id": "ch",
+      "country-name": "Switzerland",
+      "region-id": "dach",
+      "region-name": "DACH"
+   },
+   {
+      "country-id": "de",
+      "country-name": "Germany",
+      "region-id": "dach",
+      "region-name": "DACH"
+   },
+   {
+      "country-id": "at",
+      "country-name": "Austria",
+      "region-id": "dach",
+      "region-name": "DACH"
+   },
+   {
+      "country-id": "fr",
+      "country-name": "France",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ie",
+      "country-name": "Ireland",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "eg",
+      "country-name": "Egypt",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ru",
+      "country-name": "Russian Federation",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "es",
+      "country-name": "Spain",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "my",
+      "country-name": "Malaysia",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "dk",
+      "country-name": "Denmark",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "co",
+      "country-name": "Colombia",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "kr",
+      "country-name": "Korea, Republic of",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "be",
+      "country-name": "Belgium",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "nz",
+      "country-name": "New Zealand",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "uk",
+      "country-name": "United Kingdom",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ph",
+      "country-name": "Philippines",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "jo",
+      "country-name": "Jordan",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "it",
+      "country-name": "Italy",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "gr",
+      "country-name": "Greece",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ae",
+      "country-name": "United Arab Emirates",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "cl",
+      "country-name": "Chile",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "pt",
+      "country-name": "Portugal",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "bd",
+      "country-name": "Bangladesh",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ro",
+      "country-name": "Romania",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "at",
+      "country-name": "Austria",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ch",
+      "country-name": "Switzerland",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "cy",
+      "country-name": "Cyprus",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "cz",
+      "country-name": "Czech Republic",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ir",
+      "country-name": "Iran, Islamic Republic of",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "qa",
+      "country-name": "Qatar",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "de",
+      "country-name": "Germany",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "us",
+      "country-name": "United States",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "cn",
+      "country-name": "China",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "au",
+      "country-name": "Australia",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ca",
+      "country-name": "Canada",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "nl",
+      "country-name": "Netherlands",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "lu",
+      "country-name": "Luxembourg",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ee",
+      "country-name": "Estonia",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "br",
+      "country-name": "Brazil",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "sa",
+      "country-name": "Saudi Arabia",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "pl",
+      "country-name": "Poland",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "in",
+      "country-name": "India",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "tw",
+      "country-name": "Taiwan, Province of China",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "se",
+      "country-name": "Sweden",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "th",
+      "country-name": "Thailand",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "no",
+      "country-name": "Norway",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "tr",
+      "country-name": "Turkey",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "il",
+      "country-name": "Israel",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "pk",
+      "country-name": "Pakistan",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "za",
+      "country-name": "South Africa",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "ar",
+      "country-name": "Argentina",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "hu",
+      "country-name": "Hungary",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "lb",
+      "country-name": "Lebanon",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "sg",
+      "country-name": "Singapore",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "fi",
+      "country-name": "Finland",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "jp",
+      "country-name": "Japan",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "hk",
+      "country-name": "Hong Kong",
+      "region-id": "wd",
+      "region-name": "World"
+   },
+   {
+      "country-id": "mt",
+      "country-name": "Malta",
+      "region-id": "wd",
+      "region-name": "World"
+   }
+]
