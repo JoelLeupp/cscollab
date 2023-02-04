@@ -18,12 +18,6 @@
    ["@mui/material/IconButton" :default mui-icon-button]))
 
 
-#_(when-not
- (clojure.set/subset?
-  (set (map #(keyword (:id c) (:id %)) (:children c)))
-  @(subscribe [::db/user-input-field id]))
-  (dispatch [::db/set-user-input-selection id (:id c) false]))
-
 (defn checkbox-list [{:keys [style list-args id subheader content :namespace-id?]
                       :or {namespace-id? true}}]
   "generate a nested list with checkboxes" 
@@ -109,21 +103,7 @@
                    (:children c)
                    (seq (clojure.set/intersection
                          (set (map #(child-id (:id c) (:id %)) (:children c)))
-                         @checked-ids))) true)
-                #_(if (= :all (:id c))
-                  (when  (and
-                          (> (count @checked-ids) 0)
-                          (not
-                           (= (count all-ids)
-                              (count @checked-ids))))
-                    true)
-                  (when
-                   (and
-                    (:children c)
-                    (seq (clojure.set/intersection
-                          (set (map #(child-id (:id c) (:id %)) (:children c)))
-                          @checked-ids)))
-                    true)))
+                         @checked-ids))) true))
               :on-change
               (or (:on-change c)
                   (fn [e]
@@ -169,25 +149,7 @@
                  [:>  mui-list-item-text
                   {:primary (:label sub)
                    :primary-typography-props (:style sub)}]])]])))]))))
-(comment
-  (def content @(subscribe [:app.cscollab.filter-panel/area-checkbox-content]))
-  (count (map vals content))
-  (set 
-   (flatten
-        (map (fn [c]
-               (let [id (:id c)
-                     children
-                     (when (:children c)
-                       (map #(keyword id (:id %)) (:children c)))]
-                 (concat [id] children)))
-             content)))
-  (def c (second content))
-  (clojure.set/difference #{1 2 3} #{2 1})
-  (set? #{})
-  (when (:children c) 
-    (map #(keyword (:id c) (:id %)) (:children c)))
-  @(subscribe [::db/user-input-field [:area-checkbox]])
-  )
+
 
 (defn menu [{:keys [style list-args label-id subheader content content-sub]}]
   (fn [{:keys [style list-args label-id subheader content content-sub]}]
