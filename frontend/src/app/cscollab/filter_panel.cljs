@@ -116,6 +116,33 @@
       #_:label-off
       :label-on "strict country restriction"}]]])
 
+(defn year-filter []
+  (let [id :selected-year
+        selected-year (subscribe [::db/user-input-field id])
+        min-year 2005
+        max-year 2022
+        marks 
+        [{:value 2005 :label "2005"}
+         {:value 2010 :label "2010"}
+         {:value 2015 :label "2015"}
+         {:value 2020 :label "2020"}
+         {:value 2022 :label "2022"}]]
+    (fn [] 
+      (when (= @selected-year nil)
+        (dispatch [::db/set-user-input id
+                   [min-year max-year]]))
+      [i/slider
+       {:id id
+        :args
+        {:value-label-display :auto 
+         :marks marks
+         :sx {:style {:display :flex
+                      :align-items :center
+                      :justify-content :center}}}
+        :step 1
+        :min min-year
+        :max max-year}])))
+
 (defn filter-panel []
   [input-panel
    {:id :input-panel
@@ -123,9 +150,12 @@
     :header "Filters"
     :collapsable? true
     :content-args {:style
-                   {:grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
+                   {:display :grid 
+                    :grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
     :components
-    [[area-filter]
+    [#_[:div {:style {:grid-column "span 1 /3"}} 
+      [year-filter]]
+     [area-filter]
      [region-filter]]}])
 
 (reg-sub
