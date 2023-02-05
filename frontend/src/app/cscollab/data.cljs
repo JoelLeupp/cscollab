@@ -56,6 +56,16 @@
    (when m m)))
 
 (reg-sub
+ ::collab-year-span
+ :<- [::collab]
+ (fn [collab]
+   (when collab
+     (let [max-year (apply max (map :year collab))
+           min-year (apply min (map :year collab))]
+       [min-year max-year]))))
+
+
+(reg-sub
  ::nested-area
  :<- [::area-mapping]
  (fn

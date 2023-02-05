@@ -6,7 +6,7 @@
    [app.util :as util]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
-   [app.components.lists :as lists]
+   [app.components.lists :as lists] 
    [app.components.inputs :as i]))
 
 
@@ -51,7 +51,7 @@
          {:id :area-checkbox
           :subheader "Select Computer Science Areas"
           :style {:subheader {:font-size 18}}
-          :list-args {:dense false :sx {:max-width 400 :width "100%"}}
+          :list-args {:dense false :sx {:max-width 500 :width "100%"}}
           :content @content}]))))
 
 (defn area-filter []
@@ -102,46 +102,52 @@
          {:id :region-checkbox
           :subheader "Select Region and Countries"
           :style {:subheader {:font-size 18}}
-          :list-args {:dense false :sx {:max-width 400 :width "100%"}}
+          :list-args {:dense false :sx {:max-width 500 :width "100%"}}
           :namespace-id? false
           :content @content}]))))
 
-(defn region-filter []
+(defn region-filter [] 
+  [region-checkbox-list]
+  )
+
+(defn stric-boundary-filter []
   [:div
-   [region-checkbox-list]
    [:div {:title "Only consider collaborations within the selected regions/countries"}
-    [i/switch
-     {:id :strict-boundary
-      :default true
-      #_:label-off
-      :label-on "strict country restriction"}]]])
+    [lists/sub-header {:subheader "Strict Country Restriction"}]]
+   [i/switch
+    {:id :strict-boundary
+     :default true
+     :label-on "Only consider collaborations within the selected regions"}]])
+
+
 
 (defn year-filter []
   (let [id :selected-year
-        selected-year (subscribe [::db/user-input-field id])
-        min-year 2005
-        max-year 2022
-        marks 
-        [{:value 2005 :label "2005"}
-         {:value 2010 :label "2010"}
-         {:value 2015 :label "2015"}
-         {:value 2020 :label "2020"}
-         {:value 2022 :label "2022"}]]
+        selected-year (subscribe [::db/user-input-field id]) 
+        year-span (subscribe [::data/collab-year-span])] 
     (fn [] 
       (when (= @selected-year nil)
-        (dispatch [::db/set-user-input id
-                   [min-year max-year]]))
-      [i/slider
-       {:id id
-        :args
-        {:value-label-display :auto 
-         :marks marks
-         :sx {:style {:display :flex
-                      :align-items :center
-                      :justify-content :center}}}
-        :step 1
-        :min min-year
-        :max max-year}])))
+        (dispatch [::db/set-user-input id @year-span]))
+      (let [[min-year max-year] @year-span
+            mark-years
+            (concat
+             [min-year]
+             (filter #(= 0 (mod % 5)) (range (+ 1 min-year) max-year))
+             [max-year])
+            marks
+            (map #(hash-map :value % :label (str %)) mark-years)]
+        [:div
+         [lists/sub-header {:subheader "Years of Interest" :style {:z-index 0}}] 
+         [:div {:style {:padding-left 16 :padding-right 16}}
+          [i/slider
+           {:id id
+            :args
+            {:value-label-display :auto
+             :marks marks
+             :sx {:max-width 500}}
+            :step 1
+            :min min-year
+            :max max-year}]]]))))
 
 (defn filter-panel []
   [input-panel
@@ -153,8 +159,8 @@
                    {:display :grid 
                     :grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
     :components
-    [#_[:div {:style {:grid-column "span 1 /3"}} 
-      [year-filter]]
+    [[year-filter]
+     [stric-boundary-filter]
      [area-filter]
      [region-filter]]}])
 

@@ -1,5 +1,5 @@
 {:deps {:aliases [:cljs]},
- :dev-http {8080 "public/"},
+ :dev-http {8090 "public/"},
  :nrepl {:port 3333},
  :builds
  {:app

@@ -18,6 +18,13 @@
    ["@mui/material/IconButton" :default mui-icon-button]))
 
 
+(defn sub-header [{:keys [style subheader args id]}]
+  [:> mui-list-sub-header 
+   (util/deep-merge 
+    {:component :div :id id :sx (util/deep-merge {:font-size 18} style)}
+    args)
+   subheader])
+
 (defn checkbox-list [{:keys [style list-args id subheader content :namespace-id?]
                       :or {namespace-id? true}}]
   "generate a nested list with checkboxes" 
