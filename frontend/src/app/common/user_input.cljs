@@ -19,7 +19,7 @@
   [{:keys [id start-closed]}]
   "container for user inputs" 
   (let  [closed? (subscribe [::db/ui-states-field id])] 
-    (fn [{:keys [id components collapsable? card-args header header-args content-args]}]
+    (fn [{:keys [id components collapsable? card-args header header-args content-args content]}]
       [:> mui-card (util/deep-merge
                     {:square true
                      :elevation 0
@@ -43,17 +43,18 @@
          header-args)]
        [:> mui-collapse {:in  (not @closed?)}
         [:> mui-card-content
-         [:div (util/deep-merge
-                {:style {:container true
-                         :display :grid
-                         :column-gap 30
-                         :row-gap 15
-                         :z-index 1001
-                         :grid-template-columns "repeat(auto-fill, minmax(250px, 1fr))"
-                         :justify-content nil
-                         :align-items :flex-start}}
-                content-args)
-          (for [c components] c)]]]])))
+         (or content
+             [:div (util/deep-merge
+                    {:style {:container true
+                             :display :grid
+                             :column-gap 30
+                             :row-gap 15
+                             :z-index 1001
+                             :grid-template-columns "repeat(auto-fill, minmax(250px, 1fr))"
+                             :justify-content nil
+                             :align-items :flex-start}}
+                    content-args)
+              (for [c components] c)])]]])))
 
 (comment
   (dispatch [::db/set-ui-states :input-panel true])

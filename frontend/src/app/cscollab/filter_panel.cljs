@@ -4,6 +4,7 @@
    [app.cscollab.data :as data]
    [app.db :as db]
    [app.util :as util]
+   [app.components.grid :as grid]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [app.components.lists :as lists] 
@@ -155,14 +156,19 @@
     :start-closed false
     :header "Filters"
     :collapsable? true
-    :content-args {:style
-                   {:display :grid 
-                    :grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
-    :components
-    [[year-filter]
-     [stric-boundary-filter]
-     [area-filter]
-     [region-filter]]}])
+    #_#_:content-args {:style
+                       {:display :grid
+                        :grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
+    #_:components
+    :content
+    [grid/grid
+     {:grid-args {:justify-content :space-evenly}
+      :item-args {:elevation 0}
+      :content
+      [{:xs 5 :content [year-filter]}
+       {:xs 5 :content [stric-boundary-filter]}
+       {:xs 5 :content [area-filter]}
+       {:xs 5 :content [region-filter]}]}]}])
 
 (reg-sub
  ::selected-countries

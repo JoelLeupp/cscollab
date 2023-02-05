@@ -10,8 +10,9 @@
 
 (def custom-theme 
   (createTheme 
-   #js {:palette #js {:primary #js {:main (c/colors :main)}
-                      :secondary #js {:main (c/colors :second)}}}))
+   (clj->js
+    {:palette {:primary {:main (c/colors :main)}
+               :secondary {:main (c/colors :second)}}})))
 
 (defn routes []
   [["/" {:name ::home

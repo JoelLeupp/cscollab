@@ -9,6 +9,7 @@
    [app.components.lists :as lists]
    [app.db :as db]
    [app.cscollab.filter-panel :refer (filter-panel)]
+   [app.components.grid :as grid]
    [reagent.core :as r]))
 
 
