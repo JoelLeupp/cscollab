@@ -8,7 +8,7 @@
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
 (reg-sub
- ::filtered-collab-9
+ ::filtered-collab
  :<- [::filter-panel/selected-areas]
  :<- [::filter-panel/selected-sub-areas]
  :<- [::filter-panel/selected-regions]
@@ -17,11 +17,13 @@
  :<- [::data/collab]
  :<- [::data/region-mapping]
  :<- [::data/area-mapping]
+ :<- [::filter-panel/selected-year-span]
  (fn [[selected-areas selected-sub-areas selected-regions selected-countries
-       strict-boundary? collab region-mapping area-mapping]]
+       strict-boundary? collab region-mapping area-mapping year-span]]
    (when (and selected-areas selected-sub-areas selected-regions selected-countries
-              collab region-mapping area-mapping)
-     (let [cond-fn
+              collab region-mapping area-mapping year-span)
+     (let [[min-year max-year] year-span
+           cond-fn
            (fn [strict-boundary? & x]
              (reduce
               (if strict-boundary? #(and %1 %2) #(or %1 %2))
@@ -49,7 +51,7 @@
            area-filter
            (filter #(contains? sub-areas (keyword (:rec_sub_area %))))
            year-filter
-           (filter #(> (:year %) 2000))
+           (filter #(and (>= (:year %) min-year) (<= (:year %) max-year)))
            xform
            (apply comp
                   [country-filter
@@ -59,8 +61,17 @@
         xform
         conj [] collab)))))
 
+(defn collab-count []
+  (let [filtered-collab (subscribe [::filtered-collab])]
+    (fn []
+      [:div {:style {:text-align :center}}
+       (str "Number of collaborations based on filters: " (count @filtered-collab))])))
+
+
 (comment
-  (count @(subscribe [::filtered-collab-9]))
+  (count @(subscribe [::filtered-collab]))
+  (count @(subscribe [::filtered-collab-10]))
+  @(subscribe [::data/collab-year-span])
   (def selected-regions @(subscribe [::filter-panel/selected-regions]))
   (def selected-countries @(subscribe [::filter-panel/selected-countries]))
   (def selected-areas @(subscribe [::filter-panel/selected-areas]))
@@ -69,37 +80,4 @@
   (def collab @(subscribe [::data/collab]))
   (def region-mapping @(subscribe [::data/region-mapping]))
   (first region-mapping)
-  (def area-mapping @(subscribe [::data/area-mapping]))
-  (first collab) 
-  (def sub-areas
-    (clojure.set/union
-     selected-sub-areas
-     (set
-      (map
-       #(keyword (:sub-area-id %))
-       (filter #(contains? selected-areas (keyword (:area-id %)))
-               area-mapping)))))
-  (def countries 
-    (clojure.set/union
-     selected-countries
-     (set
-      (map
-       #(keyword (:country-id %))
-       (filter #(contains? selected-regions (keyword (:region-id %)))
-               region-mapping)))))
-  (count
-   (transduce
-    (apply comp
-           [(filter #(and (contains? selected-countries (keyword (:a_country %)))
-                          (contains? selected-countries (keyword (:b_country %)))))
-            (filter #(contains? selected-sub-areas (keyword (:rec_sub_area %))))
-            (filter #(> 2010 (:year %)))])
-    conj [] collab))
-  (def y (fn [strict-boundary? & x]
-           (reduce
-            (if strict-boundary? #(and %1 %2) #(or %1 %2))
-            x)))
-  (y false false true)
-  (reduce #(or %1 %2) [true false])
-
   )

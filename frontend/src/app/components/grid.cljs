@@ -10,7 +10,6 @@
    [app.util :as util]))
 
 
-
 (defn grid [{:keys [content box-args grid-args item-style item-args]}]
   (let [cosume-styles (fn [{:keys [theme]}] item-style)
         item (styles/styled paper cosume-styles)]

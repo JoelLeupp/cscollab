@@ -155,12 +155,8 @@
    {:id :input-panel
     :start-closed false
     :header "Filters"
-    :collapsable? true
-    #_#_:content-args {:style
-                       {:display :grid
-                        :grid-template-columns "repeat(2, minmax(250px, 1fr))"}}
-    #_:components
-    :content
+    :collapsable? true 
+    :content 
     [grid/grid
      {:grid-args {:justify-content :space-evenly}
       :item-args {:elevation 0}
@@ -204,10 +200,18 @@
    (when selection-area-checkbox
      (set (mapv #(keyword (name %)) (filter namespace selection-area-checkbox))))))
 
+(reg-sub
+ ::selected-year-span
+ :<- [::db/user-input-field [:selected-year]]
+ (fn [selected-year-span]
+   (when selected-year-span
+     selected-year-span)))
+
 (comment
   @(subscribe [::area-checkbox-content])
   @(subscribe [::selected-regions])
   @(subscribe [::selected-countries])
   @(subscribe [::selected-areas])
   @(subscribe [::selected-sub-areas]) 
+  @(subscribe [::selected-year-span])
   )

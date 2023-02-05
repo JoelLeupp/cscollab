@@ -8,9 +8,9 @@
    ["react-lorem-ipsum" :refer (loremIpsum)]
    [app.components.lists :as lists]
    [app.db :as db]
-   [app.cscollab.filter-panel :refer (filter-panel)]
-   [app.components.grid :as grid]
-   [reagent.core :as r]))
+   [app.cscollab.filter-panel :refer (filter-panel)] 
+   [reagent.core :as r]
+   [app.cscollab.transformer :as tf]))
 
 
 (defn main-view []
@@ -19,5 +19,6 @@
      [acl/section
       [acl/title-white "Landscape of Scientific Collaborations"]
       [acl/content
-       [filter-panel]]]]))
+       [filter-panel]
+       [tf/collab-count]]]]))
 

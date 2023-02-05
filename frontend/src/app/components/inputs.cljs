@@ -125,7 +125,7 @@
      :value @(subscribe [::db/user-input-field id])
      :on-change (fn [event]
                   (dispatch [::db/set-user-input id
-                             (-> event .-target .-value)]))}
+                             (js->clj (-> event .-target .-value))]))}
     args)])
 
 (defn autocomplete [{:keys [:id :label  :options :multiple? :style :args :input-props :option-label]}]
