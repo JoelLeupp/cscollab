@@ -204,6 +204,17 @@ def get_flat_collaboration(ignore_area=False):
         """ only consider records which have an area assignment"""
         has_area = list(map(lambda x: True if ip_area_mapping.get(x) else False, collab["rec_id"]))
         collab = collab[has_area]
+        
+    """sort authors alphabetically to make sure the collaborations between authors is correctly aggregated"""
+    is_ordered = collab["a_pid"]<collab["b_pid"]
+    a_pid = list(map(lambda x: collab["a_pid"].iloc[x[0]] if x[1] else collab["b_pid"].iloc[x[0]] ,enumerate(is_ordered)))
+    a_inst = list(map(lambda x: collab["a_inst"].iloc[x[0]] if x[1] else collab["b_inst"].iloc[x[0]] ,enumerate(is_ordered)))
+    b_pid = list(map(lambda x: collab["b_pid"].iloc[x[0]] if x[1] else collab["a_pid"].iloc[x[0]] ,enumerate(is_ordered)))
+    b_inst = list(map(lambda x: collab["b_inst"].iloc[x[0]] if x[1] else collab["a_inst"].iloc[x[0]] ,enumerate(is_ordered))) 
+    collab["a_pid"] = a_pid
+    collab["a_inst"] = a_inst
+    collab["b_pid"] = b_pid
+    collab["b_inst"] = b_inst
 
     """add country and area data to collab"""
     collab["a_country"]=list(map(lambda x: country_mapping[x], collab["a_pid"]))
@@ -211,14 +222,19 @@ def get_flat_collaboration(ignore_area=False):
     if not ignore_area:
         collab["rec_sub_area"]=list(map(lambda x: ip_area_mapping[x], collab["rec_id"]))
         
-    """sort authors alphabetically to make sure the collaborations between authors is correctly aggregated"""
-    is_ordered = collab["a_pid"]<collab["b_pid"]
-    a_pid = list(map(lambda x: collab["a_pid"].iloc[x[0]] if x[1] else collab["b_pid"].iloc[x[0]] ,enumerate(is_ordered)))
-    b_pid = list(map(lambda x: collab["b_pid"].iloc[x[0]] if x[1] else collab["a_pid"].iloc[x[0]] ,enumerate(is_ordered)))
-    collab["a_pid"] = a_pid
-    collab["b_pid"] = b_pid
-
+    collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+    collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
     return collab
+
+# collab = get_flat_collaboration(ignore_area=False)
+# result = json.loads(collab.to_json(orient="records"))
+# t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+# t = t.str.decode(encoding = 'utf-8')
+
+# collab["a_inst"][725:731].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+
+# with open('get_flat_collaboration.json', 'w') as f:
+#     json.dump(result, f, indent=3)
 
 def filter_collab(config = {}):
     """filter flat collaborationn
