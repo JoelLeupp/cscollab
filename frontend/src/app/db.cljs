@@ -15,8 +15,18 @@
 
 (reg-event-db
  ::initialize-db
- (fn [_ _] 
-   default-db))
+ (fn [_ _]
+   (merge
+    default-db
+    {:interactive-map 
+     {:view-position [49.8 13.1]
+      :zoom 6
+      :geometries []}
+     :user-input
+     {:selected-year [2015 2022],
+      :strict-boundary true,
+      :area-checkbox #{:ai/nlp :ai :ai/ai :ai/ir :ai/ml :ai/vision},
+      :region-checkbox #{:dach :ch :de :at}}})))
 
 (reg-sub
  ::data

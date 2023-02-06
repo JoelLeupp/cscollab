@@ -1,9 +1,11 @@
 (ns app.cscollab.transformer
   (:require
    [app.cscollab.filter-panel :as filter-panel]
+   [app.components.button :as button]
    [app.cscollab.data :as data]
    [app.db :as db]
    [app.util :as util]
+   [reagent.core :as r]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
@@ -61,15 +63,57 @@
         xform
         conj [] collab)))))
 
-(defn collab-count []
-  (let [filtered-collab (subscribe [::filtered-collab])]
+(defn weighted-collab [{:keys [inst?]}] 
+  (let [filtered-collab @(subscribe [::filtered-collab])]
+    (map
+     (fn [[[a_pid b_pid] values]]
+       {:node/m a_pid
+        :node/n b_pid
+        :weight (count values)})
+     (group-by (if inst?
+                 (juxt :a_inst :b_inst)
+                 (juxt :a_pid :b_pid))
+               filtered-collab))))
+
+
+(defn counter []
+  (let [n (count @(subscribe [::filtered-collab]))]
     (fn []
       [:div {:style {:text-align :center}}
-       (str "Number of collaborations based on filters: " (count @filtered-collab))])))
+       (str "Number of collaborations based on filters: " n)])))
+
+(defn collab-count []
+  (let [update-view (r/atom 0)] 
+    (fn []
+      (js/console.log  @update-view)
+      [:div
+       [:div {:style {:position :relative :width 0 :height 0}}
+        [button/update-button
+         {:on-click #(swap! update-view inc)
+          :style {:padding 20 :z-index 999}}]]
+       ^{:key @update-view}
+       [counter]])))
 
 
 (comment
-  (count @(subscribe [::filtered-collab]))
+  (first (weighted-collab {:inst? false}))
+  (def filtered-collab @(subscribe [::filtered-collab]))
+  (def author-inst-map 
+    (zipmap (map :pid csauthors) (map :institution csauthors)))
+  (get author-inst-map "92/6595")
+  (first filtered-collab)
+  (def inst? true)
+  
+  (map
+   (fn [[[a_pid b_pid] values]]
+     {:node/m a_pid
+      :node/n b_pid
+      :weight (count values)})
+   (group-by (if inst?
+               (juxt :a_inst :b_inst)
+               (juxt :a_pid :b_pid))
+             filtered-collab))
+  (first )
   (count @(subscribe [::filtered-collab-10]))
   @(subscribe [::data/collab-year-span])
   (def selected-regions @(subscribe [::filter-panel/selected-regions]))
@@ -78,6 +122,10 @@
   (def selected-sub-areas @(subscribe [::filter-panel/selected-sub-areas]))
   (def strict-boundary @(subscribe [::db/user-input-field [:strict-boundary]]))
   (def collab @(subscribe [::data/collab]))
+  (def csauthors @(subscribe [::data/csauthors]))
+  (def author-inst-map 
+    (zipmap (map :pid csauthors) (map :institution csauthors)))
+  (get author-inst-map "92/6595")
   (def region-mapping @(subscribe [::data/region-mapping]))
   (first region-mapping)
   )

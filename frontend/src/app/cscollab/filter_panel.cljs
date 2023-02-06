@@ -152,8 +152,8 @@
 
 (defn filter-panel []
   [input-panel
-   {:id :input-panel
-    :start-closed false
+   {:id :filter-panel
+    :start-closed true
     :header "Filters"
     :collapsable? true 
     :content 

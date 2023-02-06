@@ -46,6 +46,8 @@
         "react-virtualized-auto-sizer": "latest",
         "react-vis": "latest",
         "react-window": "latest",
-        "xregexp": "latest"
+        "xregexp": "latest",
+        "leaflet": "1.9.2",
+        "react-leaflet": "^4.2.0"
     }
 }

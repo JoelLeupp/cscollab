@@ -10,6 +10,7 @@
    [app.db :as db]
    [app.cscollab.filter-panel :refer (filter-panel)] 
    [reagent.core :as r]
+   [app.cscollab.interactive-map :as interactive-map]
    [app.cscollab.transformer :as tf]))
 
 
@@ -19,6 +20,7 @@
      [acl/section
       [acl/title-white "Landscape of Scientific Collaborations"]
       [acl/content
-       [filter-panel]
-       [tf/collab-count]]]]))
+       [filter-panel] 
+       [interactive-map/interactive-map]
+       #_[tf/collab-count]]]]))
 

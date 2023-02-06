@@ -18,7 +18,9 @@
 (defn input-panel 
   [{:keys [id start-closed]}]
   "container for user inputs" 
-  (let  [closed? (subscribe [::db/ui-states-field id])] 
+  (when start-closed
+    (dispatch [::db/set-ui-states (keyword id :closed?) true]))
+  (let  [closed? (subscribe [::db/ui-states-field (keyword id :closed?)])] 
     (fn [{:keys [id components collapsable? card-args header header-args content-args content]}]
       [:> mui-card (util/deep-merge
                     {:square true
@@ -28,7 +30,7 @@
        [:> mui-card-header
         (util/deep-merge
          {:on-click (if collapsable?
-                      #(dispatch [::db/set-ui-states id (not (util/any->boolean @closed?))])
+                      #(dispatch [::db/set-ui-states (keyword id :closed?) (not (util/any->boolean @closed?))])
                       (fn []))
           :style {:padding-top 4 :padding-bottom 4}
           :subheader
@@ -41,7 +43,7 @@
                [:> mui-icon-button {:size :small}
                 (if @closed? [:> ic-expand-more] [:> ic-expand-less])])]])}
          header-args)]
-       [:> mui-collapse {:in  (not @closed?)}
+       [:> mui-collapse {:in  (not (if (nil? @closed?) start-closed @closed?))}
         [:> mui-card-content
          (or content
              [:div (util/deep-merge
@@ -58,5 +60,5 @@
 
 (comment
   (dispatch [::db/set-ui-states :input-panel true])
-  (subscribe [::db/ui-states-field :input-panel])
+  (subscribe [::db/ui-states])
   )
