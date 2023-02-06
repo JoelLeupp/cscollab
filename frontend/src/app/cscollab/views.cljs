@@ -18,7 +18,7 @@
   (fn []
     [:<> 
      [acl/section
-      [acl/title-white "Landscape of Scientific Collaborations"]
+      #_[acl/title-white "Landscape of Scientific Collaborations"]
       [acl/content
        [filter-panel] 
        [interactive-map/interactive-map]
