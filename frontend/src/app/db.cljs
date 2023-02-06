@@ -18,9 +18,9 @@
  (fn [_ _]
    (merge
     default-db
-    {:interactive-map 
+    {:leaflet
      {:view-position [49.8 13.1]
-      :zoom 6
+      :zoom-level 6
       :geometries []}
      :user-input
      {:selected-year [2015 2022],

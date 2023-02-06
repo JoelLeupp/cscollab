@@ -42,7 +42,7 @@
   "Initialize LeafletJS map for a newly mounted map component."
   (fn []
     ;; Initialize leaflet map
-    (reset! leaflet (L/map id))
+    (reset! leaflet (L/map id (clj->js {:zoomControl false})))
 
     ;; Initial view point and zoom level
     (.setView @leaflet (clj->js @view) @zoom)
