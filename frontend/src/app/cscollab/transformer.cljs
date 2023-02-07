@@ -66,10 +66,10 @@
 (defn weighted-collab [{:keys [inst?]}] 
   (let [filtered-collab @(subscribe [::filtered-collab])]
     (map
-     (fn [[[a_pid b_pid] values]]
-       {:node/m a_pid
-        :node/n b_pid
-        :weight (count values)})
+     (fn [[[m n] values]]
+       {:node/m m
+        :node/n n
+        :weight (count (set (map :rec_id values)))})
      (group-by (if inst?
                  (juxt :a_inst :b_inst)
                  (juxt :a_pid :b_pid))

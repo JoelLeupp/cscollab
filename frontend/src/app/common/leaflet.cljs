@@ -96,9 +96,9 @@
 
 (defn- leaflet-render [{:keys [id style geometries] :as mapspec}]
   (fn []
-    (let [g @geometries]
-      [:div {:id id
-             :style style}])))
+    #_(let [g @geometries])
+    [:div {:id id
+           :style style}]))
 
 ;;;;;;;;;;
 ;; Code to sync ClojureScript geometries vector data to LeafletJS
@@ -111,11 +111,11 @@
              #js {:color "red"
                   :fillOpacity 0.5}))
 
-(defmethod create-shape :line [{:keys [coordinates]}]
+(defmethod create-shape :line [{:keys [coordinates leaflet args]}]
   (L/polyline (clj->js coordinates)
-              #js {:color "blue"}))
+              (clj->js (merge {:color "blue"} args))))
 
-(defmethod create-shape :point [{:keys [coordinates]}]
+(defmethod create-shape :point [{:keys [coordinates leaflet]}]
   (L/circle (clj->js (first coordinates))
             10
             #js {:color "green"}))

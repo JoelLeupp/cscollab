@@ -47,7 +47,7 @@
         "react-vis": "latest",
         "react-window": "latest",
         "xregexp": "latest",
-        "leaflet": "1.9.2",
+        "leaflet": "1.9.3",
         "react-leaflet": "^4.2.0"
     }
 }

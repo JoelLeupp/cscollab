@@ -65,6 +65,9 @@
                                  :coordinates (:coord node-data))))
                   nodes)))))
 
+(defn get-line-weight [w]
+  (max 0.1 (min 10 (* 0.1 w))))
+
 (defn gen-edges [weighted-collab geo-mapping]
     ;; temorary remove nil because of utf8 string conflict
   (vec (remove nil?
@@ -73,6 +76,8 @@
                        node-n (get geo-mapping (:node/n %))]
                    (when (and node-m node-n)
                      (hash-map :type :line
+                               :args 
+                               {:weight (get-line-weight (:weight %))}
                                :id [(:id node-m) (:id node-n)] 
                                :coordinates [(:coord node-m)
                                              (:coord node-n)])))
@@ -90,18 +95,22 @@
                                 :id ((if inst? :institution :pid) %)
                                 :name ((if inst? :institution :name) %)) csauthors))]
     (if (and weighted-collab csauthors geo-mapping)
-      (vec 
-       (concat
-        (subvec (gen-edges weighted-collab geo-mapping) 0 10)
+      (vec
+       (concat 
+        (gen-edges weighted-collab geo-mapping)
         (gen-nodes weighted-collab geo-mapping)))
       [])))
 
+(def zoom (atom 6))
+(def view (atom [49.8 13.1]))
+(def geometries 
+  (atom (gen-geometries {:inst? true})))
 
 (defn interactive-map [] 
-  (let [view-position (subscribe [::view-position])
-        zoom-level (subscribe [::zoom-level])
-        geometries (subscribe [::geometries])
-        leaflet-data (subscribe [::leaflet])] 
+  (let [view-position view #_(subscribe [::view-position])
+        zoom-level zoom #_(subscribe [::zoom-level])
+        geometries geometries #_(subscribe [::geometries])
+        #_#_leaflet-data (subscribe [::leaflet])] 
     (fn []  
       #_(when (empty? @geometries)
         (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})]))
@@ -117,25 +126,34 @@
          [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
          [button/update-button
           {:on-click #(dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
-           :style {:z-index 999}}]]
-        ^{:key @leaflet-data}
+           :style {:z-index 999}}]] 
         [leaflet
          {:id "interactive-map"
           :layers
           [{:type :tile
             :url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
             :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
-          :style {:width "100%" :height "800px"} 
+          :style {:width "100%" :height "70vh"} 
           :view view-position ;; map center position
           :zoom zoom-level ;; map zoom level
           :geometries geometries ;; Geometry shapes to draw to the map
           }]]])))
 
 (comment
+  (reset! geometries (gen-geometries {:inst? true}))
   (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
+  (dispatch [::set-leaflet [:geometries]
+             [#_{:type :point
+               :coordinates [45.7 12.8]}
+              {:type :line
+               :args {:color :black :weight 1}
+               :coordinates [[45.7 12.8]
+                             [40.7 10.8]]}]])
+
   (gen-geometries {:inst? true})
   (gen-nodes weighted-collab inst-mapping)
   (def weighted-collab (tf/weighted-collab {:inst? true}))
+  (apply min (map :weight weighted-collab))
   (first weighted-collab)
   (vec
    (clojure.set/union
@@ -151,7 +169,7 @@
                             :id ((if inst? :institution :pid) %)
                             :name ((if inst? :institution :name) %)) csauthors)))
   (gen-edges weighted-collab geo-mapping)
-  
+
   (get geo-mapping "University of Münster")
   @(subscribe [::view-position])
   @(subscribe [::zoom-level])
