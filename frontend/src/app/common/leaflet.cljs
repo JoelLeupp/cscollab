@@ -115,10 +115,12 @@
   (L/polyline (clj->js coordinates)
               (clj->js (merge {:color "blue"} args))))
 
-(defmethod create-shape :point [{:keys [coordinates leaflet]}]
-  (L/circle (clj->js (first coordinates))
-            10
-            #js {:color "green"}))
+(defmethod create-shape :point [{:keys [coordinates radius weight leaflet]}]
+  (L/circle (clj->js coordinates) 
+            #js {:color "blue"
+                 :weight weight
+                 :radius radius
+                 :fillOpacity 0}))
 
 (def icon (L/icon (clj->js {:iconUrl "img/bank-icon.svg"
                             :iconAnchor [20 29]

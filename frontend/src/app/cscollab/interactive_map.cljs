@@ -75,12 +75,20 @@
                 #(let [node-m (get geo-mapping (:node/m %))
                        node-n (get geo-mapping (:node/n %))]
                    (when (and node-m node-n)
-                     (hash-map :type :line
-                               :args 
-                               {:weight (get-line-weight (:weight %))}
-                               :id [(:id node-m) (:id node-n)] 
-                               :coordinates [(:coord node-m)
-                                             (:coord node-n)])))
+                     (if (= node-m node-n)
+                       (hash-map :type :point
+                                 :radius (/ 111320 100) 
+                                 :weight (get-line-weight (:weight %))
+                                 :id [(:id node-m) (:id node-n)]
+                                 :coordinates 
+                                 [(- (first (:coord node-m)) (/ 1 100))
+                                  (second (:coord node-m))])
+                       (hash-map :type :line
+                                 :args 
+                                 {:weight (get-line-weight (:weight %))}
+                                 :id [(:id node-m) (:id node-n)] 
+                                 :coordinates [(:coord node-m)
+                                               (:coord node-n)]))))
                 weighted-collab))))
 
 
