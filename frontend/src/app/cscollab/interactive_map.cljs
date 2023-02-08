@@ -70,10 +70,9 @@
         (gen-nodes weighted-collab geo-mapping)))
       [])))
 
-(def zoom (atom 6))
-(def view (atom [49.8 13.1]))
-;; (def geometries 
-;;   (atom (gen-geometries {:inst? true})))
+;; define and view atoms for leaflet component
+(defonce zoom (atom 6))
+(defonce view (atom [49.8 13.1]))
 
 (defn interactive-map []  
   (let [geometries (subscribe [::ll/geometries])]
@@ -109,6 +108,11 @@
   @zoom
   (reset! geometries (gen-geometries {:inst? true}))
   (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
+  (dispatch [::ll/set-leaflet [:geometries] 
+             [{:type :inst-marker :coordinates [50 50]}
+              {:type :marker :coordinates [50 50]}
+              {:type :line :coordinates [[49 49] [51 51]]}
+              ]])
   (dispatch [::set-leaflet [:geometries]
              [#_{:type :point
                :coordinates [45.7 12.8]}

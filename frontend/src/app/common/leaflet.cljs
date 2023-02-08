@@ -181,13 +181,13 @@
                  :radius radius
                  :fillOpacity 0}))
 
-(def icon (L/icon (clj->js {:iconUrl "img/bank-icon.svg"
-                            :iconAnchor [20 29]
-                            :iconSize [40 40]})))
+(def icon (L/icon (clj->js {:iconUrl "img/inst-icon.svg"
+                            :iconAnchor [33 22] #_[20 29]
+                            :iconSize [60 60] #_[40 40]})))
 
 (defmethod create-shape :marker [{:keys [coordinates leaflet event-handlers]}]
   (let [shape
-        (L/marker (clj->js coordinates) #js {:icon icon})
+        (L/marker (clj->js coordinates))
         transform-event
         (fn [e f] (fn [s] (.on s e f)))
         event-list
