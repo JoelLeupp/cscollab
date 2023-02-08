@@ -5,21 +5,74 @@
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [leaflet :as L]))
 
-;;;;;;;;;
-;; Inspired by https://github.com/tatut/reagent-leaflet
+;;;;;;;;;;;;;
+;; define events and subscriptions for the leaflet component
+
+(reg-sub
+ ::leaflet
+ (fn [db _] (:leaflet db)))
+
+(reg-sub
+ ::leaflet-field
+ :<- [::leaflet]
+ (fn [m  [_ id]]
+   (let [id (if (vector? id) id [id])]
+     (get-in m id))))
+
+(reg-event-fx
+ ::set-leaflet
+ (fn [{db :db} [_ id value]]
+   (let [id (if (vector? id) id [id])]
+     {:db (assoc-in db (into [:leaflet] id) value)})))
+
+(reg-event-fx
+ ::update-leaflet
+ (fn [{db :db} [_ id f]]
+   (let [id (if (vector? id) id [id])]
+     {:db (update-in db (into [:leaflet] id) f)})))
+
+(reg-sub
+ ::view-position
+ :<- [::leaflet-field :view-position]
+ (fn [p] (when p p)))
+
+(reg-sub
+ ::zoom-level
+ :<- [::leaflet-field :zoom-level]
+ (fn [z] (when z z)))
+
+(reg-sub
+ ::geometries
+ :<- [::leaflet-field :geometries]
+ (fn [g] (when g g)))
+
+(reg-sub
+ ::map
+ :<- [::leaflet-field :map]
+ (fn [m] (when m m)))
+
+
+(comment
+  @(subscribe [::zoom-level])
+  @(subscribe [::geometries])
+  (dispatch [::set-leaflet [:zoom-level] 10])
+  @(subscribe [::leaflet])
+  (dispatch [::set-leaflet [:view-position] [50 50]])
+  (.setView @(subscribe [::map]) (clj->js [50 50]) 6)
+  (.getCenter @(subscribe [::map])))
+
+
+;;;;;;;;;;;;;
 ;; Define the React lifecycle callbacks to manage the LeafletJS
-;; Javascript objects.
 
 (declare update-leaflet-geometries)
 (declare leaflet-did-mount)
 (declare leaflet-render)
 
-;;;;;;;;;
-;; The LeafletJS Reagent component.
-
-(defn leaflet [{:keys [id style view zoom layers geometries] :as mapspec}]
-  "A LeafletJS map component."
-  (let [leaflet (atom nil)
+(defn leaflet-map [{:keys [id style layers zoom view] :as mapspec}]
+  "A LeafletJS Reagent component"
+  (let [leaflet #_(subscribe [::map]) (atom nil) 
+        geometries (subscribe [::geometries])
         layers
         (or layers
             [{:type :tile
@@ -29,20 +82,26 @@
         mapspec (deep-merge
                  mapspec
                  {:leaflet leaflet
+                  :view view
+                  :zoom zoom
                   :layers layers
+                  :geometries geometries
                   :geometries-map geometries-map})]
-    (reagent/create-class
-     {:component-did-mount (leaflet-did-mount mapspec)
-      #_#_:component-will-update (leaflet-will-update mapspec)
-      :reagent-render (leaflet-render mapspec)})))
+    (fn []
+      (when (and @view @zoom @geometries)
+        (reagent/create-class
+         {:component-did-mount (leaflet-did-mount mapspec)
+          #_#_:component-will-update (leaflet-will-update mapspec)
+          :reagent-render (leaflet-render mapspec)})))))
 
 
 
 (defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries] :as mapspec}]
   "Initialize LeafletJS map for a newly mounted map component."
   (fn []
-    ;; Initialize leaflet map
+    ;; Initialize leaflet map 
     (reset! leaflet (L/map id (clj->js {:zoomControl false})))
+    (dispatch [::set-leaflet [:map] @leaflet])
 
     ;; Initial view point and zoom level
     (.setView @leaflet (clj->js @view) @zoom)
@@ -72,17 +131,17 @@
     ;; Add callback for leaflet pos/zoom changes
     ;; watcher for pos/zoom atoms
     (.on @leaflet "move" (fn [e]
-                           (let [c (.getCenter @leaflet)]
+                           (let [c (.getCenter @leaflet)] 
                              (reset! zoom (.getZoom @leaflet))
                              (reset! view [(.-lat c) (.-lng c)]))))
-    (add-watch view ::view-update
+    #_(add-watch view ::view-update
                (fn [_ _ old-view new-view]
                  ;;(.log js/console "change view: " (clj->js old-view) " => " (clj->js new-view) @zoom)
-                 (when (not= old-view new-view)
+                 (when-not (= old-view new-view)
                    (.setView @leaflet (clj->js new-view) @zoom))))
-    (add-watch zoom ::zoom-update
+    #_(add-watch zoom ::zoom-update
                (fn [_ _ old-zoom new-zoom]
-                 (when (not= old-zoom new-zoom)
+                 (when-not (= old-zoom new-zoom)
                    (.setZoom @leaflet new-zoom))))
     ;; If the mapspec has an atom containing geometries, add watcher
     ;; so that we update all LeafletJS objects
@@ -94,11 +153,11 @@
                    (update-leaflet-geometries mapspec new-geometries))))))
 
 
-(defn- leaflet-render [{:keys [id style geometries] :as mapspec}]
+(defn- leaflet-render [{:keys [id style view zoom geometries] :as mapspec}]
   (fn []
-    #_(let [g @geometries])
-    [:div {:id id
-           :style style}]))
+    (let [g @geometries] 
+      [:div {:id id
+             :style style}])))
 
 ;;;;;;;;;;
 ;; Code to sync ClojureScript geometries vector data to LeafletJS

@@ -1,6 +1,6 @@
 (ns app.cscollab.interactive-map
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.common.leaflet :refer [leaflet]]
+            [app.common.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
             [app.db :as db]
@@ -8,45 +8,6 @@
             [reagent-mui.material.paper :refer [paper]]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
-
-
-(reg-sub
- ::leaflet
- (fn [db _] (:leaflet db)))
-
-(reg-sub
- ::leaflet-field
- :<- [::leaflet]
- (fn [m  [_ id]]
-   (let [id (if (vector? id) id [id])]
-     (get-in m id))))
-
-(reg-event-fx
- ::set-leaflet
- (fn [{db :db} [_ id value]]
-   (let [id (if (vector? id) id [id])]
-     {:db (assoc-in db (into [:leaflet] id) value)})))
-
-(reg-event-fx
- ::update-leaflet
- (fn [{db :db} [_ id f]]
-   (let [id (if (vector? id) id [id])]
-     {:db (update-in db (into [:leaflet] id) f)})))
-
-(reg-sub 
-  ::view-position
-  :<-[::leaflet-field :view-position]
-  (fn [p] (when p p)))
-
-(reg-sub
- ::zoom-level
- :<- [::leaflet-field :zoom-level]
- (fn [z] (when z z)))
-
-(reg-sub
- ::geometries
- :<- [::leaflet-field :geometries]
- (fn [g] (when g g)))
 
 
 
@@ -111,17 +72,14 @@
 
 (def zoom (atom 6))
 (def view (atom [49.8 13.1]))
-(def geometries 
-  (atom (gen-geometries {:inst? true})))
+;; (def geometries 
+;;   (atom (gen-geometries {:inst? true})))
 
-(defn interactive-map [] 
-  (let [view-position view #_(subscribe [::view-position])
-        zoom-level zoom #_(subscribe [::zoom-level])
-        geometries geometries #_(subscribe [::geometries])
-        #_#_leaflet-data (subscribe [::leaflet])] 
+(defn interactive-map []  
+  (let [geometries (subscribe [::ll/geometries])]
     (fn []  
-      #_(when (empty? @geometries)
-        (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})]))
+      (when (empty? @geometries)
+        (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})]))
       [paper {:elevation 1}
        [:<>
         [:div {:style {:display :flex 
@@ -133,21 +91,22 @@
                        :padding-right 20}}
          [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
          [button/update-button
-          {:on-click #(dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
+          {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})])
            :style {:z-index 999}}]] 
-        [leaflet
+        [leaflet-map
          {:id "interactive-map"
+          :zoom zoom
+          :view view
           :layers
           [{:type :tile
             :url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
             :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
           :style {:width "100%" :height "70vh"} 
-          :view view-position ;; map center position
-          :zoom zoom-level ;; map zoom level
-          :geometries geometries ;; Geometry shapes to draw to the map
           }]]])))
 
 (comment
+  @view
+  @zoom
   (reset! geometries (gen-geometries {:inst? true}))
   (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
   (dispatch [::set-leaflet [:geometries]
