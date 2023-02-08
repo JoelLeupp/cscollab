@@ -6,6 +6,7 @@
             [app.db :as db]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
+            [leaflet :as L]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
@@ -73,6 +74,7 @@
 ;; define and view atoms for leaflet component
 (defonce zoom (atom 6))
 (defonce view (atom [49.8 13.1]))
+(defonce geometries-map (atom nil))
 
 (defn interactive-map []  
   (let [geometries (subscribe [::ll/geometries])]
@@ -96,6 +98,7 @@
          {:id "interactive-map"
           :zoom zoom
           :view view
+          :geometries-map geometries-map
           :layers
           [{:type :tile
             :url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -104,18 +107,59 @@
           }]]])))
 
 (comment
+  @geometries-map
   @view
   @zoom
+  (def shape-layer (get @geometries-map {:coordinates [47.4143390999 8.5498159038],
+                                         :name "University of Zurich",
+                                         :type :inst-marker,
+                                         :id "University of Zurich"}))
+  (.-lat (.getLatLng shape-layer))
+  (.-lat (.getLatLng shape-layer))
+  (def icon (.. shape-layer -options -icon))
+  (set! (.. icon -options -iconSize) (clj->js [60 60]))
+  (.setIcon shape-layer icon)
+  
+  (def new-icon (L/Icon.extend (clj->js {:options {:iconSize [400 400]}})))
+  (def leaflet @(subscribe [::ll/map]))
+  (.removeLayer leaflet shape-layer)
+  (.addTo shape-layer leaflet)
+
+  (def inst-icon (.extend L/Icon. (clj->js {:options {:iconAnchor [33 22] #_[20 29]
+                                                      :iconSize [400 400]}})))
+
+  (def my-icon (inst-icon. (clj->js {:iconUrl "img/inst-icon.svg"})))
+
+  (def test-marker
+    (.addTo
+     (L/marker (clj->js [47.4143390999 8.5498159038]) #js {:icon my-icon})
+     leaflet))
+
+  (defn calc-offset [[x y]]
+    [(* (/ 33 60) x) (* (/ 22 60) y)])
+  
+  (calc-offset [100 100])
+  
+  
+  (def new-icon (.extend L/Icon. (clj->js {:options {:iconUrl "img/inst-icon.svg"
+                                                     :iconAnchor (calc-offset [100 100]) #_[20 29]
+                                                     :iconSize [100 100]}})))
+
+  (.setIcon test-marker (new new-icon))
+  (.removeLayer leaflet test-marker)
+
+  (filter #(= (:type %) :inst-marker) @(subscribe [::ll/geometries]))
   (reset! geometries (gen-geometries {:inst? true}))
   (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
-  (dispatch [::ll/set-leaflet [:geometries] 
+  (dispatch [::ll/set-leaflet [:geometries]
              [{:type :inst-marker :coordinates [50 50]}
               {:type :marker :coordinates [50 50]}
-              {:type :line :coordinates [[49 49] [51 51]]}
-              ]])
+              {:type :line :coordinates [[50 50] [51 51]]}
+              {:type :line :coordinates [[50 51] [50 49]]}
+              {:type :line :coordinates [[49 50] [51 50]]}]])
   (dispatch [::set-leaflet [:geometries]
              [#_{:type :point
-               :coordinates [45.7 12.8]}
+                 :coordinates [45.7 12.8]}
               {:type :line
                :args {:color :black :weight 1}
                :coordinates [[45.7 12.8]
@@ -144,7 +188,7 @@
   (get geo-mapping "University of Münster")
   @(subscribe [::view-position])
   @(subscribe [::zoom-level])
-  (count @(subscribe [::geometries]))
+  (count @(subscribe [::ll/geometries]))
   (dispatch [::set-leaflet [:zoom-level] 1])
   (def view-position (atom [49.8 13.1]))
   (def zoom-level (atom 6))

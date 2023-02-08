@@ -69,7 +69,7 @@
 (declare leaflet-did-mount)
 (declare leaflet-render)
 
-(defn leaflet-map [{:keys [id style layers zoom view] :as mapspec}]
+(defn leaflet-map [{:keys [id style layers zoom view geometries-map] :as mapspec}]
   "A LeafletJS Reagent component"
   (let [leaflet #_(subscribe [::map]) (atom nil) 
         geometries (subscribe [::geometries])
@@ -78,7 +78,7 @@
             [{:type :tile
               :url "http://{s}.tile.osm.org/{z}/{x}/{y}.png"
               :attribution "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"}])
-        geometries-map (atom {})
+        geometries-map geometries-map
         mapspec (deep-merge
                  mapspec
                  {:leaflet leaflet
@@ -181,9 +181,14 @@
                  :radius radius
                  :fillOpacity 0}))
 
+(defn calc-offset [[x y]]
+  [(* (/ 33 60) x) (* (/ 22 60) y)])
+
 (def icon (L/icon (clj->js {:iconUrl "img/inst-icon.svg"
                             :iconAnchor [33 22] #_[20 29]
                             :iconSize [60 60] #_[40 40]})))
+
+#_(set! (.. icon -options -iconSize) (clj->js [200 200]))
 
 (defmethod create-shape :marker [{:keys [coordinates leaflet event-handlers]}]
   (let [shape
@@ -221,10 +226,10 @@
 (defn- update-leaflet-geometries [mapspec geometries]
   "Update the LeafletJS layers based on the data, mutates the LeafletJS map object."
   (let [{:keys [leaflet geometries-map]} mapspec
-        geometries-set (into #{} geometries)]
+        geometries-set (into #{} (map :id geometries))]
     ;; Remove all LeafletJS shape objects that are no longer in the new geometries
-    (doseq [removed (keep (fn [[geom shape]]
-                            (when-not (geometries-set geom)
+    (doseq [removed (keep (fn [[id shape]]
+                            (when-not (geometries-set id)
                               shape))
                           @geometries-map)]
       (.removeLayer @leaflet removed))
@@ -235,11 +240,11 @@
       (if-not geom
         ;; Update component state with the new geometries map
         (reset! geometries-map new-geometries-map)
-        (if-let [existing-shape (@geometries-map geom)]
+        (if-let [existing-shape (@geometries-map (:id geom))]
           ;; Have existing shape, don't need to do anything
-          (recur (assoc new-geometries-map geom existing-shape) geometries)
+          (recur (assoc new-geometries-map (:id geom) existing-shape) geometries)
 
           ;; No existing shape, create a new shape and add it to the map
           (let [shape (create-shape (merge {:leaflet @leaflet} geom))]
             (.addTo shape @leaflet)
-            (recur (assoc new-geometries-map geom shape) geometries)))))))
+            (recur (assoc new-geometries-map (:id geom) shape) geometries)))))))
