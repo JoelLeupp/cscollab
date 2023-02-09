@@ -54,6 +54,16 @@
  :<- [::leaflet-field :map]
  (fn [m] (when m m)))
 
+(reg-sub
+ ::selected-shape
+ :<- [::leaflet-field :selected-shape]
+ (fn [m] (when m m)))
+
+(reg-sub
+ ::info-open?
+ :<- [::leaflet-field :info-open?]
+ (fn [m] (when m m)))
+
 
 (comment
   @(subscribe [::zoom-level])
@@ -126,10 +136,9 @@
                                     :fillOpacity 1.0})))]
         (.addTo layer @leaflet)))
 
-    ;; If mapspec defines callbacks, bind them to leaflet
-    #_(when-let [on-click (:on-click mapspec)]
-        (.on leaflet "click" (fn [e]
-                               (on-click [(-> e .-latlng .-lat) (-> e .-latlng .-lng)]))))
+    ;; If mapspec defines callbacks, bind them to leaflet 
+    (.on @leaflet "click" (fn [e]
+                           (dispatch [::set-leaflet [:info-open?] false])))
 
     ;; Add callback for leaflet pos/zoom changes
     ;; watcher for pos/zoom atoms
@@ -138,14 +147,14 @@
                              (reset! zoom (.getZoom @leaflet))
                              (reset! view [(.-lat c) (.-lng c)]))))
     #_(add-watch view ::view-update
-               (fn [_ _ old-view new-view]
+                 (fn [_ _ old-view new-view]
                  ;;(.log js/console "change view: " (clj->js old-view) " => " (clj->js new-view) @zoom)
-                 (when-not (= old-view new-view)
-                   (.setView @leaflet (clj->js new-view) @zoom))))
+                   (when-not (= old-view new-view)
+                     (.setView @leaflet (clj->js new-view) @zoom))))
     #_(add-watch zoom ::zoom-update
-               (fn [_ _ old-zoom new-zoom]
-                 (when-not (= old-zoom new-zoom)
-                   (.setZoom @leaflet new-zoom))))
+                 (fn [_ _ old-zoom new-zoom]
+                   (when-not (= old-zoom new-zoom)
+                     (.setZoom @leaflet new-zoom))))
     ;; If the mapspec has an atom containing geometries, add watcher
     ;; so that we update all LeafletJS objects
     (update-leaflet-geometries mapspec @geometries)
@@ -191,7 +200,7 @@
 (defn icon [scale]
   (let [size (* scale 20)
         offset (calc-offset [size size])]
-    (L/icon (clj->js {:iconUrl "img/inst-icon-v2.svg" #_"img/inst-icon.svg"
+    (L/icon (clj->js {:iconUrl "img/inst-icon-v2.svg" #_"img/inst-icon.svg" ;https://uxwing.com/svg-icon-editor
                       :iconAnchor offset #_[33 22] #_[20 29]
                       :iconSize [size size] #_[40 40]}))))
 
@@ -244,17 +253,27 @@
                      (.setContent "Popup")
                      (.openOn leaflet))))))
 
-(defmethod create-shape :inst-marker [{:keys [coordinates scale leaflet name]}]
+(defmethod create-shape :inst-marker [{:keys [coordinates scale id leaflet name]}]
   (let [i-icon (icon scale)]
     (-> (L/marker (clj->js coordinates) #js {:icon i-icon})
         #_(.bindPopup "t")
         #_(.openPopup)
-        (.on "click"
+        (.on "click" (fn [e]
+                       (dispatch [::set-leaflet [:selected-shape] id])
+                       (dispatch [::set-leaflet [:info-open?] true])))
+        (.on "mouseover"
              (fn [e]
                (-> (L/popup (clj->js {:offset [0 -10]}))
                    (.setLatLng (.-latlng e))
                    (.setContent name)
                    (.openOn leaflet)))))))
+
+(defmethod create-shape :collab-line [{:keys [coordinates id leaflet args]}]
+  (-> (L/polyline (clj->js coordinates)
+                  (clj->js (merge {:color (:main colors)} args)))
+      (.on "click" (fn [e]
+                     (dispatch [::set-leaflet [:selected-shape] id])
+                     (dispatch [::set-leaflet [:info-open?] true])))))
 
 
 (defn- update-leaflet-geometries [mapspec geometries]

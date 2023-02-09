@@ -3,6 +3,7 @@
             [app.common.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
+            [app.components.lists :refer [collapse]]
             [app.db :as db]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
@@ -10,19 +11,6 @@
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
-(def weighted-collab (tf/weighted-collab {:inst? inst?}))
-(def nodes (vec (clojure.set/union
-                 (set (map :node/m weighted-collab))
-                 (set (map :node/n weighted-collab)))))
-(def weights
-  (map
-   #(reduce
-     +
-     (map :weight (filter (fn [node]
-                            (or
-                             (= % (:node/m node))
-                             (= % (:node/n node)))) weighted-collab)))
-   nodes))
 
 
 (defn linear-scale [min-w max-w w]
@@ -81,7 +69,7 @@
                                  :coordinates 
                                  [(- (first (:coord node-m)) (/ 1 100))
                                   (second (:coord node-m))])
-                       (hash-map :type :line
+                       (hash-map :type :collab-line
                                  :args 
                                  {:weight (get-line-weight (:weight %))}
                                  :id [(:id node-m) (:id node-n)] 
@@ -112,37 +100,56 @@
 (defonce view (atom [49.8 13.1]))
 (defonce geometries-map (atom nil))
 
-(defn interactive-map []  
+(defn map-comp []
   (let [geometries (subscribe [::ll/geometries])]
-    (fn []  
+    (fn []
       (when (empty? @geometries)
         (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})]))
-      [paper {:elevation 1}
-       [:<>
-        [:div {:style {:display :flex 
-                       :justify-content
-                       :space-between 
-                       :background-color :white
-                       :paddin-top 0
-                       :padding-left 20
-                       :padding-right 20}}
-         [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
-         [button/update-button
-          {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})])
-           :style {:z-index 999}}]] 
-        [leaflet-map
-         {:id "interactive-map"
-          :zoom zoom
-          :view view
-          :geometries-map geometries-map
-          :layers
-          [{:type :tile
-            :url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-            :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
-          :style {:width "100%" :height "70vh"} 
-          }]]])))
+      [leaflet-map
+       {:id "interactive-map"
+        :zoom zoom
+        :view view
+        :geometries-map geometries-map
+        :layers
+        [{:type :tile
+          :url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+          :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
+        :style {:width "100%" :height "70vh" :z-index 1}}])))
+
+(defn map-info []
+  (let [selected-shape (subscribe [::ll/selected-shape])]
+    (fn []
+      [collapse
+       {:sub (subscribe [::ll/info-open?])
+        :div
+        [:div {:style {:position :absolute :right "10%" :z-index 10}}
+         [:div {:style {:background-color :white :height "70vh" :min-width "350px" :padding-left 10 :padding-right 10}}
+          [:div {:style {:display :flex :justify-content :space-between}} 
+           [:h3 "Info Selected"]
+           [button/close-button
+            {:on-click #(dispatch [::ll/set-leaflet [:info-open?] false])}]]
+
+          [:span (str @selected-shape)]]]}])))
+
+(defn interactive-map [] 
+  (fn [] 
+    [:<>
+     [paper {:elevation 1}
+      [:<>
+       [:div {:style {:display :flex :justify-content :space-between :background-color :white
+                      :paddin-top 0 :padding-left 20 :padding-right 20}}
+        [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
+        [button/update-button
+         {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})])
+          :style {:z-index 999}}]]
+       [map-info] 
+       [map-comp]]]
+     ]))
 
 (comment
+  @(subscribe [::ll/selected-shape])
+  (dispatch [::ll/set-leaflet [:info-open?] true])
+
   @geometries-map
   (def markers (map second (filter #(string? (first %)) @geometries-map)))
 

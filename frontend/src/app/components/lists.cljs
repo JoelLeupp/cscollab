@@ -18,6 +18,14 @@
    ["@mui/material/IconButton" :default mui-icon-button]))
 
 
+(defn collapse [{:keys [sub div args]}]
+  [:> mui-collapse
+   (util/deep-merge
+    {:in @sub
+     :timeout :auto
+     :unmountOnExit true} args)
+   div])
+
 (defn sub-header [{:keys [style subheader args id]}]
   [:> mui-list-sub-header 
    (util/deep-merge 
