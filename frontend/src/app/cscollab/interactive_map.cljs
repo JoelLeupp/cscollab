@@ -10,22 +10,58 @@
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
+(def weighted-collab (tf/weighted-collab {:inst? inst?}))
+(def nodes (vec (clojure.set/union
+                 (set (map :node/m weighted-collab))
+                 (set (map :node/n weighted-collab)))))
+(def weights
+  (map
+   #(reduce
+     +
+     (map :weight (filter (fn [node]
+                            (or
+                             (= % (:node/m node))
+                             (= % (:node/n node)))) weighted-collab)))
+   nodes))
 
+
+(defn linear-scale [min-w max-w w]
+  "scale for weights between 1 and 2 based on min and max of all weights"
+  (let [slope (/ 1 (- max-w min-w))
+        shift (- 1 (* min-w slope))]
+    (+ shift (* slope w))))
 
 (defn gen-nodes [weighted-collab geo-mapping]
   (let [nodes (vec (clojure.set/union
                     (set (map :node/m weighted-collab))
-                    (set (map :node/n weighted-collab))))]
+                    (set (map :node/n weighted-collab))))
+        weights
+        (map
+         #(reduce
+           +
+           (map :weight (filter (fn [node]
+                                  (or
+                                   (= % (:node/m node))
+                                   (= % (:node/n node)))) weighted-collab)))
+         nodes)
+        node->weight
+        (zipmap nodes weights)
+        min-weight (apply min weights)
+        max-weight (apply max weights)]
     ;; temorary remove nil because of utf8 string conflict
-    (vec (remove nil? 
-                 (mapv
-                  #(let [node-data (get geo-mapping %)]
-                     (when node-data
-                       (hash-map :type :inst-marker
-                                 :id (:id node-data)
-                                 :name (:name node-data)
-                                 :coordinates (:coord node-data))))
-                  nodes)))))
+    (vec
+     (remove
+      nil?
+      (mapv
+       #(let [node-data (get geo-mapping %)]
+          (when node-data
+            (hash-map :type :inst-marker
+                      :id (:id node-data)
+                      :name (:name node-data)
+                      :scale
+                      (linear-scale min-weight max-weight (get node->weight (:id node-data)))
+                      :coordinates (:coord node-data))))
+       nodes)))))
 
 (defn get-line-weight [w]
   (max 0.1 (min 10 (* 0.1 w))))
@@ -108,6 +144,22 @@
 
 (comment
   @geometries-map
+  (def markers (map second (filter #(string? (first %)) @geometries-map)))
+
+  (defn calc-offset [[x y]]
+    [(* (/ 33 60) x) (* (/ 22 60) y)])
+
+  (defn new-icon [size]
+    (.extend L/Icon. (clj->js {:options {:iconUrl "img/inst-icon.svg"
+                                         :iconAnchor (calc-offset [size size]) #_[20 29]
+                                         :iconSize [size size]}})))
+  (doseq [layer markers]
+    (let [icon (new-icon 90)]
+      (.setIcon layer (new icon))))
+  
+
+  (.. (first markers) -options -icon -options -iconSize)
+
   @view
   @zoom
   (def shape-layer (get @geometries-map {:coordinates [47.4143390999 8.5498159038],
@@ -119,7 +171,7 @@
   (def icon (.. shape-layer -options -icon))
   (set! (.. icon -options -iconSize) (clj->js [60 60]))
   (.setIcon shape-layer icon)
-  
+
   (def new-icon (L/Icon.extend (clj->js {:options {:iconSize [400 400]}})))
   (def leaflet @(subscribe [::ll/map]))
   (.removeLayer leaflet shape-layer)
@@ -137,10 +189,10 @@
 
   (defn calc-offset [[x y]]
     [(* (/ 33 60) x) (* (/ 22 60) y)])
-  
+
   (calc-offset [100 100])
-  
-  
+
+
   (def new-icon (.extend L/Icon. (clj->js {:options {:iconUrl "img/inst-icon.svg"
                                                      :iconAnchor (calc-offset [100 100]) #_[20 29]
                                                      :iconSize [100 100]}})))
@@ -165,7 +217,7 @@
                :coordinates [[45.7 12.8]
                              [40.7 10.8]]}]])
 
-  (gen-geometries {:inst? true})
+  (filter #(= :inst-marker (:type %)) (gen-geometries {:inst? true}))
   (gen-nodes weighted-collab inst-mapping)
   (def weighted-collab (tf/weighted-collab {:inst? true}))
   (apply min (map :weight weighted-collab))

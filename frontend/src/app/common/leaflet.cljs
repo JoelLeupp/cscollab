@@ -1,12 +1,15 @@
-(ns app.common.leaflet
+(ns app.common.leaflet 
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.util :refer (deep-merge)]
+            [app.util :refer (deep-merge)] 
+            [reagent.dom.server :refer [render-to-string]]
+            [app.components.colors :refer [colors]]
             [re-frame.core :as rf :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [leaflet :as L]))
 
 ;;;;;;;;;;;;;
 ;; define events and subscriptions for the leaflet component
+
 
 (reg-sub
  ::leaflet
@@ -172,11 +175,11 @@
 
 (defmethod create-shape :line [{:keys [coordinates leaflet args]}]
   (L/polyline (clj->js coordinates)
-              (clj->js (merge {:color "blue"} args))))
+              (clj->js (merge {:color (:main colors)} args))))
 
 (defmethod create-shape :point [{:keys [coordinates radius weight leaflet]}]
   (L/circle (clj->js coordinates) 
-            #js {:color "blue"
+            #js {:color (:main colors)
                  :weight weight
                  :radius radius
                  :fillOpacity 0}))
@@ -184,9 +187,38 @@
 (defn calc-offset [[x y]]
   [(* (/ 33 60) x) (* (/ 22 60) y)])
 
-(def icon (L/icon (clj->js {:iconUrl "img/inst-icon.svg"
-                            :iconAnchor [33 22] #_[20 29]
-                            :iconSize [60 60] #_[40 40]})))
+(defn icon [scale]
+  (let [size (* scale 60)
+        offset (calc-offset [size size])]
+    (L/icon (clj->js {:iconUrl "img/inst-icon.svg"
+                      :iconAnchor offset #_[33 22] #_[20 29]
+                      :iconSize [size size] #_[40 40]}))))
+
+(defn icon-svg [color]
+  (render-to-string 
+   [:svg {:width "200pt" :fill color :height= "200pt" :viewBox "0 0 700 700" :version "1.0" :preserveAspectRation "none"
+          :xmlns "http://www.w3.org/2000/svg" :xmlns:xlink "http://www.w3.org/1999/xlink"}
+    [:g
+     [:circle {:cx "350" :cy "220" :r "100" :fill "white"}]
+     [:path {:d "m463.75 210c0-30.168-11.984-59.102-33.316-80.434-21.332-21.332-50.266-33.316-80.434-33.316s-59.102 
+                  11.984-80.434 33.316c-21.332 21.332-33.316 50.266-33.316 80.434s11.984 59.102 33.316 80.434c21.332
+                  21.332 50.266 33.316 80.434 33.316s59.102-11.984 80.434-33.316c21.332-21.332 33.316-50.266 
+                  33.316-80.434zm-183.75 35c0-4.832 3.918-8.75 8.75-8.75h8.75v-50.574l-11.461 5.8633c-1.2188 
+                  0.62109-2.5703 0.95313-3.9375 0.96094-4.0508 0.015625-7.582-2.7461-8.5391-6.6797-0.95703-3.9336 
+                  0.91016-8.0117 4.5117-9.8594l67.461-35 1.5742-0.69922h0.003906c1.8594-0.69531 3.9141-0.69531 5.7734 
+                  0l1.5742 0.69922 67.461 35h0.003906c3.6016 1.8477 5.4688 5.9258 4.5117 9.8594-0.95703 3.9336-4.4883 
+                  6.6953-8.5391 6.6797-1.3672-0.007812-2.7188-0.33984-3.9375-0.96094l-11.461-5.8633v50.574h8.75c4.832
+                  0 8.75 3.918 8.75 8.75s-3.918 8.75-8.75 8.75h-122.5c-4.832 0-8.75-3.918-8.75-8.75z"}]
+     [:path {:d "m315 176.66v59.586h8.75v-52.5c0-4.832 3.918-8.75 8.75-8.75s8.75 3.918 8.75 8.75v52.5h17.5v-52.5c0-4.832
+                  3.918-8.75 8.75-8.75s8.75 3.918 8.75 8.75v52.5h8.75v-59.586l-35-18.023z"}]]]))
+
+
+(defn inst-icon [color]
+  (L/divIcon 
+   (clj->js {:html (icon-svg (or color (:main colors)))
+             :className ""
+             :iconAnchor [33 22]
+             :iconSize [60 60]})))
 
 #_(set! (.. icon -options -iconSize) (clj->js [200 200]))
 
@@ -211,16 +243,17 @@
                      (.setContent "Popup")
                      (.openOn leaflet))))))
 
-(defmethod create-shape :inst-marker [{:keys [coordinates leaflet name]}]
-  (-> (L/marker (clj->js coordinates) #js {:icon icon})
-      #_(.bindPopup "t")
-      #_(.openPopup)
-      (.on "click"
-           (fn [e]
-             (-> (L/popup (clj->js {:offset [0 -32]}))
-                 (.setLatLng (.-latlng e))
-                 (.setContent name)
-                 (.openOn leaflet))))))
+(defmethod create-shape :inst-marker [{:keys [coordinates scale leaflet name]}]
+  (let [i-icon (icon scale)]
+    (-> (L/marker (clj->js coordinates) #js {:icon i-icon})
+        #_(.bindPopup "t")
+        #_(.openPopup)
+        (.on "click"
+             (fn [e]
+               (-> (L/popup (clj->js {:offset [0 -32]}))
+                   (.setLatLng (.-latlng e))
+                   (.setContent name)
+                   (.openOn leaflet)))))))
 
 
 (defn- update-leaflet-geometries [mapspec geometries]
