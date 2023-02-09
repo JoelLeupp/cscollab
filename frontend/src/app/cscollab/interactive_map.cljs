@@ -116,20 +116,83 @@
           :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
         :style {:width "100%" :height "70vh" :z-index 1}}])))
 
-(defn map-info []
+
+(defn inst-info []
+  (let [selected-shape (subscribe [::ll/selected-shape])
+        filtered-collab (subscribe [::tf/filtered-collab])]
+    (fn []
+      (when (and @selected-shape @filtered-collab)
+        (let [institution @selected-shape 
+              inst-collab
+              (filter
+               #(or (= institution (:a_inst %))
+                    (= institution (:b_inst %)))
+               @filtered-collab)
+              collab-count
+              (count (set (map :rec_id inst-collab)))
+              author-count
+              (count
+               (vec
+                (set
+                 (flatten
+                  (map
+                   #(concat
+                     []
+                     (when (= institution (:a_inst %))
+                       [(:a_pid %)])
+                     (when (= institution (:b_inst %))
+                       [(:b_pid %)]))
+                   inst-collab)))))]
+          [:div
+           [:h4 institution]
+           [:span (str "Number of authors: " author-count)]
+           [:br]
+           [:span (str "Number of collaborations: " collab-count)]])))))
+
+(def test-a (atom nil))
+(first @test-a)
+
+(defn collab-info []
+  (let [selected-shape (subscribe [::ll/selected-shape])
+        filtered-collab (subscribe [::tf/filtered-collab])]
+    (fn []
+      (when (and (vector? @selected-shape) @filtered-collab) 
+        (let [selected-collab @selected-shape
+              records
+              (filter
+               #(or
+                 (and (= (first selected-collab) (:b_inst %))
+                      (= (second selected-collab) (:a_inst %)))
+                 (and (= (first selected-collab) (:a_inst %))
+                      (= (second selected-collab) (:b_inst %))))
+               @filtered-collab)
+              number-collabs (count (set (map :rec_id records)))]
+          (reset! test-a records)
+          [:div
+           [:h4  "Collaboration"]
+           [:h4 
+            (first selected-collab) " And " (second selected-collab)]
+           [:span (str "Number of collaborations: " number-collabs)]])))))
+
+(defn map-info [{:keys [inst?]}]
   (let [selected-shape (subscribe [::ll/selected-shape])]
     (fn []
-      [collapse
-       {:sub (subscribe [::ll/info-open?])
-        :div
-        [:div {:style {:position :absolute :right "10%" :z-index 10}}
-         [:div {:style {:background-color :white :height "70vh" :min-width "350px" :padding-left 10 :padding-right 10}}
-          [:div {:style {:display :flex :justify-content :space-between}} 
-           [:h3 "Info Selected"]
-           [button/close-button
-            {:on-click #(dispatch [::ll/set-leaflet [:info-open?] false])}]]
+      (if (string? @selected-shape)
+        [inst-info] 
+        [collab-info]))))
 
-          [:span (str @selected-shape)]]]}])))
+(defn map-info-div [] 
+  (fn []
+    [collapse
+     {:sub (subscribe [::ll/info-open?])
+      :div
+      [:div {:style {:position :absolute :right "10%" :z-index 10}}
+       [:div {:style {:background-color :white :height "70vh" :min-width "350px" :padding-left 10 :padding-right 10}}
+        [:div {:style {:display :flex :justify-content :space-between}}
+         [:h3 "Info Selected"]
+         [button/close-button
+          {:on-click #(dispatch [::ll/set-leaflet [:info-open?] false])}]]
+        [map-info {inst? true}]]]}]))
 
 (defn interactive-map [] 
   (fn [] 
@@ -142,14 +205,55 @@
         [button/update-button
          {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})])
           :style {:z-index 999}}]]
-       [map-info] 
+       [map-info-div] 
        [map-comp]]]
      ]))
 
 (comment
-  @(subscribe [::ll/selected-shape])
+  (def selected-collab @(subscribe [::ll/selected-shape]))
   (dispatch [::ll/set-leaflet [:info-open?] true])
-
+  (def filtered-collab @(subscribe [::tf/filtered-collab]))
+  
+  (let [collabs
+        (filter
+         #(or
+           (and (= (first selected-collab) (:b_inst %))
+                (= (second selected-collab) (:a_inst %)))
+           (and (= (first selected-collab) (:a_inst %))
+                (= (second selected-collab) (:b_inst %))))
+         filtered-collab)
+        number-collabs (count (set (map :rec_id collabs)))]
+    [:div
+     [:h4 (str "Collaboration Between\n"
+                 (first selected-collab)
+                 "\nAnd\n"
+                 (second selected-collab))]
+     [:span (str "Number of collaborations: " number-collabs)]])
+  
+  (first filtered-collab)
+  
+  (def collab
+    (filter
+     #(or
+       (and (= (first selected-collab) (:b_inst %))
+            (= (second selected-collab) (:a_inst %)))
+       (and (= (first selected-collab) (:a_inst %))
+            (= (second selected-collab) (:b_inst %))))
+     filtered-collab))
+  (count inst-collab)
+  (count
+   (vec
+    (set
+     (flatten
+      (map
+       #(concat
+         []
+         (when (= "Max Planck Society" (:a_inst %))
+           [(:a_pid %)])
+         (when (= "Max Planck Society" (:b_inst %))
+           [(:b_pid %)]))
+       inst-collab)))))
+  
   @geometries-map
   (def markers (map second (filter #(string? (first %)) @geometries-map)))
 

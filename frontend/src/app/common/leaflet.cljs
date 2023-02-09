@@ -137,8 +137,9 @@
         (.addTo layer @leaflet)))
 
     ;; If mapspec defines callbacks, bind them to leaflet 
-    (.on @leaflet "click" (fn [e]
-                           (dispatch [::set-leaflet [:info-open?] false])))
+    (.on @leaflet "click" (fn [e] 
+                            (when @(subscribe [::info-open?])
+                             (dispatch [::set-leaflet [:info-open?] false]))))
 
     ;; Add callback for leaflet pos/zoom changes
     ;; watcher for pos/zoom atoms
@@ -272,8 +273,8 @@
   (-> (L/polyline (clj->js coordinates)
                   (clj->js (merge {:color (:main colors)} args)))
       (.on "click" (fn [e]
-                     (dispatch [::set-leaflet [:selected-shape] id])
-                     (dispatch [::set-leaflet [:info-open?] true])))))
+                     (dispatch [::set-leaflet [:info-open?] true])
+                     (dispatch [::set-leaflet [:selected-shape] id])))))
 
 
 (defn- update-leaflet-geometries [mapspec geometries]
