@@ -185,12 +185,13 @@
                  :fillOpacity 0}))
 
 (defn calc-offset [[x y]]
-  [(* (/ 33 60) x) (* (/ 22 60) y)])
+  [(* 0.5 x) (* 0.5 y)]
+  #_[(* (/ 33 60) x) (* (/ 22 60) y)])
 
 (defn icon [scale]
-  (let [size (* scale 60)
+  (let [size (* scale 20)
         offset (calc-offset [size size])]
-    (L/icon (clj->js {:iconUrl "img/inst-icon.svg"
+    (L/icon (clj->js {:iconUrl "img/inst-icon-v2.svg" #_"img/inst-icon.svg"
                       :iconAnchor offset #_[33 22] #_[20 29]
                       :iconSize [size size] #_[40 40]}))))
 
@@ -250,7 +251,7 @@
         #_(.openPopup)
         (.on "click"
              (fn [e]
-               (-> (L/popup (clj->js {:offset [0 -32]}))
+               (-> (L/popup (clj->js {:offset [0 -10]}))
                    (.setLatLng (.-latlng e))
                    (.setContent name)
                    (.openOn leaflet)))))))
