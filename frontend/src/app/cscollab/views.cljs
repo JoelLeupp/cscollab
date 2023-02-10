@@ -11,6 +11,7 @@
    [app.cscollab.filter-panel :refer (filter-panel)] 
    [reagent.core :as r]
    [app.cscollab.interactive-map :as interactive-map]
+   [app.cscollab.conferences :refer (conferences-view)]
    [app.cscollab.transformer :as tf]))
 
 
@@ -23,4 +24,12 @@
        [filter-panel] 
        [interactive-map/interactive-map]
        #_[tf/collab-count]]]]))
+
+(defn conferences []
+  (fn []
+    [:<>
+     [acl/section
+      [acl/title-white "Computer Science Conferences"]
+      [acl/content
+       [conferences-view]]]]))
 

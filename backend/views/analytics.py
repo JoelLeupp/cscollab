@@ -25,10 +25,10 @@ def route_path(path):
             'weighted': fields.Boolean(default=False),
             'top': fields.Int(default=5)})
 def get_analytics(**kwargs):
-    nodes = kwargs["nodes"]
-    edges = kwargs["edges"]
-    weighted = kwargs.get("weighted",False)
-    top = kwargs.get("top",5)
+    nodes = kwargs['nodes']
+    edges = kwargs['edges']
+    weighted = kwargs.get('weighted',False)
+    top = kwargs.get('top',5)
     
     """crate networkx graph and get analytics"""
     G = stat.gen_graph(nodes, edges, weighted=weighted)
@@ -45,8 +45,8 @@ def get_analytics(**kwargs):
 @use_kwargs({   'config': fields.Str(default="{}"),
                 'top': fields.Int(default=5)})
 def get_analytics_collab(**kwargs):
-    config = json.loads(kwargs.get("config","{}"))
-    top = kwargs.get("top",5)
+    config = json.loads(kwargs.get('config',"{}"))
+    top = kwargs.get('top',5)
   
     cache_key = "get_analytics_collab_{}_{}".format(config,top)
     analytics = cache.get(cache_key)

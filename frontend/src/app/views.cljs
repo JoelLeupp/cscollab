@@ -5,7 +5,7 @@
    [app.components.colors :as c] 
    [re-frame.core :refer (dispatch subscribe)]
    [app.cscollab.nav :as nav]
-   [app.cscollab.views :as cscollab]))
+   [app.cscollab.views :as views]))
 
 
 (def custom-theme 
@@ -15,8 +15,12 @@
                :secondary {:main (c/colors :second)}}})))
 
 (defn routes []
-  [["/" {:name ::home
-         :view cscollab/main-view}]])
+  [["/"
+    {:name ::home
+     :view views/main-view}]
+   ["/conferences"
+    {:name ::conferences
+     :view views/conferences}]])
 
 
 (defn app []
@@ -27,6 +31,7 @@
        [:> ThemeProvider {:theme custom-theme}
         [:main {:style {:width "100%" :background-color (:main c/bg-colors)}}
          [nav/nav-bar]
+         [nav/nav-menu]
          (when-let [view-comp (-> @current-route :data :view)]
            [view-comp @current-route])]]])))
 

@@ -43,20 +43,20 @@
 
 
 
-(defn area-checkbox-list []
+(defn area-checkbox-list [id]
   (let
    [content (subscribe [::area-checkbox-content])]
     (fn []
       (when @content 
         [lists/checkbox-list
-         {:id :area-checkbox
+         {:id id
           :subheader "Select Computer Science Areas"
           :style {:subheader {:font-size 18}}
           :list-args {:dense false :sx {:max-width 500 :width "100%"}}
           :content @content}]))))
 
-(defn area-filter []
-  [area-checkbox-list])
+(defn area-filter [id]
+  [area-checkbox-list id])
 
 
 ;; REGION FILTER
@@ -163,8 +163,21 @@
       :content
       [{:xs 5 :content [year-filter]}
        {:xs 5 :content [stric-boundary-filter]}
-       {:xs 5 :content [area-filter]}
+       {:xs 5 :content [area-filter :area-checkbox]}
        {:xs 5 :content [region-filter]}]}]}])
+
+(defn filter-panel-conferences []
+  [input-panel
+   {:id :filter-panel-conferences
+    :start-closed true
+    :header "Filters"
+    :collapsable? true
+    :content
+    [grid/grid
+     {:grid-args {:justify-content :start}
+      :item-args {:elevation 0}
+      :content
+      [{:xs 5 :content [area-filter :area-checkbox-conferences]}]}]}])
 
 (reg-sub
  ::selected-countries
@@ -194,8 +207,22 @@
      (set (filter #(not (namespace %)) selection-area-checkbox)))))
 
 (reg-sub
+ ::selected-areas-conferences
+ :<- [::db/user-input-field :area-checkbox-conferences]
+ (fn [selection-area-checkbox]
+   (when selection-area-checkbox
+     (set (filter #(not (namespace %)) selection-area-checkbox)))))
+
+(reg-sub
  ::selected-sub-areas
  :<- [::db/user-input-field [:area-checkbox]]
+ (fn [selection-area-checkbox]
+   (when selection-area-checkbox
+     (set (mapv #(keyword (name %)) (filter namespace selection-area-checkbox))))))
+
+(reg-sub
+ ::selected-sub-areas-conferences
+ :<- [::db/user-input-field :area-checkbox-conferences]
  (fn [selection-area-checkbox]
    (when selection-area-checkbox
      (set (mapv #(keyword (name %)) (filter namespace selection-area-checkbox))))))
@@ -214,4 +241,7 @@
   @(subscribe [::selected-areas])
   @(subscribe [::selected-sub-areas]) 
   @(subscribe [::selected-year-span])
+  @(subscribe [::db/user-input-field [:conferences]])
+  @(subscribe [::selected-areas-conferences])
+  @(subscribe [::selected-sub-areas-conferences]) 
   )

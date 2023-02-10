@@ -214,6 +214,16 @@
   (dispatch [::ll/set-leaflet [:info-open?] true])
   (def filtered-collab @(subscribe [::tf/filtered-collab]))
   
+  (def connected-collab
+    (filter
+     #(or (= selected-collab (:a_inst %))
+          (= selected-collab (:b_inst %)))
+     filtered-collab))
+  (vec
+   (clojure.set/union
+    (set (map :a_inst connected-collab))
+    (set (map :b_inst connected-collab))))
+  
   (let [collabs
         (filter
          #(or
