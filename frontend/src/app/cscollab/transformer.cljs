@@ -98,6 +98,8 @@
 (comment
   (first (weighted-collab {:inst? false}))
   (def filtered-collab @(subscribe [::filtered-collab]))
+  (first filtered-collab)
+  ()
   (def author-inst-map 
     (zipmap (map :pid csauthors) (map :institution csauthors)))
   (get author-inst-map "92/6595")

@@ -43,7 +43,7 @@
 
 
 
-(defn area-checkbox-list [id]
+(defn area-checkbox-list [id all-selected?]
   (let
    [content (subscribe [::area-checkbox-content])]
     (fn []
@@ -53,10 +53,11 @@
           :subheader "Select Computer Science Areas"
           :style {:subheader {:font-size 18}}
           :list-args {:dense false :sx {:max-width 500 :width "100%"}}
+          :all-selected? all-selected?
           :content @content}]))))
 
-(defn area-filter [id]
-  [area-checkbox-list id])
+(defn area-filter [id all-selected?]
+  [area-checkbox-list id all-selected?])
 
 
 ;; REGION FILTER
@@ -163,7 +164,7 @@
       :content
       [{:xs 5 :content [year-filter]}
        {:xs 5 :content [stric-boundary-filter]}
-       {:xs 5 :content [area-filter :area-checkbox]}
+       {:xs 5 :content [area-filter :area-checkbox false]}
        {:xs 5 :content [region-filter]}]}]}])
 
 (defn filter-panel-conferences []
@@ -177,7 +178,7 @@
      {:grid-args {:justify-content :start}
       :item-args {:elevation 0}
       :content
-      [{:xs 5 :content [area-filter :area-checkbox-conferences]}]}]}])
+      [{:xs 5 :content [area-filter :area-checkbox-conferences true]}]}]}])
 
 (reg-sub
  ::selected-countries
@@ -241,7 +242,7 @@
   @(subscribe [::selected-areas])
   @(subscribe [::selected-sub-areas]) 
   @(subscribe [::selected-year-span])
-  @(subscribe [::db/user-input-field [:conferences]])
+  @(subscribe [::db/user-input-field :area-checkbox-conferences])
   @(subscribe [::selected-areas-conferences])
   @(subscribe [::selected-sub-areas-conferences]) 
   )

@@ -33,7 +33,7 @@
     args)
    subheader])
 
-(defn checkbox-list [{:keys [style list-args id subheader content :namespace-id?]
+(defn checkbox-list [{:keys [style list-args id subheader content namespace-id? all-selected?]
                       :or {namespace-id? true}}]
   "generate a nested list with checkboxes" 
 (let [child-id
@@ -50,7 +50,7 @@
                      (when (:children c)
                        (map #(child-id id (:id %)) (:children c)))]
                  (concat [id] children)))
-             content)))]
+             content)))] 
   (add-watch
    (subscribe [::db/user-input-field [id]])
    (keyword id :watcher)
@@ -67,6 +67,10 @@
            new-state)
            (dispatch [::db/set-user-input-selection id (:id c) true])
            (dispatch [::db/set-user-input-selection id (:id c) false]))))))
+  (js/console.log all-selected?)
+  (when all-selected?
+    (dispatch
+     [::db/set-user-input-selection id all-ids true]))
   (fn [{:keys [style list-args id subheader content]}]
     (let [checked-ids (subscribe [::db/user-input-field id])]
       ^{:key [@(subscribe [::db/user-input-field [id]])
