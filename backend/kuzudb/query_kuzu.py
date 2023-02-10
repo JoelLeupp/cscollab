@@ -178,6 +178,12 @@ def get_csauthors(country_id = None, region_id = "wd"):
 # result = get_csauthors(region_id="dach")
 # print(result.head(),"\n", result.shape)
 
+# result = get_csauthors()
+# result = json.loads(result.to_json(orient="records"),encoding='utf-8')
+
+# with open('get_csauthors.json', 'w',encoding='utf8') as f:
+#     json.dump(result, f, indent=3,ensure_ascii=False)
+
 def get_flat_collaboration(ignore_area=False):
     """get collaboration of csranking author with country and area information"""
 
@@ -228,13 +234,9 @@ def get_flat_collaboration(ignore_area=False):
 
 # collab = get_flat_collaboration(ignore_area=False)
 # result = json.loads(collab.to_json(orient="records"))
-# t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-# t = t.str.decode(encoding = 'utf-8')
 
-# collab["a_inst"][725:731].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-
-# with open('get_flat_collaboration.json', 'w') as f:
-#     json.dump(result, f, indent=3)
+# with open('get_flat_collaboration.json', 'w',encoding='utf8') as f:
+#     json.dump(result, f, indent=3,ensure_ascii=False)
 
 def filter_collab(config = {}):
     """filter flat collaborationn

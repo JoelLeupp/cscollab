@@ -33,6 +33,59 @@
     args)
    subheader])
 
+(defn gen-nested-list [content indent parent-ids]
+  (for [c content]
+    (list
+     [:> mui-list-item
+      {:key (concat parent-ids [(:id c)]) :disablePadding true :sx {:pl indent}
+       :secondary-action
+       (when (:children c)
+         (r/as-element
+          [:> mui-icon-button
+           {:on-click
+            (or (:on-click c)
+                (fn []
+                  (dispatch [::db/update-ui-states (vec (concat parent-ids [(:id c)] [:open?]))
+                             #(if % false true)])))}
+           (if @(subscribe [::db/ui-states-field (vec (concat parent-ids [(:id c)] [:open?]))])
+             [:> ic-expand-less]
+             [:> ic-expand-more])]))}
+      [:>  mui-list-item-text {:primary (:label c)
+                               :primary-typography-props (:style c)}]]
+     (when (:children c)
+       [:> mui-collapse
+        {:in @(subscribe [::db/ui-states-field  (vec (concat parent-ids [(:id c)] [:open?]))])
+         :timeout :auto
+         :unmountOnExit true}
+        [:> mui-list {:dense false}
+         (gen-nested-list
+          (:children c)
+          (+ 4 indent)
+          (concat parent-ids [(:id c)]))]]))))
+
+(defn nested-list [{:keys [style list-args id subheader content]}]
+  "generate a nested list with checkboxes"
+  (fn [{:keys [style list-args id subheader content]}]
+    ^{:key @(subscribe [::db/ui-states-field [id]])}
+    [:> mui-list
+     (util/deep-merge
+      (merge
+       {:sx (util/deep-merge
+             {:width "100%"
+              :max-width 360
+              #_#_:bgcolor (:main c/colors)} style)
+        :component :nav
+        :aria-labelledby id}
+       (when subheader
+         {:subheader
+          (r/as-element
+           [:> mui-list-sub-header {:component :div :id id :sx (:subheader style)}
+            subheader])}))
+      list-args)
+     (gen-nested-list content 0 [id])]))
+
+
+
 (defn checkbox-list [{:keys [style list-args id subheader content namespace-id? all-selected?]
                       :or {namespace-id? true}}]
   "generate a nested list with checkboxes" 
