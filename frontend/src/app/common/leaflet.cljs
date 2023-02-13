@@ -2,7 +2,8 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [app.util :refer (deep-merge)] 
             [reagent.dom.server :refer [render-to-string]]
-            [app.components.colors :refer [colors]]
+            [app.components.colors :refer [colors]] 
+            [app.cscollab.transformer :as tf]
             [re-frame.core :as rf :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [leaflet :as L]))
@@ -59,10 +60,36 @@
  :<- [::leaflet-field :selected-shape]
  (fn [m] (when m m)))
 
+
+(reg-sub
+ ::selected-records
+ :<- [::selected-shape]
+ :<- [::tf/filtered-collab]
+ (fn
+   [[selected-shape filtered-collab]]
+   "get all records of the selected shape"
+   (when filtered-collab
+     (if (vector? selected-shape)
+       ;; get records of selected collaboration
+       (filter
+        #(or
+          (and (= (first selected-shape) (:b_inst %))
+               (= (second selected-shape) (:a_inst %)))
+          (and (= (first selected-shape) (:a_inst %))
+               (= (second selected-shape) (:b_inst %))))
+        filtered-collab)
+        ;; get collaborations of author or institution
+       (filter
+        #(or (= selected-shape (:a_inst %))
+             (= selected-shape (:b_inst %)))
+        filtered-collab)))))
+
+
 (reg-sub
  ::info-open?
  :<- [::leaflet-field :info-open?]
  (fn [m] (when m m)))
+
 
 
 (comment
@@ -108,12 +135,15 @@
           :reagent-render (leaflet-render mapspec)})))))
 
 
+(declare color-selected)
+(declare color-all-main)
 
-(defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries] :as mapspec}]
+(defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries geometries-map] :as mapspec}]
   "Initialize LeafletJS map for a newly mounted map component."
   (fn []
     ;; Initialize leaflet map 
     (reset! leaflet (L/map id (clj->js {:zoomControl false})))
+    (reset! geometries-map {})
     (dispatch [::set-leaflet [:map] @leaflet])
 
     ;; Initial view point and zoom level
@@ -137,9 +167,12 @@
         (.addTo layer @leaflet)))
 
     ;; If mapspec defines callbacks, bind them to leaflet 
-    (.on @leaflet "click" (fn [e] 
-                            (when @(subscribe [::info-open?])
-                             (dispatch [::set-leaflet [:info-open?] false]))))
+    (.on @leaflet
+         "click" (fn [e] 
+                   (when @(subscribe [::info-open?])
+                     (color-all-main geometries-map)
+                     (dispatch [::set-leaflet [:info-open?] false])
+                     (dispatch [::set-leaflet [:selected-shape] nil]))))
 
     ;; Add callback for leaflet pos/zoom changes
     ;; watcher for pos/zoom atoms
@@ -156,6 +189,9 @@
                  (fn [_ _ old-zoom new-zoom]
                    (when-not (= old-zoom new-zoom)
                      (.setZoom @leaflet new-zoom))))
+    (add-watch (subscribe [::selected-records]) ::color-selected
+               (fn [_ _ _ _]
+                 (color-selected geometries-map)))
     ;; If the mapspec has an atom containing geometries, add watcher
     ;; so that we update all LeafletJS objects
     (update-leaflet-geometries mapspec @geometries)
@@ -168,7 +204,8 @@
 
 (defn- leaflet-render [{:keys [id style view zoom geometries] :as mapspec}]
   (fn []
-    (let [g @geometries] 
+    (let [g @geometries
+          selected-records @(subscribe [::selected-records])] 
       [:div {:id id
              :style style}])))
 
@@ -205,31 +242,25 @@
                       :iconAnchor offset #_[33 22] #_[20 29]
                       :iconSize [size size] #_[40 40]}))))
 
-(defn icon-svg [color]
+(defn icon-svg [size color]
   (render-to-string 
-   [:svg {:width "200pt" :fill color :height= "200pt" :viewBox "0 0 700 700" :version "1.0" :preserveAspectRation "none"
-          :xmlns "http://www.w3.org/2000/svg" :xmlns:xlink "http://www.w3.org/1999/xlink"}
+   [:svg {:width size :fill color :height size :version "1.1" :viewBox "0 0 500 500"
+          :xmlns "http://www.w3.org/2000/svg" :preserveAspectRatio "none"}
     [:g
-     [:circle {:cx "350" :cy "220" :r "100" :fill "white"}]
-     [:path {:d "m463.75 210c0-30.168-11.984-59.102-33.316-80.434-21.332-21.332-50.266-33.316-80.434-33.316s-59.102 
-                  11.984-80.434 33.316c-21.332 21.332-33.316 50.266-33.316 80.434s11.984 59.102 33.316 80.434c21.332
-                  21.332 50.266 33.316 80.434 33.316s59.102-11.984 80.434-33.316c21.332-21.332 33.316-50.266 
-                  33.316-80.434zm-183.75 35c0-4.832 3.918-8.75 8.75-8.75h8.75v-50.574l-11.461 5.8633c-1.2188 
-                  0.62109-2.5703 0.95313-3.9375 0.96094-4.0508 0.015625-7.582-2.7461-8.5391-6.6797-0.95703-3.9336 
-                  0.91016-8.0117 4.5117-9.8594l67.461-35 1.5742-0.69922h0.003906c1.8594-0.69531 3.9141-0.69531 5.7734 
-                  0l1.5742 0.69922 67.461 35h0.003906c3.6016 1.8477 5.4688 5.9258 4.5117 9.8594-0.95703 3.9336-4.4883 
-                  6.6953-8.5391 6.6797-1.3672-0.007812-2.7188-0.33984-3.9375-0.96094l-11.461-5.8633v50.574h8.75c4.832
-                  0 8.75 3.918 8.75 8.75s-3.918 8.75-8.75 8.75h-122.5c-4.832 0-8.75-3.918-8.75-8.75z"}]
-     [:path {:d "m315 176.66v59.586h8.75v-52.5c0-4.832 3.918-8.75 8.75-8.75s8.75 3.918 8.75 8.75v52.5h17.5v-52.5c0-4.832
-                  3.918-8.75 8.75-8.75s8.75 3.918 8.75 8.75v52.5h8.75v-59.586l-35-18.023z"}]]]))
+     [:g {:transform "rotate(-0.0563197 250 250)"}
+      [:circle {:cx "250" :cy "271.94428" :r "219.44287" :fill "white"}]
+      [:path {:d "m499.88361,249.99999c0,-66.20152 -26.3262,-129.69512 -73.18789,-176.50668c-46.86169,-46.81155 -110.42329,-73.10959 -176.69572,-73.10959s-129.83403,26.29803 -176.69572,73.10959c-46.86169,46.81155 -73.18789,110.30515 -73.18789,176.50668s26.3262,129.69512 73.18789,176.50668c46.86169,46.81155 110.42329,73.10959 176.69572,73.10959s129.83403,-26.29803 176.69572,-73.10959c46.86169,-46.81155 73.18789,-110.30515 73.18789,-176.50668zm-403.65814,76.805c0,-10.60348 8.60698,-19.20125 19.22182,-19.20125l19.22182,0l0,-110.98104l-25.17728,12.86659c-2.67743,1.36294 -5.64638,2.09158 -8.64982,2.10871c-8.89871,0.03428 -16.65598,-6.02612 -18.75852,-14.65813c-2.10238,-8.632 1.99942,-17.5811 9.91121,-21.63575l148.19691,-76.805l3.45817,-1.53439l0.00859,0c4.08469,-1.52581 8.59841,-1.52581 12.68288,0l3.45817,1.53439l148.19691,76.805l0.00857,0c7.91192,4.05465 12.01375,13.00375 9.91121,21.63575c-2.10238,8.632 -9.8598,14.69236 -18.75852,14.65813c-3.00344,-0.01714 -5.9726,-0.74575 -8.64982,-2.10871l-25.17728,-12.86659l0,110.98104l19.22182,0c10.61484,0 19.22182,8.59777 19.22182,19.20125s-8.60698,19.20125 -19.22182,19.20125l-269.10543,0c-10.61484,0 -19.22182,-8.59777 -19.22182,-19.20125l0.00042,0z"}]
+      [:path {:d "m173.11273,176.83774l0,130.75723l19.22182,0l0,-115.20751c0,-10.60348 8.60698,-19.20125 19.22182,-19.20125s19.22182,8.59777 19.22182,19.20125l0,115.20751l38.44363,0l0,-115.20751c0,-10.60348 8.60698,-19.20125 19.22182,-19.20125s19.22182,8.59777 19.22182,19.20125l0,115.20751l19.22182,0l0,-130.75723l-76.88727,-39.55019l-76.88727,39.55019z"}]]]]))
 
 
-(defn inst-icon [color]
-  (L/divIcon 
-   (clj->js {:html (icon-svg (or color (:main colors)))
-             :className ""
-             :iconAnchor [33 22]
-             :iconSize [60 60]})))
+(defn inst-icon [scale color]
+  (let [size (* scale 20)
+        offset (calc-offset [size size])]
+    (L/divIcon 
+     (clj->js {:html (icon-svg size (or color (:main colors)))
+               :className ""
+               :iconAnchor offset
+               :iconSize [size size]}))))
 
 #_(set! (.. icon -options -iconSize) (clj->js [200 200]))
 
@@ -254,20 +285,51 @@
                      (.setContent "Popup")
                      (.openOn leaflet))))))
 
+(defn color-selected [geometries-map]
+  (let [records @(subscribe [::selected-records])
+        markers
+        (map #(get @geometries-map %)
+             (clojure.set/union
+              (set (map :a_inst records))
+              (set (map :b_inst records))))
+        lines
+        (map #(get @geometries-map %)
+             (set (map #(identity [(:a_inst %) (:b_inst %)]) records)))]
+    (doseq [layer markers]
+      (let [icon (inst-icon (.-scale layer) (:second colors))]
+        (.setIcon layer icon)))
+    (doseq [layer lines]
+      (.setStyle layer (clj->js {:color (:second colors)})))))
+
+(defn color-all-main [geometries-map]
+  (let [markers
+        (map second (filter #(string? (first %)) @geometries-map))
+        lines
+        (map second (filter #(vector? (first %)) @geometries-map))]
+    (doseq [layer markers]
+      (let [icon (inst-icon (.-scale layer) (:main colors))]
+        (.setIcon layer icon)))
+    (doseq [layer lines]
+      (.setStyle layer (clj->js {:color (:main colors)})))))
+
 (defmethod create-shape :inst-marker [{:keys [coordinates scale id leaflet name]}]
-  (let [i-icon (icon scale)]
-    (-> (L/marker (clj->js coordinates) #js {:icon i-icon})
+  (let [i-icon (inst-icon scale (:main colors)) #_(icon scale)
+        marker (L/marker (clj->js coordinates) #js {:icon i-icon})] 
+    (set! (.-scale marker) scale)
+    (-> marker
         #_(.bindPopup "t")
-        #_(.openPopup)
-        (.on "click" (fn [e]
-                       (dispatch [::set-leaflet [:selected-shape] id])
-                       (dispatch [::set-leaflet [:info-open?] true])))
-        (.on "mouseover"
+        #_(.openPopup) 
+        (.on "click"
              (fn [e]
-               (-> (L/popup (clj->js {:offset [0 -10]}))
-                   (.setLatLng (.-latlng e))
-                   (.setContent name)
-                   (.openOn leaflet)))))))
+               (dispatch [::set-leaflet [:selected-shape] id])
+               (dispatch [::set-leaflet [:info-open?] true])
+               ))
+        #_(.on "mouseover"
+               (fn [e]
+                 (-> (L/popup (clj->js {:offset [0 -10]}))
+                     (.setLatLng (.-latlng e))
+                     (.setContent name)
+                     (.openOn leaflet)))))))
 
 (defmethod create-shape :collab-line [{:keys [coordinates id leaflet args]}]
   (-> (L/polyline (clj->js coordinates)

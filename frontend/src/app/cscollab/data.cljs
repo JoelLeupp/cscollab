@@ -92,10 +92,12 @@
               {}
               [{:id (util/s->id (first k)) :label (second k)}
                {:conferences
-                (mapv (fn [x] (hash-map
-                               :id (util/s->id (:conference-id x))
-                               :label (:conference-title x)))
-                      v)}]))
+                (sort-by
+                 :label
+                 (mapv (fn [x] (hash-map
+                                :id (util/s->id (:conference-id x))
+                                :label (:conference-title x)))
+                       v))}]))
            (group-by (juxt :sub-area-id :sub-area-label) (second %)))}])
       (group-by (juxt :area-id :area-label) area-mapping)))))
 

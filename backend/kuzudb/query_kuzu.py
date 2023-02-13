@@ -181,7 +181,7 @@ def get_csauthors(country_id = None, region_id = "wd"):
 # result = get_csauthors()
 # result = json.loads(result.to_json(orient="records"),encoding='utf-8')
 
-# with open('get_csauthors.json', 'w',encoding='utf8') as f:
+# with open('get_csauthors.json', 'w',encoding='latin-1') as f:
 #     json.dump(result, f, indent=3,ensure_ascii=False)
 
 def get_flat_collaboration(ignore_area=False):
@@ -228,14 +228,17 @@ def get_flat_collaboration(ignore_area=False):
     if not ignore_area:
         collab["rec_sub_area"]=list(map(lambda x: ip_area_mapping[x], collab["rec_id"]))
         
-    collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-    collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
+    # collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+    # collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
     return collab
 
-# collab = get_flat_collaboration(ignore_area=False)
-# result = json.loads(collab.to_json(orient="records"))
 
-# with open('get_flat_collaboration.json', 'w',encoding='utf8') as f:
+# collab = get_flat_collaboration(ignore_area=False)
+# result = json.loads(collab.to_json(orient="records"),encoding='utf-8')
+
+# # list(filter(lambda x: "Ã" in x, collab["a_inst"]))
+
+# with open('get_flat_collaboration.json', 'w',encoding='latin-1') as f:
 #     json.dump(result, f, indent=3,ensure_ascii=False)
 
 def filter_collab(config = {}):

@@ -1,13 +1,15 @@
 (ns app.cscollab.interactive-map
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.common.leaflet :as ll :refer [leaflet-map]]
+            [app.common.leaflet :as ll :refer [leaflet-map inst-icon]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
+            [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
             [leaflet :as L]
+            [app.cscollab.map-info :as info :refer (map-info-div)]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
@@ -98,10 +100,11 @@
 ;; define and view atoms for leaflet component
 (defonce zoom (atom 6))
 (defonce view (atom [49.8 13.1]))
-(defonce geometries-map (atom nil))
+(defonce geometries-map (atom {}))
+
 
 (defn map-comp []
-  (let [geometries (subscribe [::ll/geometries])]
+  (let [geometries (subscribe [::ll/geometries])] 
     (fn []
       (when (empty? @geometries)
         (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})]))
@@ -116,83 +119,6 @@
           :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
         :style {:width "100%" :height "70vh" :z-index 1}}])))
 
-
-(defn inst-info []
-  (let [selected-shape (subscribe [::ll/selected-shape])
-        filtered-collab (subscribe [::tf/filtered-collab])]
-    (fn []
-      (when (and @selected-shape @filtered-collab)
-        (let [institution @selected-shape 
-              inst-collab
-              (filter
-               #(or (= institution (:a_inst %))
-                    (= institution (:b_inst %)))
-               @filtered-collab)
-              collab-count
-              (count (set (map :rec_id inst-collab)))
-              author-count
-              (count
-               (vec
-                (set
-                 (flatten
-                  (map
-                   #(concat
-                     []
-                     (when (= institution (:a_inst %))
-                       [(:a_pid %)])
-                     (when (= institution (:b_inst %))
-                       [(:b_pid %)]))
-                   inst-collab)))))]
-          [:div
-           [:h4 institution]
-           [:span (str "Number of authors: " author-count)]
-           [:br]
-           [:span (str "Number of collaborations: " collab-count)]])))))
-
-(def test-a (atom nil))
-(first @test-a)
-
-(defn collab-info []
-  (let [selected-shape (subscribe [::ll/selected-shape])
-        filtered-collab (subscribe [::tf/filtered-collab])]
-    (fn []
-      (when (and (vector? @selected-shape) @filtered-collab) 
-        (let [selected-collab @selected-shape
-              records
-              (filter
-               #(or
-                 (and (= (first selected-collab) (:b_inst %))
-                      (= (second selected-collab) (:a_inst %)))
-                 (and (= (first selected-collab) (:a_inst %))
-                      (= (second selected-collab) (:b_inst %))))
-               @filtered-collab)
-              number-collabs (count (set (map :rec_id records)))]
-          (reset! test-a records)
-          [:div
-           [:h4  "Collaboration"]
-           [:h4 
-            (first selected-collab) " And " (second selected-collab)]
-           [:span (str "Number of collaborations: " number-collabs)]])))))
-
-(defn map-info [{:keys [inst?]}]
-  (let [selected-shape (subscribe [::ll/selected-shape])]
-    (fn []
-      (if (string? @selected-shape)
-        [inst-info] 
-        [collab-info]))))
-
-(defn map-info-div [] 
-  (fn []
-    [collapse
-     {:sub (subscribe [::ll/info-open?])
-      :div
-      [:div {:style {:position :absolute :right "10%" :z-index 10}}
-       [:div {:style {:background-color :white :height "70vh" :min-width "350px" :padding-left 10 :padding-right 10}}
-        [:div {:style {:display :flex :justify-content :space-between}}
-         [:h3 "Info Selected"]
-         [button/close-button
-          {:on-click #(dispatch [::ll/set-leaflet [:info-open?] false])}]]
-        [map-info {inst? true}]]]}]))
 
 (defn interactive-map [] 
   (fn [] 
@@ -209,61 +135,31 @@
        [map-comp]]]
      ]))
 
+
 (comment
-  (def selected-collab @(subscribe [::ll/selected-shape]))
-  (dispatch [::ll/set-leaflet [:info-open?] true])
-  (def filtered-collab @(subscribe [::tf/filtered-collab]))
+  (def selected-shape-ids
+    (let [records @(subscribe [::info/selected-records])]
+      (clojure.set/union
+       (set (map #(identity [(:a_inst %) (:b_inst %)]) records))
+       (set (map :a_inst records))
+       (set (map :b_inst records)))))
+  (def selected-markers
+    (map #(get @geometries-map %) (filter string? selected-shape-ids)))
+  (def selected-lines
+    (map #(get @geometries-map %) (filter vector? selected-shape-ids)))
+
+  (defn new-icon [size]
+    (.extend L/Icon. (clj->js {:options {:iconUrl "img/inst-icon.svg"
+                                         :iconAnchor (calc-offset [size size]) #_[20 29]
+                                         :iconSize [size size]}})))
   
-  (def connected-collab
-    (filter
-     #(or (= selected-collab (:a_inst %))
-          (= selected-collab (:b_inst %)))
-     filtered-collab))
-  (vec
-   (clojure.set/union
-    (set (map :a_inst connected-collab))
-    (set (map :b_inst connected-collab))))
-  
-  (let [collabs
-        (filter
-         #(or
-           (and (= (first selected-collab) (:b_inst %))
-                (= (second selected-collab) (:a_inst %)))
-           (and (= (first selected-collab) (:a_inst %))
-                (= (second selected-collab) (:b_inst %))))
-         filtered-collab)
-        number-collabs (count (set (map :rec_id collabs)))]
-    [:div
-     [:h4 (str "Collaboration Between\n"
-                 (first selected-collab)
-                 "\nAnd\n"
-                 (second selected-collab))]
-     [:span (str "Number of collaborations: " number-collabs)]])
-  
-  (first filtered-collab)
-  
-  (def collab
-    (filter
-     #(or
-       (and (= (first selected-collab) (:b_inst %))
-            (= (second selected-collab) (:a_inst %)))
-       (and (= (first selected-collab) (:a_inst %))
-            (= (second selected-collab) (:b_inst %))))
-     filtered-collab))
-  (count inst-collab)
-  (count
-   (vec
-    (set
-     (flatten
-      (map
-       #(concat
-         []
-         (when (= "Max Planck Society" (:a_inst %))
-           [(:a_pid %)])
-         (when (= "Max Planck Society" (:b_inst %))
-           [(:b_pid %)]))
-       inst-collab)))))
-  
+  (.-scale (first selected-markers))
+  (js/console.log (first selected-markers))
+
+  (doseq [layer selected-markers]
+    (let [icon (inst-icon 1 (:third colors))] 
+      (.setIcon layer icon)))
+
   @geometries-map
   (def markers (map second (filter #(string? (first %)) @geometries-map)))
 
@@ -277,7 +173,7 @@
   (doseq [layer markers]
     (let [icon (new-icon 90)]
       (.setIcon layer (new icon))))
-  
+
 
   (.. (first markers) -options -icon -options -iconSize)
 
@@ -287,6 +183,7 @@
                                          :name "University of Zurich",
                                          :type :inst-marker,
                                          :id "University of Zurich"}))
+  (sort-by :label [{:id 1 :label "b"} {:id 1 :label "c"} {:id 1 :label "a"}])
   (.-lat (.getLatLng shape-layer))
   (.-lat (.getLatLng shape-layer))
   (def icon (.. shape-layer -options -icon))
@@ -305,7 +202,7 @@
 
   (def test-marker
     (.addTo
-     (L/marker (clj->js [47.4143390999 8.5498159038]) #js {:icon my-icon})
+     (L/marker (clj->js [49.7879456863 9.9355841935]))
      leaflet))
 
   (defn calc-offset [[x y]]
@@ -365,11 +262,4 @@
   (dispatch [::set-leaflet [:zoom-level] 1])
   (def view-position (atom [49.8 13.1]))
   (def zoom-level (atom 6))
-  (def geometries
-    (atom [#_{:type :line
-              :coordinates [[45.7 12.8]
-                            [40.7 10.8]]}
-           #_{:type :marker
-              :coordinates [45.7 12.8]}]))
-  "University of OsnabrÃ¼ck"
   )
