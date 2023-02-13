@@ -4,6 +4,7 @@
    ["@mui/material/IconButton" :default mui-icon-button]
    ["@mui/icons-material/Update" :default ic-update]
    ["@mui/icons-material/Close" :default ic-close]
+   ["@mui/material/Stack" :default mui-stack]
    [reagent.core :as r]
    [emotion.core :refer (defstyled)]
    [app.util :as util]
@@ -35,3 +36,5 @@
   [icon-button (util/deep-merge
                 {:event event
                  :icon [:> ic-close]} m)])
+
+

@@ -137,6 +137,8 @@
 
 
 (comment
+  @geometries-map
+  (ll/color-selected geometries-map)
   (def selected-shape-ids
     (let [records @(subscribe [::info/selected-records])]
       (clojure.set/union
@@ -157,8 +159,11 @@
   (js/console.log (first selected-markers))
 
   (doseq [layer selected-markers]
-    (let [icon (inst-icon 1 (:third colors))] 
+    (let [icon (inst-icon (.-scale layer) (:second colors))] 
       (.setIcon layer icon)))
+  
+  (doseq [layer selected-lines] 
+    (.setStyle layer (clj->js {:color (:second colors)})))
 
   @geometries-map
   (def markers (map second (filter #(string? (first %)) @geometries-map)))

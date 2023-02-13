@@ -7,38 +7,55 @@
             [app.db :as db]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
+            [app.components.table :refer (basic-table)]
             [leaflet :as L]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
 
 
+
+
+(defn author-table [author-map collab-count]
+  (let [csauthors @(subscribe [::data/csauthors])
+        pid->name (zipmap (map :pid csauthors) (map :name csauthors))
+        header [{:id :author
+                 :label (str "Authors (" (count author-map) ")")}
+                {:id :count
+                 :label (str "Publications (" collab-count ")") :align :right}]
+        author-map (map #(assoc % :author (get pid->name (:author %))) author-map)]
+    (fn []
+      [basic-table
+       {:header header
+        :body author-map
+        :paper-args {:sx {:width 340 :display :flex :justify-content :center :margin :auto}}
+        :container-args {:sx {:max-height 200}}
+        :table-args {:sticky-header true :size :small}}])))
+
 (defn inst-info []
   (let [records (subscribe [::ll/selected-records])
         selected-shape (subscribe [::ll/selected-shape])]
     (fn []
       (when (and @records (string? @selected-shape))
-        (let [institution @selected-shape 
+        (let [institution @selected-shape
               collab-count
               (count (set (map :rec_id @records)))
-              author-count
-              (count
-               (vec
-                (set
-                 (flatten
-                  (map
-                   #(concat
-                     []
-                     (when (= institution (:a_inst %))
-                       [(:a_pid %)])
-                     (when (= institution (:b_inst %))
-                       [(:b_pid %)]))
-                   @records)))))]
+              author-map
+              (reverse
+               (sort-by
+                :count
+                (map
+                 (fn [[grp-key values]]
+                   {:author grp-key
+                    :count (count (set (map :rec_id values)))})
+                 (merge-with into
+                             (group-by :a_pid (filter #(= (:a_inst %) @selected-shape) @records))
+                             (group-by :b_pid (filter #(= (:b_inst %) @selected-shape) @records))))))]
           [:div
-           [:h4 institution]
-           [:span (str "Number of authors: " author-count)]
-           [:br]
-           [:span (str "Number of collaborations: " collab-count)]])))))
+           [:h4 {:style {:margin-top 0}} institution]
+           ^{:key author-map}
+           [author-table author-map collab-count]
+           ])))))
 
 
 (defn collab-info []
@@ -54,11 +71,14 @@
                [:span (str "Number of collaborations: " number-collabs)]])))))
 
 (defn map-info [{:keys [inst?]}]
-  (let [selected-shape (subscribe [::ll/selected-shape])]
+  (let [selected-shape (subscribe [::ll/selected-shape])
+        records (subscribe [::ll/selected-records])]
     (fn []
-      (if (string? @selected-shape)
-        [inst-info]
-        [collab-info]))))
+      ^{:key @records}
+      [:div
+       (if (string? @selected-shape) 
+         [inst-info]
+         [collab-info])])))
 
 (defn map-info-div []
   (fn []
@@ -80,4 +100,45 @@
      (set (map #(identity [(:a_inst %) (:b_inst %)]) records)) 
      (set (map :a_inst records))
      (set (map :b_inst records))))
+  
+  (def records (subscribe [::ll/selected-records]))
+  @records
+  (def selected-shape (subscribe [::ll/selected-shape]))
+  (sort-by
+   :count
+   (map
+    (fn [[grp-key values]]
+      {:author grp-key
+       :count (count (set (map :rec_id values)))})
+    (merge-with into
+                (group-by :a_pid (filter #(= (:a_inst %) @selected-shape) @records))
+                (group-by :b_pid (filter #(= (:b_inst %) @selected-shape) @records)))))
+  
+  (count (filter #(= (:a_inst %) @selected-shape) @records))
+  (count (filter #(= (:b_inst %) @selected-shape) @records))
+  
+  
+  (fn []
+    (when (and @records (string? @selected-shape))
+      (let [institution @selected-shape
+            collab-count
+            (count (set (map :rec_id @records)))
+            author-count
+            (count
+             (vec
+              (set
+               (flatten
+                (map
+                 #(concat
+                   []
+                   (when (= institution (:a_inst %))
+                     [(:a_pid %)])
+                   (when (= institution (:b_inst %))
+                     [(:b_pid %)]))
+                 @records)))))]
+        [:div
+         [:h4 institution]
+         [:span (str "Number of authors: " author-count)]
+         [:br]
+         [:span (str "Number of collaborations: " collab-count)]])))
   )

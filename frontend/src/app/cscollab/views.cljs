@@ -12,6 +12,7 @@
    [reagent.core :as r]
    [app.cscollab.interactive-map :as interactive-map]
    [app.cscollab.conferences :refer (conferences-view)]
+   [app.components.table :refer (test-table)]
    [app.cscollab.transformer :as tf]))
 
 
@@ -20,7 +21,7 @@
     [:<> 
      [acl/section
       #_[acl/title-white "Landscape of Scientific Collaborations"]
-      [acl/content
+      [acl/content 
        [filter-panel] 
        [interactive-map/interactive-map]
        #_[tf/collab-count]]]]))
@@ -29,7 +30,8 @@
   (fn []
     [:<>
      [acl/section
-      [acl/title-white "Computer Science Conferences"]
+      [acl/title-white "Computer Science Conferences"] 
       [acl/content
+       [test-table]
        [conferences-view]]]]))
 
