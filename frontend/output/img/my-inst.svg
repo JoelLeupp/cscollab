@@ -1,0 +1,14 @@
+<svg width="100pt" height="100pt" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
+ <g>
+  <ellipse stroke="#000" ry="250" rx="250" id="svg_6" cy="250" cx="250" fill="#264653"/>
+  <rect stroke-width="0" stroke="#000" rx="10" id="svg_8" height="40" width="350" y="326.51376" x="75" fill="#ffffff"/>
+  <rect transform="rotate(90 370 246.514)" stroke="#000" stroke-width="0" rx="10" id="svg_10" height="40" width="180" y="226.51376" x="280" fill="#ffffff"/>
+  <rect transform="rotate(90 130 246.514)" stroke="#000" stroke-width="0" rx="10" id="svg_11" height="40" width="180" y="226.51376" x="40" fill="#ffffff"/>
+  <rect transform="rotate(90 290 266.514)" stroke="#000" stroke-width="0" rx="10" id="svg_12" height="40" width="140" y="246.51376" x="220" fill="#ffffff"/>
+  <rect transform="rotate(90 210 266.514)" stroke="#000" stroke-width="0" rx="10" id="svg_14" height="40" width="140" y="246.51376" x="140" fill="#ffffff"/>
+  <rect transform="rotate(30 325.884 121.688)" stroke="#000" stroke-width="0" id="svg_15" height="40" width="200.21442" y="101.68821" x="225.77637" fill="#ffffff"/>
+  <rect transform="rotate(-30 170.087 123.577)" stroke="#000" stroke-width="0" id="svg_17" height="40" width="206.28239" y="103.57701" x="66.9454" fill="#ffffff"/>
+  <rect transform="rotate(30 351.821 137.401)" stroke="#000" stroke-width="0" rx="10" id="svg_18" height="40" width="167.57329" y="117.40084" x="268.03466" fill="#ffffff"/>
+  <rect transform="rotate(-30 131.653 145.766)" stroke="#000" stroke-width="0" rx="10" id="svg_19" height="40" width="132.98906" y="125.76624" x="65.15886" fill="#ffffff"/>
+ </g>
+</svg>

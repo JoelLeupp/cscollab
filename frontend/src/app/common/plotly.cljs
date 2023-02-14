@@ -131,7 +131,7 @@
     :style {:width 380 :height 600}
     :layout {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
              :bargap 0.2
-             :title "Publications per Area"
+             #_#_:title "Publications per Area"
              :legend {:y 1.15 :x -1
                       :orientation :h}
              :xaxis {:range [0 (+ 10 (apply max (map :count test-data)))]}
