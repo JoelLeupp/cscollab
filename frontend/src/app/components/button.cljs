@@ -47,7 +47,8 @@
   [{:keys [event] :as m}]
   [icon-button (util/deep-merge
                 {:event event
-                 :icon [costume-icon "img/dblp.png" {:width 10 :height 10}]} m)])
+                 :icon [costume-icon "img/dblp.png" 
+                        {:width 10 :height 10}]} m)])
 
 
 

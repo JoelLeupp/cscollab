@@ -1,6 +1,17 @@
 (ns app.util
   (:require
-   [cljs.reader]))
+   [cljs.reader]
+   [cljs.pprint :as pprint]
+   [clojure.string :as str]))
+
+(defn wrap-line
+  ([text size] (wrap-line text size "<br>"))
+  ([text size sep]
+   (-> (pprint/cl-format nil (str "~{~<~%~1," size ":;~A~> ~}")
+                         (str/split text #" "))
+       str
+       (str/replace #"\s*\n\s*" sep))))
+
 
 (defn s->id [s]
   (if (js/Number.isNaN (js/parseInt s))

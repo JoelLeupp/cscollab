@@ -13,6 +13,7 @@
    [app.cscollab.interactive-map :as interactive-map]
    [app.cscollab.conferences :refer (conferences-view)]
    [app.components.table :refer (test-table)]
+   [app.common.plotly :refer (test-plot)]
    [app.cscollab.transformer :as tf]))
 
 
@@ -32,6 +33,6 @@
      [acl/section
       [acl/title-white "Computer Science Conferences"] 
       [acl/content
-       [test-table]
+       [test-plot]
        [conferences-view]]]]))
 

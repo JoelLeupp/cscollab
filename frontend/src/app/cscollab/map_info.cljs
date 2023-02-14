@@ -2,7 +2,9 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [app.common.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
+            [app.common.plotly :as plotly]
             [app.cscollab.data :as data]
+            [app.util :as util]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
             [app.components.button :as button]
@@ -38,9 +40,63 @@
       [basic-table
        {:header header
         :body author-map
-        :paper-args {:sx {:width 340 :display :flex :justify-content :center :margin :auto}}
-        :container-args {:sx {:max-height 200}}
+        :paper-args {:sx {:width "100%" :display :flex :justify-content :center :margin :auto}}
+        :container-args {:sx {:max-height "22vh"}}
         :table-args {:sticky-header true :size :small}}])))
+
+(defn get-plot-data [data]
+  (let [indexed-data (map #(assoc %1 :tickval %2) data (range 0 (count data)))
+        grouped-data (group-by (juxt :area-id :area-label) indexed-data)]
+    (vec
+     (for [[[area-id area-label] vals] grouped-data]
+       {:x (mapv :count vals)
+        :y (mapv :tickval vals)
+        :name (str area-label " (" (reduce + (map :count vals)) ")")
+        :type :bar
+        :orientation :h
+        :hoverinfo "none"
+        :textposition :outside
+        :text (mapv #(str (:count %)) vals)
+        :transforms [{:type :sort :target :x :order :descending}]
+        :marker {:color (plotly/get-area-color area-id)}}))))
+
+(defn publication-plot []
+  (let [records (subscribe [::ll/selected-records])
+        area-mapping (subscribe [::data/area-mapping])]
+    (fn []
+      (let
+       [area-names
+        (vec
+         (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+        sub-area-map
+        (zipmap (map :sub-area-id area-names) area-names)
+        sub-area-count
+        (reverse
+         (sort-by
+          :count
+          (map
+           (fn [[grp-key values]]
+             {:sub-area grp-key
+              :count (count (set (map :rec_id values)))})
+           (group-by :rec_sub_area @records))))
+        area-data
+        (map #(let [sub-area-info (get sub-area-map (:sub-area %))]
+                (merge sub-area-info %)) sub-area-count)
+        plot-data (get-plot-data area-data)]
+        [plotly/plot
+         {:box-args {:height "35vh" :width 400 :overflow :auto :margin-top 2}
+          :style {:width 380 :height 600}
+          :layout {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
+                   :bargap 0.2
+                   #_#_:title "Publications per Area"
+                   :legend {:y 1.2 :x -1
+                            :orientation :h}
+                   :xaxis {:range [0 (+ 25 (apply max (map :count area-data)))]}
+                   :yaxis {:autorange :reversed
+                           :tickmode :array
+                           :tickvals (vec (range 0 (count area-data)))
+                           :ticktext (mapv #(util/wrap-line (:sub-area-label %) 30) area-data)}}
+          :data plot-data}]))))
 
 (defn inst-info []
   (let [records (subscribe [::ll/selected-records])
@@ -62,9 +118,15 @@
                              (group-by :a_pid (filter #(= (:a_inst %) @selected-shape) @records))
                              (group-by :b_pid (filter #(= (:b_inst %) @selected-shape) @records))))))]
           [:div
-           [:h4 {:style {:margin-top 0}} institution]
+           [:div {:style {:display :flex :justify-content :space-between}}
+            [:h3 #_{:style {:margin-top 0}} institution]
+            [button/close-button
+             {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
+                             (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]]
            ^{:key author-map}
-           [author-table author-map collab-count]
+           [:div
+            [author-table author-map collab-count]
+            [publication-plot]]
            ])))))
 
 
@@ -75,8 +137,12 @@
       (when (and @records (vector? @selected-shape))
             (let [number-collabs (count (set (map :rec_id @records)))]
               [:div
-               [:h4  "Collaboration"]
-               [:h4
+               [:div {:style {:display :flex :justify-content :space-between}}
+                [:h3  "Collaboration"]
+                [button/close-button
+                 {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
+                                 (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]] 
+               [:h3
                 (first @selected-shape) " And " (second @selected-shape)]
                [:span (str "Number of collaborations: " number-collabs)]])))))
 
@@ -96,9 +162,9 @@
      {:sub (subscribe [::ll/info-open?])
       :div
       [:div {:style {:position :absolute :right "10%" :z-index 10}}
-       [:div {:style {:background-color :white :height "70vh" :min-width "350px" :padding-left 10 :padding-right 10}}
-        [:div {:style {:display :flex :justify-content :space-between}}
-         [:h3 "Info Selected"]
+       [:div {:style {:background-color :white :height "70vh" :min-width "400px" :padding-left 10 :padding-right 10}}
+        #_[:div {:style {:display :flex :justify-content :space-between}}
+         #_[:h3 "Info Selected"]
          [button/close-button
           {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
                           (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]]
@@ -111,18 +177,29 @@
      (set (map :a_inst records))
      (set (map :b_inst records))))
   
-  (def records (subscribe [::ll/selected-records]))
-  @records
+  (def records @(subscribe [::ll/selected-records]))
+  (def area-mapping @(subscribe [::data/area-mapping]))
+  
+  (def area-names
+    (vec
+     (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) area-mapping))))
+  (def sub-area-map 
+    (zipmap (map :sub-area-id area-names) area-names))
+  (get sub-area-map "networks")
+  
   (def selected-shape (subscribe [::ll/selected-shape]))
-  (sort-by
-   :count
-   (map
-    (fn [[grp-key values]]
-      {:author grp-key
-       :count (count (set (map :rec_id values)))})
-    (merge-with into
-                (group-by :a_pid (filter #(= (:a_inst %) @selected-shape) @records))
-                (group-by :b_pid (filter #(= (:b_inst %) @selected-shape) @records)))))
+  (def sub-area-count
+    (reverse
+     (sort-by
+      :count
+      (map
+       (fn [[grp-key values]]
+         {:sub-area grp-key
+          :count (count (set (map :rec_id values)))})
+       (group-by :rec_sub_area records)))))
+  
+  (map #(let [sub-area-info (get sub-area-map (:sub-area %))]
+          (merge sub-area-info %)) sub-area-count)
   
   (count (filter #(= (:a_inst %) @selected-shape) @records))
   (count (filter #(= (:b_inst %) @selected-shape) @records))
