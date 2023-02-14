@@ -6,6 +6,7 @@
             [app.components.lists :refer [collapse]]
             [app.db :as db]
             [app.components.button :as button]
+            [app.components.stack :refer (horizontal-stack)]
             [reagent-mui.material.paper :refer [paper]]
             [app.components.table :refer (basic-table)]
             [leaflet :as L]
@@ -14,6 +15,8 @@
 
 
 
+(defn dblp-author-page [pid]
+  (str "https://dblp.org/pid/" pid ".html")) 
 
 
 (defn author-table [author-map collab-count]
@@ -23,7 +26,14 @@
                  :label (str "Authors (" (count author-map) ")")}
                 {:id :count
                  :label (str "Publications (" collab-count ")") :align :right}]
-        author-map (map #(assoc % :author (get pid->name (:author %))) author-map)]
+        author-item (fn [pid]
+                      [horizontal-stack
+                       {:stack-args {:spacing 2}
+                        :items [[:span (get pid->name pid)]
+                                [:a {:href (dblp-author-page pid)}
+                                 [:img {:src "img/dblp.png" :target "_blank" 
+                                        :width 10 :height 10 :padding 10}]]]}])
+        author-map (map #(assoc % :author (author-item (:author %))) author-map)]
     (fn []
       [basic-table
        {:header header

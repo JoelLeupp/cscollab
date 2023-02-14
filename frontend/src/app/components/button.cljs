@@ -4,6 +4,7 @@
    ["@mui/material/IconButton" :default mui-icon-button]
    ["@mui/icons-material/Update" :default ic-update]
    ["@mui/icons-material/Close" :default ic-close]
+   ["@mui/material/Icon" :default mui-icon]
    ["@mui/material/Stack" :default mui-stack]
    [reagent.core :as r]
    [emotion.core :refer (defstyled)]
@@ -36,5 +37,18 @@
   [icon-button (util/deep-merge
                 {:event event
                  :icon [:> ic-close]} m)])
+
+
+(defn costume-icon [src props]
+  [:> mui-icon
+   [:img (merge {:src src} props)]])
+
+(defn dblp-button
+  [{:keys [event] :as m}]
+  [icon-button (util/deep-merge
+                {:event event
+                 :icon [costume-icon "img/dblp.png" {:width 10 :height 10}]} m)])
+
+
 
 
