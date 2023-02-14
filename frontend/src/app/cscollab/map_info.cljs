@@ -25,22 +25,25 @@
   (let [csauthors @(subscribe [::data/csauthors])
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))
         header [{:id :author
-                 :label (str "Authors (" (count author-map) ")")}
+                 :label [:b (str "Authors (" (count author-map) ")")]}
                 {:id :count
-                 :label (str "Publications (" collab-count ")") :align :right}]
+                 :label [:b (str "Publications (" collab-count ")")] :align :right}]
         author-item (fn [pid]
                       [horizontal-stack
                        {:stack-args {:spacing 2}
                         :items [[:span (get pid->name pid)]
                                 [:a {:href (dblp-author-page pid)}
                                  [:img {:src "img/dblp.png" :target "_blank" 
-                                        :width 10 :height 10 :padding 10}]]]}])
+                                        :width 10 :height 10 :padding 10}]]
+                                [:div {:style {:margin-top 1}}
+                                 [:img {:src "img/scholar-favicon.ico" :target "_blank"
+                                        :width 10 :height 10}]]]}])
         author-map (map #(assoc % :author (author-item (:author %))) author-map)]
     (fn []
       [basic-table
        {:header header
         :body author-map
-        :paper-args {:sx {:width "100%" :display :flex :justify-content :center :margin :auto}}
+        :paper-args {:sx {:width "100%" :display :flex :justify-content :center :margin :auto} :elevation 0}
         :container-args {:sx {:max-height "22vh"}}
         :table-args {:sticky-header true :size :small}}])))
 
@@ -84,12 +87,12 @@
                 (merge sub-area-info %)) sub-area-count)
         plot-data (get-plot-data area-data)]
         [plotly/plot
-         {:box-args {:height "35vh" :width 400 :overflow :auto :margin-top 2}
-          :style {:width 380 :height 600}
+         {:box-args {:height "36vh" :width 460 :overflow :auto :margin-top 2}
+          :style {:width 440 :height (+ 100 (* 35 (count area-data)))}
           :layout {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
                    :bargap 0.2
                    #_#_:title "Publications per Area"
-                   :legend {:y 1.2 :x -1
+                   :legend {:y 1.1 :x -1
                             :orientation :h}
                    :xaxis {:range [0 (+ 25 (apply max (map :count area-data)))]}
                    :yaxis {:autorange :reversed
@@ -129,6 +132,46 @@
             [publication-plot]]
            ])))))
 
+(defn publication-plot-collab []
+  (let [records (subscribe [::ll/selected-records])
+        area-mapping (subscribe [::data/area-mapping])]
+    (fn []
+      (let
+       [area-names
+        (vec
+         (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+        sub-area-map
+        (zipmap (map :sub-area-id area-names) area-names)
+        sub-area-count
+        (reverse
+         (sort-by
+          :count
+          (map
+           (fn [[grp-key values]]
+             {:sub-area grp-key
+              :count (count (set (map :rec_id values)))})
+           (group-by :rec_sub_area @records))))
+        area-data
+        (map #(let [sub-area-info (get sub-area-map (:sub-area %))]
+                (merge sub-area-info %)) sub-area-count)
+        plot-data (get-plot-data area-data)]
+        [plotly/plot
+         {:box-args {:height "50vh" :width 460 :overflow :auto :margin-top 2}
+          :style {:width 440 :height (max 300 (+ 100 (* 35 (count area-data))))}
+          :layout {:margin  {:pad 10 :t 80 :b 30 :l 200 :r 5}
+                   :annotations [{:xref :paper :yref :paper :xanchor :left :yanchor :top :x 0 :y 1.3
+                                  :xshift -175 :yshift 10 :text "<b>Publications by Area</b>"
+                                  :align :left :showarrow false :font {:size 18}}]
+                   :bargap 0.2
+                   #_#_:title "Publications per Area"
+                   :legend {:y 1.2 :x -1
+                            :orientation :h}
+                   :xaxis {:range [0 (+ 25 (apply max (map :count area-data)))]}
+                   :yaxis {:autorange :reversed
+                           :tickmode :array
+                           :tickvals (vec (range 0 (count area-data)))
+                           :ticktext (mapv #(util/wrap-line (:sub-area-label %) 30) area-data)}}
+          :data plot-data}]))))
 
 (defn collab-info []
   (let [records (subscribe [::ll/selected-records])
@@ -144,7 +187,7 @@
                                  (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]] 
                [:h3
                 (first @selected-shape) " And " (second @selected-shape)]
-               [:span (str "Number of collaborations: " number-collabs)]])))))
+               [publication-plot-collab]])))))
 
 (defn map-info [{:keys [inst?]}]
   (let [selected-shape (subscribe [::ll/selected-shape])
@@ -157,18 +200,20 @@
          [collab-info])])))
 
 (defn map-info-div []
-  (fn []
-    [collapse
-     {:sub (subscribe [::ll/info-open?])
-      :div
-      [:div {:style {:position :absolute :right "10%" :z-index 10}}
-       [:div {:style {:background-color :white :height "70vh" :min-width "400px" :padding-left 10 :padding-right 10}}
-        #_[:div {:style {:display :flex :justify-content :space-between}}
-         #_[:h3 "Info Selected"]
-         [button/close-button
-          {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
-                          (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]]
-        [map-info {inst? true}]]]}]))
+  (let [records (subscribe [::ll/selected-records])]
+    (fn []
+      [collapse
+       {:sub (subscribe [::ll/info-open?])
+        :div
+        [:div {:style {:position :absolute :right "10%" :z-index 10}}
+         [:div {:style {:background-color :white :height "70vh" :min-width "400px" :padding-left 10 :padding-right 10}}
+          #_[:div {:style {:display :flex :justify-content :space-between}}
+             #_[:h3 "Info Selected"]
+             [button/close-button
+              {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
+                              (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]]
+          ^{:key @records}
+          [map-info {inst? true}]]]}])))
 
 (comment 
   (let [records @(subscribe [::ll/selected-records])]
