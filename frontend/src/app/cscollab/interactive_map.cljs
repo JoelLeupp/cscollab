@@ -6,6 +6,7 @@
             [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
+            [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
             [leaflet :as L]
@@ -164,24 +165,25 @@
         :style {:width "100%" :height "70vh" :z-index 1}}])))
 
 
-(defn interactive-map [] 
-  (fn [] 
-    [:<>
-     [paper {:elevation 1}
+(defn interactive-map []
+  (let [insti? (subscribe [::mp/insti?])]
+    (fn []
       [:<>
-       [:div {:style {:display :flex :justify-content :space-between :background-color :white
-                      :paddin-top 0 :padding-left 20 :padding-right 20}}
-        [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
-        [button/update-button
-         {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? true})])
-          :style {:z-index 999}}]]
-       [map-info-div] 
-       [map-comp true]]]
-     ]))
+       [paper {:elevation 1}
+        [:<>
+         [:div {:style {:display :flex :justify-content :space-between :background-color :white
+                        :paddin-top 0 :padding-left 20 :padding-right 20}}
+          [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
+          [button/update-button
+           {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+            :style {:z-index 999}}]]
+         [map-info-div]
+         [map-comp @insti?]]]])))
 
 
 (comment
   @geometries-map
+  (subscribe [::mp/insti?])
   (ll/color-selected geometries-map)
   (let [weighted-collab
         (tf/weighted-collab {:insti? false})

@@ -11,6 +11,12 @@
    [app.components.inputs :as i]))
 
 
+(reg-sub
+ ::insti?
+ :<- [::db/user-input-field [:insti?]] 
+ (fn [insti?]
+   insti?))
+
 (defn insti-switch []
   "show institutional collaboration or author collaboration"
   [:div
