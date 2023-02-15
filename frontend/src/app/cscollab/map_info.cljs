@@ -189,31 +189,31 @@
                 (first @selected-shape) " And " (second @selected-shape)]
                [publication-plot-collab]])))))
 
-(defn map-info [{:keys [inst?]}]
+(defn map-info [{:keys [insti?]}]
   (let [selected-shape (subscribe [::ll/selected-shape])
-        records (subscribe [::ll/selected-records])]
-    (fn []
-      ^{:key @records}
+        geometries (subscribe [::ll/geometries])] 
+    (fn [] 
+      ^{:keys @geometries}
       [:div
        (if (string? @selected-shape) 
          [inst-info]
          [collab-info])])))
 
-(defn map-info-div []
-  (let [records (subscribe [::ll/selected-records])]
-    (fn []
-      [collapse
-       {:sub (subscribe [::ll/info-open?])
-        :div
-        [:div {:style {:position :absolute :right "10%" :z-index 10}}
-         [:div {:style {:background-color :white :height "70vh" :min-width "400px" :padding-left 10 :padding-right 10}}
-          #_[:div {:style {:display :flex :justify-content :space-between}}
-             #_[:h3 "Info Selected"]
-             [button/close-button
-              {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
-                              (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]]
-          ^{:key @records}
-          [map-info {inst? true}]]]}])))
+(defn map-info-div [] 
+   (let [geometries (subscribe [::ll/geometries])] 
+     (fn []
+       ^{:key @geometries}
+       [collapse
+        {:sub (subscribe [::ll/info-open?])
+         :div
+         [:div {:style {:position :absolute :right "10%" :z-index 10}}
+          [:div {:style {:background-color :white :height "70vh" :min-width "400px" :padding-left 10 :padding-right 10}}
+           #_[:div {:style {:display :flex :justify-content :space-between}}
+              #_[:h3 "Info Selected"]
+              [button/close-button
+               {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
+                               (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]] 
+           [map-info {:insti? true}]]]}])))
 
 (comment 
   (let [records @(subscribe [::ll/selected-records])]

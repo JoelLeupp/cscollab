@@ -26,7 +26,8 @@
      {:selected-year [2015 2022],
       :strict-boundary true,
       :area-checkbox #{:ai/nlp :ai :ai/ai :ai/ir :ai/ml :ai/vision} 
-      :region-checkbox #{:dach :ch :de :at}}})))
+      :region-checkbox #{:dach :ch :de :at}
+      :insti? true}})))
 
 (reg-sub
  ::data

@@ -63,14 +63,14 @@
         xform
         conj [] collab)))))
 
-(defn weighted-collab [{:keys [inst?]}] 
+(defn weighted-collab [{:keys [insti?]}] 
   (let [filtered-collab @(subscribe [::filtered-collab])]
     (map
      (fn [[[m n] values]]
        {:node/m m
         :node/n n
         :weight (count (set (map :rec_id values)))})
-     (group-by (if inst?
+     (group-by (if insti?
                  (juxt :a_inst :b_inst)
                  (juxt :a_pid :b_pid))
                filtered-collab))))
@@ -96,7 +96,7 @@
 
 
 (comment
-  (first (weighted-collab {:inst? false}))
+  (first (weighted-collab {:insti? false}))
   (def filtered-collab @(subscribe [::filtered-collab]))
   (first filtered-collab)
   ()
@@ -104,14 +104,14 @@
     (zipmap (map :pid csauthors) (map :institution csauthors)))
   (get author-inst-map "92/6595")
   (first filtered-collab)
-  (def inst? true)
+  (def insti? true)
   
   (map
    (fn [[[a_pid b_pid] values]]
      {:node/m a_pid
       :node/n b_pid
       :weight (count values)})
-   (group-by (if inst?
+   (group-by (if insti?
                (juxt :a_inst :b_inst)
                (juxt :a_pid :b_pid))
              filtered-collab))
