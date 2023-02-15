@@ -229,13 +229,14 @@
 (defmethod create-shape :point [{:keys [coordinates radius weight leaflet]}]
   (L/circle (clj->js coordinates) 
             #js {:color (:main colors)
+                 :fillColor (:main colors)
                  :weight weight
                  :radius radius
-                 :fillOpacity 0}))
+                 :fillOpacity 1}))
 
 (defmethod create-shape :ellipse [{:keys [coordinates radii tilt id weight leaflet]}]
   (-> (L/ellipse (clj->js coordinates)  (clj->js radii) tilt
-                 #js {:color (:main colors)
+                 #js {:color (:main colors) 
                       :weight weight 
                       :fillOpacity 0})
       (.on "click" (fn [e]
@@ -253,7 +254,7 @@
                       :iconAnchor offset #_[33 22] #_[20 29]
                       :iconSize [size size] #_[40 40]}))))
 
-(defn icon-svg [size color]
+(defn inst-svg [size color]
   (render-to-string 
    [:svg {:width size :fill color :height size :version "1.1" :viewBox "0 0 500 500"
           :xmlns "http://www.w3.org/2000/svg" :preserveAspectRatio "none"}
@@ -264,14 +265,24 @@
       [:path {:d "m173.11273,176.83774l0,130.75723l19.22182,0l0,-115.20751c0,-10.60348 8.60698,-19.20125 19.22182,-19.20125s19.22182,8.59777 19.22182,19.20125l0,115.20751l38.44363,0l0,-115.20751c0,-10.60348 8.60698,-19.20125 19.22182,-19.20125s19.22182,8.59777 19.22182,19.20125l0,115.20751l19.22182,0l0,-130.75723l-76.88727,-39.55019l-76.88727,39.55019z"}]]]]))
 
 
-(defn inst-icon [scale color]
+(defn author-svg [size color]
+  (render-to-string
+   [:svg {:width size :fill color :height size :version "1.1" :viewBox "0 0 500 500"
+          :xmlns "http://www.w3.org/2000/svg" :preserveAspectRatio "none"}
+    [:g 
+     [:circle {:cx "250" :cy "250" :r "200" :fill "white"}]
+     [:path {:d "m0,0l24,0l0,24l-24,0l0,-24z" :fill "none"}]
+     [:path {:fill color :stroke nil :d "m250.99999,2c-136.896,0 -247.99999,110.87999 -247.99999,247.49998s111.104,247.49998 247.99999,247.49998s247.99999,-110.87999 247.99999,-247.49998s-111.104,-247.49998 -247.99999,-247.49998zm0,74.24999c41.168,0 74.4,33.165 74.4,74.24999s-33.232,74.24999 -74.4,74.24999s-74.4,-33.165 -74.4,-74.24999s33.232,-74.24999 74.4,-74.24999zm0,351.44997a178.55999,178.19999 0 0 1 -148.8,-79.69499c0.744,-49.2525 99.2,-76.22999 148.8,-76.22999c49.352,0 148.056,26.9775 148.8,76.22999a178.55999,178.19999 0 0 1 -148.8,79.69499z"}]]]))
+
+(defn gen-icon [scale color svg]
   (let [size (* scale 20)
         offset (calc-offset [size size])]
     (L/divIcon 
-     (clj->js {:html (icon-svg size (or color (:main colors)))
+     (clj->js {:html (svg size (or color (:main colors)))
                :className ""
                :iconAnchor offset
                :iconSize [size size]}))))
+
 
 #_(set! (.. icon -options -iconSize) (clj->js [200 200]))
 
@@ -296,6 +307,8 @@
                      (.setContent "Popup")
                      (.openOn leaflet))))))
 
+
+
 (defn color-selected [geometries-map]
   (let [records @(subscribe [::selected-records])
         markers
@@ -307,7 +320,7 @@
         (map #(get @geometries-map %)
              (set (map #(identity [(:a_inst %) (:b_inst %)]) records)))]
     (doseq [layer markers]
-      (let [icon (inst-icon (.-scale layer) (:second colors))]
+      (let [icon (gen-icon (.-scale layer) (:second colors) inst-svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:second colors)})))))
@@ -318,13 +331,13 @@
         lines
         (map second (filter #(vector? (first %)) @geometries-map))]
     (doseq [layer markers]
-      (let [icon (inst-icon (.-scale layer) (:main colors))]
+      (let [icon (gen-icon (.-scale layer) (:main colors) inst-svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:main colors)})))))
 
 (defmethod create-shape :inst-marker [{:keys [coordinates scale id leaflet name]}]
-  (let [i-icon (inst-icon scale (:main colors)) #_(icon scale)
+  (let [i-icon (gen-icon scale (:main colors) inst-svg) #_(icon scale)
         marker (L/marker (clj->js coordinates) #js {:icon i-icon})] 
     (set! (.-scale marker) scale)
     (-> marker
@@ -341,6 +354,22 @@
                      (.setLatLng (.-latlng e))
                      (.setContent name)
                      (.openOn leaflet)))))))
+
+(defmethod create-shape :author [{:keys [coordinates scale id leaflet]}]
+  (let [i-icon (gen-icon scale (:main colors) author-svg) #_(icon scale)
+        marker (L/marker (clj->js coordinates) #js {:icon i-icon})]
+    (set! (.-scale marker) scale)
+    (-> marker
+        (.on "click"
+             (fn [e]
+               (dispatch [::set-leaflet [:selected-shape] id])
+               (dispatch [::set-leaflet [:info-open?] true])))))
+  
+  #_(L/circle (clj->js coordinates)
+            #js {:color (:main colors)
+                 :fillColor (:main colors)
+                 :radius (* 100 scale)
+                 :fillOpacity 1}))
 
 (defmethod create-shape :collab-line [{:keys [coordinates id leaflet args]}]
   (-> (L/polyline (clj->js coordinates)

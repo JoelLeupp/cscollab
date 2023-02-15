@@ -1,6 +1,6 @@
 (ns app.cscollab.interactive-map
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.common.leaflet :as ll :refer [leaflet-map inst-icon]]
+            [app.common.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
             [app.components.colors :refer [colors]]
@@ -21,7 +21,9 @@
         shift (- 1 (* min-w slope))]
     (+ shift (* slope w))))
 
-(defn gen-nodes [weighted-collab geo-mapping]
+
+
+(defn gen-nodes [weighted-collab geo-mapping insti?]
   (let [nodes (vec (clojure.set/union
                     (set (map :node/m weighted-collab))
                     (set (map :node/n weighted-collab))))
@@ -40,23 +42,36 @@
         max-weight (apply max weights)]
     ;; temorary remove nil because of utf8 string conflict
     (vec
-     (remove
-      nil?
-      (mapv
-       #(let [node-data (get geo-mapping %)]
-          (when node-data
-            (hash-map :type :inst-marker
-                      :id (:id node-data)
-                      :name (:name node-data)
-                      :scale
-                      (linear-scale min-weight max-weight (get node->weight (:id node-data)))
-                      :coordinates (:coord node-data))))
-       nodes)))))
+     (concat
+      (remove
+       nil?
+       (mapv
+        #(let [node-data (get geo-mapping %)]
+           (when node-data
+             (hash-map :type (if insti? :inst-marker :author)
+                       :id (:id node-data)
+                       :name (:name node-data)
+                       :scale
+                       (linear-scale min-weight max-weight (get node->weight (:id node-data)))
+                       :coordinates (:coord node-data))))
+        nodes))
+      (when-not insti?
+        #_(remove
+         nil?
+         (mapv
+          #(let [node-data (get geo-mapping %)]
+             (when node-data
+               (hash-map :type :inst-marker
+                         :id (:id node-data)
+                         :name (:name node-data)
+                         :scale 1
+                         :coordinates (:coord node-data))))
+          (set (map #(get-in geo-mapping [% :institution]) nodes)))))))))
 
 (defn get-line-weight [w]
-  (max 0.1 (min 10 (* 0.1 w))))
+  (max 0.2 (min 5 (* 0.1 w))))
 
-(defn gen-edges [weighted-collab geo-mapping]
+(defn gen-edges [weighted-collab geo-mapping insti?]
     ;; temorary remove nil because of utf8 string conflict
   (vec (remove nil?
                (mapv
@@ -69,8 +84,7 @@
                              lat-diff-km (* 111320 0.01) ; 1° of latitude =  111.32 km
                              lon-diff-km (js/Math.abs (/ (* (* 40075000 0.01) (js/Math.cos lat-ellipse)) 360)) ; 1° of longitude = 40075 km * cos( latitude ) / 360
                              tilt  (/ (* 180 (js/Math.atan (/ lat-diff-km lon-diff-km))) js/Math.PI)
-                             radius lat-diff-km #_(js/Math.sqrt (+ (js/Math.pow lat-diff-km 2) (js/Math.pow lon-diff-km 2)))]
-                         (js/console.log (str "lat: " lat-diff-km " lon: " lon-diff-km " tilt " tilt))
+                             radius lat-diff-km #_(js/Math.sqrt (+ (js/Math.pow lat-diff-km 2) (js/Math.pow lon-diff-km 2)))] 
                          (hash-map :type :ellipse
                                    :tilt 90
                                    :radius (/ 111320 100)
@@ -88,22 +102,43 @@
                                                (:coord node-n)]))))
                 weighted-collab))))
 
+;; get the coordinates along a circle from the origin for a given radius and degree
+(defn circle-coord [degree r]
+  [(* r (js/Math.sin degree)) (* r (js/Math.cos degree))])
 
-(defn gen-geometries [{:keys [inst?]}]
+(defn gen-geometries [{:keys [insti?]}]
   (let [weighted-collab
-        (tf/weighted-collab {:inst? inst?})
+        (tf/weighted-collab {:insti? insti?})
         csauthors
         @(subscribe [::data/csauthors])
-        geo-mapping
-        (zipmap (map (if inst? :institution :pid) csauthors)
+        geo-mapping-inst
+        (zipmap (map :institution csauthors)
                 (map #(hash-map :coord [(:lat %) (:lon %)]
-                                :id ((if inst? :institution :pid) %)
-                                :name ((if inst? :institution :name) %)) csauthors))]
+                                :id (:institution %)
+                                :name (:institution %)) csauthors))
+        csauthors-new-coord ;coordinates of authors in circle around institution
+        (flatten
+         (for [[_ connected-authors] (group-by (juxt :lat :lon) csauthors)]
+           (let [degree (/ (* 2 js/Math.PI) (count connected-authors))]
+             (map #(merge %1
+                          (let [[x y] (circle-coord (* %2 degree) 0.02)]
+                            {:lat-author (+ (/ y 1.5) (:lat %1))
+                             :lon-author (+ x (:lon %1))}))
+                  connected-authors (range 0 (count connected-authors))))))
+        geo-mapping-author
+        (zipmap (map :pid csauthors-new-coord)
+                (map #(hash-map :coord [(:lat-author %) (:lon-author %)]
+                                :id (:pid %)
+                                :institution (:institution %)
+                                :name (:name %)) csauthors-new-coord))
+        geo-mapping 
+        (merge geo-mapping-inst geo-mapping-author)
+        ]
     (if (and weighted-collab csauthors geo-mapping)
       (vec
        (concat 
-        (gen-edges weighted-collab geo-mapping)
-        (gen-nodes weighted-collab geo-mapping)))
+        (gen-edges weighted-collab geo-mapping insti?)
+        (gen-nodes weighted-collab geo-mapping insti?)))
       [])))
 
 ;; define and view atoms for leaflet component
@@ -112,11 +147,11 @@
 (defonce geometries-map (atom {}))
 
 
-(defn map-comp []
+(defn map-comp [insti?]
   (let [geometries (subscribe [::ll/geometries])] 
     (fn []
       (when (empty? @geometries)
-        (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})]))
+        (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? insti?})]))
       [leaflet-map
        {:id "interactive-map"
         :zoom zoom
@@ -138,82 +173,64 @@
                       :paddin-top 0 :padding-left 20 :padding-right 20}}
         [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
         [button/update-button
-         {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:inst? true})])
+         {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? true})])
           :style {:z-index 999}}]]
        [map-info-div] 
-       [map-comp]]]
+       [map-comp true]]]
      ]))
 
 
 (comment
   @geometries-map
   (ll/color-selected geometries-map)
-  (def selected-shape-ids
-    (let [records @(subscribe [::info/selected-records])]
-      (clojure.set/union
-       (set (map #(identity [(:a_inst %) (:b_inst %)]) records))
-       (set (map :a_inst records))
-       (set (map :b_inst records)))))
-  (def selected-markers
-    (map #(get @geometries-map %) (filter string? selected-shape-ids)))
-  (def selected-lines
-    (map #(get @geometries-map %) (filter vector? selected-shape-ids)))
+  (let [weighted-collab
+        (tf/weighted-collab {:insti? false})
+        csauthors
+        @(subscribe [::data/csauthors])
+        geo-mapping-inst
+        (zipmap (map :institution csauthors)
+                (map #(hash-map :coord [(:lat %) (:lon %)]
+                                :id (:institution %)
+                                :name (:institution %)) csauthors))
+        geo-mapping-author
+        (zipmap (map :pid csauthors)
+                (map #(hash-map :coord [(:lat %) (:lon %)]
+                                :id (:pid %)
+                                :name (:name %)) csauthors))
+        geo-mapping
+        (merge geo-mapping-inst geo-mapping-author)]
+    (first (group-by (juxt :lat :lon) csauthors)))
 
-  (defn new-icon [size]
-    (.extend L/Icon. (clj->js {:options {:iconUrl "img/inst-icon.svg"
-                                         :iconAnchor (calc-offset [size size]) #_[20 29]
-                                         :iconSize [size size]}})))
-  
-  (.-scale (first selected-markers))
-  (js/console.log (first selected-markers))
+  (def csauthors @(subscribe [::data/csauthors]))
+  (def connected-authors
+    (first (group-by (juxt :lat :lon) csauthors)))
+  (count (second connected-authors))
 
-  (doseq [layer selected-markers]
-    (let [icon (inst-icon (.-scale layer) (:second colors))] 
-      (.setIcon layer icon)))
-  
-  (doseq [layer selected-lines] 
-    (.setStyle layer (clj->js {:color (:second colors)})))
+  (def degree (/ (* 2 js/Math.PI) (count (second connected-authors))))
 
-  @geometries-map
-  (def markers (map second (filter #(string? (first %)) @geometries-map)))
+  (defn circle-coord [degree r]
+    [(* r (js/Math.sin degree)) (* r (js/Math.cos degree))])
 
-  (defn calc-offset [[x y]]
-    [(* (/ 33 60) x) (* (/ 22 60) y)])
+  (def coord-connected-authors (first connected-authors))
 
-  (defn new-icon [size]
-    (.extend L/Icon. (clj->js {:options {:iconUrl "img/inst-icon.svg"
-                                         :iconAnchor (calc-offset [size size]) #_[20 29]
-                                         :iconSize [size size]}})))
-  (doseq [layer markers]
-    (let [icon (new-icon 90)]
-      (.setIcon layer (new icon))))
+  (first
+   (flatten
+    (for [[_ connected-authors] (group-by (juxt :lat :lon) csauthors)]
+      (let [degree (/ (* 2 js/Math.PI) (count connected-authors))]
+        (map #(merge %1
+                     (let [[x y] (circle-coord (* %2 degree) 0.01)]
+                       {:lat-author (+ y (:lat %1))
+                        :lon-author (+ x (:lon %1))}))
+             connected-authors (range 0 (count connected-authors)))))))
+
+  (map #(merge %1
+               (let [[x y] (circle-coord (* %2 degree) 0.01)]
+                 {:lat-author (+ y (:lat %1))
+                  :lon-author (+ x (:lon %1))}))
+       (second connected-authors) (range 0 (count (second connected-authors))))
 
 
-  (.. (first markers) -options -icon -options -iconSize)
-
-  @view
-  @zoom
-  (def shape-layer (get @geometries-map {:coordinates [47.4143390999 8.5498159038],
-                                         :name "University of Zurich",
-                                         :type :inst-marker,
-                                         :id "University of Zurich"}))
-  (sort-by :label [{:id 1 :label "b"} {:id 1 :label "c"} {:id 1 :label "a"}])
-  (.-lat (.getLatLng shape-layer))
-  (.-lat (.getLatLng shape-layer))
-  (def icon (.. shape-layer -options -icon))
-  (set! (.. icon -options -iconSize) (clj->js [60 60]))
-  (.setIcon shape-layer icon)
-
-  (def new-icon (L/Icon.extend (clj->js {:options {:iconSize [400 400]}})))
-  (def leaflet @(subscribe [::ll/map]))
-  (.removeLayer leaflet shape-layer)
-  (.addTo shape-layer leaflet)
-
-  (def inst-icon (.extend L/Icon. (clj->js {:options {:iconAnchor [33 22] #_[20 29]
-                                                      :iconSize [400 400]}})))
-
-  (def my-icon (inst-icon. (clj->js {:iconUrl "img/inst-icon.svg"})))
-
+  (first geo-mapping)
   (def test-marker
     (.addTo
      (L/marker (clj->js [49.7879456863 9.9355841935]))
@@ -233,8 +250,8 @@
   (.removeLayer leaflet test-marker)
 
   (filter #(= (:type %) :inst-marker) @(subscribe [::ll/geometries]))
-  (reset! geometries (gen-geometries {:inst? true}))
-  (dispatch [::set-leaflet [:geometries] (gen-geometries {:inst? true})])
+  (reset! geometries (gen-geometries {:insti? true}))
+  (dispatch [::set-leaflet [:geometries] (gen-geometries {:insti? true})])
   (dispatch [::ll/set-leaflet [:geometries]
              [{:type :inst-marker :coordinates [50 50]}
               {:type :marker :coordinates [50 50]}
@@ -249,9 +266,9 @@
                :coordinates [[45.7 12.8]
                              [40.7 10.8]]}]])
 
-  (filter #(= :inst-marker (:type %)) (gen-geometries {:inst? true}))
+  (filter #(= :inst-marker (:type %)) (gen-geometries {:insti? true}))
   (gen-nodes weighted-collab inst-mapping)
-  (def weighted-collab (tf/weighted-collab {:inst? true}))
+  (def weighted-collab (tf/weighted-collab {:insti? true}))
   (apply min (map :weight weighted-collab))
   (first weighted-collab)
   (vec
@@ -261,12 +278,12 @@
   (first weighted-collab)
   (def csauthors @(subscribe [::data/csauthors]))
   (first csauthors)
-  (def inst? true)
+  (def insti? true)
   (def geo-mapping
-    (zipmap (map (if inst? :institution :pid) csauthors)
+    (zipmap (map (if insti? :institution :pid) csauthors)
             (map #(hash-map :coord [(:lat %) (:lon %)]
-                            :id ((if inst? :institution :pid) %)
-                            :name ((if inst? :institution :name) %)) csauthors)))
+                            :id ((if insti? :institution :pid) %)
+                            :name ((if insti? :institution :name) %)) csauthors)))
   (gen-edges weighted-collab geo-mapping)
 
   (get geo-mapping "University of Münster")
