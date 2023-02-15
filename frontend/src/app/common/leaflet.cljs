@@ -1,12 +1,14 @@
-(ns app.common.leaflet 
+(ns app.common.leaflet
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.util :refer (deep-merge)] 
+            [app.util :refer (deep-merge)]
             [reagent.dom.server :refer [render-to-string]]
-            [app.components.colors :refer [colors]] 
+            [app.components.colors :refer [colors]]
             [app.cscollab.transformer :as tf]
+            [leaflet :as L]
+            [leaflet-ellipse]
             [re-frame.core :as rf :refer
-             (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
-            [leaflet :as L]))
+             (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
+
 
 ;;;;;;;;;;;;;
 ;; define events and subscriptions for the leaflet component
@@ -230,6 +232,15 @@
                  :weight weight
                  :radius radius
                  :fillOpacity 0}))
+
+(defmethod create-shape :ellipse [{:keys [coordinates radii tilt id weight leaflet]}]
+  (-> (L/ellipse (clj->js coordinates)  (clj->js radii) tilt
+                 #js {:color (:main colors)
+                      :weight weight 
+                      :fillOpacity 0})
+      (.on "click" (fn [e]
+                     (dispatch [::set-leaflet [:info-open?] true])
+                     (dispatch [::set-leaflet [:selected-shape] id])))))
 
 (defn calc-offset [[x y]]
   [(* 0.5 x) (* 0.5 y)]

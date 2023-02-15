@@ -64,13 +64,22 @@
                        node-n (get geo-mapping (:node/n %))]
                    (when (and node-m node-n)
                      (if (= node-m node-n)
-                       (hash-map :type :point
-                                 :radius (/ 111320 100) 
-                                 :weight (get-line-weight (:weight %))
-                                 :id [(:id node-m) (:id node-n)]
-                                 :coordinates 
-                                 [(- (first (:coord node-m)) (/ 1 100))
-                                  (second (:coord node-m))])
+                       (let [lat-ellipse (- (first (:coord node-m)) 0.01)
+                             lon-ellipse (- (second (:coord node-m)) 0.01)
+                             lat-diff-km (* 111320 0.01) ; 1° of latitude =  111.32 km
+                             lon-diff-km (js/Math.abs (/ (* (* 40075000 0.01) (js/Math.cos lat-ellipse)) 360)) ; 1° of longitude = 40075 km * cos( latitude ) / 360
+                             tilt  (/ (* 180 (js/Math.atan (/ lat-diff-km lon-diff-km))) js/Math.PI)
+                             radius lat-diff-km #_(js/Math.sqrt (+ (js/Math.pow lat-diff-km 2) (js/Math.pow lon-diff-km 2)))]
+                         (js/console.log (str "lat: " lat-diff-km " lon: " lon-diff-km " tilt " tilt))
+                         (hash-map :type :ellipse
+                                   :tilt 90
+                                   :radius (/ 111320 100)
+                                   :radii [radius (/ radius 2)]
+                                   :weight (get-line-weight (:weight %))
+                                   :id [(:id node-m) (:id node-n)]
+                                   :coordinates
+                                   [lat-ellipse
+                                    (second (:coord node-m))]))
                        (hash-map :type :collab-line
                                  :args 
                                  {:weight (get-line-weight (:weight %))}

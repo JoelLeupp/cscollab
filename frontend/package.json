@@ -48,6 +48,7 @@
         "react-window": "latest",
         "xregexp": "latest",
         "leaflet": "1.9.3",
-        "react-leaflet": "^4.2.0"
+        "react-leaflet": "^4.2.0",
+        "leaflet-ellipse": "0.9.1"
     }
 }
