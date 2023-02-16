@@ -5,6 +5,7 @@
             [app.components.colors :refer [colors]]
             [app.cscollab.transformer :as tf]
             [leaflet :as L]
+            [app.db :as db]
             [leaflet-ellipse]
             [re-frame.core :as rf :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
@@ -62,29 +63,38 @@
  :<- [::leaflet-field :selected-shape]
  (fn [m] (when m m)))
 
+(reg-sub
+ ::insti?
+ :<- [::db/user-input-field [:insti?]]
+ (fn [insti?]
+   insti?))
+
 
 (reg-sub
  ::selected-records
  :<- [::selected-shape]
  :<- [::tf/filtered-collab]
+ :<- [::insti?]
  (fn
-   [[selected-shape filtered-collab]]
+   [[selected-shape filtered-collab insti?]]
    "get all records of the selected shape"
    (when filtered-collab
-     (if (vector? selected-shape)
+     (let [node-m (if insti? :a_inst :a_pid)
+           node-n (if insti? :b_inst :b_pid)]
+       (if (vector? selected-shape)
        ;; get records of selected collaboration
-       (filter
-        #(or
-          (and (= (first selected-shape) (:b_inst %))
-               (= (second selected-shape) (:a_inst %)))
-          (and (= (first selected-shape) (:a_inst %))
-               (= (second selected-shape) (:b_inst %))))
-        filtered-collab)
+         (filter
+          #(or
+            (and (= (first selected-shape) (node-n %))
+                 (= (second selected-shape) (node-m %)))
+            (and (= (first selected-shape) (node-m %))
+                 (= (second selected-shape) (node-n %))))
+          filtered-collab)
         ;; get collaborations of author or institution
-       (filter
-        #(or (= selected-shape (:a_inst %))
-             (= selected-shape (:b_inst %)))
-        filtered-collab)))))
+         (filter
+          #(or (= selected-shape (node-m %))
+               (= selected-shape (node-n %)))
+          filtered-collab))))))
 
 
 (reg-sub
@@ -96,6 +106,7 @@
 
 (comment
   @(subscribe [::zoom-level])
+  (first @(subscribe [::tf/filtered-collab]))
   @(subscribe [::geometries])
   (dispatch [::set-leaflet [:zoom-level] 10])
   @(subscribe [::leaflet])

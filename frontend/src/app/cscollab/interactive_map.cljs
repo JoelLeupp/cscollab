@@ -166,7 +166,7 @@
 
 
 (defn interactive-map []
-  (let [insti? (subscribe [::mp/insti?])]
+  (let [insti? (subscribe [::ll/insti?])]
     (fn []
       [:<>
        [paper {:elevation 1}
@@ -183,7 +183,7 @@
 
 (comment
   @geometries-map
-  (subscribe [::mp/insti?])
+  (subscribe [::ll/insti?])
   (ll/color-selected geometries-map)
   (let [weighted-collab
         (tf/weighted-collab {:insti? false})

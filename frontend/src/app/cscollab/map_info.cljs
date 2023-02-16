@@ -7,6 +7,7 @@
             [app.util :as util]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
+            [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
             [app.components.stack :refer (horizontal-stack)]
             [reagent-mui.material.paper :refer [paper]]
@@ -216,6 +217,7 @@
            [map-info {:insti? true}]]]}])))
 
 (comment 
+  (subscribe [::ll/insti?])
   (let [records @(subscribe [::ll/selected-records])]
     (clojure.set/union
      (set (map #(identity [(:a_inst %) (:b_inst %)]) records)) 
