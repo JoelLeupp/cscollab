@@ -107,6 +107,33 @@
 (defn circle-coord [degree r]
   [(* r (js/Math.sin degree)) (* r (js/Math.cos degree))])
 
+(defn concentrated-circle [nodes]
+  (loop [new-nodes []
+         nodes-left nodes
+         n 0]
+    (if (empty? nodes-left)
+      new-nodes
+      (let [n-nodes (min (count nodes-left) (* 6 (js/Math.pow 2 n)))
+            nodes-taken (subvec nodes-left 0 n-nodes)
+            radius (* (+ 1 n) 0.005)
+            degree (/ (* 2 js/Math.PI) n-nodes)
+            node-coord
+            (map
+             (fn [node t]
+               (let [d (+ (* degree t) (when-not (= 0 (mod n 2)) (/ degree 2)))
+                     x (* radius (js/Math.sin d))
+                     y (* radius (js/Math.cos d))]
+                 (merge 
+                  node 
+                  {:lat-author (+ (/ y 1.5) (:lat node))
+                   :lon-author (+ x (:lon node))})))
+             nodes-taken (range 0 n-nodes))]
+        (recur
+         (vec (concat new-nodes node-coord))
+         (subvec nodes-left n-nodes)
+         (inc n))))))
+
+
 (defn gen-geometries [{:keys [insti?]}]
   (let [weighted-collab
         (tf/weighted-collab {:insti? insti?})
@@ -119,8 +146,9 @@
                                 :name (:institution %)) csauthors))
         csauthors-new-coord ;coordinates of authors in circle around institution
         (flatten
-         (for [[_ connected-authors] (group-by (juxt :lat :lon) csauthors)]
-           (let [degree (/ (* 2 js/Math.PI) (count connected-authors))]
+         (for [[_ connected-authors] (group-by (juxt :lat :lon) csauthors)] 
+           (concentrated-circle connected-authors)
+           #_(let [degree (/ (* 2 js/Math.PI) (count connected-authors))]
              (map #(merge %1
                           (let [[x y] (circle-coord (* %2 degree) 0.02)]
                             {:lat-author (+ (/ y 1.5) (:lat %1))
