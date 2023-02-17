@@ -126,6 +126,7 @@
   "A LeafletJS Reagent component"
   (let [leaflet #_(subscribe [::map]) (atom nil) 
         geometries (subscribe [::geometries])
+        insti? (subscribe [::insti?])
         layers
         (or layers
             [{:type :tile
@@ -136,6 +137,7 @@
                  mapspec
                  {:leaflet leaflet
                   :view view
+                  :insti? insti?
                   :zoom zoom
                   :layers layers
                   :geometries geometries
@@ -149,9 +151,10 @@
 
 
 (declare color-selected)
+(declare uncolor-previous)
 (declare color-all-main)
 
-(defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries geometries-map] :as mapspec}]
+(defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries geometries-map insti?] :as mapspec}]
   "Initialize LeafletJS map for a newly mounted map component."
   (fn []
     ;; Initialize leaflet map 
@@ -183,7 +186,7 @@
     (.on @leaflet
          "click" (fn [e] 
                    (when @(subscribe [::info-open?])
-                     (color-all-main geometries-map)
+                     (color-all-main geometries-map @insti?)
                      (dispatch [::set-leaflet [:info-open?] false])
                      (dispatch [::set-leaflet [:selected-shape] nil]))))
 
@@ -203,15 +206,16 @@
                    (when-not (= old-zoom new-zoom)
                      (.setZoom @leaflet new-zoom))))
     (add-watch (subscribe [::selected-records]) ::color-selected
-               (fn [_ _ _ _]
-                 (color-selected geometries-map)))
+               (fn [_ _ previous-selected _]
+                 (when previous-selected
+                   (uncolor-previous previous-selected geometries-map @insti?))
+                 (color-selected geometries-map @insti?)))
     ;; If the mapspec has an atom containing geometries, add watcher
     ;; so that we update all LeafletJS objects
     (update-leaflet-geometries mapspec @geometries)
     (when-let [g geometries]
       (add-watch g ::geometries-update
-                 (fn [_ _ _ new-geometries]
-                   (.log js/console "Fire Watch!")
+                 (fn [_ _ _ new-geometries] 
                    (update-leaflet-geometries mapspec new-geometries))))))
 
 
@@ -319,30 +323,52 @@
                      (.openOn leaflet))))))
 
 
-
-(defn color-selected [geometries-map]
-  (let [records @(subscribe [::selected-records])
+(defn uncolor-previous [previous-selected geometries-map insti?]
+  (let [records previous-selected
+        svg (if insti? inst-svg author-svg)
+        node-n (if insti? :a_inst :a_pid)
+        node-m (if insti? :b_inst :b_pid)
         markers
         (map #(get @geometries-map %)
              (clojure.set/union
-              (set (map :a_inst records))
-              (set (map :b_inst records))))
+              (set (map node-n records))
+              (set (map node-m records))))
         lines
         (map #(get @geometries-map %)
-             (set (map #(identity [(:a_inst %) (:b_inst %)]) records)))]
+             (set (map #(identity [(node-n %) (node-m %)]) records)))]
     (doseq [layer markers]
-      (let [icon (gen-icon (.-scale layer) (:second colors) inst-svg)]
+      (let [icon (gen-icon (.-scale layer) (:primary colors) svg)]
+        (.setIcon layer icon)))
+    (doseq [layer lines]
+      (.setStyle layer (clj->js {:color (:primary colors)})))))
+
+(defn color-selected [geometries-map insti?]
+  (let [records @(subscribe [::selected-records])
+        svg (if insti? inst-svg author-svg)
+        node-n (if insti? :a_inst :a_pid)
+        node-m (if insti? :b_inst :b_pid)
+        markers
+        (map #(get @geometries-map %)
+             (clojure.set/union
+              (set (map node-n records))
+              (set (map node-m records))))
+        lines
+        (map #(get @geometries-map %)
+             (set (map #(identity [(node-n %) (node-m %)]) records)))]
+    (doseq [layer markers]
+      (let [icon (gen-icon (.-scale layer) (:second colors) svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:second colors)})))))
 
-(defn color-all-main [geometries-map]
-  (let [markers
+(defn color-all-main [geometries-map insti?]
+  (let [svg (if insti? inst-svg author-svg)
+        markers
         (map second (filter #(string? (first %)) @geometries-map))
         lines
         (map second (filter #(vector? (first %)) @geometries-map))]
     (doseq [layer markers]
-      (let [icon (gen-icon (.-scale layer) (:main colors) inst-svg)]
+      (let [icon (gen-icon (.-scale layer) (:main colors) svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:main colors)})))))
@@ -395,10 +421,10 @@
   (let [{:keys [leaflet geometries-map]} mapspec
         geometries-set (into #{} (map :id geometries))]
     ;; Remove all LeafletJS shape objects that are no longer in the new geometries
-    (doseq [removed (keep (fn [[id shape]]
-                            (when-not (geometries-set id)
-                              shape))
-                          @geometries-map)]
+    (doseq [removed (vals @geometries-map) #_(keep (fn [[id shape]]
+                               (when-not (geometries-set id)
+                                 shape))
+                             @geometries-map)]
       (.removeLayer @leaflet removed))
 
     ;; Create new shapes for new geometries and update the geometries map
@@ -407,7 +433,10 @@
       (if-not geom
         ;; Update component state with the new geometries map
         (reset! geometries-map new-geometries-map)
-        (if-let [existing-shape (@geometries-map (:id geom))]
+        (let [shape (create-shape (merge {:leaflet @leaflet} geom))]
+          (.addTo shape @leaflet)
+          (recur (assoc new-geometries-map (:id geom) shape) geometries))
+        #_(if-let [existing-shape (@geometries-map (:id geom))]
           ;; Have existing shape, don't need to do anything
           (recur (assoc new-geometries-map (:id geom) existing-shape) geometries)
 

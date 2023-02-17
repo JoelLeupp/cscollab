@@ -12,7 +12,8 @@
             [leaflet :as L]
             [app.cscollab.map-info :as info :refer (map-info-div)]
             [re-frame.core :refer
-             (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
+             (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
+            [app.util :as util]))
 
 
 
@@ -22,6 +23,17 @@
         shift (- 1 (* min-w slope))]
     (+ shift (* slope w))))
 
+(defn percentil-scale [weights w]
+  "scale based on percentil rank between 1 and 2"
+  (let [p (util/percentil weights w)
+        bin (js/Math.ceil (* 10 p))]
+    (condp < bin
+          9 2
+          8 1.8
+          7 1.6
+          5 1.4
+          1 1.2
+          1)))
 
 
 (defn gen-nodes [weighted-collab geo-mapping insti?]
@@ -52,8 +64,8 @@
              (hash-map :type (if insti? :inst-marker :author)
                        :id (:id node-data)
                        :name (:name node-data)
-                       :scale
-                       (linear-scale min-weight max-weight (get node->weight (:id node-data)))
+                       :scale (percentil-scale weights (get node->weight (:id node-data)))
+                       #_(linear-scale min-weight max-weight (get node->weight (:id node-data)))
                        :coordinates (:coord node-data))))
         nodes))
       (when-not insti?
@@ -144,25 +156,24 @@
                 (map #(hash-map :coord [(:lat %) (:lon %)]
                                 :id (:institution %)
                                 :name (:institution %)) csauthors))
+        collab-authors
+        (clojure.set/union
+         (set (map :node/m weighted-collab))
+         (set (map :node/n weighted-collab)))
         csauthors-new-coord ;coordinates of authors in circle around institution
         (flatten
-         (for [[_ connected-authors] (group-by (juxt :lat :lon) csauthors)] 
-           (concentrated-circle connected-authors)
-           #_(let [degree (/ (* 2 js/Math.PI) (count connected-authors))]
-             (map #(merge %1
-                          (let [[x y] (circle-coord (* %2 degree) 0.02)]
-                            {:lat-author (+ (/ y 1.5) (:lat %1))
-                             :lon-author (+ x (:lon %1))}))
-                  connected-authors (range 0 (count connected-authors))))))
+         (for [[_ connected-authors] (group-by 
+                                      (juxt :lat :lon) 
+                                      (filter #(contains? collab-authors (:pid %)) csauthors))]
+           (concentrated-circle connected-authors)))
         geo-mapping-author
         (zipmap (map :pid csauthors-new-coord)
                 (map #(hash-map :coord [(:lat-author %) (:lon-author %)]
                                 :id (:pid %)
                                 :institution (:institution %)
                                 :name (:name %)) csauthors-new-coord))
-        geo-mapping 
-        (merge geo-mapping-inst geo-mapping-author)
-        ]
+        geo-mapping
+        (merge geo-mapping-inst geo-mapping-author)]
     (if (and weighted-collab csauthors geo-mapping)
       (vec
        (concat 
@@ -230,8 +241,20 @@
         geo-mapping
         (merge geo-mapping-inst geo-mapping-author)]
     (first (group-by (juxt :lat :lon) csauthors)))
-
+  (def weighted-collab
+    (tf/weighted-collab {:insti? false}))
+  (first weighted-collab)
+  (def collab-authors
+    (clojure.set/union
+     (set (map :node/m weighted-collab))
+     (set (map :node/n weighted-collab))))
+  (contains? collab-authors "38/5557")
+  
   (def csauthors @(subscribe [::data/csauthors]))
+  (let [ {:keys [name institution]} (first (filter #(= "24/8616" (:pid %)) csauthors))]
+    name)
+  
+  (count (filter #(contains? collab-authors (:pid %)) csauthors))
   (def connected-authors
     (first (group-by (juxt :lat :lon) csauthors)))
   (count (second connected-authors))

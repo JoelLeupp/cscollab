@@ -13,6 +13,12 @@
        (str/replace #"\s*\n\s*" sep))))
 
 
+(defn percentil [arr v]
+  (/
+   (count (remove nil? (map #(when (<= % v) %) arr)))
+   (count arr)))
+
+
 (defn s->id [s]
   (if (js/Number.isNaN (js/parseInt s))
     (keyword s)

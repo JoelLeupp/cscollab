@@ -87,6 +87,7 @@
         (map #(let [sub-area-info (get sub-area-map (:sub-area %))]
                 (merge sub-area-info %)) sub-area-count)
         plot-data (get-plot-data area-data)]
+        (js/console.log (str (count area-data)))
         [plotly/plot
          {:box-args {:height "36vh" :width 460 :overflow :auto :margin-top 2}
           :style {:width 440 :height (+ 100 (* 35 (count area-data)))}
@@ -133,6 +134,38 @@
             [publication-plot]]
            ])))))
 
+(defn author-info []
+  (let [records (subscribe [::ll/selected-records])
+        csauthors (subscribe [::data/csauthors]) 
+        selected-shape (subscribe [::ll/selected-shape])]
+    (fn []
+      (when (and @records (string? @selected-shape))
+        (let [pid @selected-shape
+              {:keys [name institution]} (first (filter #(= pid (:pid %)) @csauthors))
+              collab-count
+              (count (set (map :rec_id @records)))
+              author-map
+              (reverse
+               (sort-by
+                :count
+                (map
+                 (fn [[grp-key values]]
+                   {:author grp-key
+                    :count (count (set (map :rec_id values)))})
+                 (merge-with into
+                             (group-by :a_pid (filter #(= (:a_inst %) @selected-shape) @records))
+                             (group-by :b_pid (filter #(= (:b_inst %) @selected-shape) @records))))))]
+          [:div
+           [:div {:style {:display :flex :justify-content :space-between}}
+            [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin 0}} institution]]
+            [button/close-button
+             {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
+                             (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]]
+           
+           ^{:key author-map}
+           [:div 
+            [publication-plot]]])))))
+
 (defn publication-plot-collab []
   (let [records (subscribe [::ll/selected-records])
         area-mapping (subscribe [::data/area-mapping])]
@@ -174,12 +207,19 @@
                            :ticktext (mapv #(util/wrap-line (:sub-area-label %) 30) area-data)}}
           :data plot-data}]))))
 
-(defn collab-info []
+(defn collab-info [{:keys [insti?]}]
   (let [records (subscribe [::ll/selected-records])
+        csauthors (subscribe [::data/csauthors])
         selected-shape (subscribe [::ll/selected-shape])]
     (fn []
       (when (and @records (vector? @selected-shape))
-            (let [number-collabs (count (set (map :rec_id @records)))]
+            (let [number-collabs (count (set (map :rec_id @records)))
+                  node-m (if insti? 
+                           (first @selected-shape) 
+                           (:name (first (filter #(= (first @selected-shape) (:pid %)) @csauthors))))
+                  node-n (if insti?
+                           (first @selected-shape)
+                           (:name (first (filter #(= (second @selected-shape) (:pid %)) @csauthors))))]
               [:div
                [:div {:style {:display :flex :justify-content :space-between}}
                 [:h3  "Collaboration"]
@@ -187,7 +227,7 @@
                  {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
                                  (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]] 
                [:h3
-                (first @selected-shape) " And " (second @selected-shape)]
+                node-m " And " node-n]
                [publication-plot-collab]])))))
 
 (defn map-info [{:keys [insti?]}]
@@ -197,11 +237,12 @@
       ^{:keys @geometries}
       [:div
        (if (string? @selected-shape) 
-         [inst-info]
-         [collab-info])])))
+         (if insti? [inst-info] [author-info])
+         [collab-info {:insti? insti?}])])))
 
 (defn map-info-div [] 
-   (let [geometries (subscribe [::ll/geometries])] 
+   (let [geometries (subscribe [::ll/geometries])
+         insti? (subscribe [::ll/insti?])] 
      (fn []
        ^{:key @geometries}
        [collapse
@@ -214,7 +255,7 @@
               [button/close-button
                {:on-click #(do (dispatch [::ll/set-leaflet [:info-open?] false])
                                (dispatch [::ll/set-leaflet [:selected-shape] nil]))}]] 
-           [map-info {:insti? true}]]]}])))
+           [map-info {:insti? @insti?}]]]}])))
 
 (comment 
   (subscribe [::ll/insti?])
