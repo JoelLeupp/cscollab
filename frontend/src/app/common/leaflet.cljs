@@ -337,10 +337,10 @@
         (map #(get @geometries-map %)
              (set (map #(identity [(node-n %) (node-m %)]) records)))]
     (doseq [layer markers]
-      (let [icon (gen-icon (.-scale layer) (:primary colors) svg)]
+      (let [icon (gen-icon (.-scale layer) (:main colors) svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
-      (.setStyle layer (clj->js {:color (:primary colors)})))))
+      (.setStyle layer (clj->js {:color (:main colors)})))))
 
 (defn color-selected [geometries-map insti?]
   (let [records @(subscribe [::selected-records])
