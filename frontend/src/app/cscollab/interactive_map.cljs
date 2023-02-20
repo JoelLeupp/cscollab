@@ -5,12 +5,13 @@
             [app.cscollab.data :as data]
             [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
-            [app.db :as db]
+            [app.db :as db] 
+            [app.common.container :refer (viz-container)]
             [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
             [leaflet :as L]
-            [app.cscollab.map-info :as info :refer (map-info-div)]
+            [app.cscollab.map-info :as info :refer (map-info-div map-info)]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
@@ -201,28 +202,39 @@
         [{:type :tile
           :url "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
           :attribution "&copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>"}]
-        :style {:width "100%" :height "70vh" :z-index 1}}])))
+        :style {:width "100%" :height "100%" :z-index 1}}])))
 
+
+#_(defn interactive-map []
+  (let [insti? (subscribe [::mp/insti?])]
+    (fn [] 
+      [:<>
+       [:div {:style {:display :flex :justify-content :space-between :background-color :white
+                      :paddin-top 0 :padding-left 20 :padding-right 20}} 
+        [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
+        [button/update-button
+         {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+          :style {:z-index 999}}]]
+       [:div {:style {:height "70vh"}}
+        [map-info-div "70vh"]
+        [map-comp @insti?]]])))
 
 (defn interactive-map []
-  (let [insti? (subscribe [::ll/insti?])]
-    (fn []
-      [:<>
-       [paper {:elevation 1}
-        [:<>
-         [:div {:style {:display :flex :justify-content :space-between :background-color :white
-                        :paddin-top 0 :padding-left 20 :padding-right 20}}
-          [:h1 {:style {:margin 10}} "Landscape of Scientific Collaborations"]
-          [button/update-button
-           {:on-click #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
-            :style {:z-index 999}}]]
-         [map-info-div]
-         [map-comp @insti?]]]])))
+  (let [insti? (subscribe [::mp/insti?])]
+    (fn [] 
+      [viz-container
+       {:id :map-container
+        :title "Landscape of Scientific Collaborations" 
+        :update-event #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+        :content [map-comp @insti?]
+        :info-component [map-info]
+        :info-open? (subscribe [::ll/info-open?])}])))
 
 
 (comment
   @geometries-map
-  (subscribe [::ll/insti?])
+  (subscribe [::mp/insti?])
+  (subscribe [::db/ui-states-field [:tabs :viz-view]])
   (ll/color-selected geometries-map)
   (let [weighted-collab
         (tf/weighted-collab {:insti? false})

@@ -13,21 +13,31 @@
    [app.cscollab.interactive-map :as interactive-map]
    [app.cscollab.conferences :refer (conferences-view)]
    [app.cscollab.map-panel :refer (map-config-panel)]
+   [app.components.tabs :as tabs]
    [app.components.table :refer (test-table)]
+   [reagent-mui.material.paper :refer [paper]]
    [app.common.plotly :as pp :refer (test-plot)]
+   [app.cscollab.graph-view :refer (graph-view)]
    [app.cscollab.transformer :as tf]))
 
-
 (defn main-view []
-  (fn []
-    [:<> 
-     [acl/section
-      #_[acl/title-white "Landscape of Scientific Collaborations"]
-      [acl/content 
-       [filter-panel] 
-       [map-config-panel]
-       [interactive-map/interactive-map]
-       #_[tf/collab-count]]]]))
+  (let [tab-view (subscribe [::db/ui-states-field [:tabs :viz-view]])]
+    (fn []
+      [:<>
+       [acl/section
+        #_[acl/title-white "Landscape of Scientific Collaborations"]
+        [acl/content
+         [filter-panel]
+         [map-config-panel]
+         [tabs/main-tab
+          {:id :viz-view
+           :box-args {:margin-bottom "5px"}
+           :choices [{:label "Map View" :value :map}
+                     {:label "Graph View" :value :graph}]}] 
+         (case @tab-view
+           :map [interactive-map/interactive-map]
+           :graph [graph-view]
+           [interactive-map/interactive-map])]]])))
 
 
 (defn conferences []

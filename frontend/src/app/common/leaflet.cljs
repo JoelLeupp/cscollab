@@ -5,6 +5,7 @@
             [app.components.colors :refer [colors]]
             [app.cscollab.transformer :as tf]
             [leaflet :as L]
+            [app.cscollab.map-panel :as mp]
             [app.db :as db]
             [leaflet-ellipse]
             [re-frame.core :as rf :refer
@@ -63,18 +64,12 @@
  :<- [::leaflet-field :selected-shape]
  (fn [m] (when m m)))
 
-(reg-sub
- ::insti?
- :<- [::db/user-input-field [:insti?]]
- (fn [insti?]
-   insti?))
-
 
 (reg-sub
  ::selected-records
  :<- [::selected-shape]
  :<- [::tf/filtered-collab]
- :<- [::insti?]
+ :<- [::mp/insti?]
  (fn
    [[selected-shape filtered-collab insti?]]
    "get all records of the selected shape"
@@ -126,7 +121,7 @@
   "A LeafletJS Reagent component"
   (let [leaflet #_(subscribe [::map]) (atom nil) 
         geometries (subscribe [::geometries])
-        insti? (subscribe [::insti?])
+        insti? (subscribe [::mp/insti?])
         layers
         (or layers
             [{:type :tile

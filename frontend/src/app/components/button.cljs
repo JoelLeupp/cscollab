@@ -4,6 +4,8 @@
    ["@mui/material/IconButton" :default mui-icon-button]
    ["@mui/icons-material/Update" :default ic-update]
    ["@mui/icons-material/Close" :default ic-close]
+   ["@mui/icons-material/Fullscreen" :default ic-full-screen]
+   ["@mui/icons-material/FullscreenExit" :default ic-full-screen-exit]
    ["@mui/material/Icon" :default mui-icon]
    ["@mui/material/Stack" :default mui-stack]
    [reagent.core :as r]
@@ -37,6 +39,18 @@
   [icon-button (util/deep-merge
                 {:event event
                  :icon [:> ic-close]} m)])
+
+(defn full-screen-button
+  [{:keys [event] :as m}]
+  [icon-button (util/deep-merge
+                {:event event
+                 :icon [:> ic-full-screen]} m)])
+
+(defn full-screen-exit-button
+  [{:keys [event] :as m}]
+  [icon-button (util/deep-merge
+                {:event event
+                 :icon [:> ic-full-screen-exit]} m)])
 
 
 (defn costume-icon [src props]

@@ -66,7 +66,8 @@
 
 (defn publication-plot []
   (let [records (subscribe [::ll/selected-records])
-        area-mapping (subscribe [::data/area-mapping])]
+        area-mapping (subscribe [::data/area-mapping])
+        full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
       (let
        [area-names
@@ -89,7 +90,7 @@
         plot-data (get-plot-data area-data)]
         (js/console.log (str (count area-data)))
         [plotly/plot
-         {:box-args {:height "36vh" :width 460 :overflow :auto :margin-top 2}
+         {:box-args {:height (if @full-screen? "60vh" "36vh")  :width 460 :overflow :auto :margin-top 2}
           :style {:width 440 :height (+ 100 (* 35 (count area-data)))}
           :layout {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
                    :bargap 0.2
@@ -168,7 +169,8 @@
 
 (defn publication-plot-collab []
   (let [records (subscribe [::ll/selected-records])
-        area-mapping (subscribe [::data/area-mapping])]
+        area-mapping (subscribe [::data/area-mapping])
+        full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
       (let
        [area-names
@@ -190,7 +192,7 @@
                 (merge sub-area-info %)) sub-area-count)
         plot-data (get-plot-data area-data)]
         [plotly/plot
-         {:box-args {:height "50vh" :width 460 :overflow :auto :margin-top 2}
+         {:box-args {:height (if @full-screen? "70vh" "50vh") :width 460 :overflow :auto :margin-top 2}
           :style {:width 440 :height (max 300 (+ 100 (* 35 (count area-data))))}
           :layout {:margin  {:pad 10 :t 80 :b 30 :l 200 :r 5}
                    :annotations [{:xref :paper :yref :paper :xanchor :left :yanchor :top :x 0 :y 1.3
@@ -218,7 +220,7 @@
                            (first @selected-shape) 
                            (:name (first (filter #(= (first @selected-shape) (:pid %)) @csauthors))))
                   node-n (if insti?
-                           (first @selected-shape)
+                           (second @selected-shape)
                            (:name (first (filter #(= (second @selected-shape) (:pid %)) @csauthors))))]
               [:div
                [:div {:style {:display :flex :justify-content :space-between}}
@@ -230,26 +232,27 @@
                 node-m " And " node-n]
                [publication-plot-collab]])))))
 
-(defn map-info [{:keys [insti?]}]
+(defn map-info []
   (let [selected-shape (subscribe [::ll/selected-shape])
-        geometries (subscribe [::ll/geometries])] 
+        geometries (subscribe [::ll/geometries])
+        insti? (subscribe [::mp/insti?])] 
     (fn [] 
-      ^{:keys @geometries}
+      ^{:keys [@geometries @insti?]}
       [:div
        (if (string? @selected-shape) 
-         (if insti? [inst-info] [author-info])
-         [collab-info {:insti? insti?}])])))
+         (if @insti? [inst-info] [author-info])
+         [collab-info {:insti? @insti?}])])))
 
-(defn map-info-div [] 
+(defn map-info-div [height] 
    (let [geometries (subscribe [::ll/geometries])
-         insti? (subscribe [::ll/insti?])] 
+         insti? (subscribe [::mp/insti?])] 
      (fn []
        ^{:key @geometries}
        [collapse
         {:sub (subscribe [::ll/info-open?])
          :div
          [:div {:style {:position :absolute :right "10%" :z-index 10}}
-          [:div {:style {:background-color :white :height "70vh" :min-width "400px" :padding-left 10 :padding-right 10}}
+          [:div {:style {:background-color :white :height height :min-width "400px" :padding-left 10 :padding-right 10}}
            #_[:div {:style {:display :flex :justify-content :space-between}}
               #_[:h3 "Info Selected"]
               [button/close-button
@@ -258,7 +261,7 @@
            [map-info {:insti? @insti?}]]]}])))
 
 (comment 
-  (subscribe [::ll/insti?])
+  (subscribe [::mp/insti?])
   (let [records @(subscribe [::ll/selected-records])]
     (clojure.set/union
      (set (map #(identity [(:a_inst %) (:b_inst %)]) records)) 
