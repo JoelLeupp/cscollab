@@ -32,8 +32,8 @@
          [tabs/main-tab
           {:id :viz-view
            :box-args {:margin-bottom "5px"}
-           :choices [{:label "Map View" :value :map}
-                     {:label "Graph View" :value :graph}]}] 
+           :choices [{:label "Map" :value :map}
+                     {:label "Graph" :value :graph}]}] 
          (case @tab-view
            :map [interactive-map/interactive-map]
            :graph [graph-view]

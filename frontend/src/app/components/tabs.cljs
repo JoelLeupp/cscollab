@@ -43,7 +43,7 @@
        tabs-args)
       (for [c choices]
         ^{:key (:value c)}
-        [:> tab-comp (util/deep-merge (merge c {:style {:padding 10}}) tab-args)])]]))
+        [:> tab-comp (util/deep-merge (merge c {:style {:padding 10 :min-width 120}}) tab-args)])]]))
 
 
 (defn tab-style [type]
