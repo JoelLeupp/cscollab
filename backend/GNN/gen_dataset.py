@@ -2,6 +2,9 @@ import kuzudb.query_kuzu as query
 import collections
 import torch
 import torch_geometric
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+import numpy as np
 
 """ mapping of sub areas to areas"""
 area_mapping = query.get_area_mapping()
@@ -49,19 +52,44 @@ def get_collab_data(config):
     collab_weighted["a"] = list(map(lambda n: node_idx_mapping[n],collab_weighted["a"]))
     collab_weighted["b"] = list(map(lambda n: node_idx_mapping[n],collab_weighted["b"]))
     
-    edge_tuples = list(map(list,zip(collab_weighted["a"], collab_weighted["b"])))
+    adjacency_list = list(map(list,zip(collab_weighted["a"], collab_weighted["b"])))
     weights = collab_weighted["weight"]
 
     data = {"nodes": node_idx,
-            "edges":edge_tuples,
+            "edges":adjacency_list,
             "weights":weights,
             "freq": frequency_map}
     return data
 
 
-dach_inst_config = { "from_year": 2015,
+config = { "from_year": 2015,
                     "region_id":"dach",
                     "strict_boundary":True,
                     "institution":True}
 
-dach_inst_data = get_collab_data(dach_inst_config)
+data = get_collab_data(config)
+nodes = data["nodes"]
+edges = data["edges"]
+weights = data["weights"]
+freq = data["freq"]
+
+"""get target label as the area with the most records published"""
+def get_y(nodes, freq):
+    top_areas = list(map(lambda x: freq[x]["top_area"], nodes))
+    top_areas_unique = list(set(top_areas))
+    n = len(top_areas_unique)
+    onehot_encoder = OneHotEncoder(sparse_output=False)
+    onehot_encoded = onehot_encoder.fit_transform(np.arange(n).reshape(n,1))
+    onehot_mapping = dict(zip(top_areas_unique,onehot_encoded))
+    
+    """get target label as torch tensor"""
+    y = torch.tensor(list(map(lambda x: list(onehot_mapping[x]),top_areas)),dtype=torch.float)
+    return y
+
+def gen_torch_data(nodes,edges, freq, x=None ,weights=None):
+    edge_index = torch.tensor(edges, dtype=torch.long).t().contiguous()
+    y = get_y(nodes,freq)
+    data = torch_geometric.data.Data(x=x, y=y, edge_index=edge_index)
+    return data
+
+d= gen_torch_data(nodes, edges,freq)
