@@ -12,6 +12,11 @@ Use *backend/* as the working directory and always activate the virutal environm
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
+# install torch and respective cuda version
+pip install torch
+python -c "import torch; print(torch.version.cuda)"
+pip install pyg-lib torch-scatter torch-sparse -f https://data.pyg.org/whl/torch-1.13.0+cu117.html
+pip install torch-geometric
 ```
 
 ## Start the Server

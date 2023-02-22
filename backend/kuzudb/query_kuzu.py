@@ -178,11 +178,10 @@ def get_csauthors(country_id = None, region_id = "wd"):
 # result = get_csauthors(region_id="dach")
 # print(result.head(),"\n", result.shape)
 
-# result = get_csauthors()
-# result = json.loads(result.to_json(orient="records"),encoding='utf-8')
-
-# with open('get_csauthors.json', 'w',encoding='latin-1') as f:
-#     json.dump(result, f, indent=3,ensure_ascii=False)
+result = get_csauthors()
+result = json.loads(result.to_json(orient="records"))
+with open('get_csauthors.json', 'w',) as f:
+    json.dump(result, f, indent=3)
 
 def get_flat_collaboration(ignore_area=False):
     """get collaboration of csranking author with country and area information"""
