@@ -178,10 +178,10 @@ def get_csauthors(country_id = None, region_id = "wd"):
 # result = get_csauthors(region_id="dach")
 # print(result.head(),"\n", result.shape)
 
-result = get_csauthors()
-result = json.loads(result.to_json(orient="records"))
-with open('get_csauthors.json', 'w',) as f:
-    json.dump(result, f, indent=3)
+# result = get_csauthors()
+# result = json.loads(result.to_json(orient="records"))
+# with open('get_csauthors.json', 'w',) as f:
+#     json.dump(result, f, indent=3)
 
 def get_flat_collaboration(ignore_area=False):
     """get collaboration of csranking author with country and area information"""
@@ -321,6 +321,13 @@ def get_collaboration(collab_config={}):
     region_id = collab_config.get("region_id","wd")
     country_id =collab_config.get("country_id")
     strict_boundary = collab_config.get("strict_boundary", True)
+    
+    """ inproceeding sub-area mapping """
+    ip_area = conn.execute( '''MATCH 
+                            (i:Inproceeding)-[c:Crossref]->(p:Proceeding)-[ba:BelongsToArea]->(s:SubArea)
+                            RETURN i.id AS rec, s.id AS area
+                            ''').getAsDF() 
+    ip_area_mapping = dict(zip(ip_area["rec"],ip_area["area"]))
 
     """ get authors from given region """
     csauthors_region = get_csauthors(country_id=country_id, region_id=region_id)
@@ -369,6 +376,7 @@ def get_collaboration(collab_config={}):
     """ collaborations filtered on regional constraint """
     collabs_tuples_filtered = collabs_tuples[region_filter]
     collabs_sorted = pd.DataFrame(collabs_tuples_filtered, columns = ["a", "b", "rec", "year"])
+    collabs_sorted["rec_sub_area"]=list(map(lambda x: ip_area_mapping[x], collabs_sorted["rec"]))
     collabs_sorted = collabs_sorted.astype({"year":'int'})
     return collabs_sorted
 
@@ -403,7 +411,7 @@ def weighted_collab(collabs,from_year=None, to_year = None, institution = False)
     
     """ count collaborations between authors or institutions """
     weighted = collabs.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
-    weighted.columns = ["a", "b", "weight"]  
+    weighted.columns = ["a", "b", "weight"]
     return weighted
 # collabs = get_collaboration(
 #             {"area_id" : "ai", 
@@ -432,7 +440,7 @@ def get_weighted_collab(config={}):
 #                         "institution":False
 #                         })
 # get_weighted_collab({"from_year": 2010, "institution":True})
-# 
+# # 
 
 
 def get_collab_pid(pid_x, pid_y, config={}):
@@ -540,3 +548,5 @@ def get_collab_institution(inst_x, inst_y, config={}):
 
 # t = result["i.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
 # t = t.str.decode(encoding = 'utf-8')
+# utf_8 = bytearray('University of WÃ¼rzburg', 'utf-8')
+# utf_8.decode('utf-8')
