@@ -2,6 +2,7 @@ import kuzudb.query_kuzu as query
 import collections
 import torch
 import torch_geometric
+import torch_geometric.transforms as T
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
@@ -62,16 +63,6 @@ def get_collab_data(config):
     return data
 
 
-config = { "from_year": 2015,
-                    "region_id":"dach",
-                    "strict_boundary":True,
-                    "institution":True}
-
-data = get_collab_data(config)
-nodes = data["nodes"]
-edges = data["edges"]
-weights = data["weights"]
-freq = data["freq"]
 
 """get target label as the area with the most records published"""
 def get_y(nodes, freq):
@@ -87,9 +78,47 @@ def get_y(nodes, freq):
     return y
 
 def gen_torch_data(nodes,edges, freq, x=None ,weights=None):
+    
     edge_index = torch.tensor(edges, dtype=torch.long).t().contiguous()
+    
     y = get_y(nodes,freq)
-    data = torch_geometric.data.Data(x=x, y=y, edge_index=edge_index)
+    
+    if x is None:
+        x = torch.eye(len(nodes))
+    
+    if weights is not None:
+        weights = torch.tensor(weights,dtype=torch.long)
+        
+    data = torch_geometric.data.Data(x=x, y=y, edge_index=edge_index, edge_weight=weights, num_nodes=len(nodes))
+    data = T.ToUndirected()(data)
+    data = T.AddSelfLoops()(data) # by adding self-loops, we ensure that aggregated messages from neighbors 
+    data = T.NormalizeFeatures()(data)  
     return data
 
-d= gen_torch_data(nodes, edges,freq)
+def collab_to_torch(config, weighted=False):
+    collab_data = get_collab_data(config)
+    nodes = collab_data["nodes"]
+    edges = collab_data["edges"]
+    weights = collab_data["weights"] if weighted else None
+    freq = collab_data["freq"]
+    data = gen_torch_data(nodes, edges, freq, weights=weights)
+    return data
+
+# config = { "from_year": 2015,
+#             "region_id":"dach",
+#             "strict_boundary":True,
+#             "institution":True}
+# data = collab_to_torch(config)
+
+
+# config = { "from_year": 2015,
+#                     "region_id":"dach",
+#                     "strict_boundary":True,
+#                     "institution":True}
+
+# collab_data = get_collab_data(config)
+# nodes = collab_data["nodes"]
+# edges = collab_data["edges"]
+# weights = collab_data["weights"]
+# freq = collab_data["freq"]
+# data = gen_torch_data(nodes, edges, freq, weights=weights)
