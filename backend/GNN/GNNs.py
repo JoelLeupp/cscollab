@@ -94,17 +94,20 @@ config = { "from_year": 2015,
             "strict_boundary":True,
             "institution":True}
 
-data = collab_to_torch(config,weighted=True)
+data = collab_to_torch(config,weighted=False)
 transform = torch_geometric.transforms.RandomNodeSplit(split='train_rest', num_val=0.3, num_test=0)
 transform(data)
+print(f'Has self-loops: {data.has_self_loops()}')
+print(f'Is undirected: {data.is_undirected()}')
 
-model = GCN(data, out_ch=4, hidden_dim=16)
+model = GCN(data, out_ch=1, hidden_dim=4)
 
 epochs = 200
 lrn_rate = 0.1
 
 optimizer = torch.optim.SGD(model.parameters(), lr=lrn_rate)
 
+criterion = torch.nn.CrossEntropyLoss()
 
 indices = np.arange(data.num_nodes)
 losses = []
@@ -124,6 +127,7 @@ for epoch in range(epochs):
             # compute loss function for training sample and backpropagate
             output = model(data.x, data.edge_index)
             loss = torch.nn.functional.binary_cross_entropy(output[i], data.y[i])
+            # loss = criterion(output[data.train_mask], data.y[data.train_mask])
             loss.backward()
 
             # update parameters
