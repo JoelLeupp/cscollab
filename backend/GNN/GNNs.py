@@ -95,14 +95,11 @@ config = { "from_year": 2015,
             "institution":True}
 
 data = collab_to_torch(config,weighted=False)
-transform = torch_geometric.transforms.RandomNodeSplit(split='train_rest', num_val=0.3, num_test=0)
-transform(data)
-print(f'Has self-loops: {data.has_self_loops()}')
-print(f'Is undirected: {data.is_undirected()}')
 
-model = GCN(data, out_ch=1, hidden_dim=4)
 
-epochs = 200
+model = GCN(data, out_ch=4, hidden_dim=4)
+
+epochs = 1000
 lrn_rate = 0.1
 
 optimizer = torch.optim.SGD(model.parameters(), lr=lrn_rate)

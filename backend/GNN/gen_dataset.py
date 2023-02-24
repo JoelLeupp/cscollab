@@ -7,7 +7,6 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.preprocessing import LabelEncoder
 import numpy as np
 import functools
-
 """ mapping of sub areas to areas"""
 area_mapping = query.get_area_mapping()
 subarea_mapping = dict(zip(area_mapping["sub-area-id"],area_mapping["area-id"]))
@@ -20,13 +19,14 @@ n_area = len(area_ids)
 onehot_encoded_areas = onehot_encoder.fit_transform(np.arange(n_area).reshape(n_area,1))
 tensor_list_ohe_areas = list(map(lambda x: torch.tensor(x, dtype=torch.float), onehot_encoded_areas))
 area_ohe_mapping = dict(zip(area_ids,tensor_list_ohe_areas))
+area_binary_mapping = dict(zip(area_ids,[[0,0],[1,1],[1,0],[0,1]]))
 
 
 sub_area_ids = area_mapping["sub-area-id"].unique()
 n_sub_area = len(sub_area_ids)
 onehot_encoded_sub_areas = onehot_encoder.fit_transform(np.arange(n_sub_area).reshape(n_sub_area,1))
-tensor_list_ohe_sub_areas = list(map(lambda x: torch.tensor(x, dtype=torch.float), onehot_encoded_sub_areas))
-sub_area_ohe_mapping = dict(zip(sub_area_ids,tensor_list_ohe_sub_areas))
+# tensor_list_ohe_sub_areas = list(map(lambda x: torch.tensor(x, dtype=torch.float), onehot_encoded_sub_areas))
+sub_area_ohe_mapping = dict(zip(sub_area_ids,onehot_encoded_sub_areas))
 
 """mapping of author to institution"""
 csauthors_all = query.get_csauthors()
@@ -76,59 +76,71 @@ def get_collab_data(config):
             "weights":weights,
             "freq": frequency_map}
     return data
-
 """get target label as the area with the most records published"""
-def get_y(nodes, freq):
+def get_y(nodes, freq, method=0):
     top_areas = list(map(lambda x: freq[x]["top_area"], nodes))
     
     """get target label as torch tensor"""
-    y = torch.tensor(list(map(lambda x: list(area_ohe_mapping[x]),top_areas)),dtype=torch.float)
-    # y = torch.tensor(list(map(lambda x: area_ids.index(x),top_areas)),dtype=torch.float)
+    if method==0:
+        """binary represnetation of y"""
+        y = torch.tensor(list(map(lambda x: list(area_binary_mapping[x]),top_areas)),dtype=torch.float)
+    elif method ==1: 
+        """one hot endcoding representation of y"""
+        y = torch.tensor(list(map(lambda x: list(area_ohe_mapping[x]),top_areas)),dtype=torch.float)
+    elif method == 2:
+        """int representation of y"""
+        y = torch.tensor(list(map(lambda x: area_ids.index(x),top_areas)),dtype=torch.float)
     return y
 
 def sub_area_frequency(freq,n):
     sfreq = freq[n]["sub_area_freq"]
+    """sum up one hot endocings of the subareas by their frequency"""
     freq_array = functools.reduce(lambda x, key: x + sfreq[key] * sub_area_ohe_mapping[key], sfreq, np.zeros(n_sub_area))
+    """get frequency as percentage such that it sums up to 1"""
     freq_array_p = freq_array/sum(sfreq.values())
-    return list(freq_array_p)
+    return freq_array_p 
 
+"""the percentage of published subareas"""
 def get_x(nodes,freq):
-    x =  torch.tensor(list(map(lambda node: sub_area_frequency(freq,node) ,nodes)), dtype=torch.float)
+    x =  torch.tensor(np.array(list(map(lambda node: sub_area_frequency(freq,node) ,nodes))), dtype=torch.float)
     return x
 
-def gen_torch_data(nodes,edges, freq, use_x=True ,weights=None):
+def gen_torch_data(nodes,edges, freq, use_x=True ,weights=None, y_method=0,only_features=False):
     
     edge_index = torch.tensor(edges, dtype=torch.long).t().contiguous()
     
-    y = get_y(nodes,freq)
+    y = get_y(nodes,freq,y_method)
     
     ohe = torch.eye(len(nodes))
     if use_x:
-        x = torch.cat((get_x(nodes, freq), ohe), dim=1)
+        if only_features:
+            x=get_x(nodes, freq)
+        else:
+            x = torch.cat((get_x(nodes, freq), ohe), dim=1)
+       
     else:
         x = ohe
-         
     
     if weights is not None:
         weights = torch.tensor(weights,dtype=torch.long)
         
-    """create torch data object"""
-    data = torch_geometric.data.Data(x=x, y=y, edge_index=edge_index, edge_weight=weights, num_nodes=len(nodes))
-    data = T.ToUndirected()(data)
+    """create torch data object without weights"""
+    data = torch_geometric.data.Data(x=x, y=y, edge_index=edge_index, num_nodes=len(nodes))
+    data = T.ToUndirected()(data) # the collaboration network is undirected
     data = T.AddSelfLoops()(data) # by adding self-loops, we ensure that aggregated messages from neighbors 
-    data = T.NormalizeFeatures()(data)  
+    data = T.NormalizeFeatures()(data) # features will sum up to 1
     """ define train test split"""
     transform = torch_geometric.transforms.RandomNodeSplit(split='train_rest', num_val=0.3, num_test=0)
     transform(data)
     return data
 
-def collab_to_torch(config, weighted=False, use_x =True):
+def collab_to_torch(config, weighted=False, use_x =True, y_method=0,only_features=False):
     collab_data = get_collab_data(config)
     nodes = collab_data["nodes"]
     edges = collab_data["edges"]
     weights = collab_data["weights"] if weighted else None
     freq = collab_data["freq"]
-    data = gen_torch_data(nodes, edges, freq, use_x=use_x, weights=weights)
+    data = gen_torch_data(nodes, edges, freq, use_x=use_x, weights=weights, y_method=y_method,only_features=only_features)
     return data
 
 
@@ -138,13 +150,15 @@ def collab_to_torch(config, weighted=False, use_x =True):
 #             "institution":True}
 # data = collab_to_torch(config)
 
-# d= get_collab_data(config)
-nodes = d["nodes"]
-edges = d["edges"]
-freq = d["freq"]
-data.x[0]
+# # d= get_collab_data(config)
+# nodes = d["nodes"]
+# edges = d["edges"]
+# freq = d["freq"]
+# data.x[0]
 
-# print()
+# freq[0]
+# data.x[0]
+# # print()
 # print(data)
 # print('===========================================================================================================')
 # # Gather some statistics about the graph.
