@@ -12,7 +12,7 @@ blueprint = Blueprint(
 
 """ in the index.js add defaultModelsExpandDepth: -1 to the SwaggerUIBundle() configuration to hide schemas """
 SWAGGER_UI_CONFIG = {
-    "openapi_spec_url": "/swagger/", #https://petstore.swagger.io/v2/swagger.json"
+    "openapi_spec_url": "swagger/", #https://petstore.swagger.io/v2/swagger.json"
 }
 
 @blueprint.route('/swagger-ui')

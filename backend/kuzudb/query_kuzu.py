@@ -10,7 +10,7 @@ import json
 pd.options.mode.chained_assignment = None
 
 """ connect to db """
-db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=2147483648)
+db = kuzu.database(database_path='./kuzudb/db',buffer_pool_size=2294967296)
 # db.resize_buffer_manager(8589934592) 4294967296
 conn = kuzu.connection(db)
 
@@ -18,12 +18,22 @@ conn = kuzu.connection(db)
 if strict_boundary is True all authors must be from the given region 
 else at least one author must be from given region
 """
-config = {  "from_year": 2005,
+config_old = {  "from_year": 2005,
             "to_year": 2023,
             "area_id" : "ai", 
             "area_type": "a", 
             "region_id": "wd",
             "country_id": None,
+            "strict_boundary": True,
+            "institution":False
+            }
+
+config = {  "from_year": 2005,
+            "to_year": 2023,
+            "area_ids" : ["ai"], 
+            "sub_area_ids": None, 
+            "region_ids": ["wd"],
+            "country_ids": None,
             "strict_boundary": True,
             "institution":False
             }
@@ -175,9 +185,18 @@ def get_csauthors(country_id = None, region_id = "wd"):
                 '''.format(where_clause)).getAsDF()  
     result.columns = ["pid", "name", "institution", "lat", "lon"]  
     return result
-# result = get_csauthors(region_id="dach")
+
+# result = get_csauthors(country_id="ch")
 # print(result.head(),"\n", result.shape)
 
+# res = conn.execute(''' MATCH 
+#                     (a:Author)-[af:Affiliation]->(i:Institution)
+#                     RETURN a
+#                     ''').getAsDF()  
+# res["a.name"] = res["a.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+
+# res.to_csv("nodes_authors_csrankings.csv", encoding="utf-8-sig",
+#                            index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
 # result = get_csauthors()
 # result = json.loads(result.to_json(orient="records"))
 # with open('get_csauthors.json', 'w',) as f:

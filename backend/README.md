@@ -25,7 +25,11 @@ For local tests the server can simpy be started with [gunicorn](https://flask.pa
 
 ```{shell}
 source venv/bin/activate
+screen
 make server
+crtl+a d #detach screen
+screen -r #reatach screen
+pkill gunicorn #stop process
 ```
 
 For the deployment build a [docker](https://www.docker.com/) image and run the docker container containing the backend server which will be available at port 8030:
