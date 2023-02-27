@@ -4,7 +4,7 @@ import json
 import time
 
 """ create db """
-db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=2147483648)
+db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=503316480)
 # db.resize_buffer_manager(4294967296) # buffer pool size 4GB
 conn = kuzu.connection(db)
 
