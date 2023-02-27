@@ -6,6 +6,7 @@ import kuzu
 import pandas as pd
 import numpy as np
 import json
+from cache import cache
 
 pd.options.mode.chained_assignment = None
 
@@ -205,6 +206,11 @@ def get_csauthors(country_id = None, region_id = "wd"):
 def get_flat_collaboration(ignore_area=False):
     """get collaboration of csranking author with country and area information"""
 
+    cache_key = "get_flat_collaboration_{}".format(str(ignore_area))
+    result = cache.get(cache_key)
+    if result is not None:
+        return result
+    
     """ get all collaborations from csrankings authors """
     collab = conn.execute('''MATCH (a:AuthorCS)-[col:CollaborationCS]->(b:AuthorCS)
                              RETURN a.pid, b.pid, col.record, col.year, a.affiliation, b.affiliation''').getAsDF() 
@@ -246,6 +252,8 @@ def get_flat_collaboration(ignore_area=False):
     if not ignore_area:
         collab["rec_sub_area"]=list(map(lambda x: ip_area_mapping[x], collab["rec_id"]))
         
+    """cache result"""
+    cache.set(cache_key, collab) 
     # collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
     # collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
     return collab
@@ -259,27 +267,29 @@ def get_flat_collaboration(ignore_area=False):
 # with open('get_flat_collaboration.json', 'w',encoding='latin-1') as f:
 #     json.dump(result, f, indent=3,ensure_ascii=False)
 
-def filter_collab(config = {}):
+def filter_collab(collab, config = {}):
     """filter flat collaborationn
-    config = {  "area_ids" : ["ai","systems"], 
+    config = {  "from_year": 2005,
+                "to_year": 2023,    
+                "area_ids" : ["ai","systems"], 
                 "sub_area_ids":  ["robotics","bio"], 
                 "region_ids":["europe","northamerica"],
                 "country_ids":["jp","sg"],
                 "strict_boundary":True
                 }"""
-    
+    from_year = config.get("from_year")
+    to_year = config.get("to_year")
     area_ids = config.get("area_ids")
     sub_area_ids =  config.get("sub_area_ids")
     region_ids = config.get("region_ids",["wd"])
     country_ids =config.get("country_ids")
     strict_boundary = config.get("strict_boundary", True)
     
-    """get collaboration"""
-    if (area_ids is None) and (sub_area_ids is None):
-        ignore_area=True
-    else: 
-        ignore_area=False
-    collab = get_flat_collaboration(ignore_area=ignore_area)
+    """filter by year"""
+    if from_year:
+        collab = collab[collab["year"]>=from_year]
+    if to_year:
+        collab = collab[collab["year"]<to_year]
     
     """region filters"""
     region_mapping = get_region_mapping()
@@ -317,13 +327,14 @@ def filter_collab(config = {}):
     collab_filtered = collab_filtered.astype({"year":'int'})
     return collab_filtered
 # collab = get_flat_collaboration(ignore_area=False)
-# config = {  "area_ids" : ["ai","systems"], 
+# config = {  "from_year":2015,
+#             "area_ids" : ["ai","systems"], 
 #             "sub_area_ids":  ["robotics","bio"], 
 #             "region_ids":["europe","northamerica"],
 #             "country_ids":["jp","sg"],
 #             "strict_boundary":True
 #             }
-# collab_filtered = filter_collab(config)
+# collab_filtered = filter_collab(collab,config)
 
 
 def get_collaboration(collab_config={}):
@@ -439,6 +450,11 @@ def weighted_collab(collabs,from_year=None, to_year = None, institution = False)
 #             "strict_boundary":True
 #             })
 # weighted_collab(collabs, cut_off = 2010, institution=True)
+# collab_filtered = filter_collab(collab,config)
+# weighted_collab(collab_filtered, institution=True)
+# collab_filtered = filter_collab(collab,config)
+# institution = config.get("institution")
+# result = weighted_collab(collab_filtered,institution=institution)
 
 
 def get_weighted_collab(config={}):

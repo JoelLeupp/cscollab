@@ -56,8 +56,11 @@ def get_analytics_collab(**kwargs):
     """ get weighted collaboration based on config"""
     cache_key_collab = "get_weighted_collab_{}".format(config)
     weighted_collab = cache.get(cache_key_collab)
-    if config and (weighted_collab is None):
-        result = query.get_weighted_collab(config=config)
+    if weighted_collab is None:
+        collab = query.get_flat_collaboration(ignore_area=False)
+        collab_filtered = query.filter_collab(collab,config)
+        institution = config.get("institution")
+        result = query.weighted_collab(collab_filtered,institution=institution)
         weighted_collab =  json.loads(result.to_json(orient="records"))
         cache.set(cache_key_collab, weighted_collab)
     
