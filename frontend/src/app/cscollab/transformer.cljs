@@ -76,23 +76,6 @@
                filtered-collab))))
 
 
-(defn counter []
-  (let [n (count @(subscribe [::filtered-collab]))]
-    (fn []
-      [:div {:style {:text-align :center}}
-       (str "Number of collaborations based on filters: " n)])))
-
-(defn collab-count []
-  (let [update-view (r/atom 0)] 
-    (fn []
-      (js/console.log  @update-view)
-      [:div
-       [:div {:style {:position :relative :width 0 :height 0}}
-        [button/update-button
-         {:on-click #(swap! update-view inc)
-          :style {:padding 20 :z-index 999}}]]
-       ^{:key @update-view}
-       [counter]])))
 
 
 (comment

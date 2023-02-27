@@ -182,7 +182,7 @@
         (gen-nodes weighted-collab geo-mapping insti?)))
       [])))
 
-;; define and view atoms for leaflet component
+;; define and view atoms for leaflet componen
 (defonce zoom (atom 6))
 (defonce view (atom [49.8 13.1]))
 (defonce geometries-map (atom {}))
