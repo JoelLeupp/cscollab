@@ -11,7 +11,7 @@ from cache import cache
 pd.options.mode.chained_assignment = None
 
 """ connect to db """
-db = kuzu.database(database_path='./kuzudb/db',buffer_pool_size=2294967296)
+db = kuzu.database(database_path='./kuzudb/db')
 # db.resize_buffer_manager(8589934592) 4294967296
 conn = kuzu.connection(db)
 
