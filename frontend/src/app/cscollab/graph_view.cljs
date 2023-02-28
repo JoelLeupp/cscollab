@@ -87,7 +87,7 @@
         (dispatch [::g/set-graph-field [:elements] (gen-elements)])) 
       (when @elements
         ^{:key @elements}
-        [g/graph {:on-click (fn [e] (js/console.log (.. e -target data)))
+        [g/graph {:on-click (fn [e] (js/console.log (.. e -target data -id)))
                   :elements @elements
                   :layout {:name :grid}
                   :stylesheet  [{:selector "node"
@@ -132,5 +132,21 @@
   (def elements @(subscribe [::g/elements]))
   elements
   (subvec elements 0 5)
+  (def cy @(subscribe [::g/cy]))
+  (g/init-cytoscape-fcose)
   (last elements)
+  (def cy (subscribe [::db/ui-states-field [:graph :fcose]]))
+  (.on @cy "tap" (fn [e] (js/console.log (= (.-target e) @cy))))
+  (def layout (.layout @cy #js {:name "fcose"}))
+  (.run layout)
+  (js/console.log (.elements cy))
+  (def e (.getElementById cy "EPFL"))
+  (.select e)
+  (.unselect (.elements cy))
+  (.id e)
+  (->clj (.jsons e))
+  (.json e (clj->js {:selected true}))
+  (js/console.log (.edges cy "[source = \"g\"]"))
+  (->clj (.jsons (.edges cy "[source = \"RWTH Aachen\"]")))
+  (->clj (.jsons (.nodes @cy)))
   )
