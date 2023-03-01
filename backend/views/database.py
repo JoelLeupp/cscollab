@@ -168,6 +168,65 @@ def get_weighted_collab(**kwargs):
     return jsonify(result_json)
 
 
+@blueprint.route(route_path('get_publications_node'), methods=['POST'])
+@doc(summary="get all publications of a node based on the config",
+    description =   """
+        example :config =     { "from_year": 2005,\n
+                                "to_year": 2023,\n
+                                "area_ids" : ["ai","systems"], \n
+                                "sub_area_ids":  ["robotics","bio"], \n
+                                "region_ids":["europe","northamerica"],\n
+                                "country_ids":["jp","sg"],\n
+                                "strict_boundary":True,\n
+                                "institution":False}""",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'node':fields.Str(), 'config': fields.Str(default="{}")})
+def get_publications_node(**kwargs):
+    config = json.loads(kwargs.get('config',"{}"))
+    node = kwargs.get('node')
+    cache_key = "get_publications_node_{}_{}".format(config,node)
+    result_json = cache.get(cache_key)
+    if result_json is None:
+        collab = query.get_flat_collaboration(ignore_area=False)
+        collab_filtered = query.filter_collab(collab,config)
+        institution = config.get("institution")
+        result = query.get_publications_node(node, collab_filtered, institution = institution)
+        result_json =  json.loads(result.to_json(orient="records"))
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)
+
+
+@blueprint.route(route_path('get_publications_edge'), methods=['POST'])
+@doc(summary="get all publications of an edge based on the config",
+    description =   """
+        example :config =     { "from_year": 2005,\n
+                                "to_year": 2023,\n
+                                "area_ids" : ["ai","systems"], \n
+                                "sub_area_ids":  ["robotics","bio"], \n
+                                "region_ids":["europe","northamerica"],\n
+                                "country_ids":["jp","sg"],\n
+                                "strict_boundary":True,\n
+                                "institution":False}""",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'edge':fields.List(fields.Str()), 'config': fields.Str(default="{}")})
+def get_publications_edge(**kwargs):
+    config = json.loads(kwargs.get('config',"{}"))
+    edge = kwargs.get('edge')
+    cache_key = "get_publications_node_{}_{}".format(config,edge)
+    result_json = cache.get(cache_key)
+    if result_json is None:
+        collab = query.get_flat_collaboration(ignore_area=False)
+        collab_filtered = query.filter_collab(collab,config)
+        institution = config.get("institution")
+        result = query.get_publications_edge(edge, collab_filtered, institution = institution)
+        result_json =  json.loads(result.to_json(orient="records"))
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)
+
+
+
 @blueprint.route(route_path('get_collab_pid'), methods=['POST'])
 @doc(summary="get all the collaborations between two authors with the constraints given in the config",
     description =   """example :config =    {  "from_year": 2010,\n

@@ -13,7 +13,7 @@ import pandas as pd
 local_url = "http://127.0.0.1:8030"
 server_url = "https://cscollab.ifi.uzh.ch/backend"
 
-url_base = local_url 
+url_base = server_url 
 
 """ get region mapping """
 url = url_base+"/api/db/get_region_mapping"
@@ -72,7 +72,7 @@ url = url_base+"/api/db/get_weighted_collab"
 #             "region_id":"dach",
 #             "strict_boundary":True,
 #             "institution":False}
-config = { "from_year": 2005,
+config = { "from_year": 2015,
             "to_year": 2023,
             "area_ids" : ["ai","systems"], 
             "sub_area_ids":  ["robotics","bio"], 
@@ -80,7 +80,55 @@ config = { "from_year": 2005,
             "country_ids":["jp","sg"],
             "strict_boundary":True,
             "institution":False}
-input = {"config": json.dumps(collab_config)}
+input = {"config": json.dumps(config)}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
+
+""" get all publications of a node based on the config"""
+url = url_base+"/api/db/get_publications_node"
+config = { "from_year": 2015,
+            "to_year": 2023,
+            "area_ids" : ["ai","systems"], 
+            "sub_area_ids":  ["robotics","bio"], 
+            "region_ids":["europe","northamerica"],
+            "country_ids":["jp","sg"],
+            "strict_boundary":True,
+            "institution":False}
+input = {"config": json.dumps(config),
+         "node":"m/EvangelosMarkakis"}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
+url = url_base+"/api/db/get_publications_node"
+config = { "from_year": 2015,
+            "to_year": 2023,
+            "area_ids" : ["ai","systems"], 
+            "sub_area_ids":  ["robotics","bio"], 
+            "region_ids":["europe","northamerica"],
+            "country_ids":["jp","sg"],
+            "strict_boundary":True,
+            "institution":True}
+input = {"config": json.dumps(config),
+         "node":"EPFL"}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
+""" get all publications of an edge based on the config"""
+url = url_base+"/api/db/get_publications_edge"
+config = { "from_year": 2015,
+            "to_year": 2023,
+            "area_ids" : ["ai","systems"], 
+            "sub_area_ids":  ["robotics","bio"], 
+            "region_ids":["europe","northamerica"],
+            "country_ids":["jp","sg"],
+            "strict_boundary":True,
+            "institution":True}
+input = {"config": json.dumps(config),
+         "edge":["EPFL", "Ecole Normale Superieure"]}
 x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
@@ -125,14 +173,9 @@ print(res["centralities"])
 
 """ get graph analytics from weighted collaboration graph"""
 url = url_base+"/api/analytics/get_analytics_collab"
-config = {  "from_year": 2010,
-            "area_id" : "ai", 
-            "area_type":  "a", 
-            "region_id":"dach",
-            "strict_boundary":True,
-            "institution":False}
-input = {"config":json.dumps(config), "top": 3}
-x = requests.post(url, json = input)
-res = json.loads(x.content)
-print(res["statistics"])
-print(res["centralities"])
+# config = {  "from_year": 2010,
+#             "area_id" : "ai", 
+#             "area_type":  "a", 
+#             "region_id":"dach",
+#             "strict_boundary":True,
+#             "institution":False}

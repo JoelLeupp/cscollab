@@ -4,7 +4,7 @@ import json
 import time
 
 """ create db """
-db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=503316480)
+db = kuzu.database(database_path='./kuzudb/db', buffer_pool_size=403316480)
 # db.resize_buffer_manager(4294967296) # buffer pool size 4GB
 conn = kuzu.connection(db)
 
@@ -129,7 +129,7 @@ conn.execute("""CREATE REL TABLE SubAreaOf(
 """ load data in db"""
 """---------------- nodes --------------------------------------------------------------------"""
 conn.execute('COPY Author FROM "kuzudb/data/nodes_authors.csv" (DELIM=";")')
-conn.execute('COPY AuthorCS FROM "kuzudb/data/nodes_authors_csrankings.csv" (DELIM=";")')
+conn.execute('COPY AuthorCS FROM "kuzudb/data/nodes_authors_csrankings.csv" (DELIM=";",HEADER=False)')
 conn.execute('COPY Proceeding FROM "kuzudb/data/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Inproceeding FROM "kuzudb/data/nodes_inproceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Conference FROM "kuzudb/data/nodes_conferences.csv" (DELIM=";", HEADER=true)')

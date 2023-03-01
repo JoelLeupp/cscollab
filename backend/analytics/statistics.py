@@ -21,8 +21,8 @@ def get_statistics(G):
     degrees = sorted(d for n, d in G.degree())
     connected_components=list(nx.connected_components(G))
     connected_components_size = sorted(list(map(lambda x: len(x),connected_components)),reverse=True)
-    shortest_path_lengths = dict(nx.all_pairs_shortest_path_length(G))
-    average_path_lengths = np.mean([np.mean(list(spl.values())) for spl in shortest_path_lengths.values()])
+    # shortest_path_lengths = dict(nx.all_pairs_shortest_path_length(G))
+    # average_path_lengths = np.mean([np.mean(list(spl.values())) for spl in shortest_path_lengths.values()])
     
     statistics = {
         "nodes": G.number_of_nodes(),
@@ -34,7 +34,6 @@ def get_statistics(G):
         "is_connected": nx.is_connected(G),
         "number_connected_components": nx.number_connected_components(G),
         "largest_connected_component": max(connected_components_size),
-        "average_shortest_path": average_path_lengths,
         "density": nx.density(G),
         "clustering_coefficient": nx.average_clustering(G),
         "degree_assortativity_coefficient": nx.degree_assortativity_coefficient(G)
@@ -59,13 +58,13 @@ def get_centralities(G, weighted=False, top=None):
     degree_centrality= (sorted(nx.centrality.degree_centrality(G).items(), 
                     key=lambda item: item[1], reverse=True))[:top]
 
-    """number of times the node lies on the shortest path between other nodes"""
-    betweenness_centrality=(sorted(nx.centrality.betweenness_centrality(G).items(),
-                            key=lambda item: item[1], reverse=True))[:top]
+    # """number of times the node lies on the shortest path between other nodes"""
+    # betweenness_centrality=(sorted(nx.centrality.betweenness_centrality(G).items(),
+    #                         key=lambda item: item[1], reverse=True))[:top]
 
-    """score based on closeness to all other nodes"""
-    closeness_centrality= (sorted(nx.centrality.closeness_centrality(G).items(), 
-                        key=lambda item: item[1], reverse=True))[:top]
+    # """score based on closeness to all other nodes"""
+    # closeness_centrality= (sorted(nx.centrality.closeness_centrality(G).items(), 
+    #                     key=lambda item: item[1], reverse=True))[:top]
 
     """how connected a node is to other important nodes"""
     if weighted:
@@ -77,7 +76,7 @@ def get_centralities(G, weighted=False, top=None):
                                 key=lambda item: item[1], reverse=True))[:top]
 
     centralities = {"degree_centrality":__tuple_to_dict(degree_centrality),
-                    "betweenness_centrality":__tuple_to_dict(betweenness_centrality),
-                    "closeness_centrality":__tuple_to_dict(closeness_centrality),
+                    # "betweenness_centrality":__tuple_to_dict(betweenness_centrality),
+                    # "closeness_centrality":__tuple_to_dict(closeness_centrality),
                     "eigenvector_centrality":__tuple_to_dict(eigenvector_centrality)}   
     return centralities

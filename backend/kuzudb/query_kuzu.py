@@ -171,6 +171,11 @@ def get_conference(conf):
 def get_csauthors(country_id = None, region_id = "wd"):
     """ get authors from csranking with their affiliation filtered on region/country """
      
+    cache_key = "get_csauthors_{}_{}".format(country_id,region_id)
+    result = cache.get(cache_key)
+    if result is not None:
+        return result
+    
     if country_id:
         where_clause = 'c.id = "{}"'.format(country_id)
     else:
@@ -185,6 +190,7 @@ def get_csauthors(country_id = None, region_id = "wd"):
                 RETURN a.pid, a.name,i
                 '''.format(where_clause)).getAsDF()  
     result.columns = ["pid", "name", "institution", "lat", "lon"]  
+    cache.set(cache_key, result) 
     return result
 
 # result = get_csauthors(country_id="ch")
@@ -310,8 +316,8 @@ def filter_collab(collab, config = {}):
 
     if (area_ids is None) and (sub_area_ids is None):
         """filter collaborations based on region"""
-        collab_filtered = collab[collab_country_filter][["a_pid","b_pid","rec_id","year"]]
-        collab_filtered.columns = ["a","b","rec","year"]
+        collab_filtered = collab[collab_country_filter]
+        # collab_filtered.columns = ["a","b","rec","year"]
     else:
         """ area filters """
         area_mapping = get_area_mapping()
@@ -321,8 +327,8 @@ def filter_collab(collab, config = {}):
         collab_area_filter = list(map(lambda x: x in areas , collab["rec_sub_area"]))
     
         """filter collaborations based on region and areas"""
-        collab_filtered = collab[np.logical_and(collab_country_filter,collab_area_filter)][["a_pid","b_pid","rec_id","year"]]
-        collab_filtered.columns = ["a","b","rec","year"]
+        collab_filtered = collab[np.logical_and(collab_country_filter,collab_area_filter)]
+        # collab_filtered.columns = ["a","b","rec","year"]
     
     collab_filtered = collab_filtered.astype({"year":'int'})
     return collab_filtered
@@ -335,6 +341,7 @@ def filter_collab(collab, config = {}):
 #             "strict_boundary":True
 #             }
 # collab_filtered = filter_collab(collab,config)
+
 
 
 def get_collaboration(collab_config={}):
@@ -419,28 +426,32 @@ def get_collaboration(collab_config={}):
 # collabs_sorted = get_collaboration()
 
 
-def weighted_collab(collabs,from_year=None, to_year = None, institution = False):
+def weighted_collab(collabs, institution = False):
     """generate a weighted collaboration based on author or instituion from a set of collaborations
     example collabs = get_collaboration()"""
     
     """ get all csauthors and create a mapping pid->institution """
-    csauthors_all = get_csauthors()
-    author_inst_map = dict(zip(csauthors_all["pid"],csauthors_all["institution"]))
+    # csauthors_all = get_csauthors()
+    # author_inst_map = dict(zip(csauthors_all["pid"],csauthors_all["institution"]))
 
     if institution:
-        collabs["a"] = list(map(lambda x: author_inst_map[x], collabs["a"].values))
-        collabs["b"] = list(map(lambda x: author_inst_map[x], collabs["b"].values))
+        collab = collabs[["a_inst","b_inst", "rec_id"]]  #list(map(lambda x: author_inst_map[x], collabs["a"].values))
+        # collabs["b"] = list(map(lambda x: author_inst_map[x], collabs["b"].values))
         """make sure to weight the collaboration between institutions  
         only once per inproceeding even if multiple auhtors collaborated"""
-        collabs = collabs.drop_duplicates()
-    """ only consider collabs later or equal to the cut_off year """
-    if from_year:
-        collabs = collabs[collabs["year"]>=from_year]
-    if to_year:
-        collabs = collabs[collabs["year"]<to_year]
+        collab = collab.drop_duplicates()
+    else:
+        collab = collabs[["a_pid","b_pid", "rec_id"]]
+    collab.columns = ["a","b", "rec"]
+        
+    # """ only consider collabs later or equal to the cut_off year """
+    # if from_year:
+    #     collabs = collabs[collabs["year"]>=from_year]
+    # if to_year:
+    #     collabs = collabs[collabs["year"]<to_year]
     
     """ count collaborations between authors or institutions """
-    weighted = collabs.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
+    weighted = collab.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
     weighted.columns = ["a", "b", "weight"]
     return weighted
 # collabs = get_collaboration(
@@ -477,6 +488,40 @@ def get_weighted_collab(config={}):
 # get_weighted_collab({"from_year": 2010, "institution":True})
 # # 
 
+def get_publications_node(node, collab_filtered, institution = False):
+    
+    node_a = "a_inst" if institution else "a_pid"
+    node_b = "b_inst" if institution else "b_pid"
+    filter_node_a = list(map(lambda x: x == node , collab_filtered[node_a]))
+    filter_node_b = list(map(lambda x: x == node , collab_filtered[node_b]))
+    filter_node = np.logical_or(filter_node_a,filter_node_b)
+    
+    publications = collab_filtered[filter_node]
+    publications["collab_pid"]=list(map(lambda row: row[1]["a_pid"] if row[1][node_b]==node else row[1]["b_pid"], publications.iterrows()))
+    publications["collab_inst"]=list(map(lambda row: row[1]["a_inst"] if row[1][node_b]==node else row[1]["b_inst"], publications.iterrows()))
+    publications["collab_country"]=list(map(lambda row: row[1]["a_country"] if row[1][node_b]==node else row[1]["b_country"], publications.iterrows()))
+    publications=publications[["rec_id","rec_sub_area", "year","collab_pid", "collab_inst", "collab_country"]]
+    return publications
+
+# edge = ["EPFL", "Ecole Normale Superieure"]
+def get_publications_edge(edge, collab_filtered, institution = False):
+    
+    node_a = "a_inst" if institution else "a_pid"
+    node_b = "b_inst" if institution else "b_pid"
+    filter_node_a_e0 = list(map(lambda x: x == edge[0] , collab_filtered[node_a]))
+    filter_node_a_e1 = list(map(lambda x: x == edge[1] , collab_filtered[node_a]))
+    filter_node_b_e0 = list(map(lambda x: x == edge[0] , collab_filtered[node_b]))
+    filter_node_b_e1 = list(map(lambda x: x == edge[1] , collab_filtered[node_b]))
+    
+    filter_1 = np.logical_and(filter_node_a_e0,filter_node_b_e1)
+    filter_2 = np.logical_and(filter_node_a_e1,filter_node_b_e0)
+    filter_edge = np.logical_or(filter_1,filter_2)
+    
+    publications = collab_filtered[filter_edge]
+    publications=publications[["rec_id","rec_sub_area", "year"]]
+    return publications
+
+    
 
 def get_collab_pid(pid_x, pid_y, config={}):
     """ get all the collaborations between two authors with the constraints given in the config """
