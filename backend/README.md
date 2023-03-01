@@ -96,3 +96,13 @@ of top nodes to show from the centrality scores and returns a summary of graph t
    }
 }
 ```
+
+#GNN
+
+We want to classffiy the institutions/authors of the collaboration network by the sub/area where they have the most publications. For this we implemented a semi-supervised node classification using graph convolutional networks [GCN](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv). 
+
+The torch data object conists of:
+* edge_indices: undirected edges of the collaboration network plus additionaly added self-loops
+* edge_weight: the weight of the edges
+* x (node features): a normalized one-hot encoding representation of publications by subarea. Since we have 23 subareas we have 23 node features where each feature can be seen as the percentage of publications in the respective subarea and therefor the sum of the node features is always 1
+* y: an integer representation of the areas or subareas depending on the goal.

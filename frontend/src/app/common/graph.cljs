@@ -33,6 +33,12 @@
  (fn [m] (when m m)))
 
 (reg-sub
+ ::cy
+ :<- [::graph-field :cy]
+ (fn [m] (when m m)))
+
+
+(reg-sub
  ::elements
  :<- [::graph-field :elements]
  (fn [g] (when g g)))
@@ -60,6 +66,7 @@
              (.on % "tap" "edge" (fn [event] (when on-click (on-click event))))
              (.on % "tap" (fn [e]
                             (when (= (.-target e) %)
+                              (.unselect (.elements %))
                               (dispatch [::set-graph-field [:info-open?] false]))))))
         :elements elements
         :layout layout
