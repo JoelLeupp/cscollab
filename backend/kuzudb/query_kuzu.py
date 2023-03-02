@@ -168,6 +168,25 @@ def get_conference(conf):
 # result = get_conference()   
 # print(result.head(),"\n", result.shape)
 
+def get_csauthors_no_cache(country_id = None, region_id = "wd"):
+    """ get authors from csranking with their affiliation filtered on region/country """
+
+    if country_id:
+        where_clause = 'c.id = "{}"'.format(country_id)
+    else:
+        where_clause = 'r.id = "{}"'.format(region_id)
+    
+    result = conn.execute('''  
+                MATCH 
+                (a:AuthorCS)-[af:AffiliationCS]->
+                (i:Institution)-[l:LocatedIn]->
+                (c:Country)-[ir:InRegion]->(r:Region)
+                WHERE {}
+                RETURN a.pid, a.name,i
+                '''.format(where_clause)).getAsDF()  
+    result.columns = ["pid", "name", "institution", "lat", "lon"]  
+    return result
+
 def get_csauthors(country_id = None, region_id = "wd"):
     """ get authors from csranking with their affiliation filtered on region/country """
      
@@ -209,13 +228,14 @@ def get_csauthors(country_id = None, region_id = "wd"):
 # with open('get_csauthors.json', 'w',) as f:
 #     json.dump(result, f, indent=3)
 
-def get_flat_collaboration(ignore_area=False):
+def get_flat_collaboration(ignore_area=False, use_cache=True):
     """get collaboration of csranking author with country and area information"""
 
-    cache_key = "get_flat_collaboration_{}".format(str(ignore_area))
-    result = cache.get(cache_key)
-    if result is not None:
-        return result
+    if use_cache:
+        cache_key = "get_flat_collaboration_{}".format(str(ignore_area))
+        result = cache.get(cache_key)
+        if result is not None:
+            return result
     
     """ get all collaborations from csrankings authors """
     collab = conn.execute('''MATCH (a:AuthorCS)-[col:CollaborationCS]->(b:AuthorCS)
@@ -259,7 +279,8 @@ def get_flat_collaboration(ignore_area=False):
         collab["rec_sub_area"]=list(map(lambda x: ip_area_mapping[x], collab["rec_id"]))
         
     """cache result"""
-    cache.set(cache_key, collab) 
+    if use_cache:
+        cache.set(cache_key, collab) 
     # collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
     # collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
     return collab
@@ -288,7 +309,7 @@ def filter_collab(collab, config = {}):
     area_ids = config.get("area_ids")
     sub_area_ids =  config.get("sub_area_ids")
     region_ids = config.get("region_ids",["wd"])
-    country_ids =config.get("country_ids")
+    country_ids =config.get("country_ids",[])
     strict_boundary = config.get("strict_boundary", True)
     
     """filter by year"""
@@ -352,7 +373,8 @@ def get_collaboration(collab_config={}):
                 "country_id":None,
                 "strict_boundary":True
                 }"""
-    
+    from_year = collab_config.get("from_year")
+    to_year = collab_config.get("to_year")
     area_id = collab_config.get("area_id")
     area_type =  collab_config.get("area_type")
     region_id = collab_config.get("region_id","wd")
@@ -367,7 +389,7 @@ def get_collaboration(collab_config={}):
     ip_area_mapping = dict(zip(ip_area["rec"],ip_area["area"]))
 
     """ get authors from given region """
-    csauthors_region = get_csauthors(country_id=country_id, region_id=region_id)
+    csauthors_region = get_csauthors_no_cache(country_id=country_id, region_id=region_id)
     csauthors_region_idx = dict(zip(csauthors_region["pid"],np.repeat(True, csauthors_region.shape[0])))
 
     """ get all inproceedings from cs rankings from an area """
@@ -382,10 +404,15 @@ def get_collaboration(collab_config={}):
     """ get all collaborations from csrankings authors """
     collab = conn.execute('''MATCH (a:AuthorCS)-[col:CollaborationCS]->(b:AuthorCS)
                              RETURN a.pid AS a, b.pid AS b, col.record AS rec, col.year AS year''').getAsDF() 
+    
+    """ only consider collabs later or equal to the cut_off year """
+    if from_year:
+        collab = collab[collab["year"]>=from_year]
+    if to_year:
+        collab = collab[collab["year"]<to_year]
 
     """ filter collaboration by area """
     collabs_area = collab[list(map(lambda x: inproceedings_idx.get(x, False), collab["rec"]))]
-
 
     def order_tuple(row):
         """ sort authors alphabetically to make sure the collaborations between authors is correctly aggregated """
@@ -476,7 +503,7 @@ def get_weighted_collab(config={}):
     to_year = config.get("to_year")
     
     collabs = get_collaboration(config)
-    weighted = weighted_collab(collabs, from_year = from_year,to_year=to_year, institution=institution)
+    weighted = weighted_collab(collabs,  institution=institution)
     return weighted
 # get_weighted_collab({   "from_year": 2010,
 #                         "area_id" : "ai", 
