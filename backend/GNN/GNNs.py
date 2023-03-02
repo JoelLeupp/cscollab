@@ -38,6 +38,14 @@ class GCN(torch.nn.Module):
         x = self.conv2(x, edge_index, edge_weight)
         return x
     
-    
+
+
+""" test GNN model """
+config = { "from_year": 2015,
+            "region_ids":["dach"],
+            "strict_boundary":True,
+            "institution":False}
+collab_flat = query.get_flat_collaboration(ignore_area=False,use_cache=False)
+collab_filtered = query.filter_collab(collab_flat,config)
 
 
