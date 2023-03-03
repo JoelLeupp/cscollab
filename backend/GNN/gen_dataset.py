@@ -242,16 +242,24 @@ def get_torch_data(config, use_sub_areas,use_cache=False):
 
 
 # use_sub_areas = False
-# config = { "from_year": 2005,
-#             "region_ids":["wd"],
+# config = { "from_year": 2015,
+#             "region_ids":["dach"],
 #             "strict_boundary":True,
-#             "institution":False}
+#             "institution":True}
 # collab_flat = query.get_flat_collaboration(ignore_area=False,use_cache=False)
 # collab_filtered = query.filter_collab(collab_flat,config)
+# t = collab_filtered["a"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+
+# collab_flat["b_inst"] = collab_flat["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+# collab_flat.loc[243243]
+# bytearray(collab_flat.loc[243243]["b_inst"], 'utf-8').decode('utf-8')
+# collab_flat.loc[243241:243244]
 # institution = config.get("institution")
 
 # collab_data = prepare_data(collab_filtered,institution)
 # data = collab_to_torch(collab_data,weighted=True,use_sub_areas=use_sub_areas)
+
+# utf_8 = bytearray('University of WÃ\x83Â¼rzburg', 'utf-8').decode('utf-8')
 
 
 

@@ -20,7 +20,7 @@ def route_path(path):
 @blueprint.route(route_path('get_node_position'), methods=['POST'])
 @doc(summary="get the position of the nodes based on the hidden output layer of the GCN model",
     description =   """get position of nodes""",
-     tags=['db'],
+     tags=['gcn'],
      responses=make_swagger_response([]))
 @use_kwargs({'config': fields.Str(default="{}"),'sub_areas': fields.Boolean(default=True)})
 def get_node_position(**kwargs):

@@ -179,3 +179,17 @@ url = url_base+"/api/analytics/get_analytics_collab"
 #             "region_id":"dach",
 #             "strict_boundary":True,
 #             "institution":False}
+
+url = url_base+"/api/gcn/get_node_position"
+config = { "from_year": 2015,
+            "region_ids":["dach"],
+            "strict_boundary":True,
+            "institution":True}
+use_sub_areas = False
+input = {"config": json.dumps(config),
+         "sub_areas":use_sub_areas}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
+
+

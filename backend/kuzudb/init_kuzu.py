@@ -129,7 +129,7 @@ conn.execute("""CREATE REL TABLE SubAreaOf(
 """ load data in db"""
 """---------------- nodes --------------------------------------------------------------------"""
 conn.execute('COPY Author FROM "kuzudb/data/nodes_authors.csv" (DELIM=";")')
-conn.execute('COPY AuthorCS FROM "kuzudb/data/nodes_authors_csrankings.csv" (DELIM=";",HEADER=False)')
+conn.execute('COPY AuthorCS FROM "kuzudb/data/nodes_authors_csrankings.csv" (DELIM=";",HEADER=true)')
 conn.execute('COPY Proceeding FROM "kuzudb/data/nodes_proceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Inproceeding FROM "kuzudb/data/nodes_inproceedings.csv" (DELIM=";", HEADER=true)')
 conn.execute('COPY Conference FROM "kuzudb/data/nodes_conferences.csv" (DELIM=";", HEADER=true)')
@@ -174,7 +174,9 @@ conn.execute('COPY LocatedIn FROM "kuzudb/data/edges_located_in.csv" (DELIM=";")
 
 
 # """ check data """
-# results = conn.execute('MATCH (x:Conference) RETURN DISTINCT x.title;').getAsDF()            
+# results = conn.execute('MATCH (x:AuthorCS) RETURN x').getAsDF()
+# print(results.head())
+# print(results.loc[0])            
 # print(results)
 # print(results.shape)
 
