@@ -9,6 +9,7 @@ import numpy as np
 import functools
 import json
 import pandas as pd
+from cache import cache
 
 """ mapping of sub areas to areas"""
 area_mapping = query.get_area_mapping()
@@ -209,16 +210,36 @@ def collab_to_torch(collab_data, weighted=True,use_sub_areas=True):
 
 
 """wrapper to return torch data object from config"""
-def get_torch_data(config, use_sub_areas):
+def get_torch_data(config, use_sub_areas,use_cache=False):
     
-    collab_flat = query.get_flat_collaboration(ignore_area=False,use_cache=False)
+    collab_flat = query.get_flat_collaboration(ignore_area=False,use_cache=use_cache)
     collab_filtered = query.filter_collab(collab_flat,config)
 
     institution = config.get("institution")
-
-    collab_data = prepare_data(collab_filtered,institution)
+    
+    if use_cache:
+        cache_key = "get_torch_data_{}_{}".format(config,use_sub_areas)
+        result = cache.get(cache_key)
+        if result is not None:
+            return result
+    
+    if use_cache:
+        cache_key_prepare_data = "prepare_data_{}".format(config)
+        collab_data = cache.get(cache_key_prepare_data)
+        if collab_data is None:
+            collab_data = prepare_data(collab_filtered,institution)
+            cache.set(cache_key_prepare_data, collab_data) 
+    else:
+        collab_data = prepare_data(collab_filtered,institution)
+        
     data_area = collab_to_torch(collab_data,weighted=True,use_sub_areas=use_sub_areas)
+    
+    """cache result"""
+    if use_cache:
+        cache.set(cache_key, data_area) 
+    
     return data_area
+
 
 # use_sub_areas = False
 # config = { "from_year": 2005,

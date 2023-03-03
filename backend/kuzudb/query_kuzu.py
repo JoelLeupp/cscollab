@@ -12,7 +12,8 @@ pd.options.mode.chained_assignment = None
 
 """ connect to db """
 db = kuzu.database(database_path='./kuzudb/db')
-# db.resize_buffer_manager(8589934592) 4294967296
+# db.resize_buffer_manager(4294967296) 
+
 conn = kuzu.connection(db)
 
 """config for global filters
@@ -220,7 +221,8 @@ def get_csauthors(country_id = None, region_id = "wd"):
 #                     RETURN a
 #                     ''').getAsDF()  
 # res["a.name"] = res["a.name"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-
+# res["a.affiliation"] = res["a.affiliation"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+# res.loc[13200:13205]
 # res.to_csv("nodes_authors_csrankings.csv", encoding="utf-8-sig",
 #                            index=False, header=False, sep=";",doublequote=False, escapechar="\\")  
 # result = get_csauthors()
@@ -281,8 +283,8 @@ def get_flat_collaboration(ignore_area=False, use_cache=True):
     """cache result"""
     if use_cache:
         cache.set(cache_key, collab) 
-    # collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
-    # collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
+    collab["b_inst"] = collab["b_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+    collab["a_inst"] = collab["a_inst"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')   
     return collab
 
 

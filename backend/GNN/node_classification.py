@@ -49,6 +49,15 @@ def test(model,data):
       test_acc = int(test_correct.sum()) / int((~data.test_mask).sum())  # Derive ratio of correct predictions.
       return test_acc
     
+""" get positional coordinates based on the hidden output layer"""
+def get_position(model, data):
+    out = model(data)
+    node_idx, node_ids = data.node_mapping
+    idx_node_mapping = dict(zip(node_idx,node_ids))
+    z = TSNE(n_components=2).fit_transform(out.detach().cpu().numpy())
+    node_positions = dict(zip(  list(map(lambda x: idx_node_mapping[x], range(data.num_nodes))),
+                                list(map(lambda i: {"x":np.float64(z[i,0]),"y":np.float64(z[i,1])} , range(data.num_nodes)))))
+    return node_positions  
 
 """ Get GCN Models with pretrained weights"""
 def author_area_model(data):
@@ -71,46 +80,3 @@ def inst_subarea_model(data):
     model.load_state_dict(torch.load("GNN/GCN_wd_inst_weights.pth"))
     return model
 
-""" test author area model """
-config = { "from_year": 2015,
-            "region_ids":["dach"],
-            "strict_boundary":True,
-            "institution":False}
-use_sub_areas = False
-data_area = dataset.get_torch_data(config, use_sub_areas)
-
-model_area = author_area_model(data_area)
-test(model_area,data_area) #0.9859320046893317
-
-""" test author subarea model """
-config = { "from_year": 2015,
-            "region_ids":["dach"],
-            "strict_boundary":True,
-            "institution":False}
-use_sub_areas = True
-data_subarea = dataset.get_torch_data(config, use_sub_areas)
-
-model_subarea = author_subarea_model(data_subarea)
-test(model_subarea,data_subarea) #0.9460726846424384
-
-""" test inst area model """
-config = { "from_year": 2015,
-            "region_ids":["dach"],
-            "strict_boundary":True,
-            "institution":True}
-use_sub_areas = False
-data_inst_area = dataset.get_torch_data(config, use_sub_areas)
-
-model_inst_area = inst_area_model(data_inst_area)
-test(model_inst_area,data_inst_area) #0.9629629629629629
-
-""" test inst subarea model """
-config = { "from_year": 2015,
-            "region_ids":["dach"],
-            "strict_boundary":True,
-            "institution":True}
-use_sub_areas = True
-data_inst_subarea = dataset.get_torch_data(config, use_sub_areas)
-
-model_inst_subarea = inst_subarea_model(data_inst_subarea)
-test(model_inst_subarea,data_inst_subarea) #0.8395061728395061

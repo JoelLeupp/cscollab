@@ -2,8 +2,10 @@ from flask_apispec import FlaskApiSpec
 import views.common as common
 import views.database as database
 import views.analytics as analytics
+import views.analytics as analytics
+import views.gcn as gcn
 
-VIEWS = [common,database,analytics]
+VIEWS = [common,database,analytics,gcn]
 
 
 def get_registered_function(module):
