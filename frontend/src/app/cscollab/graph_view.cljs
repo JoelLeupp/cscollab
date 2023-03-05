@@ -2,6 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
+            [app.cscollab.filter-panel :as filter-panel]
             [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
             [cljs-bean.core :refer [bean ->clj ->js]]
@@ -11,10 +12,13 @@
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
             [leaflet :as L]
+            [app.cscollab.common :as common]
+            [app.cscollab.api :as api]
             [app.common.container :refer (viz-container)]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
+
 
 (declare gen-edges)
 (declare gen-nodes)
@@ -148,5 +152,5 @@
   (.json e (clj->js {:selected true}))
   (js/console.log (.edges cy "[source = \"g\"]"))
   (->clj (.jsons (.edges cy "[source = \"RWTH Aachen\"]")))
-  (->clj (.jsons (.nodes @cy)))
-  )
+  (->clj (.jsons (.nodes @cy))))
+  
