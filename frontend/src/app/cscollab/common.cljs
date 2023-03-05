@@ -22,7 +22,7 @@
  (fn [[insti? areas sub-areas regions countries [from-year to-year] strict-boundary]]
    (when (and  areas sub-areas regions countries)
      {"from_year" from-year
-      "to_year" to-year
+      "to_year" (+ 1 to-year)
       "area_ids" (mapv name areas)
       "sub_area_ids" (mapv name sub-areas)
       "region_ids" (mapv name regions)

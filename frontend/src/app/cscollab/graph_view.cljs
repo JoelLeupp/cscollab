@@ -7,6 +7,7 @@
             [app.components.lists :refer [collapse]]
             [cljs-bean.core :refer [bean ->clj ->js]]
             [app.db :as db]
+            [app.components.feedback :as feedback]
             [app.common.graph :as g]
             [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
@@ -19,12 +20,11 @@
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
 
-
 (declare gen-edges)
 (declare gen-nodes)
 
 (defn gen-elements []
-  (let [insti? @(subscribe [::mp/insti?])
+  (let [insti? @(subscribe [::mp/insti?]) 
         weighted-collab
         (tf/weighted-collab {:insti? insti?})
         csauthors
@@ -33,7 +33,7 @@
         (zipmap (map :institution csauthors)
                 (map #(hash-map
                        :id (:institution %)
-                       :name (:institution %)) csauthors)) 
+                       :name (:institution %)) csauthors))
         geo-mapping-author
         (zipmap (map :pid csauthors)
                 (map #(hash-map
@@ -53,10 +53,13 @@
 (defn gen-nodes [weighted-collab geo-mapping]
   (let [nodes (vec (clojure.set/union
                     (set (map :node/m weighted-collab))
-                    (set (map :node/n weighted-collab))))]
+                    (set (map :node/n weighted-collab))))
+        node-position @(subscribe [::db/data-field :get-node-position])]
     (mapv #(hash-map :data
                      {:id %
-                      :label (get-in geo-mapping [% :name])})
+                      #_#_:label (get-in geo-mapping [% :name])}
+                     :position {:x (* 100 (get-in node-position [% "x"]))
+                                :y (* 100 (get-in node-position [% "y"]))})
           nodes)))
 
 (defn gen-edges [weighted-collab geo-mapping] 
@@ -93,14 +96,14 @@
         ^{:key @elements}
         [g/graph {:on-click (fn [e] (js/console.log (.. e -target data -id)))
                   :elements @elements
-                  :layout {:name :grid}
+                  :layout {:name :preset #_:grid}
                   :stylesheet  [{:selector "node"
                                  :style {:background-color (fn [ele]
                                                              (get (->clj (.. ele data)) :bg (:main colors)))
                                          :shape (fn [ele] (or (.. ele data -shape) "ellipse"))
-                                         :width "label"
-                                         :height "label"
-                                         :padding 6}}
+                                         #_#_:width 1 #_"label"
+                                         #_#_:height 1 #_"label"
+                                         #_#_:padding 6}}
                                 {:selector "node[type=\"exit\"]"
                                  :style {:background-color :black}}
                                 {:selector "node:selected"
@@ -117,23 +120,53 @@
                                  :style {:width 1}}]
                   :style {:width "100%" :hight "100%" :background-color "white"}}]))))
 
+(reg-sub
+ ::elements
+ :<- [::db/data-field :get-node-position]
+ (fn [node-position]
+   (when node-position
+     (dispatch [::g/set-graph-field [:elements] (gen-elements)]))))
+
 (defn graph-view []
-  (let [insti? (subscribe [::mp/insti?])]
-    (fn []
-      [viz-container
-       {:id :graph-container
-        :title "Collaboration Graph"
-        :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
-        :info-component [:div {:style {:display :flex :justify-content :space-between
-                                       :width "100%" :height "100%" :border-style :solid}}
-                         [:h3 {:style {:margin 0}} "INFO BOX"]
-                         [button/close-button
-                          {:on-click  #(dispatch [::db/set-ui-states [:viz :open?] false])}]]
-        :info-open? (subscribe [::db/ui-states-field [:viz :open?]])
-        :update-event #(dispatch [::g/set-graph-field [:elements] (gen-elements)])}])))
+  (let [insti? (subscribe [::mp/insti?])
+        node-position (subscribe [::db/data-field :get-node-position])] 
+    (add-watch (subscribe [::db/data-field :get-node-position]) ::node-position
+               (fn [_ _ _ node-position]
+                 (dispatch [::g/set-graph-field [:elements] (gen-elements)])))
+    (dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false])
+    (fn [] 
+      ^{:key @node-position}
+      [:div
+       [feedback/feedback {:id :get-node-position
+                           :anchor-origin {:vertical :top :horizontal :center}
+                           :status :info
+                           :auto-hide-duration nil
+                           :message "GCN model is calculating node positions"}]
+       [viz-container
+        {:id :graph-container
+         :title "Collaboration Graph"
+         :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
+         :info-component [:div {:style {:display :flex :justify-content :space-between
+                                        :width "100%" :height "100%" :border-style :solid}}
+                          [:h3 {:style {:margin 0}} "INFO BOX"]
+                          [button/close-button
+                           {:on-click  #(dispatch [::db/set-ui-states [:viz :open?] false])}]]
+         :info-open? (subscribe [::db/ui-states-field [:viz :open?]])
+         :update-event #(dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false])
+         #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
 
 (comment
+  (:errors @re-frame.db/app-db)
+  (:loading @re-frame.db/app-db)
+  (dispatch [::g/set-graph-field [:elements] (gen-elements)])
+  @(subscribe [::db/data-field :get-node-position])
+  (def get-node-position @(subscribe [::db/data-field :get-node-position]))
+  (get-in get-node-position ["13/6920" "x"])
+  (dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false])
   (def elements @(subscribe [::g/elements]))
+  (filter #(not (get-in % [:data :source])) elements)
+  (dispatch [::feedback/open :loading-position])
+  (subscribe [::feedback/open? :loading-position])
   elements
   (subvec elements 0 5)
   (def cy @(subscribe [::g/cy]))
@@ -152,5 +185,6 @@
   (.json e (clj->js {:selected true}))
   (js/console.log (.edges cy "[source = \"g\"]"))
   (->clj (.jsons (.edges cy "[source = \"RWTH Aachen\"]")))
-  (->clj (.jsons (.nodes @cy))))
+  (->clj (.jsons (.nodes @cy)))
+  )
   

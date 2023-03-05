@@ -9,6 +9,7 @@
    [app.db :as db]
    ["react-cytoscapejs" :as rcy]))
 
+(set! *warn-on-infer* false)
 
 (reg-sub
  ::graph

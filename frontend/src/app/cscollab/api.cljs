@@ -2,6 +2,7 @@
   (:require 
    [app.db :as db]
    [app.util :as util]
+   [app.components.feedback :as feedback]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
@@ -24,6 +25,7 @@
 (reg-event-fx
  ::error
  (fn [{db :db} [_ id m]]
+   (dispatch [::feedback/close id])
    {:db (-> db
             (update :errors #(conj % m))
             (loaded id))}))
@@ -44,12 +46,13 @@
  ::get-node-position
  (fn [{db :db} [_ config sub-areas?]]
    (let [id :get-node-position]
+     (dispatch [::feedback/open :get-node-position])
      {:db (loading db id)
       :http-xhrio
       {:method          :post
        :uri             (get-api-url "gcn" "get_node_position")
-       :params {"config" (clj->json config),
-                "sub_areas" sub-areas?}
+       :params          {"config" (clj->json config),
+                         "sub_areas" sub-areas?}
        :format          (json-request-format)
        :response-format (json-response-format)
        :on-success      [::success-get-data id]
@@ -59,6 +62,7 @@
 (reg-event-fx
  ::success-get-data
  (fn [{db :db} [_ id m]] 
+   (dispatch [::feedback/close id])
    {:db (-> db
             (assoc-in [:data id] m)
             (loaded id))}))

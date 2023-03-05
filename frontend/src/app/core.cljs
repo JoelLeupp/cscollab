@@ -17,13 +17,14 @@
 
 (defn main []
   (println "[main]: loading")
+  (set! *warn-on-infer* false)
   (dispatch-sync [::db/initialize-db])
   (init-routes! (routes) {:use-fragment true})
   (data/get-json-data) ;load static data
   (init-app))
 
 (defn ^:dev/after-load reload! []
-  (println "[main]: app reloaded")
+  (println "[main]: app reloaded") 
   (init-routes! (routes) {:use-fragment true})
   (data/get-json-data) ;load static data
   (init-app))
