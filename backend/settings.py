@@ -5,6 +5,7 @@ from apispec.ext.marshmallow import MarshmallowPlugin
 class Config(object):
     """Base configuration."""
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
+    CORS_ORIGIN_WHITELIST = ["http://localhost:8090", "https://cscollab.ifi.uzh.ch"]
     #STATIC_FOLDER = "./public"
     APISPEC_SWAGGER_UI_URL = None
     APISPEC_SPEC = APISpec(
@@ -13,8 +14,8 @@ class Config(object):
         info=dict(description="""Swagger documentation of APIs provided by the cscollab backend used for the Master Thesis
                   'Interactive Visualization of Scientific Collaboration Networks based on Graph Neural Networks'"""),
         version='v1',
-        plugins=[MarshmallowPlugin()],
-    )
+        plugins=[MarshmallowPlugin()],)
+    
 
 class ProdConfig(Config):
     """Production configuration."""
