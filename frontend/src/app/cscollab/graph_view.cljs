@@ -49,17 +49,50 @@
         (gen-nodes weighted-collab geo-mapping)))
       [])))
 
+(defn percentil-scale [weights w]
+  "scale based on percentil rank between 1 and 2"
+  (let [p (util/percentil weights w)
+        bin (js/Math.ceil (* 10 p))]
+    (condp < bin
+      9 2
+      8 1.8
+      7 1.6
+      5 1.4
+      1 1.2
+      1)))
+
+(defn linear-scale [min-w max-w w]
+  "scale for weights between 1 and 2 based on min and max of all weights"
+  (let [slope (/ 4 (- max-w min-w))
+        shift (- 1 (* min-w slope))]
+    (+ shift (* slope w))))
+
 
 (defn gen-nodes [weighted-collab geo-mapping]
   (let [nodes (vec (clojure.set/union
                     (set (map :node/m weighted-collab))
                     (set (map :node/n weighted-collab))))
+        weights
+        (map
+         #(reduce
+           +
+           (map :weight (filter (fn [node]
+                                  (or
+                                   (= % (:node/m node))
+                                   (= % (:node/n node)))) weighted-collab)))
+         nodes)
+        node->weight (zipmap nodes weights)
+        min-weight (apply min weights)
+        max-weight (apply max weights)
         node-position @(subscribe [::db/data-field :get-node-position])]
-    (mapv #(hash-map :data
-                     {:id %
-                      #_#_:label (get-in geo-mapping [% :name])}
-                     :position {:x (* 100 (get-in node-position [% "x"]))
-                                :y (* 100 (get-in node-position [% "y"]))})
+    (mapv #(hash-map
+            :style {:width (* 20 (linear-scale min-weight max-weight (get node->weight %))#_(percentil-scale weights (get node->weight %)))
+                    :height (* 20 (linear-scale min-weight max-weight (get node->weight %)) #_(percentil-scale weights (get node->weight %)))}
+            :data
+            {:id %
+             #_#_:label (get-in geo-mapping [% :name])}
+            :position {:x (* 100 (get-in node-position [% "x"]))
+                       :y (* 100 (get-in node-position [% "y"]))})
           nodes)))
 
 (defn gen-edges [weighted-collab geo-mapping] 
@@ -129,13 +162,14 @@
 
 (defn graph-view []
   (let [insti? (subscribe [::mp/insti?])
-        node-position (subscribe [::db/data-field :get-node-position])] 
+        node-position (subscribe [::db/data-field :get-node-position])
+        reset (atom 0)] 
     (add-watch (subscribe [::db/data-field :get-node-position]) ::node-position
                (fn [_ _ _ node-position]
                  (dispatch [::g/set-graph-field [:elements] (gen-elements)])))
     (dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false])
     (fn [] 
-      ^{:key @node-position}
+      ^{:key [@reset @node-position]}
       [:div
        [feedback/feedback {:id :get-node-position
                            :anchor-origin {:vertical :top :horizontal :center}
@@ -152,7 +186,8 @@
                           [button/close-button
                            {:on-click  #(dispatch [::db/set-ui-states [:viz :open?] false])}]]
          :info-open? (subscribe [::db/ui-states-field [:viz :open?]])
-         :update-event #(dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false])
+         :update-event #(do (swap! reset inc)
+                            (dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false]))
          #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
 
 (comment
