@@ -97,7 +97,7 @@ def get_csauthors(**kwargs):
 #     return jsonify(result_json)
 
 @blueprint.route(route_path('get_collaboration'), methods=['POST'])
-@doc(summary="get collaboration of author/institution",
+@doc(summary="get filtered collaboration of author/institution",
     description =   """get collaboration of author/institution filtered on region and area and year\n
             example: config = { "from_year": 2005,\n
                                 "to_year": 2023,    \n
@@ -167,6 +167,31 @@ def get_weighted_collab(**kwargs):
         cache.set(cache_key, result_json)
     return jsonify(result_json)
 
+@blueprint.route(route_path('get_frequency_research_field'), methods=['POST'])
+@doc(summary="get the frequeny and top area and sub area for each author/institution of a given collaboration network",
+    description =   """frequeny counter\n
+        example :config =     { "from_year": 2005,\n
+                                "to_year": 2023,\n
+                                "area_ids" : ["ai","systems"], \n
+                                "sub_area_ids":  ["robotics","bio"], \n
+                                "region_ids":["europe","northamerica"],\n
+                                "country_ids":["jp","sg"],\n
+                                "strict_boundary":True,\n
+                                "institution":False}""",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'config': fields.Str(default="{}")})
+def get_frequency_research_field(**kwargs):
+    config = json.loads(kwargs.get('config',"{}"))
+    cache_key = "get_frequency_research_field_{}".format(config)
+    result_json = cache.get(cache_key)
+    if result_json is None:
+        collab = query.get_flat_collaboration(ignore_area=False)
+        collab_filtered = query.filter_collab(collab,config)
+        institution = config.get("institution")
+        result_json = query.get_top_research_field(collab_filtered,institution=institution)
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)
 
 @blueprint.route(route_path('get_publications_node'), methods=['POST'])
 @doc(summary="get all publications of a node based on the config",
@@ -227,47 +252,47 @@ def get_publications_edge(**kwargs):
 
 
 
-@blueprint.route(route_path('get_collab_pid'), methods=['POST'])
-@doc(summary="get all the collaborations between two authors with the constraints given in the config",
-    description =   """example :config =    {  "from_year": 2010,\n
-                                                "area_id" : "ai", \n
-                                                "area_type":  "a"}""",
-     tags=['db'],
-     responses=make_swagger_response([]))
-@use_kwargs({'config': fields.Str(default="{}"),
-             'pid_x':fields.Str(),
-             'pid_y':fields.Str()})
-def get_collab_pid(**kwargs):
-    config = json.loads(kwargs['config'])
-    pid_x = kwargs['pid_x']
-    pid_y = kwargs['pid_y']
-    cache_key = "get_collab_pid_{}_{}_{}".format(pid_x,pid_y,kwargs['config'])
-    result_json = cache.get(cache_key)
-    if (pid_x and pid_y and config) and (result_json is None):
-        result = query.get_collab_pid(pid_x, pid_y, config=config)
-        result_json =  json.loads(result.to_json(orient="records"))
-        cache.set(cache_key, result_json)
-    return jsonify(result_json)
+# @blueprint.route(route_path('get_collab_pid'), methods=['POST'])
+# @doc(summary="get all the collaborations between two authors with the constraints given in the config",
+#     description =   """example :config =    {  "from_year": 2010,\n
+#                                                 "area_id" : "ai", \n
+#                                                 "area_type":  "a"}""",
+#      tags=['db'],
+#      responses=make_swagger_response([]))
+# @use_kwargs({'config': fields.Str(default="{}"),
+#              'pid_x':fields.Str(),
+#              'pid_y':fields.Str()})
+# def get_collab_pid(**kwargs):
+#     config = json.loads(kwargs['config'])
+#     pid_x = kwargs['pid_x']
+#     pid_y = kwargs['pid_y']
+#     cache_key = "get_collab_pid_{}_{}_{}".format(pid_x,pid_y,kwargs['config'])
+#     result_json = cache.get(cache_key)
+#     if (pid_x and pid_y and config) and (result_json is None):
+#         result = query.get_collab_pid(pid_x, pid_y, config=config)
+#         result_json =  json.loads(result.to_json(orient="records"))
+#         cache.set(cache_key, result_json)
+#     return jsonify(result_json)
 
 
-@blueprint.route(route_path('get_collab_institution'), methods=['POST'])
-@doc(summary="get all the collaborations between two authors with the constraints given in the config",
-    description =   """example :config =    {  "from_year": 2010,\n
-                                                "area_id" : "ai", \n
-                                                "area_type":  "a"}""",
-     tags=['db'],
-     responses=make_swagger_response([]))
-@use_kwargs({'config': fields.Str(default="{}"),
-             'inst_x':fields.Str(),
-             'inst_y':fields.Str()})
-def get_collab_institution(**kwargs):
-    config = json.loads(kwargs['config'])
-    inst_x = kwargs['inst_x']
-    inst_y = kwargs['inst_y']
-    cache_key = "get_collab_institution_{}_{}_{}".format(inst_x,inst_y,kwargs["config"])
-    result_json = cache.get(cache_key)
-    if (inst_x and inst_y and config) and (result_json is None):
-        result = query.get_collab_institution(inst_x, inst_y, config=config)
-        result_json =  json.loads(result.to_json(orient="records"))
-        cache.set(cache_key, result_json)
-    return jsonify(result_json)
+# @blueprint.route(route_path('get_collab_institution'), methods=['POST'])
+# @doc(summary="get all the collaborations between two authors with the constraints given in the config",
+#     description =   """example :config =    {  "from_year": 2010,\n
+#                                                 "area_id" : "ai", \n
+#                                                 "area_type":  "a"}""",
+#      tags=['db'],
+#      responses=make_swagger_response([]))
+# @use_kwargs({'config': fields.Str(default="{}"),
+#              'inst_x':fields.Str(),
+#              'inst_y':fields.Str()})
+# def get_collab_institution(**kwargs):
+#     config = json.loads(kwargs['config'])
+#     inst_x = kwargs['inst_x']
+#     inst_y = kwargs['inst_y']
+#     cache_key = "get_collab_institution_{}_{}_{}".format(inst_x,inst_y,kwargs["config"])
+#     result_json = cache.get(cache_key)
+#     if (inst_x and inst_y and config) and (result_json is None):
+#         result = query.get_collab_institution(inst_x, inst_y, config=config)
+#         result_json =  json.loads(result.to_json(orient="records"))
+#         cache.set(cache_key, result_json)
+#     return jsonify(result_json)

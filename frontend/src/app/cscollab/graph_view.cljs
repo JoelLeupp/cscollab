@@ -63,7 +63,7 @@
 
 (defn linear-scale [min-w max-w w]
   "scale for weights between 1 and 2 based on min and max of all weights"
-  (let [slope (/ 4 (- max-w min-w))
+  (let [slope (/ 2 (- max-w min-w))
         shift (- 1 (* min-w slope))]
     (+ shift (* slope w))))
 

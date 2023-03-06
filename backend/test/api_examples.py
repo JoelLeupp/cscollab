@@ -85,6 +85,16 @@ x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
 
+""" area and sub area frequeny"""
+url = url_base+"/api/db/get_frequency_research_field"
+config={ "from_year": 2015,
+            "region_ids":["wd"],
+            "strict_boundary":True,
+            "institution":False}
+input = {"config": json.dumps(config)}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
 
 """ get all publications of a node based on the config"""
 url = url_base+"/api/db/get_publications_node"
@@ -173,12 +183,21 @@ print(res["centralities"])
 
 """ get graph analytics from weighted collaboration graph"""
 url = url_base+"/api/analytics/get_analytics_collab"
-# config = {  "from_year": 2010,
-#             "area_id" : "ai", 
-#             "area_type":  "a", 
-#             "region_id":"dach",
-#             "strict_boundary":True,
-#             "institution":False}
+config={ "from_year": 2015,
+            "to_year": 2023,
+            "area_ids" : ["ai","systems"], 
+            "sub_area_ids":  ["robotics","bio"], 
+            "region_ids":["europe","northamerica"],
+            "country_ids":["jp","sg"],
+            "strict_boundary":True,
+            "institution":True}
+input = {"config": json.dumps(config),
+         "top": 5}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
+
+
 
 url = url_base+"/api/gcn/get_node_position"
 config = { "from_year": 2015,
@@ -186,6 +205,19 @@ config = { "from_year": 2015,
             "strict_boundary":True,
             "institution":True}
 use_sub_areas = False
+input = {"config": json.dumps(config),
+         "sub_areas":use_sub_areas}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
+
+
+url = url_base+"/api/gcn/get_node_position"
+config = { "from_year": 2015,
+            "region_ids":["dach"],
+            "strict_boundary":True,
+            "institution":True}
+use_sub_areas = True
 input = {"config": json.dumps(config),
          "sub_areas":use_sub_areas}
 x = requests.post(url, json = input)

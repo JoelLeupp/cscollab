@@ -6,6 +6,7 @@ import kuzu
 import pandas as pd
 import numpy as np
 import json
+import collections
 from cache import cache
 
 pd.options.mode.chained_assignment = None
@@ -20,25 +21,25 @@ conn = kuzu.connection(db)
 if strict_boundary is True all authors must be from the given region 
 else at least one author must be from given region
 """
-config_old = {  "from_year": 2005,
-            "to_year": 2023,
-            "area_id" : "ai", 
-            "area_type": "a", 
-            "region_id": "wd",
-            "country_id": None,
-            "strict_boundary": True,
-            "institution":False
-            }
+# config_old = {  "from_year": 2005,
+#             "to_year": 2023,
+#             "area_id" : "ai", 
+#             "area_type": "a", 
+#             "region_id": "wd",
+#             "country_id": None,
+#             "strict_boundary": True,
+#             "institution":False
+#             }
 
-config = {  "from_year": 2005,
-            "to_year": 2023,
-            "area_ids" : ["ai"], 
-            "sub_area_ids": None, 
-            "region_ids": ["wd"],
-            "country_ids": None,
-            "strict_boundary": True,
-            "institution":False
-            }
+# config = {  "from_year": 2005,
+#             "to_year": 2023,
+#             "area_ids" : ["ai"], 
+#             "sub_area_ids": None, 
+#             "region_ids": ["wd"],
+#             "country_ids": None,
+#             "strict_boundary": True,
+#             "institution":False
+#             }
             
 
 def list_as_string(l):
@@ -76,6 +77,10 @@ def get_area_mapping():
     area_map["conference-title"] = list(map(lambda x: conf_idx[x], area_map["conference-id"].values))
     
     return area_map    
+
+""" mapping of sub areas to areas"""
+area_mapping = get_area_mapping()
+subarea_mapping = dict(zip(area_mapping["sub-area-id"],area_mapping["area-id"]))
 
 # area_mapping=get_area_mapping()
 # print(area_mapping.head(),"\n", area_mapping.shape)
@@ -355,7 +360,7 @@ def filter_collab(collab, config = {}):
     
     collab_filtered = collab_filtered.astype({"year":'int'})
     return collab_filtered
-# collab = get_flat_collaboration(ignore_area=False)
+# collab = get_flat_collaboration(ignore_area=False,use_cache=False)
 # config = {  "from_year":2015,
 #             "area_ids" : ["ai","systems"], 
 #             "sub_area_ids":  ["robotics","bio"], 
@@ -365,7 +370,57 @@ def filter_collab(collab, config = {}):
 #             }
 # collab_filtered = filter_collab(collab,config)
 
+def get_freq(a):
+    return json.dumps(dict(collections.Counter(a)))
 
+def merge_freq(a,b):
+    freq_a = json.loads(a) if pd.notnull(a) else None
+    freq_b = json.loads(b) if pd.notnull(b) else None
+    inp = [freq_a,freq_b]
+    merged_freq = dict(sum((collections.Counter(y) for y in inp), collections.Counter()))
+    return json.dumps(merged_freq)
+
+def freq_summary(freq_counter):
+    top = max(freq_counter, key=freq_counter.get)
+    freq= { "freq":freq_counter,
+            "top":top}
+    return freq
+
+def frequeny_counter(collab):
+    """count the publications in the different research sub/areas for each node"""
+    
+    area_freq_a=collab.groupby(["a"])["rec_area"].apply(get_freq)
+    subarea_freq_a=collab.groupby(["a"])["rec_sub_area"].apply(get_freq)
+    area_freq_b=collab.groupby(["b"])["rec_area"].apply(get_freq)
+    subarea_freq_b=collab.groupby(["b"])["rec_sub_area"].apply(get_freq)
+
+    area_freq_merged = pd.merge(area_freq_a,area_freq_b,right_index = True, left_index = True,how="outer")
+    area_freq_merged.columns = ["x","y"]
+    area_freq_merged["freq"]=list(map(lambda a,b: merge_freq(a,b) ,area_freq_merged["x"],area_freq_merged["y"]))
+    area_freq_map = dict(zip(area_freq_merged.index,
+                            list(map(lambda x: freq_summary(json.loads(x)),area_freq_merged["freq"]))))
+    
+    subarea_freq_merged = pd.merge(subarea_freq_a,subarea_freq_b,right_index = True, left_index = True,how="outer")
+    subarea_freq_merged.columns = ["x","y"]
+    subarea_freq_merged["freq"]=list(map(lambda a,b: merge_freq(a,b) ,subarea_freq_merged["x"],subarea_freq_merged["y"]))
+    subarea_freq_map = dict(zip(subarea_freq_merged.index,
+                            list(map(lambda x: freq_summary(json.loads(x)),subarea_freq_merged["freq"]))))
+
+    frequency_map = dict(zip(subarea_freq_merged.index,
+                    list(map(lambda x: {"area":area_freq_map[x], "subarea":subarea_freq_map[x]} ,subarea_freq_merged.index))))
+    return frequency_map
+
+def get_top_research_field(collab, institution):
+    """ get the frequeny and top area and sub area for each author/institution of a given collaboration network"""
+    collab["rec_area"]=list(map(lambda x: subarea_mapping[x], collab["rec_sub_area"]))
+    
+    node_a = "a_inst" if institution else "a_pid"
+    node_b = "b_inst" if institution else "b_pid"   
+    collab["a"] = collab[node_a]
+    collab["b"] = collab[node_b]
+    frequency_map = frequeny_counter(collab)
+    return frequency_map
+# get_top_research_field(collab_filtered,True)
 
 def get_collaboration(collab_config={}):
     """get collaboration of author/institution filtered on region and area 
