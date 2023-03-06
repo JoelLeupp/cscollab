@@ -163,6 +163,7 @@ def get_weighted_collab(**kwargs):
         collab_filtered = query.filter_collab(collab,config)
         institution = config.get("institution")
         result = query.weighted_collab(collab_filtered,institution=institution)
+        result.columns = ["node/m", "node/n", "weight"]
         result_json =  json.loads(result.to_json(orient="records"))
         cache.set(cache_key, result_json)
     return jsonify(result_json)

@@ -30,6 +30,11 @@
       :insti? true}})))
 
 (reg-sub
+ ::loading? 
+ (fn [db [_ id]] 
+   (get-in db [:loading id])))
+
+(reg-sub
  ::data
  (fn [db _] (:data db)))
 

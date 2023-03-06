@@ -536,7 +536,6 @@ def weighted_collab(collabs, institution = False):
     
     """ count collaborations between authors or institutions """
     weighted = collab.groupby(["a", "b"])["rec"].count().sort_values(ascending=False).reset_index() 
-    weighted.columns = ["node/m", "node/n", "weight"]
     return weighted
 # collabs = get_collaboration(
 #             {"area_id" : "ai", 

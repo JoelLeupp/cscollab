@@ -160,22 +160,36 @@
    (when node-position
      (dispatch [::g/set-graph-field [:elements] (gen-elements)]))))
 
+(defn get-all-graph-data []
+  (let [config @(subscribe [::common/filter-config])
+        sub-areas? false]
+    (do
+      (dispatch [::api/get-node-position config sub-areas?])
+      (dispatch [::get-weighted-collab config])
+      (dispatch [::get-frequency config]))))
+
 (defn graph-view []
   (let [insti? (subscribe [::mp/insti?])
-        node-position (subscribe [::db/data-field :get-node-position])
-        reset (atom 0)] 
-    (add-watch (subscribe [::db/data-field :get-node-position]) ::node-position
-               (fn [_ _ _ node-position]
-                 (dispatch [::g/set-graph-field [:elements] (gen-elements)])))
-    (dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false])
-    (fn [] 
-      ^{:key [@reset @node-position]}
+        #_#_node-position (subscribe [::db/data-field :get-node-position])
+        loading? (subscribe [::api/graph-data-loading?])
+        reset (atom 0)]
+    #_(add-watch (subscribe [::db/data-field :get-node-position]) ::node-position
+                 (fn [_ _ _ node-position]
+                   (dispatch [::g/set-graph-field [:elements] (gen-elements)])))
+    (add-watch loading? ::graph-data-loading
+               (fn [_ _ _ data-loading?]
+                 (if data-loading?
+                   (dispatch [::feedback/open :graph-data-loading])
+                   (dispatch [::feedback/close :graph-data-loading]))))
+    (get-all-graph-data)
+    (fn []
+      ^{:key [@reset @loading?]}
       [:div
-       [feedback/feedback {:id :get-node-position
+       [feedback/feedback {:id :graph-data-loading
                            :anchor-origin {:vertical :top :horizontal :center}
                            :status :info
                            :auto-hide-duration nil
-                           :message "GCN model is calculating node positions"}]
+                           :message "Garaph data is loading, please wait."}]
        [viz-container
         {:id :graph-container
          :title "Collaboration Graph"
