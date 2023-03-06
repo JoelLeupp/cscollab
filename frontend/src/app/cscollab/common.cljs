@@ -31,4 +31,6 @@
       "institution" insti?})))
 
 (comment 
-  @(subscribe [::filter-config]))
+  @(subscribe [::filter-panel/selected-sub-areas]) 
+  @(subscribe [::filter-panel/selected-areas])
+  )

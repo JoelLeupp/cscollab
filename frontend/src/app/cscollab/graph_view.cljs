@@ -3,7 +3,7 @@
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
             [app.cscollab.filter-panel :as filter-panel]
-            [app.components.colors :refer [colors]]
+            [app.components.colors :refer [colors area-color sub-area-color]]
             [app.components.lists :refer [collapse]]
             [cljs-bean.core :refer [bean ->clj ->js]]
             [app.db :as db]
@@ -23,7 +23,7 @@
 (declare gen-edges)
 (declare gen-nodes)
 
-(defn gen-elements []
+#_(defn gen-elements []
   (let [insti? @(subscribe [::mp/insti?]) 
         weighted-collab
         (tf/weighted-collab {:insti? insti?})
@@ -49,6 +49,40 @@
         (gen-nodes weighted-collab geo-mapping)))
       [])))
 
+(reg-sub
+ ::elements 
+ :<- [::db/data-field :csauthors]
+ :<- [::db/data-field :get-frequency]
+ :<- [::db/data-field :get-weighted-collab]
+ :<- [::db/data-field :get-node-position]
+ (fn [[csauthors frequency weighted-collab node-position]]
+   (if (and csauthors frequency weighted-collab node-position)
+     (let [geo-mapping-inst
+           (zipmap (map :institution csauthors)
+                   (map #(hash-map
+                          :id (:institution %)
+                          :name (:institution %)) csauthors))
+           geo-mapping-author
+           (zipmap (map :pid csauthors)
+                   (map #(hash-map
+                          :id (:pid %)
+                          :institution (:institution %)
+                          :name (:name %)) csauthors))
+           geo-mapping
+           (merge geo-mapping-inst geo-mapping-author)]
+       (vec
+        (concat
+         (gen-edges weighted-collab geo-mapping)
+         (gen-nodes weighted-collab geo-mapping node-position frequency))))
+     [])))
+
+(comment 
+  @(subscribe [::mp/color-by])
+  @(subscribe [::db/data-field :get-frequency])
+  @(subscribe [::db/data-field :get-weighted-collab])
+  @(subscribe [::db/data-field :get-node-position])
+  )
+
 (defn percentil-scale [weights w]
   "scale based on percentil rank between 1 and 2"
   (let [p (util/percentil weights w)
@@ -61,17 +95,19 @@
       1 1.2
       1)))
 
-(defn linear-scale [min-w max-w w]
-  "scale for weights between 1 and 2 based on min and max of all weights"
-  (let [slope (/ 2 (- max-w min-w))
+(defn linear-scale [min-w max-w w max-scale]
+  "scale for weights between 1 and max-scale based on min and max of all weights"
+  (let [slope (/ (- max-scale 1) (- max-w min-w))
         shift (- 1 (* min-w slope))]
     (+ shift (* slope w))))
 
 
-(defn gen-nodes [weighted-collab geo-mapping]
+(defn gen-nodes [weighted-collab geo-mapping node-position frequency]
   (let [nodes (vec (clojure.set/union
                     (set (map :node/m weighted-collab))
                     (set (map :node/n weighted-collab))))
+        color-by @(subscribe [::mp/color-by])
+        insti? @(subscribe [::mp/insti?])
         weights
         (map
          #(reduce
@@ -83,28 +119,34 @@
          nodes)
         node->weight (zipmap nodes weights)
         min-weight (apply min weights)
-        max-weight (apply max weights)
-        node-position @(subscribe [::db/data-field :get-node-position])]
+        max-weight (apply max weights)]
     (mapv #(hash-map
-            :style {:width (* 20 (linear-scale min-weight max-weight (get node->weight %))#_(percentil-scale weights (get node->weight %)))
-                    :height (* 20 (linear-scale min-weight max-weight (get node->weight %)) #_(percentil-scale weights (get node->weight %)))}
-            :data
-            {:id %
-             #_#_:label (get-in geo-mapping [% :name])}
-            :position {:x (* 100 (get-in node-position [% "x"]))
-                       :y (* 100 (get-in node-position [% "y"]))})
+            :style {:width (* 20 (linear-scale min-weight max-weight (get node->weight %) 3) #_(percentil-scale weights (get node->weight %)))
+                    :height (* 20 (linear-scale min-weight max-weight (get node->weight %) 3) #_(percentil-scale weights (get node->weight %)))}
+            :data {:id %
+                   :bg (case color-by  
+                         :area (get area-color (keyword (get-in frequency [% "area" "top"]))) 
+                         :subarea (get sub-area-color (keyword (get-in frequency [% "subarea" "top"])))
+                         (:main colors))
+                   #_#_:label (get-in geo-mapping [% :name])}
+            :position {:x (* (if insti? 100 40) (get-in node-position [% "x"]))
+                       :y (* (if insti? 100 40) (get-in node-position [% "y"]))})
           nodes)))
 
 (defn gen-edges [weighted-collab geo-mapping] 
-  (mapv
-   #(let [node-m (get geo-mapping (:node/m %))
-          node-n (get geo-mapping (:node/n %))]
-      (when (and node-m node-n)
-        (hash-map :data
-                  {:id (str (:id node-m) "_" (:id node-n))#_[(:id node-m) (:id node-n)]
-                   :source (:id node-m)
-                   :target (:id node-n)})))
-   weighted-collab))
+  (let [weights (mapv :weight weighted-collab)
+        min-weight (apply min weights)
+        max-weight (apply max weights)]
+    (mapv
+     #(let [node-m (get geo-mapping (:node/m %))
+            node-n (get geo-mapping (:node/n %))]
+        (when (and node-m node-n)
+          (hash-map
+           :data {:id (str (:id node-m) "_" (:id node-n)) #_[(:id node-m) (:id node-n)]
+                  :source (:id node-m)
+                  :target (:id node-n)}
+           :style {:width (linear-scale min-weight max-weight (:weight %) 8)})))
+     weighted-collab)))
 
 (def elements-test
   [{:data {:id :a :label "A"}}
@@ -121,39 +163,36 @@
    {:data {:source :h :target :f}}])
 
 (defn graph-comp [] 
-  (let [elements (subscribe [::g/elements])] 
-    (fn []
-      (when (empty? @elements)
-        (dispatch [::g/set-graph-field [:elements] (gen-elements)])) 
-      (when @elements
-        ^{:key @elements}
-        [g/graph {:on-click (fn [e] (js/console.log (.. e -target data -id)))
-                  :elements @elements
-                  :layout {:name :preset #_:grid}
-                  :stylesheet  [{:selector "node"
-                                 :style {:background-color (fn [ele]
-                                                             (get (->clj (.. ele data)) :bg (:main colors)))
-                                         :shape (fn [ele] (or (.. ele data -shape) "ellipse"))
-                                         #_#_:width 1 #_"label"
-                                         #_#_:height 1 #_"label"
-                                         #_#_:padding 6}}
-                                {:selector "node[type=\"exit\"]"
-                                 :style {:background-color :black}}
-                                {:selector "node:selected"
-                                 :style {:background-color (:second colors)}}
-                                {:selector "edge:selected"
-                                 :style {:line-color (:second colors)}}
-                                {:selector "node[label]"
-                                 :style {:label "data(label)"
-                                         :color :white
-                                         :font-size 6
-                                         :text-halign :center
-                                         :text-valign :center}}
-                                {:selector :edge
-                                 :style {:width 1}}]
-                  :style {:width "100%" :hight "100%" :background-color "white"}}]))))
+  (let [elements (subscribe [::elements])] 
+    (fn [] 
+      ^{:key @elements}
+      [g/graph {:on-click (fn [e] (js/console.log (.. e -target data -id)))
+                :elements @elements
+                :layout {:name :preset #_:grid}
+                :stylesheet  [{:selector "node"
+                               :style {:background-color (fn [ele]
+                                                           (get (->clj (.. ele data)) :bg (:main colors)))
+                                       :shape (fn [ele] (or (.. ele data -shape) "ellipse"))
+                                       #_#_:width 1 #_"label"
+                                       #_#_:height 1 #_"label"
+                                       #_#_:padding 6}}
+                              {:selector "node[type=\"exit\"]"
+                               :style {:background-color :black}}
+                              {:selector "node:selected"
+                               :style {:background-color (:second colors)}}
+                              {:selector "edge:selected"
+                               :style {:line-color (:second colors)}}
+                              {:selector "node[label]"
+                               :style {:label "data(label)"
+                                       :color :white
+                                       :font-size 6
+                                       :text-halign :center
+                                       :text-valign :center}}
+                              #_{:selector :edge
+                               :style {:line-color (:main colors)}}]
+                :style {:width "100%" :hight "100%" :background-color "white"}}])))
 
-(reg-sub
+#_(reg-sub
  ::elements
  :<- [::db/data-field :get-node-position]
  (fn [node-position]
@@ -162,14 +201,14 @@
 
 (defn get-all-graph-data []
   (let [config @(subscribe [::common/filter-config])
-        sub-areas? false]
-    (do
-      (dispatch [::api/get-node-position config sub-areas?])
-      (dispatch [::get-weighted-collab config])
-      (dispatch [::get-frequency config]))))
+        color-by @(subscribe [::mp/color-by]) 
+        sub-areas? (if (= color-by :subarea) true false)]
+    (dispatch [::api/get-node-position config sub-areas?])
+    (dispatch [::api/get-weighted-collab config])
+    (dispatch [::api/get-frequency config])))
 
 (defn graph-view []
-  (let [insti? (subscribe [::mp/insti?])
+  (let [#_#_insti? (subscribe [::mp/insti?])
         #_#_node-position (subscribe [::db/data-field :get-node-position])
         loading? (subscribe [::api/graph-data-loading?])
         reset (atom 0)]
@@ -201,7 +240,7 @@
                            {:on-click  #(dispatch [::db/set-ui-states [:viz :open?] false])}]]
          :info-open? (subscribe [::db/ui-states-field [:viz :open?]])
          :update-event #(do (swap! reset inc)
-                            (dispatch [::api/get-node-position @(subscribe [::common/filter-config]) false]))
+                            (get-all-graph-data))
          #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
 
 (comment
