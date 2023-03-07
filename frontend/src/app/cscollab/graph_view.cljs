@@ -23,12 +23,11 @@
 (declare gen-edges)
 (declare gen-nodes)
 
-#_(defn gen-elements []
-  (let [insti? @(subscribe [::mp/insti?]) 
-        weighted-collab
-        (tf/weighted-collab {:insti? insti?})
-        csauthors
-        @(subscribe [::data/csauthors])
+(defn gen-elements []
+  (let [weighted-collab @(subscribe [::db/data-field :get-weighted-collab])
+        csauthors @(subscribe [::db/data-field :csauthors])
+        frequency @(subscribe [::db/data-field :get-frequency])
+        node-position @(subscribe [::db/data-field :get-node-position])
         geo-mapping-inst
         (zipmap (map :institution csauthors)
                 (map #(hash-map
@@ -42,14 +41,14 @@
                        :name (:name %)) csauthors))
         geo-mapping
         (merge geo-mapping-inst geo-mapping-author)]
-    (if (and weighted-collab csauthors geo-mapping) 
+    (if (and weighted-collab csauthors geo-mapping frequency node-position) 
       (vec
        (concat
         (gen-edges weighted-collab geo-mapping)
-        (gen-nodes weighted-collab geo-mapping)))
+        (gen-nodes weighted-collab geo-mapping node-position frequency)))
       [])))
 
-(reg-sub
+#_(reg-sub
  ::elements 
  :<- [::db/data-field :csauthors]
  :<- [::db/data-field :get-frequency]
@@ -129,8 +128,8 @@
                          :subarea (get sub-area-color (keyword (get-in frequency [% "subarea" "top"])))
                          (:main colors))
                    #_#_:label (get-in geo-mapping [% :name])}
-            :position {:x (* (if insti? 100 40) (get-in node-position [% "x"]))
-                       :y (* (if insti? 100 40) (get-in node-position [% "y"]))})
+            :position {:x (* (if insti? 100 30) (get-in node-position [% "x"]))
+                       :y (* (if insti? 100 30) (get-in node-position [% "y"]))})
           nodes)))
 
 (defn gen-edges [weighted-collab geo-mapping] 
@@ -163,11 +162,14 @@
    {:data {:source :h :target :f}}])
 
 (defn graph-comp [] 
-  (let [elements (subscribe [::elements])] 
+  (let [elements (subscribe [::g/elements]) #_(subscribe [::elements])] 
     (fn [] 
       ^{:key @elements}
-      [g/graph {:on-click (fn [e] (js/console.log (.. e -target data -id)))
-                :elements @elements
+      [g/graph {:on-click (fn [e] 
+                            (dispatch [::g/set-graph-field [:info-open?] true])
+                            (dispatch [::g/set-graph-field :selected (.. e -target data -id)])
+                            (js/console.log (.. e -target data -id)))
+                :elements (or @elements [])
                 :layout {:name :preset #_:grid}
                 :stylesheet  [{:selector "node"
                                :style {:background-color (fn [ele]
@@ -207,19 +209,35 @@
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])))
 
+(defn info-component []
+  (let [selected (subscribe [::g/graph-field :selected])]
+    (fn []
+      [:div {:style {:display :flex :justify-content :space-between
+                     :width "100%" :height "100%" #_#_:border-style :solid}}
+       [:h3 {:style {:margin 0}} "INFO BOX"]
+       [:h4 @selected]
+       [button/close-button
+        {:on-click  #(dispatch [::g/set-graph-field [:info-open?] false])}]])))
+
 (defn graph-view []
   (let [#_#_insti? (subscribe [::mp/insti?])
         #_#_node-position (subscribe [::db/data-field :get-node-position])
         loading? (subscribe [::api/graph-data-loading?])
         reset (atom 0)]
-    #_(add-watch (subscribe [::db/data-field :get-node-position]) ::node-position
-                 (fn [_ _ _ node-position]
-                   (dispatch [::g/set-graph-field [:elements] (gen-elements)])))
+    (add-watch (subscribe [::g/graph-field :selected]) ::select-connected
+               (fn [_ _ _ selected]
+                 (let [cy (subscribe [::g/cy])
+                       e (.getElementById @cy selected)]
+                   (if (contains? (->clj (.data e)) :source)
+                     (.select (.connectedNodes e))
+                     (.select (.neighborhood e))))))
     (add-watch loading? ::graph-data-loading
                (fn [_ _ _ data-loading?]
                  (if data-loading?
                    (dispatch [::feedback/open :graph-data-loading])
-                   (dispatch [::feedback/close :graph-data-loading]))))
+                   (do
+                     (dispatch [::feedback/close :graph-data-loading])
+                     (dispatch [::g/set-graph-field [:elements] (gen-elements)])))))
     (get-all-graph-data)
     (fn []
       ^{:key [@reset @loading?]}
@@ -233,13 +251,11 @@
         {:id :graph-container
          :title "Collaboration Graph"
          :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
-         :info-component [:div {:style {:display :flex :justify-content :space-between
-                                        :width "100%" :height "100%" :border-style :solid}}
-                          [:h3 {:style {:margin 0}} "INFO BOX"]
-                          [button/close-button
-                           {:on-click  #(dispatch [::db/set-ui-states [:viz :open?] false])}]]
-         :info-open? (subscribe [::db/ui-states-field [:viz :open?]])
+         :info-component [info-component]
+         :info-open? (subscribe [::g/info-open?])
          :update-event #(do (swap! reset inc)
+                            (dispatch [::g/set-graph-field :selected nil])
+                            (dispatch [::g/set-graph-field [:info-open?] false])
                             (get-all-graph-data))
          #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
 
@@ -257,16 +273,19 @@
   (subscribe [::feedback/open? :loading-position])
   elements
   (subvec elements 0 5)
-  (def cy @(subscribe [::g/cy]))
+  (def cy (subscribe [::g/cy]))
   (g/init-cytoscape-fcose)
   (last elements)
-  (def cy (subscribe [::db/ui-states-field [:graph :fcose]]))
+  (def cy @(subscribe [::db/ui-states-field [:graph :fcose]]))
   (.on @cy "tap" (fn [e] (js/console.log (= (.-target e) @cy))))
   (def layout (.layout @cy #js {:name "fcose"}))
   (.run layout)
   (js/console.log (.elements cy))
-  (def e (.getElementById cy "EPFL"))
+  (def e (.getElementById @cy "EPFL"))
+  (def e (.getElementById @cy "Graz University of Technology_EPFL"))
+  (.select (.connectedNodes e))
   (.select e)
+  (contains? (->clj (.data e)) :source)
   (.unselect (.elements cy))
   (.id e)
   (->clj (.jsons e))
@@ -274,5 +293,9 @@
   (js/console.log (.edges cy "[source = \"g\"]"))
   (->clj (.jsons (.edges cy "[source = \"RWTH Aachen\"]")))
   (->clj (.jsons (.nodes @cy)))
+  (dispatch [::g/set-graph-field [:info-open?] true])
+  (subscribe [::g/info-open?])
+  (subscribe [::db/ui-states-field [:viz :open?]])
+  (dispatch [::db/set-ui-states [:viz :open? true]])
   )
   

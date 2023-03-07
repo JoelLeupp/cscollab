@@ -68,6 +68,7 @@
              (.on % "tap" (fn [e]
                             (when (= (.-target e) %)
                               (.unselect (.elements %))
+                              (dispatch [::set-graph-field :selected nil])
                               (dispatch [::set-graph-field [:info-open?] false]))))))
         :elements elements
         :layout layout
