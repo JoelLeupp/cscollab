@@ -51,6 +51,7 @@ def test(model,data):
     
 """ get positional coordinates based on the hidden output layer"""
 def get_position(model, data):
+    model.eval()
     out = model(data)
     node_idx, node_ids = data.node_mapping
     idx_node_mapping = dict(zip(node_idx,node_ids))
