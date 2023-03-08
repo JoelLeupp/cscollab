@@ -15,6 +15,7 @@
             [leaflet :as L]
             [app.cscollab.common :as common]
             [app.cscollab.api :as api]
+            [app.cscollab.selected-info :refer (selected-info)]
             [app.common.container :refer (viz-container)]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
@@ -209,15 +210,6 @@
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])))
 
-(defn info-component []
-  (let [selected (subscribe [::g/graph-field :selected])]
-    (fn []
-      [:div {:style {:display :flex :justify-content :space-between
-                     :width "100%" :height "100%" #_#_:border-style :solid}}
-       [:h3 {:style {:margin 0}} "INFO BOX"]
-       [:h4 @selected]
-       [button/close-button
-        {:on-click  #(dispatch [::g/set-graph-field [:info-open?] false])}]])))
 
 (defn graph-view []
   (let [#_#_insti? (subscribe [::mp/insti?])
@@ -226,11 +218,18 @@
         reset (atom 0)]
     (add-watch (subscribe [::g/graph-field :selected]) ::select-connected
                (fn [_ _ _ selected]
-                 (let [cy (subscribe [::g/cy])
-                       e (.getElementById @cy selected)]
-                   (if (contains? (->clj (.data e)) :source)
-                     (.select (.connectedNodes e))
-                     (.select (.neighborhood e))))))
+                 (when selected
+                   (let [cy (subscribe [::g/cy])
+                         config @(subscribe [::common/filter-config])
+                         e (.getElementById @cy selected)
+                         selected-ele (clojure.string/split selected #"_")
+                         ele (if (= 1 (count selected-ele)) (first selected-ele) selected-ele)]
+                     (if (string? ele)
+                       (dispatch [::api/get-publications-node :graph ele config])
+                       (dispatch [::api/get-publications-edge :graph ele config]))
+                     (if (contains? (->clj (.data e)) :source)
+                       (.select (.connectedNodes e))
+                       (.select (.neighborhood e)))))))
     (add-watch loading? ::graph-data-loading
                (fn [_ _ _ data-loading?]
                  (if data-loading?
@@ -251,7 +250,7 @@
         {:id :graph-container
          :title "Collaboration Graph"
          :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
-         :info-component [info-component]
+         :info-component [selected-info]
          :info-open? (subscribe [::g/info-open?])
          :update-event #(do (swap! reset inc)
                             (dispatch [::g/set-graph-field :selected nil])
@@ -297,5 +296,7 @@
   (subscribe [::g/info-open?])
   (subscribe [::db/ui-states-field [:viz :open?]])
   (dispatch [::db/set-ui-states [:viz :open? true]])
+  (clojure.string/split "Graz University of Technology_EPFL" #"_")
+  (clojure.string/split "EPFL" #"_")
   )
   

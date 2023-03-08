@@ -24,6 +24,14 @@
 
 
 (reg-event-fx
+ ::success-get-data
+ (fn [{db :db} [_ id m]]
+   (dispatch [::feedback/close id])
+   {:db (-> db
+            (assoc-in [:data id] m)
+            (loaded id))}))
+
+(reg-event-fx
  ::error
  (fn [{db :db} [_ id m]]
    (dispatch [::feedback/close id])
@@ -101,12 +109,37 @@
      true)))
 
 (reg-event-fx
- ::success-get-data
- (fn [{db :db} [_ id m]] 
-   (dispatch [::feedback/close id])
-   {:db (-> db
-            (assoc-in [:data id] m)
-            (loaded id))}))
+ ::get-publications-node
+ (fn [{db :db} [_ id node config]]
+   (let [id-new (keyword (str "get-publications-node" "-" (name id)))]
+     (dispatch [::feedback/open id-new])
+     {:db (loading db id-new)
+      :http-xhrio
+      {:method          :post
+       :uri             (get-api-url "db" "get_publications_node")
+       :params          {"config" (clj->json config),
+                         "node" node}
+       :format          (json-request-format)
+       :response-format (json-response-format {:keywords? true})
+       :on-success      [::success-get-data id-new]
+       :on-failure      [::error id-new]}})))
+
+(reg-event-fx
+ ::get-publications-edge
+ (fn [{db :db} [_ id edge config]]
+   (let [id-new (keyword (str "get-publications-edge" "-" (name id)))]
+     (dispatch [::feedback/open id-new])
+     {:db (loading db id-new)
+      :http-xhrio
+      {:method          :post
+       :uri             (get-api-url "db" "get_publications_edge")
+       :params          {"config" (clj->json config),
+                         "edge" edge}
+       :format          (json-request-format)
+       :response-format (json-response-format {:keywords? true})
+       :on-success      [::success-get-data id-new]
+       :on-failure      [::error id-new]}})))
+
 
 #_(reg-event-fx
  ::http-post
@@ -126,6 +159,10 @@
                "region_ids" ["dach"]
                "strict_boundary" true,
                "institution" true})
+  (dispatch [::get-publications-node :graph "EPFL" config])
+  (dispatch [::get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
+  @(subscribe [::db/data-field :get-publications-node-graph])
+  @(subscribe [::db/data-field :get-publications-edge-graph])
   @(subscribe [::graph-data-loading?])
   (dispatch [::get-node-position config true]) 
   (dispatch [::get-region-mapping])
@@ -135,7 +172,7 @@
   (:loading @app-db)
   (get-in @app-db [:loading ])
   (dispatch [::get-frequency config])
-  (dispatch [::get-weighted-collab config])
+  (dispatch [::get-weighted-collab config]) 
   @(subscribe [::db/data-field :get-region-mapping])
   @(subscribe [::db/data-field :get-frequency])
   (count @(subscribe [::db/data-field :get-weighted-collab]))
