@@ -212,18 +212,42 @@
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])))
 
-(defn legend-div []
-  [:div {:style {:position :absolute :z-index 10 :background-color :white}}
-   [:> mui-stack {:direction :column :justify-content :center
-                  :align-items :flex-start :spacing 0.5}
-    (map
-     #(identity [paper {:elevation 0}
-                 [:> mui-stack {:direction :row :spacing 1}
-                  [:div
-                   {:style {:background-color :red :width 20}}]
-                  [:> mui-typography {:variant :caption}
-                   "TEST LEGEND " %]]]) (range 23))]])
+(def area-ids [:ai :systems :theory :interdiscip])
+(def sub-area-ids [:ai :ml :vision :nlp :ir :architecture :hpc :security :databases 
+                   :pl :networks :se :embedded :da :os :mobile+web :metrics :math
+                   :hci :vis :robotics :bio :graphics])
 
+(defn legend-div []
+  (let [color-by (subscribe [::mp/color-by])
+        area-mapping (subscribe [::data/area-mapping])] 
+    (when (or (= @color-by :area) (= @color-by :subarea))
+      (let
+       [area-names
+        (vec
+         (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+        [ids id label color-map] (if (= @color-by :area) 
+                                   [area-ids :area-id :area-label area-color] 
+                                   [sub-area-ids :sub-area-id :sub-area-label sub-area-color])
+        area-map
+        (zipmap (map #(keyword (get % id)) area-names) (map label area-names))]
+        [:div {:style {:position :absolute :z-index 10
+                       :background-color :white :padding 10}}
+         [:> mui-stack {:direction :column :justify-content :center
+                        :align-items :flex-start :spacing 0}
+          (map
+           #(identity [paper {:elevation 0}
+                       [:> mui-stack {:direction :row :spacing 1}
+                        [:div
+                         {:style {:background-color (get color-map %) :width 20 :margin-top 3 :margin-bottom 3}}]
+                        [:> mui-typography {:variant :caption :font-size 10 :sx {:margin 0 :padding 0}}
+                         (get area-map %)]]]) ids)]]))))
+(comment
+  (def area-mapping (subscribe [::data/area-mapping]))
+  (def area-names
+(vec
+ (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping))))
+  (zipmap (map :area-id area-names) (map :area-label area-names))
+  )
 
 (defn graph-view []
   (let [#_#_insti? (subscribe [::mp/insti?])

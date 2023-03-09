@@ -29,21 +29,21 @@
    :ir "#86E5FF" ;blue
    :architecture "#630606" ;red
    :hpc "#890F0D" ;red
-   :security "#E83A14" ;red
-   :databases "#F76E11";red
-   :pl "#FF9F45";red
-   :networks "#FF597B" ;red
-   :se "#F9B5D0" ;red
-   :embedded "#B3005E" ;red
-   :da "#CC561E" ;red
-   :os "#FF2626" ;red
-   :mobile+web "#BD1616" ;red
-   :metrics "#B01E68";red
+   :security  "#BD1616";red
+   :databases  "#E83A14" ;red
+   :pl  "#CC561E" ;red 
+   :networks  "#F76E11" ;red
+   :se  "#FF9F45" ;red
+   :embedded  "#B3005E" ;red
+   :da  "#B01E68" ;red
+   :os  "#FF2626" ;red
+   :mobile+web  "#FF597B" ;red
+   :metrics  "#F9B5D0";red
    :math "#FFDB15" ;yellow
-   :hci "#9DC08B" ;green
-   :vis "#609966" ;green
-   :robotics "#40513B" ;green
-   :bio "#82CD47" ;green
-   :graphics "#379237" ;green
+   :hci  "#40513B" ;green
+   :vis  "#379237" ;green
+   :robotics  "#82CD47" ;green
+   :bio  "#609966";green
+   :graphics  "#9DC08B";green
    })
 
