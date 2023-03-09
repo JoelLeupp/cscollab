@@ -12,6 +12,8 @@
             [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
+            ["@mui/material/Stack" :default mui-stack]
+            ["@mui/material/Typography" :default mui-typography]
             [leaflet :as L]
             [app.cscollab.common :as common]
             [app.cscollab.api :as api]
@@ -210,6 +212,18 @@
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])))
 
+(defn legend-div []
+  [:div {:style {:position :absolute :z-index 10 :background-color :white}}
+   [:> mui-stack {:direction :column :justify-content :center
+                  :align-items :flex-start :spacing 0.5}
+    (map
+     #(identity [paper {:elevation 0}
+                 [:> mui-stack {:direction :row :spacing 1}
+                  [:div
+                   {:style {:background-color :red :width 20}}]
+                  [:> mui-typography {:variant :caption}
+                   "TEST LEGEND " %]]]) (range 23))]])
+
 
 (defn graph-view []
   (let [#_#_insti? (subscribe [::mp/insti?])
@@ -249,7 +263,7 @@
        [viz-container
         {:id :graph-container
          :title "Collaboration Graph"
-         :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
+         :content (list [legend-div] [graph-comp]) #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :info-component [selected-info]
          :info-open? (subscribe [::g/info-open?])
          :update-event #(do (swap! reset inc)

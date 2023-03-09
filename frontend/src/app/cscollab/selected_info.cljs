@@ -20,6 +20,18 @@
             [app.util :as util]))
 
 
+(defn selected-node-info []
+  (let [node-data @(subscribe [::db/data-field :get-publications-node-graph])
+        insti? @(subscribe [::mp/insti?])
+        ]
+    node-data)
+  )
+
+(comment 
+  (def node-data @(subscribe [::db/data-field :get-publications-node-graph]))
+  node-data
+
+  )
 
 (defn selected-comp []
   (let [selected (subscribe [::g/graph-field :selected])
