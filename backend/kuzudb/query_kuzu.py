@@ -581,6 +581,7 @@ def get_publications_node(node, collab_filtered, institution = False):
     filter_node = np.logical_or(filter_node_a,filter_node_b)
     
     publications = collab_filtered[filter_node]
+    publications["pid"]=list(map(lambda row: row[1]["b_pid"] if row[1][node_b]==node else row[1]["a_pid"], publications.iterrows()))
     publications["collab_pid"]=list(map(lambda row: row[1]["a_pid"] if row[1][node_b]==node else row[1]["b_pid"], publications.iterrows()))
     publications["collab_inst"]=list(map(lambda row: row[1]["a_inst"] if row[1][node_b]==node else row[1]["b_inst"], publications.iterrows()))
     publications["collab_country"]=list(map(lambda row: row[1]["a_country"] if row[1][node_b]==node else row[1]["b_country"], publications.iterrows()))

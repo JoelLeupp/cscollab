@@ -75,4 +75,5 @@
         :style (util/deep-merge
                 {:width "100%" :height "100%" :background-color "white"}
                 style)
-        :stylesheet stylesheet}])))
+        :stylesheet stylesheet
+        :wheelSensitivity 0.2}])))
