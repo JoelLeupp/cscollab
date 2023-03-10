@@ -585,7 +585,7 @@ def get_publications_node(node, collab_filtered, institution = False):
     publications["collab_pid"]=list(map(lambda row: row[1]["a_pid"] if row[1][node_b]==node else row[1]["b_pid"], publications.iterrows()))
     publications["collab_inst"]=list(map(lambda row: row[1]["a_inst"] if row[1][node_b]==node else row[1]["b_inst"], publications.iterrows()))
     publications["collab_country"]=list(map(lambda row: row[1]["a_country"] if row[1][node_b]==node else row[1]["b_country"], publications.iterrows()))
-    publications=publications[["rec_id","rec_sub_area", "year","collab_pid", "collab_inst", "collab_country"]]
+    publications=publications[["pid", "rec_id","rec_sub_area", "year","collab_pid", "collab_inst", "collab_country"]]
     return publications
 
 # edge = ["EPFL", "Ecole Normale Superieure"]
