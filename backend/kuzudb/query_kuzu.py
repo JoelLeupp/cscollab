@@ -396,14 +396,12 @@ def frequeny_counter(collab):
     area_freq_b=collab.groupby(["b"])[["rec_area","rec_id"]].apply(get_freq, "rec_area")
     subarea_freq_b=collab.groupby(["b"])[["rec_sub_area","rec_id"]].apply(get_freq, "rec_sub_area")
 
-    area_freq_merged = pd.merge(area_freq_a,area_freq_b,right_index = True, left_index = True,how="outer")
-    area_freq_merged.columns = ["x","y"]
+    area_freq_merged = pd.merge(area_freq_a.rename("x"),area_freq_b.rename("y"),right_index = True, left_index = True,how="outer")
     area_freq_merged["freq"]=list(map(lambda a,b: merge_freq(a,b) ,area_freq_merged["x"],area_freq_merged["y"]))
     area_freq_map = dict(zip(area_freq_merged.index,
                             list(map(lambda x: freq_summary(json.loads(x)),area_freq_merged["freq"]))))
     
-    subarea_freq_merged = pd.merge(subarea_freq_a,subarea_freq_b,right_index = True, left_index = True,how="outer")
-    subarea_freq_merged.columns = ["x","y"]
+    subarea_freq_merged = pd.merge(subarea_freq_a.rename("x"),subarea_freq_b.rename("y"),right_index = True, left_index = True,how="outer")
     subarea_freq_merged["freq"]=list(map(lambda a,b: merge_freq(a,b) ,subarea_freq_merged["x"],subarea_freq_merged["y"]))
     subarea_freq_map = dict(zip(subarea_freq_merged.index,
                             list(map(lambda x: freq_summary(json.loads(x)),subarea_freq_merged["freq"]))))
