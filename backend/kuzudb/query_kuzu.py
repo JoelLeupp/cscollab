@@ -368,12 +368,20 @@ def filter_collab(collab, config = {}):
 #             "country_ids":["jp","sg"],
 #             "strict_boundary":True
 #             }
+# config = { "from_year": 2005,
+#             "region_ids":["wd"],
+#             "strict_boundary":False,
+#             "institution":False}
 # collab_filtered = filter_collab(collab,config)
 
-def get_freq(rec, area):
+def get_freq_orig(rec, area):
     unique_rec = rec.drop_duplicates()
     a = unique_rec[area]
     return json.dumps(dict(collections.Counter(a)))
+
+def get_freq(rec):
+    a = list(map(lambda x:x[0],set(map(tuple,rec.values))))
+    return json.dumps(dict(collections.Counter(a))) #_json.dumps(dict(collections.Counter(a)))
 
 def merge_freq(a,b):
     freq_a = json.loads(a) if pd.notnull(a) else None
@@ -391,10 +399,10 @@ def freq_summary(freq_counter):
 def frequeny_counter(collab):
     """count the publications in the different research sub/areas for each node"""
     
-    area_freq_a=collab.groupby(["a"])[["rec_area","rec_id"]].apply(get_freq, "rec_area")
-    subarea_freq_a=collab.groupby(["a"])[["rec_sub_area","rec_id"]].apply(get_freq, "rec_sub_area")
-    area_freq_b=collab.groupby(["b"])[["rec_area","rec_id"]].apply(get_freq, "rec_area")
-    subarea_freq_b=collab.groupby(["b"])[["rec_sub_area","rec_id"]].apply(get_freq, "rec_sub_area")
+    area_freq_a=collab.groupby(["a"])[["rec_area","rec_id"]].apply(get_freq)
+    subarea_freq_a=collab.groupby(["a"])[["rec_sub_area","rec_id"]].apply(get_freq)
+    area_freq_b=collab.groupby(["b"])[["rec_area","rec_id"]].apply(get_freq)
+    subarea_freq_b=collab.groupby(["b"])[["rec_sub_area","rec_id"]].apply(get_freq)
 
     area_freq_merged = pd.merge(area_freq_a.rename("x"),area_freq_b.rename("y"),right_index = True, left_index = True,how="outer")
     area_freq_merged["freq"]=list(map(lambda a,b: merge_freq(a,b) ,area_freq_merged["x"],area_freq_merged["y"]))
