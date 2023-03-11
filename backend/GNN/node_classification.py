@@ -58,7 +58,7 @@ def get_position(model, data):
     idx_node_mapping = dict(zip(node_idx,node_ids))
     """use T-distributed Stochastic Neighbor Embedding to visualize high-dimensional data"""
     # z = TSNE(n_components=2).fit_transform(out.detach().cpu().numpy())
-    z = MulticoreTSNE(n_components=2,n_jobs=2).fit_transform(out.detach().cpu().numpy())
+    z = MulticoreTSNE(n_components=2,n_jobs=1).fit_transform(out.detach().cpu().numpy())
     node_positions = dict(zip(  list(map(lambda x: idx_node_mapping[x], range(data.num_nodes))),
                                 list(map(lambda i: {"x":np.float64(z[i,0]),"y":np.float64(z[i,1])} , range(data.num_nodes)))))
     return node_positions  
