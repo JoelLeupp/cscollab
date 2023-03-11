@@ -52,6 +52,18 @@
        :on-failure      [::error id]}})))
 
 (reg-event-fx
+ ::get-csauthors
+ (fn [{db :db} _]
+   (let [id :get-csauthors]
+     {:db (loading db id)
+      :http-xhrio
+      {:method          :get
+       :uri             (get-api-url "db" "get_csauthors")
+       :response-format (json-response-format {:keywords? true})
+       :on-success      [::success-get-data id]
+       :on-failure      [::error id]}})))
+
+(reg-event-fx
  ::get-weighted-collab
  (fn [{db :db} [_ config]]
    (let [id :get-weighted-collab]
@@ -140,6 +152,9 @@
        :on-success      [::success-get-data id-new]
        :on-failure      [::error id-new]}})))
 
+(defn initial-api-call []
+  (dispatch [::get-region-mapping])
+  (dispatch [::get-csauthors]))
 
 #_(reg-event-fx
  ::http-post
@@ -159,13 +174,14 @@
                "region_ids" ["dach"]
                "strict_boundary" true,
                "institution" true})
-  (dispatch [::get-publications-node :graph "EPFL" config])
+  (dispatch [::get-publications-node :graph "EPFL" config]) 
   (dispatch [::get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
   @(subscribe [::db/data-field :get-publications-node-graph])
   @(subscribe [::db/data-field :get-publications-edge-graph])
   @(subscribe [::graph-data-loading?])
   (dispatch [::get-node-position config true]) 
   (dispatch [::get-region-mapping])
+  (dispatch [::get-csauthors])
   @(subscribe [::db/loading? :get-region-mapping])
   (def app-db re-frame.db/app-db)
   (:errors @app-db)
@@ -174,7 +190,7 @@
   (dispatch [::get-frequency config])
   (dispatch [::get-weighted-collab config]) 
   @(subscribe [::db/data-field :get-region-mapping])
-  @(subscribe [::db/data-field :get-frequency])
+  (first @(subscribe [::db/data-field :get-csauthors]))
   (count @(subscribe [::db/data-field :get-weighted-collab]))
   (def get-node-position @(subscribe [::db/data-field :get-node-position]))
   (first (keys get-node-position)) 

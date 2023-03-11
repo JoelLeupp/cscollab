@@ -7,6 +7,7 @@
    [re-frame.core :refer (dispatch dispatch-sync)]
    [app.router :as router :refer (init-routes!)]
    [app.cscollab.data :as data] 
+   [app.cscollab.api :as api]
    [app.views :refer (app routes)]))
 
 (defonce root (createRoot 
@@ -21,12 +22,14 @@
   (dispatch-sync [::db/initialize-db])
   (init-routes! (routes) {:use-fragment true})
   (data/get-json-data) ;load static data
+  (api/initial-api-call)
   (init-app))
 
 (defn ^:dev/after-load reload! []
   (println "[main]: app reloaded") 
   (init-routes! (routes) {:use-fragment true})
   (data/get-json-data) ;load static data
+  (api/initial-api-call)
   (init-app))
 
 

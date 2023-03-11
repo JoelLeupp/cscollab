@@ -370,7 +370,9 @@ def filter_collab(collab, config = {}):
 #             }
 # collab_filtered = filter_collab(collab,config)
 
-def get_freq(a):
+def get_freq(rec, area):
+    unique_rec = rec.drop_duplicates()
+    a = unique_rec[area]
     return json.dumps(dict(collections.Counter(a)))
 
 def merge_freq(a,b):
@@ -389,10 +391,10 @@ def freq_summary(freq_counter):
 def frequeny_counter(collab):
     """count the publications in the different research sub/areas for each node"""
     
-    area_freq_a=collab.groupby(["a"])["rec_area"].apply(get_freq)
-    subarea_freq_a=collab.groupby(["a"])["rec_sub_area"].apply(get_freq)
-    area_freq_b=collab.groupby(["b"])["rec_area"].apply(get_freq)
-    subarea_freq_b=collab.groupby(["b"])["rec_sub_area"].apply(get_freq)
+    area_freq_a=collab.groupby(["a"])[["rec_area","rec_id"]].apply(get_freq, "rec_area")
+    subarea_freq_a=collab.groupby(["a"])[["rec_sub_area","rec_id"]].apply(get_freq, "rec_sub_area")
+    area_freq_b=collab.groupby(["b"])[["rec_area","rec_id"]].apply(get_freq, "rec_area")
+    subarea_freq_b=collab.groupby(["b"])[["rec_sub_area","rec_id"]].apply(get_freq, "rec_sub_area")
 
     area_freq_merged = pd.merge(area_freq_a,area_freq_b,right_index = True, left_index = True,how="outer")
     area_freq_merged.columns = ["x","y"]
@@ -586,6 +588,14 @@ def get_publications_node(node, collab_filtered, institution = False):
     publications["collab_inst"]=list(map(lambda row: row[1]["a_inst"] if row[1][node_b]==node else row[1]["b_inst"], publications.iterrows()))
     publications["collab_country"]=list(map(lambda row: row[1]["a_country"] if row[1][node_b]==node else row[1]["b_country"], publications.iterrows()))
     publications=publications[["pid", "rec_id","rec_sub_area", "year","collab_pid", "collab_inst", "collab_country"]]
+    
+    """ add self loops for collaborations with the institution itself """
+    if institution:
+        self_collab = publications[publications["collab_inst"]==node]
+        """switch pid and collab pid column"""
+        self_collab.columns = ["collab_pid", "rec_id","rec_sub_area", "year","pid", "collab_inst", "collab_country"]
+        publications = pd.concat([self_collab, publications])
+    
     return publications
 
 # edge = ["EPFL", "Ecole Normale Superieure"]

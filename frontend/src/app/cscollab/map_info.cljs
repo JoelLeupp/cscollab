@@ -3,6 +3,7 @@
             [app.common.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
             [app.common.plotly :as plotly]
+            [app.components.colors :refer [colors area-color sub-area-color]]
             [app.cscollab.data :as data]
             [app.util :as util]
             [app.components.lists :refer [collapse]]
@@ -23,7 +24,7 @@
 
 
 (defn author-table [author-map collab-count]
-  (let [csauthors @(subscribe [::data/csauthors])
+  (let [csauthors @(subscribe [::db/data-field :get-csauthors])
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))
         header [{:id :author
                  :label [:b (str "Authors (" (count author-map) ")")]}
@@ -62,7 +63,7 @@
         :textposition :outside
         :text (mapv #(str (:count %)) vals)
         :transforms [{:type :sort :target :x :order :descending}]
-        :marker {:color (plotly/get-area-color area-id)}}))))
+        :marker {:color (get area-color (keyword area-id))}}))))
 
 (defn publication-plot []
   (let [records (subscribe [::ll/selected-records])
@@ -137,7 +138,7 @@
 
 (defn author-info []
   (let [records (subscribe [::ll/selected-records])
-        csauthors (subscribe [::data/csauthors]) 
+        csauthors (subscribe [::db/data-field :get-csauthors]) 
         selected-shape (subscribe [::ll/selected-shape])]
     (fn []
       (when (and @records (string? @selected-shape))
@@ -211,7 +212,7 @@
 
 (defn collab-info [{:keys [insti?]}]
   (let [records (subscribe [::ll/selected-records])
-        csauthors (subscribe [::data/csauthors])
+        csauthors (subscribe [::db/data-field :get-csauthors])
         selected-shape (subscribe [::ll/selected-shape])]
     (fn []
       (when (and @records (vector? @selected-shape))
