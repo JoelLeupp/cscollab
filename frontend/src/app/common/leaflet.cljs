@@ -2,7 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [app.util :refer (deep-merge)]
             [reagent.dom.server :refer [render-to-string]]
-            [app.components.colors :refer [colors]] 
+            [app.components.colors :refer [colors area-color sub-area-color]]
             [leaflet :as L]
             [app.cscollab.map-panel :as mp]
             [app.cscollab.common :as common]
@@ -121,6 +121,7 @@
   (let [leaflet #_(subscribe [::map]) (atom nil) 
         geometries (subscribe [::geometries])
         insti? (subscribe [::mp/insti?])
+        frequency (subscribe [::db/data-field :get-frequency])
         layers
         (or layers
             [{:type :tile
@@ -131,6 +132,7 @@
                  mapspec
                  {:leaflet leaflet
                   :view view
+                  :frequency frequency
                   :insti? insti?
                   :zoom zoom
                   :layers layers
@@ -148,14 +150,13 @@
 (declare uncolor-previous)
 (declare color-all-main)
 
-(defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries geometries-map insti?] :as mapspec}]
+(defn- leaflet-did-mount [{:keys [id view zoom layers leaflet geometries geometries-map insti? frequency] :as mapspec}]
   "Initialize LeafletJS map for a newly mounted map component."
   (fn []
     ;; Initialize leaflet map 
     (reset! leaflet (L/map id (clj->js {:zoomControl true :zoomSnap 0.25 :zoomDelta 0.25})))
     (reset! geometries-map {})
     (dispatch [::set-leaflet [:map] @leaflet])
-
     ;; Initial view point and zoom level
     (.setView @leaflet (clj->js @view) @zoom)
 
@@ -178,16 +179,16 @@
 
     ;; If mapspec defines callbacks, bind them to leaflet 
     (.on @leaflet
-         "click" (fn [e] 
+         "click" (fn [e]
                    (when @(subscribe [::info-open?])
-                     (color-all-main geometries-map @insti?)
+                     (color-all-main geometries-map @insti? @frequency)
                      (dispatch [::set-leaflet [:info-open?] false])
                      (dispatch [::set-leaflet [:selected-shape] nil]))))
 
     ;; Add callback for leaflet pos/zoom changes
     ;; watcher for pos/zoom atoms
     (.on @leaflet "move" (fn [e]
-                           (let [c (.getCenter @leaflet)] 
+                           (let [c (.getCenter @leaflet)]
                              (reset! zoom (.getZoom @leaflet))
                              (reset! view [(.-lat c) (.-lng c)]))))
     #_(add-watch view ::view-update
@@ -202,7 +203,7 @@
     (add-watch (subscribe [::selected-elements]) ::color-selected
                (fn [_ _ previous-selected _]
                  (when previous-selected
-                   (uncolor-previous previous-selected geometries-map @insti?))
+                   (uncolor-previous previous-selected geometries-map @insti? @frequency))
                  (color-selected geometries-map @insti?)))
     (add-watch (subscribe [::selected-shape]) ::load-data-selected
                (fn [_ _ _ selected-shape]
@@ -211,17 +212,19 @@
                      (if (string? selected-shape)
                        (dispatch [::api/get-publications-node :map selected-shape config])
                        (dispatch [::api/get-publications-edge :map selected-shape config]))))))
-  
+
     ;; If the mapspec has an atom containing geometries, add watcher
     ;; so that we update all LeafletJS objects
     (update-leaflet-geometries mapspec @geometries)
+    (color-all-main geometries-map @insti? @frequency)
     (when-let [g geometries]
       (add-watch g ::geometries-update
-                 (fn [_ _ _ new-geometries] 
-                   (update-leaflet-geometries mapspec new-geometries))))))
+                 (fn [_ _ _ new-geometries]
+                   (update-leaflet-geometries mapspec new-geometries)
+                   (color-all-main geometries-map @insti? @frequency))))))
 
 
-(defn- leaflet-render [{:keys [id style view zoom geometries] :as mapspec}]
+(defn- leaflet-render [{:keys [id style view zoom geometries geometries-map insti? frequency] :as mapspec}]
   (fn []
     (let [g @geometries 
           selected-shape @(subscribe [::selected-shape])
@@ -326,19 +329,25 @@
                      (.openOn leaflet))))))
 
 
-(defn uncolor-previous [previous-selected geometries-map insti?]
+(defn uncolor-previous [previous-selected geometries-map insti? frequency]
   (let [records previous-selected
+        color-by @(subscribe [::mp/color-by])
         svg (if insti? inst-svg author-svg) 
         markers
-        (map #(get @geometries-map %)
+        (map #(identity [% (get @geometries-map %)])
              (clojure.set/union
               (set (map :node/n records))
               (set (map :node/m records))))
         lines
         (map #(get @geometries-map %)
              (set (map #(identity [(:node/m %) (:node/n %)]) records)))]
-    (doseq [layer markers]
-      (let [icon (gen-icon (.-scale layer) (:main colors) svg)]
+    (doseq [[id layer] markers]
+      (let [color (when frequency
+                    (case color-by
+                      :area (get area-color (keyword (get-in frequency [id "area" "top"])))
+                      :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
+                      (:main colors)))
+            icon (gen-icon (.-scale layer) color svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:main colors)})))))
@@ -360,14 +369,19 @@
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:second colors)})))))
 
-(defn color-all-main [geometries-map insti?]
+(defn color-all-main [geometries-map insti? frequency]
   (let [svg (if insti? inst-svg author-svg)
-        markers
-        (map second (filter #(string? (first %)) @geometries-map))
+        color-by @(subscribe [::mp/color-by])
+        markers (filter #(string? (first %)) @geometries-map)
         lines
         (map second (filter #(vector? (first %)) @geometries-map))]
-    (doseq [layer markers]
-      (let [icon (gen-icon (.-scale layer) (:main colors) svg)]
+    (doseq [[id layer] markers]
+      (let [color (when frequency
+                    (case color-by
+                      :area (get area-color (keyword (get-in frequency [id "area" "top"])))
+                      :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
+                      (:main colors)))
+            icon (gen-icon (.-scale layer) color svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
       (.setStyle layer (clj->js {:color (:main colors)})))))
