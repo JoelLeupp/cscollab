@@ -7,8 +7,7 @@
             [reagent-mui.material.paper :refer [paper]] 
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
-            [app.util :as util]
-            [app.cscollab.data :as data]))
+            [app.util :as util]))
 
 (def plotly react-plotly)
 

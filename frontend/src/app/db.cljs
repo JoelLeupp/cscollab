@@ -18,7 +18,8 @@
  (fn [_ _]
    (merge
     default-db
-    {:leaflet
+    {:data {:year-span [2005 2022]}
+     :leaflet
      {:view-position [49.8 13.1]
       :zoom-level 6
       :geometries []}

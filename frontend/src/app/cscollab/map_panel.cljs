@@ -1,7 +1,6 @@
 (ns app.cscollab.map-panel
   (:require
-   [app.common.user-input :refer (input-panel)]
-   [app.cscollab.data :as data]
+   [app.common.user-input :refer (input-panel)] 
    [app.db :as db]
    [app.util :as util]
    [app.components.grid :as grid]

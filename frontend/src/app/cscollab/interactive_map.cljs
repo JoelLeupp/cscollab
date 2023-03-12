@@ -6,12 +6,15 @@
             [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
             [app.db :as db] 
+            [app.cscollab.common :as common]
             [app.common.container :refer (viz-container)]
+            [app.cscollab.selected-info :refer (selected-info-map)]
             [app.cscollab.map-panel :as mp]
+            [app.components.feedback :as feedback]
+            [app.cscollab.api :as api]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]]
-            [leaflet :as L]
-            [app.cscollab.map-info :as info :refer (map-info-div map-info)]
+            [leaflet :as L] 
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
@@ -149,7 +152,7 @@
 
 (defn gen-geometries [{:keys [insti?]}]
   (let [weighted-collab
-        (tf/weighted-collab {:insti? insti?})
+        @(subscribe [::db/data-field :get-weighted-collab])
         csauthors
         @(subscribe [::data/csauthors])
         geo-mapping-inst
@@ -219,20 +222,41 @@
         [map-info-div "70vh"]
         [map-comp @insti?]]])))
 
+(defn update-data []
+  (let [config @(subscribe [::common/filter-config])]
+    (dispatch [::api/get-weighted-collab config])))
+
+
+
 (defn interactive-map []
-  (let [insti? (subscribe [::mp/insti?])]
+  (let [insti? (subscribe [::mp/insti?])
+        loading? (subscribe [::db/loading? :get-weighted-collab])]
+    (add-watch loading? ::map-data-loading
+               (fn [_ _ _ data-loading?]
+                 (if data-loading?
+                   (dispatch [::feedback/open :map-data-loading])
+                   (do
+                     (dispatch [::feedback/close :map-data-loading])
+                     (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @(subscribe [::mp/insti?])})])))))
     (fn [] 
-      [viz-container
-       {:id :map-container
-        :title "Landscape of Scientific Collaborations" 
-        :update-event #(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
-        :content [map-comp @insti?]
-        :info-component [map-info]
-        :info-open? (subscribe [::ll/info-open?])}])))
+      ^{:key [@loading?]}
+      [:div
+       [feedback/feedback {:id :map-data-loading
+                           :anchor-origin {:vertical :top :horizontal :center}
+                           :status :info
+                           :auto-hide-duration nil
+                           :message "Garaph data is loading, please wait."}]
+       [viz-container
+        {:id :map-container
+         :title "Landscape of Scientific Collaborations" 
+         :update-event update-data #_(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+         :content [map-comp @insti?]
+         :info-component [selected-info-map]
+         :info-open? (subscribe [::ll/info-open?])}]])))
 
 
 (comment
-  @geometries-map
+  @(subscribe [::ll/geometries])
   (subscribe [::mp/insti?])
   (subscribe [::db/ui-states-field [:tabs :viz-view]])
   (ll/color-selected geometries-map)

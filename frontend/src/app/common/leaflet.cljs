@@ -6,6 +6,8 @@
             [app.cscollab.transformer :as tf]
             [leaflet :as L]
             [app.cscollab.map-panel :as mp]
+            [app.cscollab.common :as common]
+            [app.cscollab.api :as api]
             [app.db :as db]
             [leaflet-ellipse]
             [re-frame.core :as rf :refer
@@ -65,32 +67,29 @@
  (fn [m] (when m m)))
 
 
-(reg-sub
- ::selected-records
- :<- [::selected-shape]
- :<- [::tf/filtered-collab]
- :<- [::mp/insti?]
- (fn
-   [[selected-shape filtered-collab insti?]]
-   "get all records of the selected shape"
-   (when filtered-collab
-     (let [node-m (if insti? :a_inst :a_pid)
-           node-n (if insti? :b_inst :b_pid)]
-       (if (vector? selected-shape)
-       ;; get records of selected collaboration
-         (filter
-          #(or
-            (and (= (first selected-shape) (node-n %))
-                 (= (second selected-shape) (node-m %)))
-            (and (= (first selected-shape) (node-m %))
-                 (= (second selected-shape) (node-n %))))
-          filtered-collab)
-        ;; get collaborations of author or institution
-         (filter
-          #(or (= selected-shape (node-m %))
-               (= selected-shape (node-n %)))
-          filtered-collab))))))
 
+(reg-sub
+ ::selected-elements
+ :<- [::selected-shape]
+ :<- [::db/data-field :get-weighted-collab]
+ (fn
+   [[selected-shape weighted-collab]]
+   "get all records of the selected shape"
+   (when weighted-collab 
+     (if (vector? selected-shape)
+       ;; get records of selected collaboration
+       (filter
+        #(or
+          (and (= (first selected-shape) (:node/n %))
+               (= (second selected-shape) (:node/m %)))
+          (and (= (first selected-shape) (:node/m %))
+               (= (second selected-shape) (:node/n %))))
+        weighted-collab)
+        ;; get collaborations of author or institution
+       (filter
+        #(or (= selected-shape (:node/m %))
+             (= selected-shape (:node/n %)))
+        weighted-collab)))))
 
 (reg-sub
  ::info-open?
@@ -101,6 +100,8 @@
 
 (comment
   @(subscribe [::zoom-level])
+  @(subscribe [::selected-elements])
+  @(subscribe [::selected-shape])
   (first @(subscribe [::tf/filtered-collab]))
   @(subscribe [::geometries])
   (dispatch [::set-leaflet [:zoom-level] 10])
@@ -200,11 +201,19 @@
                  (fn [_ _ old-zoom new-zoom]
                    (when-not (= old-zoom new-zoom)
                      (.setZoom @leaflet new-zoom))))
-    (add-watch (subscribe [::selected-records]) ::color-selected
+    (add-watch (subscribe [::selected-elements]) ::color-selected
                (fn [_ _ previous-selected _]
                  (when previous-selected
                    (uncolor-previous previous-selected geometries-map @insti?))
                  (color-selected geometries-map @insti?)))
+    (add-watch (subscribe [::selected-shape]) ::load-data-selected
+               (fn [_ _ _ selected-shape]
+                 (when selected-shape
+                   (let [config @(subscribe [::common/filter-config])]
+                     (if (string? selected-shape)
+                       (dispatch [::api/get-publications-node :map selected-shape config])
+                       (dispatch [::api/get-publications-edge :map selected-shape config]))))))
+  
     ;; If the mapspec has an atom containing geometries, add watcher
     ;; so that we update all LeafletJS objects
     (update-leaflet-geometries mapspec @geometries)
@@ -216,8 +225,9 @@
 
 (defn- leaflet-render [{:keys [id style view zoom geometries] :as mapspec}]
   (fn []
-    (let [g @geometries
-          selected-records @(subscribe [::selected-records])] 
+    (let [g @geometries 
+          selected-shape @(subscribe [::selected-shape])
+          selected-elements @(subscribe [::selected-elements])] 
       [:div {:id id
              :style style}])))
 
@@ -320,17 +330,15 @@
 
 (defn uncolor-previous [previous-selected geometries-map insti?]
   (let [records previous-selected
-        svg (if insti? inst-svg author-svg)
-        node-n (if insti? :a_inst :a_pid)
-        node-m (if insti? :b_inst :b_pid)
+        svg (if insti? inst-svg author-svg) 
         markers
         (map #(get @geometries-map %)
              (clojure.set/union
-              (set (map node-n records))
-              (set (map node-m records))))
+              (set (map :node/n records))
+              (set (map :node/m records))))
         lines
         (map #(get @geometries-map %)
-             (set (map #(identity [(node-n %) (node-m %)]) records)))]
+             (set (map #(identity [(:node/m %) (:node/n %)]) records)))]
     (doseq [layer markers]
       (let [icon (gen-icon (.-scale layer) (:main colors) svg)]
         (.setIcon layer icon)))
@@ -338,18 +346,16 @@
       (.setStyle layer (clj->js {:color (:main colors)})))))
 
 (defn color-selected [geometries-map insti?]
-  (let [records @(subscribe [::selected-records])
-        svg (if insti? inst-svg author-svg)
-        node-n (if insti? :a_inst :a_pid)
-        node-m (if insti? :b_inst :b_pid)
+  (let [records @(subscribe [::selected-elements])
+        svg (if insti? inst-svg author-svg) 
         markers
         (map #(get @geometries-map %)
              (clojure.set/union
-              (set (map node-n records))
-              (set (map node-m records))))
+              (set (map :node/n records))
+              (set (map :node/m records))))
         lines
         (map #(get @geometries-map %)
-             (set (map #(identity [(node-n %) (node-m %)]) records)))]
+             (set (map #(identity [(:node/m %) (:node/n %)]) records)))]
     (doseq [layer markers]
       (let [icon (gen-icon (.-scale layer) (:second colors) svg)]
         (.setIcon layer icon)))

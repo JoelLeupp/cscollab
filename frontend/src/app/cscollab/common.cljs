@@ -1,6 +1,5 @@
 (ns app.cscollab.common
   (:require [reagent.core :as reagent :refer [atom]] 
-            [app.cscollab.data :as data]
             [app.cscollab.filter-panel :as filter-panel]
             [app.components.colors :refer [colors]] 
             [cljs-bean.core :refer [bean ->clj ->js]]

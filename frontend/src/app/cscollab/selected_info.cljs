@@ -7,6 +7,7 @@
             [app.components.lists :refer [collapse]]
             [cljs-bean.core :refer [bean ->clj ->js]]
             [app.db :as db]
+            [app.common.leaflet :as ll]
             [app.components.feedback :as feedback]
             [app.common.graph :as g]
             [app.cscollab.map-panel :as mp]
@@ -131,7 +132,12 @@
 
 (comment
   (def node-data @(subscribe [::db/data-field :get-publications-node-graph]))
-  (def edge-data @(subscribe [::db/data-field :get-publications-edge-graph]))
+  (def node-data @(subscribe [::db/data-field :get-publications-node-map]))
+  (first node-data)
+  (def self-collab (filter #(= "ETH Zurich" (:collab_inst %)) node-data))
+  (map #(hash-map :pid (:collab_pid %) :collab_pid (:pid %)) self-collab)
+
+  (def edge-data @(subscribe [::db/data-field :get-publications-edge-map]))
 
   (def selected @(subscribe [::g/graph-field :selected]))
   (count (set (map :rec_id node-data)))
@@ -150,7 +156,7 @@
   (reverse (sort-by :key (frequency-counter node-data :year)))
   )
 
-(defn selected-info []
+(defn selected-info-graph []
   (let [selected (subscribe [::g/graph-field :selected])
         edge-data (subscribe [::db/data-field :get-publications-edge-graph])
         node-data (subscribe [::db/data-field :get-publications-node-graph])
@@ -188,6 +194,43 @@
              (if @insti? [inst-info data] [author-info data])
              [collab-info data @insti?])]]]))))
 
+(defn selected-info-map []
+  (let [selected-shape (subscribe [::ll/selected-shape])
+        edge-data (subscribe [::db/data-field :get-publications-edge-map])
+        node-data (subscribe [::db/data-field :get-publications-node-map])
+        csauthors (subscribe [::db/data-field :get-csauthors])
+        insti? (subscribe [::mp/insti?])]
+    (fn []
+      (let [selected @selected-shape
+            node? (string? selected)
+            data (if node? @node-data @edge-data)
+            id (if node? :get-publications-node-map :get-publications-edge-map)]
+        [:div
+         [:div {:style {:display :flex :justify-content :space-between
+                        :width "100%" :height "100%" #_#_:border-style :solid}}
+          (if node?
+            (if @insti?
+              [:h3 #_{:style {:margin-top 0}} selected]
+              (let [{:keys [name institution]} (first (filter #(= selected (:pid %)) @csauthors))]
+                [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin 0}} institution]]))
+            [:h3 {:style {:margin 0}} "Collaboration"])
+          [button/close-button
+           {:on-click  #(dispatch [::g/set-graph-field [:info-open?] false])}]]
+         (when-not node?
+           [:h4
+            (if @insti?
+              (first selected)
+              (:name (first (filter #(= (first selected) (:pid %)) @csauthors))))
+            " And "
+            (if @insti?
+              (second selected)
+              (:name (first (filter #(= (second selected) (:pid %)) @csauthors))))])
+         ^{:key data}
+         [loading-content id
+          [:div
+           (if node?
+             (if @insti? [inst-info data] [author-info data])
+             [collab-info data @insti?])]]]))))
 
 (comment
   (def config {"from_year" 2015

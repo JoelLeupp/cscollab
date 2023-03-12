@@ -17,7 +17,7 @@
             [leaflet :as L]
             [app.cscollab.common :as common]
             [app.cscollab.api :as api]
-            [app.cscollab.selected-info :refer (selected-info)]
+            [app.cscollab.selected-info :refer (selected-info-graph)]
             [app.common.container :refer (viz-container)]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
@@ -164,6 +164,7 @@
    {:data {:source :g :target :h}}
    {:data {:source :h :target :f}}])
 
+
 (defn graph-comp [] 
   (let [elements (subscribe [::g/elements]) #_(subscribe [::elements])] 
     (fn [] 
@@ -291,7 +292,7 @@
          :content (list 
                    [legend-div @color-by] 
                    [graph-comp]) #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
-         :info-component [selected-info]
+         :info-component [selected-info-graph]
          :info-open? (subscribe [::g/info-open?])
          :update-event #(do (swap! reset inc)
                             (dispatch [::g/set-graph-field :selected nil])

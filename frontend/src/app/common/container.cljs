@@ -1,6 +1,5 @@
 (ns app.common.container
   (:require [reagent.core :as reagent :refer [atom]] 
-            [app.cscollab.data :as data]
             [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
             [app.db :as db] 

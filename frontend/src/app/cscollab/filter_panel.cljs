@@ -126,7 +126,7 @@
 (defn year-filter []
   (let [id :selected-year
         selected-year (subscribe [::db/user-input-field id]) 
-        year-span (subscribe [::data/collab-year-span])] 
+        year-span (subscribe [::db/data-field :year-span])] 
     (fn [] 
       (when (= @selected-year nil)
         (dispatch [::db/set-user-input id @year-span]))

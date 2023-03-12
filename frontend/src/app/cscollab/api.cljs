@@ -3,6 +3,7 @@
    [app.db :as db]
    [app.util :as util]
    [app.components.feedback :as feedback]
+   [app.cscollab.common :as common]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
@@ -47,6 +48,18 @@
       :http-xhrio
       {:method          :get
        :uri             (get-api-url "db" "get_region_mapping")
+       :response-format (json-response-format {:keywords? true})
+       :on-success      [::success-get-data id]
+       :on-failure      [::error id]}})))
+
+(reg-event-fx
+ ::get-area-mapping
+ (fn [{db :db} _]
+   (let [id :get-area-mapping]
+     {:db (loading db id)
+      :http-xhrio
+      {:method          :get
+       :uri             (get-api-url "db" "get_area_mapping")
        :response-format (json-response-format {:keywords? true})
        :on-success      [::success-get-data id]
        :on-failure      [::error id]}})))
@@ -153,8 +166,19 @@
        :on-failure      [::error id-new]}})))
 
 (defn initial-api-call []
-  (dispatch [::get-region-mapping])
-  (dispatch [::get-csauthors]))
+  (let [initial-config
+        {"from_year" 2015,
+         "to_year" 2023,
+         "area_ids" ["ai"],
+         "sub_area_ids" ["nlp" "ai" "ir" "ml" "vision"],
+         "region_ids" ["dach"],
+         "country_ids" ["ch" "de" "at"],
+         "strict_boundary" true,
+         "institution" true}]
+    (dispatch [::get-weighted-collab initial-config])
+    (dispatch [::get-region-mapping])
+    (dispatch [::get-csauthors])
+    (dispatch [::get-area-mapping])))
 
 #_(reg-event-fx
  ::http-post
@@ -169,29 +193,34 @@
                  :on-failure      [::failure-post-result]}}))
 
 (comment
-  (get-api-url "db" "get_region_mapping")
-  (def config {"from_year" 2015
-               "region_ids" ["dach"]
-               "strict_boundary" true,
-               "institution" true})
-  (dispatch [::get-publications-node :graph "EPFL" config]) 
-  (dispatch [::get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
-  @(subscribe [::db/data-field :get-publications-node-graph])
-  @(subscribe [::db/data-field :get-publications-edge-graph])
-  @(subscribe [::graph-data-loading?])
-  (dispatch [::get-node-position config true]) 
-  (dispatch [::get-region-mapping])
-  (dispatch [::get-csauthors])
-  @(subscribe [::db/loading? :get-region-mapping])
-  (def app-db re-frame.db/app-db)
-  (:errors @app-db)
-  (:loading @app-db)
-  (get-in @app-db [:loading ])
-  (dispatch [::get-frequency config])
-  (dispatch [::get-weighted-collab config]) 
-  @(subscribe [::db/data-field :get-region-mapping])
-  (first @(subscribe [::db/data-field :get-csauthors]))
-  (count @(subscribe [::db/data-field :get-weighted-collab]))
-  (def get-node-position @(subscribe [::db/data-field :get-node-position]))
-  (first (keys get-node-position)) 
-  )
+   (get-api-url "db" "get_region_mapping")
+   (def config {"from_year" 2015
+                "region_ids" ["dach"]
+                "strict_boundary" true,
+                "institution" true})
+   (dispatch [::get-publications-node :graph "EPFL" config])
+   (dispatch [::get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
+   @(subscribe [::db/data-field :get-publications-node-graph])
+   @(subscribe [::db/data-field :get-publications-edge-graph])
+   @(subscribe [::graph-data-loading?])
+   (dispatch [::get-node-position config true])
+   (dispatch [::get-region-mapping])
+   (dispatch [::get-area-mapping])
+   (dispatch [::get-csauthors])
+   @(subscribe [::db/loading? :get-region-mapping])
+   (def app-db re-frame.db/app-db)
+   (:errors @app-db)
+   (:loading @app-db)
+   (get-in @app-db [:loading])
+   (dispatch [::get-frequency config])
+   (dispatch [::get-weighted-collab config])
+   @(subscribe [::db/data-field :get-weighted-collab])
+   @(subscribe [::db/data-field :get-area-mapping])
+   @(subscribe [::db/data-field :get-region-mapping])
+   (first @(subscribe [::db/data-field :get-csauthors]))
+   @(subscribe [::db/data-field :get-area-mapping])
+   (first @(subscribe [::db/data-field :get-csauthors]))
+   (count @(subscribe [::db/data-field :get-weighted-collab]))
+   (def get-node-position @(subscribe [::db/data-field :get-node-position]))
+   (first (keys get-node-position))
+   )
