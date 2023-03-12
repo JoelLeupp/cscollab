@@ -2,8 +2,7 @@
   (:require [reagent.core :as reagent :refer [atom]]
             [app.util :refer (deep-merge)]
             [reagent.dom.server :refer [render-to-string]]
-            [app.components.colors :refer [colors]]
-            [app.cscollab.transformer :as tf]
+            [app.components.colors :refer [colors]] 
             [leaflet :as L]
             [app.cscollab.map-panel :as mp]
             [app.cscollab.common :as common]
@@ -101,8 +100,7 @@
 (comment
   @(subscribe [::zoom-level])
   @(subscribe [::selected-elements])
-  @(subscribe [::selected-shape])
-  (first @(subscribe [::tf/filtered-collab]))
+  @(subscribe [::selected-shape]) 
   @(subscribe [::geometries])
   (dispatch [::set-leaflet [:zoom-level] 10])
   @(subscribe [::leaflet])
@@ -154,7 +152,7 @@
   "Initialize LeafletJS map for a newly mounted map component."
   (fn []
     ;; Initialize leaflet map 
-    (reset! leaflet (L/map id (clj->js {:zoomControl false})))
+    (reset! leaflet (L/map id (clj->js {:zoomControl true :zoomSnap 0.25 :zoomDelta 0.25})))
     (reset! geometries-map {})
     (dispatch [::set-leaflet [:map] @leaflet])
 

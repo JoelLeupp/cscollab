@@ -8,7 +8,7 @@
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
 
 
-(reg-event-fx
+#_(reg-event-fx
  ::get-json-file
  (fn [{db :db} [_ json-path id]]
    {:db db
@@ -20,12 +20,12 @@
      :on-success      [::success-get-json id]
      :on-failure      [::success-get-json id]}}))
 
-(reg-event-fx
+#_(reg-event-fx
  ::success-get-json
  (fn [{db :db} [_ id m]]
    {:db (assoc-in db [:data id] m)}))
 
-(defn get-json-data []
+#_(defn get-json-data []
   (dispatch [::get-json-file "data/get_area_mapping.json" :area-mapping])
   (dispatch [::get-json-file "data/get_csauthors.json" :csauthors])
   (dispatch [::get-json-file "data/get_flat_collaboration.json" :collab])
@@ -33,17 +33,17 @@
 
 (reg-sub
  ::area-mapping
- :<- [::db/data-field [:area-mapping]]
+ :<- [::db/data-field :get-area-mapping]
  (fn [m]
    (when m m)))
 
 (reg-sub
  ::csauthors
- :<- [::db/data-field [:csauthors]]
+ :<- [::db/data-field :get-csauthors]
  (fn [m]
    (when m m)))
 
-(reg-sub
+#_(reg-sub
  ::collab
  :<- [::db/data-field [:collab]]
  (fn [m]
@@ -51,11 +51,11 @@
 
 (reg-sub
  ::region-mapping
- :<- [::db/data-field [:region-mapping]]
+ :<- [::db/data-field :get-region-mapping]
  (fn [m]
    (when m m)))
 
-(reg-sub
+#_(reg-sub
  ::collab-year-span
  :<- [::collab]
  (fn [collab]
@@ -132,7 +132,9 @@
 
 (comment
   (first @(subscribe [::collab]))
+  @(subscribe [::collab-year-span])
   (def area-mapping @(subscribe [::db/data-field [:area-mapping]]))
   @(subscribe [::nested-area])
+  (subscribe [::db/data-field :get-area-mapping])
   (first @(subscribe [::area-mapping]))
   (first @(subscribe [::region-mapping])))
