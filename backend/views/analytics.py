@@ -61,12 +61,13 @@ def get_analytics_collab(**kwargs):
         collab_filtered = query.filter_collab(collab,config)
         institution = config.get("institution")
         result = query.weighted_collab(collab_filtered,institution=institution)
+        result.columns = ["node/m", "node/n", "weight"]
         weighted_collab =  json.loads(result.to_json(orient="records"))
         cache.set(cache_key_collab, weighted_collab)
     
     """craete nodes and edges"""
     data = pd.DataFrame(weighted_collab)
-    nodes = list(set(data["a"]) | set(data["b"]))
+    nodes = list(set(data["node/m"]) | set(data["node/n"]))
     edges=[tuple(row.values) for _,row in data.iterrows()]
     
     """crate networkx graph and get analytics"""

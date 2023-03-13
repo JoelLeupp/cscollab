@@ -84,6 +84,18 @@
               {:on-click #(open-full-screen id)}])]
           content])])))
 
+(defn analytics-container [{:keys [title update-event content]}]
+  (fn []
+    [paper {:elevation 1 #_#_:sx {:width "100vw" :height "100vh" :position :absolute :top 0 :left 0}}
+     [:div {:style {:display :flex :justify-content :space-between :background-color :white
+                    :paddin-top 0 :padding-left 20 :padding-right 20 :position :relative}}
+      [:h1 {:style {:margin 10}} title]
+      [button/update-button
+       {:on-click update-event}]]
+     (let [[width height] ["100%" "70vh"]]
+       [:div {:style (merge {:height height :width width})}
+        content])]))
+
 (comment @(subscribe [::db/ui-states-field [:viz :open?]])
          (dispatch [::db/set-ui-states [:viz :open?] false])
          (dispatch [::db/set-ui-states [:viz :open?] true])

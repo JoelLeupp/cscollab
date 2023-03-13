@@ -19,7 +19,7 @@
    [reagent-mui.material.paper :refer [paper]]
    [app.common.plotly :as pp :refer (test-plot)]
    [app.cscollab.graph-view :refer (graph-view)]
-   [app.cscollab.analysis :refer (analysis-view)]
+   [app.cscollab.analytics :refer (analytics-view)]
    [app.cscollab.transformer :as tf]))
 
 
@@ -46,11 +46,11 @@
            :box-args {:margin-bottom "5px"}
            :choices [{:label "Map" :value :map}
                      {:label "Graph" :value :graph}
-                     {:label "Analysis" :value :analysis}]}] 
+                     {:label "Analytics" :value :analysis}]}] 
          (case @tab-view
            :map [interactive-map/interactive-map]
            :graph [graph-view]
-           :analysis [analysis-view]
+           :analysis [analytics-view]
            [interactive-map/interactive-map])]]])))
 
 

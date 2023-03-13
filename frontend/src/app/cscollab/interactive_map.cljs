@@ -224,7 +224,8 @@
 (defn update-data []
   (let [config @(subscribe [::common/filter-config])]
     (dispatch [::api/get-weighted-collab config])
-    (dispatch [::api/get-frequency config])))
+    (dispatch [::api/get-frequency config])
+    (dispatch [::api/get-filtered-collab config])))
 
 (defn interactive-map []
   (let [insti? (subscribe [::mp/insti?])
