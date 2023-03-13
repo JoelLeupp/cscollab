@@ -47,7 +47,7 @@
   [input-panel
    {:id :map-config-panel
     :start-closed true
-    :header "Map Configuration and Interaction"
+    :header "Graph Configuration and Interaction"
     :collapsable? true
     :content
     [grid/grid

@@ -209,7 +209,8 @@
         sub-areas? (if (= color-by :subarea) true false)]
     (dispatch [::api/get-node-position config sub-areas?])
     (dispatch [::api/get-weighted-collab config])
-    (dispatch [::api/get-frequency config])))
+    (dispatch [::api/get-frequency config])
+    (dispatch [::api/get-filtered-collab config])))
 
 (comment
   (def area-mapping (subscribe [::data/area-mapping]))

@@ -91,6 +91,21 @@
        :on-success      [::success-get-data id]
        :on-failure      [::error id]}})))
 
+(reg-event-fx
+ ::get-filtered-collab
+ (fn [{db :db} [_ config]]
+   (let [id :get-filtered-collab]
+     (dispatch [::feedback/open :get-filtered-collab])
+     {:db (loading db id)
+      :http-xhrio
+      {:method          :post
+       :uri             (get-api-url "db" "get_filtered_collaboration")
+       :params          {"config" (clj->json config)}
+       :format          (json-request-format)
+       :response-format (json-response-format {:keywords? true})
+       :on-success      [::success-get-data id]
+       :on-failure      [::error id]}})))
+
 
 (reg-event-fx
  ::get-node-position
@@ -187,7 +202,8 @@
     (dispatch [::get-weighted-collab (or config initial-config)])
     (dispatch [::get-region-mapping])
     (dispatch [::get-csauthors])
-    (dispatch [::get-area-mapping])))
+    (dispatch [::get-area-mapping])
+    (dispatch [::get-filtered-collab config])))
 
 #_(reg-event-fx
  ::http-post
@@ -223,6 +239,8 @@
    (get-in @app-db [:loading])
    (dispatch [::get-frequency config])
    (dispatch [::get-weighted-collab config])
+   (dispatch [::get-filtered-collab config])
+   @(subscribe [::db/data-field :get-filtered-collab])
    @(subscribe [::db/data-field :get-weighted-collab])
    @(subscribe [::db/data-field :get-frequency])
    @(subscribe [::db/data-field :get-region-mapping])
