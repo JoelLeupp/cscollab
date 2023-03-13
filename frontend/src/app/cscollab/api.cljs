@@ -150,7 +150,7 @@
        :params          {"config" (clj->json config),
                          "top" top}
        :format          (json-request-format)
-       :response-format (json-response-format)
+       :response-format (json-response-format {:keywords? true})
        :on-success      [::success-get-data id]
        :on-failure      [::error id]}})))
 
@@ -244,8 +244,12 @@
 
 (comment
   (get-api-url "db" "get_region_mapping")
-  (def config {"from_year" 2015
-               "region_ids" ["dach"]
+  (def config {"from_year" 2015,
+               "to_year" 2023,
+               "area_ids" ["ai"],
+               "sub_area_ids" ["nlp" "ai" "ir" "ml" "vision"],
+               "region_ids" ["dach"],
+               "country_ids" ["ch" "de" "at"],
                "strict_boundary" true,
                "institution" true})
   (dispatch [::get-analytics config 10])
