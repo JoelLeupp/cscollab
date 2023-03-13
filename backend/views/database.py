@@ -139,6 +139,23 @@ def get_flat_collaboration(**kwargs):
     return jsonify(result_json)
 
 
+@blueprint.route(route_path('get_filtered_collaboration'), methods=['POST'])
+@doc(summary="get filtered collaboration of authors inclusing country institution and area information",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'config': fields.Str(default="{}")})
+def get_filtered_collaboration(**kwargs):
+    config = json.loads(kwargs.get('config',"{}"))
+    cache_key = "get_filtered_collaboration_{}".format(config)
+    result_json = cache.get(cache_key)
+    if result_json is None:
+        # result = query.get_weighted_collab(config=config)
+        collab = query.get_flat_collaboration(ignore_area=False)
+        collab_filtered = query.filter_collab(collab,config)
+        result_json =  json.loads(collab_filtered.to_json(orient="records"))
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)
+
 @blueprint.route(route_path('get_weighted_collab'), methods=['POST'])
 @doc(summary="get weighted collaboration of author/institution",
     description =   """wrapper for the combination of get_collaboration() and weighted_collab()\n
