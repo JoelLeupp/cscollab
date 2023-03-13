@@ -167,7 +167,7 @@
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))]
     [general-collab-plot node-data :collab_pid "collaborations by institution" pid->name]))
 
-(defn inst-info [node-data] 
+(defn node-info [node-data insti?] 
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])
         full-screen? (subscribe [:app.common.container/full-screen? :map-container])] 
     [:div 
@@ -175,12 +175,13 @@
       {:id :inst-info
        :tabs-args {:variant :scrollable :scrollButtons :auto}
        :box-args {:margin-bottom "5px" :border-bottom 0 :width 460}
-       :choices [{:label "publications" :value :publication}
-                 {:label "authors" :value :author}
-                 {:label "institutions" :value :institution}
-                 {:label "countries" :value :country}
-                 {:label "year" :value :year}
-                 {:label "author collab" :value :with-author}]}] 
+       :choices (vec (concat
+                      [{:label "publications" :value :publication}]
+                      (when insti? [{:label "authors" :value :author}])
+                      [{:label "institutions" :value :institution}
+                       {:label "countries" :value :country}
+                       {:label "year" :value :year}
+                       {:label "author collab" :value :with-author}]))}] 
      (case @tab-view
        :publication [publication-plot node-data false]
        :author [author-table node-data]
@@ -200,7 +201,7 @@
 (defn info-content [data node?]
   (let [insti? (subscribe [::mp/insti?])]
     (if node?
-      (if @insti? [inst-info data] [author-info data])
+      [node-info data @insti?]
       [collab-info data @insti?])))
 
 (comment
@@ -252,7 +253,7 @@
             (if @insti?
               [:h3 #_{:style {:margin-top 0}} (first selected-ele)]
               (let [{:keys [name institution]} (first (filter #(= (first selected-ele) (:pid %)) @csauthors))]
-                [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin 0}} institution]]))
+                [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin-top 0 :margin-bottom 10}} institution]]))
             [:h3 {:style {:margin 0}} "Collaboration"])
           [button/close-button
            {:on-click  #(dispatch [::g/set-graph-field [:info-open?] false])}]]
@@ -267,10 +268,7 @@
               (:name (first (filter #(= (second selected-ele) (:pid %)) @csauthors))))])
          ^{:key data}
          [loading-content id
-          [:div
-           (if node?
-             (if @insti? [inst-info data] [author-info data])
-             [collab-info data @insti?])]]]))))
+          [info-content data node?]]]))))
 
 (defn selected-info-map []
   (let [selected-shape (subscribe [::ll/selected-shape])
@@ -290,7 +288,7 @@
             (if @insti?
               [:h3 #_{:style {:margin-top 0}} selected]
               (let [{:keys [name institution]} (first (filter #(= selected (:pid %)) @csauthors))]
-                [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin 0}} institution]]))
+                [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin-top 0 :margin-bottom 20}} institution]]))
             [:h3 {:style {:margin 0}} "Collaboration"])
           [button/close-button
            {:on-click  #(dispatch [::ll/set-leaflet [:info-open?] false])}]]
@@ -305,10 +303,7 @@
               (:name (first (filter #(= (second selected) (:pid %)) @csauthors))))])
          ^{:key data}
          [loading-content id
-          [:div
-           (if node?
-             (if @insti? [inst-info data] [author-info data])
-             [collab-info data @insti?])]]]))))
+          [info-content data node?]]]))))
 
 (comment
   (def config {"from_year" 2015

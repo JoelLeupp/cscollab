@@ -174,7 +174,8 @@
        :on-failure      [::error id-new]}})))
 
 (defn initial-api-call []
-  (let [initial-config
+  (let [config @(subscribe [::common/filter-config])
+        initial-config
         {"from_year" 2015,
          "to_year" 2023,
          "area_ids" ["ai"],
@@ -183,7 +184,7 @@
          "country_ids" ["ch" "de" "at"],
          "strict_boundary" true,
          "institution" true}]
-    (dispatch [::get-weighted-collab initial-config])
+    (dispatch [::get-weighted-collab (or config initial-config)])
     (dispatch [::get-region-mapping])
     (dispatch [::get-csauthors])
     (dispatch [::get-area-mapping])))
@@ -223,7 +224,7 @@
    (dispatch [::get-frequency config])
    (dispatch [::get-weighted-collab config])
    @(subscribe [::db/data-field :get-weighted-collab])
-   @(subscribe [::db/data-field :get-area-mapping])
+   @(subscribe [::db/data-field :get-frequency])
    @(subscribe [::db/data-field :get-region-mapping])
    (first @(subscribe [::db/data-field :get-csauthors]))
    @(subscribe [::db/data-field :get-area-mapping])
