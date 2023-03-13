@@ -180,8 +180,8 @@
     ;; If mapspec defines callbacks, bind them to leaflet 
     (.on @leaflet
          "click" (fn [e]
-                   (when @(subscribe [::info-open?])
-                     (color-all-main geometries-map @insti? @frequency)
+                   (color-all-main geometries-map @insti? @frequency)
+                   (when @(subscribe [::info-open?]) 
                      (dispatch [::set-leaflet [:info-open?] false])
                      (dispatch [::set-leaflet [:selected-shape] nil]))))
 
@@ -425,8 +425,8 @@
   (-> (L/polyline (clj->js coordinates)
                   (clj->js (merge {:color (:main colors)} args)))
       (.on "click" (fn [e]
-                     (dispatch [::set-leaflet [:info-open?] true])
-                     (dispatch [::set-leaflet [:selected-shape] id])))))
+                     (dispatch [::set-leaflet [:selected-shape] id])
+                     (dispatch [::set-leaflet [:info-open?] true])))))
 
 
 (defn- update-leaflet-geometries [mapspec geometries]

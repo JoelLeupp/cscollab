@@ -3,7 +3,7 @@
             [app.common.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
-            [app.components.colors :refer [colors]]
+            [app.components.colors :refer [colors]] 
             [app.components.lists :refer [collapse]]
             [app.db :as db] 
             [app.cscollab.common :as common]
@@ -190,7 +190,6 @@
 (defonce view (atom [49.8 13.1]))
 (defonce geometries-map (atom {}))
 
-
 (defn map-comp [insti?]
   (let [geometries (subscribe [::ll/geometries])] 
     (fn []
@@ -227,11 +226,11 @@
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])))
 
-
-
 (defn interactive-map []
   (let [insti? (subscribe [::mp/insti?])
-        loading? (subscribe [::api/map-data-loading?])]
+        loading? (subscribe [::api/map-data-loading?])
+        color-by (subscribe [::mp/color-by])
+        reset (atom 0)]
     (add-watch loading? ::map-data-loading
                (fn [_ _ _ data-loading?]
                  (if data-loading?
@@ -240,7 +239,7 @@
                      (dispatch [::feedback/close :map-data-loading])
                      (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @(subscribe [::mp/insti?])})])))))
     (fn [] 
-      ^{:key [@loading?]}
+      ^{:key [@loading? @reset]}
       [:div
        [feedback/feedback {:id :map-data-loading
                            :anchor-origin {:vertical :top :horizontal :center}
@@ -249,9 +248,14 @@
                            :message "Garaph data is loading, please wait."}]
        [viz-container
         {:id :map-container
+         :legend-bg-color :white
+         :color-by @color-by
          :title "Landscape of Scientific Collaborations" 
-         :update-event update-data #_(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
-         :content [map-comp @insti?]
+         :update-event #(do (swap! reset inc)
+                            (dispatch [::ll/set-leaflet [:info-open?] false])
+                            (dispatch [::ll/set-leaflet [:selected-shape] nil])
+                            (update-data)) #_(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+         :content [map-comp @insti?] 
          :info-component [selected-info-map]
          :info-open? (subscribe [::ll/info-open?])}]])))
 

@@ -11,9 +11,7 @@
             [app.common.graph :as g]
             [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
-            [reagent-mui.material.paper :refer [paper]]
-            ["@mui/material/Stack" :default mui-stack]
-            ["@mui/material/Typography" :default mui-typography]
+            [reagent-mui.material.paper :refer [paper]] 
             [leaflet :as L]
             [app.cscollab.common :as common]
             [app.cscollab.api :as api]
@@ -28,7 +26,7 @@
 
 (defn gen-elements []
   (let [weighted-collab @(subscribe [::db/data-field :get-weighted-collab])
-        csauthors @(subscribe [::db/data-field :csauthors])
+        csauthors @(subscribe [::db/data-field :get-csauthors])
         frequency @(subscribe [::db/data-field :get-frequency])
         node-position @(subscribe [::db/data-field :get-node-position])
         geo-mapping-inst
@@ -213,35 +211,6 @@
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])))
 
-(def area-ids [:ai :systems :theory :interdiscip])
-(def sub-area-ids [:ai :ml :vision :nlp :ir :architecture :hpc :security :databases 
-                   :pl :networks :se :embedded :da :os :mobile+web :metrics :math
-                   :hci :vis :robotics :bio :graphics])
-
-(defn legend-div [color-by]
-  (let [#_#_color-by (subscribe [::mp/color-by])
-        area-mapping (subscribe [::data/area-mapping])] 
-    (when (or (= color-by :area) (= color-by :subarea))
-      (let
-       [area-names
-        (vec
-         (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
-        [ids id label color-map] (if (= color-by :area) 
-                                   [area-ids :area-id :area-label area-color] 
-                                   [sub-area-ids :sub-area-id :sub-area-label sub-area-color])
-        area-map
-        (zipmap (map #(keyword (get % id)) area-names) (map label area-names))]
-        [:div {:style {:position :absolute :z-index 10
-                       :background-color :transparent :padding 10}}
-         [:> mui-stack {:direction :column :justify-content :center
-                        :align-items :flex-start :spacing 0}
-          (map
-           #(identity [paper {:elevation 0 :sx {:background-color :transparent}}
-                       [:> mui-stack {:direction :row :spacing 1}
-                        [:div
-                         {:style {:background-color (get color-map %) :width 20 :margin-top 3 :margin-bottom 3}}]
-                        [:> mui-typography {:variant :caption :font-size 14 :sx {:margin 0 :padding 0}}
-                         (get area-map %)]]]) ids)]]))))
 (comment
   (def area-mapping (subscribe [::data/area-mapping]))
   (def area-names
@@ -288,10 +257,10 @@
                            :message "Garaph data is loading, please wait."}]
        [viz-container
         {:id :graph-container
+         :legend-bg-color :transparent
+         :color-by @color-by
          :title "Collaboration Graph"
-         :content (list 
-                   [legend-div @color-by] 
-                   [graph-comp]) #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
+         :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :info-component [selected-info-graph]
          :info-open? (subscribe [::g/info-open?])
          :update-event #(do (swap! reset inc)

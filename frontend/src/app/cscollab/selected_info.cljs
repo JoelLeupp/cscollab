@@ -10,6 +10,7 @@
             [app.common.leaflet :as ll]
             [app.components.feedback :as feedback]
             [app.common.graph :as g]
+            [app.components.tabs :as tabs]
             [app.cscollab.map-panel :as mp]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]] 
@@ -40,7 +41,8 @@
 
 
 (defn author-table [node-data]
-  (let [collab-count (count (set (map :rec_id node-data)))
+  (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])
+        collab-count (count (set (map :rec_id node-data)))
         author-map (frequency-counter node-data :pid)
         csauthors @(subscribe [::db/data-field :get-csauthors])
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))
@@ -63,8 +65,8 @@
       [basic-table
        {:header header
         :body author-count
-        :paper-args {:sx {:width "100%" :display :flex :justify-content :center :margin :auto} :elevation 0}
-        :container-args {:sx {:max-height "22vh"}}
+        :paper-args {:sx {:width 460 :display :flex :justify-content :center :margin :auto} :elevation 0}
+        :container-args {:sx {:max-height (if @full-screen? "80vh" "55vh")}}
         :table-args {:sticky-header true :size :small}}])))
 
 (defn get-plot-data [data]
@@ -99,14 +101,14 @@
                 (merge sub-area-info %)) sub-area-count)
         plot-data (get-plot-data area-data)] 
         [plotly/plot
-         {:box-args {:height (if @full-screen? (if title? "70vh" "60vh")  (if title? "50vh" "36vh"))  :width 460 :overflow :auto :margin-top 2}
+         {:box-args {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2}
           :style {:width 440 :height (max 300 (+ 150 (* 45 (count area-data)) (when title? 100)))}
           :layout {:margin  {:pad 10 :t (if title? 80 0) :b 30 :l 200 :r 5}
                    :bargap 0.2
                    :annotations 
                    (when title?
-                     [{:xref :paper :yref :paper :xanchor :left :yanchor :top :x 0 :y 1.2
-                       :xshift -175 :yshift 10 :text "<b>Publications by Area</b>"
+                     [{:xref :paper :yref :paper :xanchor :left :yanchor :top :x 0 :y 1
+                       :xshift 0 :yshift 0 :text "<b>Publications by Area</b>"
                        :align :left :showarrow false :font {:size 18}}])
                    #_#_:title "Publications per Area"
                    :legend {:y 1.1 :x -1
@@ -118,22 +120,98 @@
                            :ticktext (mapv #(util/wrap-line (:sub-area-label %) 30) area-data)}}
           :data plot-data}]))))
 
+(defn get-plot-data-general [data name] 
+  (identity
+   [{:x (mapv :count data)
+     :y (mapv :key data)
+     :name name
+     :type :bar
+     :orientation :h
+     :hoverinfo "none"
+     :textposition :outside
+     :text (mapv #(str (:count %)) data)
+     :transforms [{:type :sort :target :x :order :descending}]
+     :marker {:color (:main colors)}}]))
+
+(defn general-collab-plot [node-data key name mapping yaxis]
+  (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
+    (fn []
+      (let
+       [counter (frequency-counter node-data key)
+        data (map #(assoc % :key (get mapping (:key %) (:key %))) counter)
+        plot-data (get-plot-data-general data name)]
+        [plotly/plot
+         {:box-args {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2}
+          :style {:width 440 :height (max 300 (+ 150 (* 45 (count data))))}
+          :layout {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
+                   :bargap 0.2 
+                   :showlegend false
+                   :xaxis {:range [0 (+ 50 (apply max (map :count data)))]}
+                   :yaxis (merge {:autorange :reversed
+                                  :tickmode :array} yaxis)}
+          :data plot-data}]))))
+
+(defn country-plot [node-data]
+  (let [region-mapping @(subscribe [::db/data-field :get-region-mapping])
+        country-mapping (zipmap (map :country-id region-mapping) (map :country-name region-mapping))]
+    [general-collab-plot node-data :collab_country "collaborations by country" country-mapping]))
+
+(defn year-plot [node-data]
+  [general-collab-plot node-data :year "collaborations by year" {} {:autorange nil}])
+
+(defn inst-plot [node-data]
+  [general-collab-plot node-data :collab_inst "collaborations by institution"])
+
+(defn with-author-plot [node-data]
+  (let [csauthors @(subscribe [::db/data-field :get-csauthors])
+        pid->name (zipmap (map :pid csauthors) (map :name csauthors))]
+    [general-collab-plot node-data :collab_pid "collaborations by institution" pid->name]))
+
 (defn inst-info [node-data] 
-  [:div
-   [author-table node-data]
-   [publication-plot node-data false]])
+  (let [tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])
+        full-screen? (subscribe [:app.common.container/full-screen? :map-container])] 
+    [:div 
+     [tabs/sub-tab
+      {:id :inst-info
+       :tabs-args {:variant :scrollable :scrollButtons :auto}
+       :box-args {:margin-bottom "5px" :border-bottom 0 :width 460}
+       :choices [{:label "publications" :value :publication}
+                 {:label "authors" :value :author}
+                 {:label "institutions" :value :institution}
+                 {:label "countries" :value :country}
+                 {:label "year" :value :year}
+                 {:label "author collab" :value :with-author}]}] 
+     (case @tab-view
+       :publication [publication-plot node-data false]
+       :author [author-table node-data]
+       :country [country-plot node-data]
+       :institution [inst-plot node-data]
+       :year [year-plot node-data]
+       :with-author [with-author-plot node-data]
+       [publication-plot node-data false])]))
 
 (defn author-info [node-data]
   [publication-plot node-data false])
 
-(defn collab-info [edge-data insti?]
+(defn collab-info [edge-data insti?] 
   [publication-plot edge-data false]
   )
 
+(defn info-content [data node?]
+  (let [insti? (subscribe [::mp/insti?])]
+    (if node?
+      (if @insti? [inst-info data] [author-info data])
+      [collab-info data @insti?])))
+
 (comment
-  (def node-data @(subscribe [::db/data-field :get-publications-node-graph]))
+  (def node-data @(subscribe [::db/data-field :get-publications-node-map]))
+  
   (def node-data @(subscribe [::db/data-field :get-publications-node-map]))
   (first node-data)
+  (def mapping nil)
+  (let [region-mapping @(subscribe [::db/data-field :get-region-mapping])]
+    (zipmap (map :country-id region-mapping) (map :country-name region-mapping)))
+  (frequency-counter node-data :collab_country)
   (def self-collab (filter #(= "ETH Zurich" (:collab_inst %)) node-data))
   (map #(hash-map :pid (:collab_pid %) :collab_pid (:pid %)) self-collab)
 
@@ -215,7 +293,7 @@
                 [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin 0}} institution]]))
             [:h3 {:style {:margin 0}} "Collaboration"])
           [button/close-button
-           {:on-click  #(dispatch [::g/set-graph-field [:info-open?] false])}]]
+           {:on-click  #(dispatch [::ll/set-leaflet [:info-open?] false])}]]
          (when-not node?
            [:h4
             (if @insti?
