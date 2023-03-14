@@ -177,8 +177,9 @@
  :<- [::db/loading? :get-weighted-collab]
  :<- [::db/loading? :get-filtered-collab]
  :<- [::db/loading? :get-frequency]
- (fn [[get-weighted-collab get-filtered-collab get-frequency]]
-   (when (or get-weighted-collab get-filtered-collab get-frequency)
+ :<- [::db/loading? :get-analytics]
+ (fn [[get-weighted-collab get-filtered-collab get-frequency get-analytics]]
+   (when (or get-weighted-collab get-filtered-collab get-frequency get-analytics)
      true)))
 
 (reg-event-fx
