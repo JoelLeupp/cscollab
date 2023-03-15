@@ -234,11 +234,12 @@
         reset (atom 0)]
     (add-watch loading? ::map-data-loading
                (fn [_ _ _ data-loading?]
-                 (if data-loading?
-                   (dispatch [::feedback/open :map-data-loading])
-                   (do
-                     (dispatch [::feedback/close :map-data-loading])
-                     (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @(subscribe [::mp/insti?])})])))))
+                 (when (= :map @(subscribe [::db/ui-states-field [:tabs :viz-view]]))
+                   (if data-loading?
+                     (dispatch [::feedback/open :map-data-loading])
+                     (do
+                       (dispatch [::feedback/close :map-data-loading])
+                       (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @(subscribe [::mp/insti?])})]))))))
     (fn [] 
       ^{:key [@loading? @reset]}
       [:div

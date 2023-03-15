@@ -46,11 +46,11 @@
            :box-args {:margin-bottom "5px"}
            :choices [{:label "Map" :value :map}
                      {:label "Graph" :value :graph}
-                     {:label "Analytics" :value :analysis}]}] 
+                     {:label "Analytics" :value :analytics}]}] 
          (case @tab-view
            :map [interactive-map/interactive-map]
            :graph [graph-view]
-           :analysis [analytics-view]
+           :analytics [analytics-view]
            [interactive-map/interactive-map])]]])))
 
 

@@ -66,9 +66,10 @@
     (add-watch
      loading? ::analytics-data-loading
      (fn [_ _ _ data-loading?]
-       (if data-loading?
-         (dispatch [::feedback/open :analytics-data-loading])
-         (dispatch [::feedback/close :analytics-data-loading]))))
+       (when (= :analytics @(subscribe [::db/ui-states-field [:tabs :viz-view]]))
+         (if data-loading?
+           (dispatch [::feedback/open :analytics-data-loading])
+           (dispatch [::feedback/close :analytics-data-loading])))))
     (fn []
       ^{:key [@loading?]}
       [:div

@@ -85,6 +85,26 @@ x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
 
+url = url_base+"/api/db/get_weighted_collab"
+config = { "from_year": 2005,
+            "region_ids":["wd"],
+            "strict_boundary":False,
+            "institution":False}
+input = {"config": json.dumps(config)}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
+url = url_base+"/api/db/get_filtered_collaboration"
+config = { "from_year": 2005,
+            "region_ids":["wd"],
+            "strict_boundary":False,
+            "institution":False}
+input = {"config": json.dumps(config)}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
 """ area and sub area frequeny"""
 url = url_base+"/api/db/get_frequency_research_field"
 config={ "from_year": 2015,
@@ -95,6 +115,17 @@ input = {"config": json.dumps(config)}
 x = requests.post(url, json = input)
 res = json.loads(x.content)
 print(res)
+
+url = url_base+"/api/db/get_frequency_research_field"
+config={ "from_year": 2005,
+            "region_ids":["wd"],
+            "strict_boundary":True,
+            "institution":False}
+input = {"config": json.dumps(config)}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
+
 
 """ get all publications of a node based on the config"""
 url = url_base+"/api/db/get_publications_node"
@@ -183,14 +214,25 @@ print(res["centralities"])
 
 """ get graph analytics from weighted collaboration graph"""
 url = url_base+"/api/analytics/get_analytics_collab"
+config={"from_year": 2015,
+        "to_year": 2023,
+        "area_ids": ["ai"],
+        "sub_area_ids": ["nlp", "ai", "ir", "ml", "vision"],
+        "region_ids": ["dach"],
+        "country_ids": ["ch", "de", "at"],
+        "strict_boundary": True,
+        "institution": True}
+input = {"config": json.dumps(config),
+         "top": 2}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
+
+url = url_base+"/api/analytics/get_analytics_collab"
 config={ "from_year": 2015,
-            "to_year": 2023,
-            "area_ids" : ["ai","systems"], 
-            "sub_area_ids":  ["robotics","bio"], 
-            "region_ids":["europe","northamerica"],
-            "country_ids":["jp","sg"],
+            "region_ids":["wd"],
             "strict_boundary":True,
-            "institution":True}
+            "institution":False}
 input = {"config": json.dumps(config),
          "top": 5}
 x = requests.post(url, json = input)
@@ -225,3 +267,25 @@ res = json.loads(x.content)
 print(res)
 
 
+url = url_base+"/api/gcn/get_node_position"
+config = { "from_year": 2005,
+            "region_ids":["wd"],
+            "strict_boundary":False,
+            "institution":False}
+use_sub_areas = True
+input = {"config": json.dumps(config),
+         "sub_areas":use_sub_areas}
+x = requests.post(url, json = input)
+res = json.loads(x.content)
+print(res)
+
+url = url_base+"/api/gcn/get_node_position_test"
+config = { "from_year": 2005,
+            "region_ids":["wd"],
+            "strict_boundary":False,
+            "institution":False}
+use_sub_areas = True
+input = {"config": json.dumps(config),
+         "sub_areas":use_sub_areas}
+x = requests.post(url, json = input)
+print(x.content)

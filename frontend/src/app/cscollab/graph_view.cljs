@@ -242,11 +242,12 @@
                        (.select (.neighborhood e)))))))
     (add-watch loading? ::graph-data-loading
                (fn [_ _ _ data-loading?]
-                 (if data-loading?
-                   (dispatch [::feedback/open :graph-data-loading])
-                   (do
-                     (dispatch [::feedback/close :graph-data-loading])
-                     (dispatch [::g/set-graph-field [:elements] (gen-elements)])))))
+                 (when (= :graph @(subscribe [::db/ui-states-field [:tabs :viz-view]]))
+                   (if data-loading?
+                     (dispatch [::feedback/open :graph-data-loading])
+                     (do
+                       (dispatch [::feedback/close :graph-data-loading])
+                       (dispatch [::g/set-graph-field [:elements] (gen-elements)]))))))
     (get-all-graph-data)
     (fn []
       ^{:key [@reset @loading?]}

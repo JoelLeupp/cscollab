@@ -172,6 +172,7 @@ def sub_area_frequency(freq,n):
     freq_array_p = freq_array/sum(sfreq.values())
     return freq_array_p 
 
+
 """the percentage of published subareas"""
 def get_x(nodes,freq):
     x =  torch.tensor(np.array(list(map(lambda node: sub_area_frequency(freq,node) ,nodes))), dtype=torch.float)

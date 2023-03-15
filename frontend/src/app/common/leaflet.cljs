@@ -74,7 +74,7 @@
  (fn
    [[selected-shape weighted-collab]]
    "get all records of the selected shape"
-   (when weighted-collab 
+   (when (and selected-shape weighted-collab) 
      (if (vector? selected-shape)
        ;; get records of selected collaboration
        (filter
@@ -89,6 +89,8 @@
         #(or (= selected-shape (:node/m %))
              (= selected-shape (:node/n %)))
         weighted-collab)))))
+
+
 
 (reg-sub
  ::info-open?
