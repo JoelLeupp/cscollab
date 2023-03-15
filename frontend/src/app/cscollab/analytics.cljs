@@ -63,18 +63,19 @@
 
 (defn analytics-content []
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]
-    [:div {:style {:margin-left 30}}
-     [tabs/sub-tab
-      {:id :analytics-tabs
-       :tabs-args {:variant :scrollable :scrollButtons :auto}
-       :box-args {:margin-bottom "20px" :border-bottom 0 :width 460}
-       :choices
-       [{:label "Statistics" :value :statistics}
-        {:label "Centralities" :value :centralities}]}]
-     (case @tab-view
-       :statistics [statistics-table]
-       :centralities [:h1 "centralities"] 
-       [statistics-table])]))
+    (fn [] 
+      [:div {:style {:margin-left 30}}
+       [tabs/sub-tab
+        {:id :analytics-tabs
+         :tabs-args {:variant :scrollable :scrollButtons :auto}
+         :box-args {:margin-bottom "20px" :border-bottom 0 :width 460}
+         :choices
+         [{:label "Statistics" :value :statistics}
+          {:label "Centralities" :value :centralities}]}]
+       (case @tab-view
+         :statistics [statistics-table]
+         :centralities [:h1 "centralities"] 
+         [statistics-table])])))
 
 (defn analytics-view []
   (let [loading? (subscribe [::api/analytics-data-loading?])
@@ -88,7 +89,7 @@
            (dispatch [::feedback/open :analytics-data-loading])
            (dispatch [::feedback/close :analytics-data-loading])))))
     (fn []
-      ^{:key [@loading?]}
+      ^{:key [@loading? @analytics]}
       [:div
        [feedback/feedback {:id :analytics-data-loading
                            :anchor-origin {:vertical :top :horizontal :center}
@@ -105,6 +106,7 @@
   (def analytics @(subscribe [::db/data-field :get-analytics]))
   (keys analytics)
   (get analytics :statistics)
+  (get analytics :centralities)
   (def collab @(subscribe [::db/data-field :get-filtered-collab]))
   (count collab)
   (def weighted-collab @(subscribe [::db/data-field :get-weighted-collab]))
