@@ -46,6 +46,11 @@ def __tuple_to_dict(list_of_tuples):
         list(map(lambda x: x[1],list_of_tuples))
         ))
     return d
+
+
+def __tuple_to_array(list_of_tuples):
+    a = list(map(lambda t: {"id": t[0],"value":t[1]} ,list_of_tuples))
+    return a
     
 def get_centralities(G, weighted=False, top=None):
     
@@ -75,8 +80,8 @@ def get_centralities(G, weighted=False, top=None):
         eigenvector_centrality=(sorted(nx.centrality.eigenvector_centrality(G).items(), 
                                 key=lambda item: item[1], reverse=True))[:top]
 
-    centralities = {"degree_centrality":__tuple_to_dict(degree_centrality),
+    centralities = {"degree_centrality":__tuple_to_array(degree_centrality),
                     # "betweenness_centrality":__tuple_to_dict(betweenness_centrality),
                     # "closeness_centrality":__tuple_to_dict(closeness_centrality),
-                    "eigenvector_centrality":__tuple_to_dict(eigenvector_centrality)}   
+                    "eigenvector_centrality":__tuple_to_array(eigenvector_centrality)}   
     return centralities

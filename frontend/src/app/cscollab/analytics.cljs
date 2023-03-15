@@ -10,6 +10,7 @@
             [app.cscollab.map-panel :as mp]
             [app.components.feedback :as feedback]
             [app.cscollab.api :as api]
+            [app.components.tabs :as tabs]
             [app.components.button :as button]
             [goog.string :as gstring]
             [goog.string.format]
@@ -19,7 +20,7 @@
 
 
 (defn get-analytics-graph-data []
-  (let [top 20
+  (let [top 200
         config @(subscribe [::common/filter-config])]
     (dispatch [::api/get-analytics config top])
     (dispatch [::api/get-weighted-collab config])
@@ -39,25 +40,41 @@
     (fn []
       (let [statistics (get @analytics :statistics)
             n-publications (count (set (map :rec_id @collab)))
-            header [{:id :metric :label [:b "Statistics"]}
+            weighted-edges (count @collab)
+            header [{:id :metric :label [:b "Filtered Graph Statistics"] }
                     {:id :value :label "" :align :right}]]
         (when @analytics
           [table/basic-table
            {:header header
-            :body [{:metric (str "Size (Number of " (if @insti? "Institutions" "Authors") ")") :value (:nodes statistics)}
-                   {:metric "Volume (Number of Collaborations)" :value (:edges statistics)}
+            :body [{:metric (str "Number of " (if @insti? "Institutions" "Authors")) :value (:nodes statistics)}
+                   {:metric "Number of Edges" :value (:edges statistics)}
+                   {:metric "Number of Collaborations" :value weighted-edges}
                    {:metric "Number of Publications" :value n-publications}
                    {:metric "Number of Triangles" :value (:triangle_count statistics)}
                    {:metric "Average Degree" :value (gstring/format "%.1f" (:average_degree statistics))}
-                   {:metric "Max Degree" :value (:max_degree statistics)}
-                   {:metric "Degree Assortativity Coefficient" :value (gstring/format "%.3f" (:degree_assortativity_coefficient statistics))}
-                   {:metric "Density" :value (gstring/format "%.3f" (:density statistics))}
+                   {:metric "Max Degree" :value (:max_degree statistics)} 
+                   {:metric "Graph Density" :value (gstring/format "%.3f" (:density statistics))}
                    {:metric "Graph is connected?" :value (if (:is_connected statistics) "yes" "no")}
                    {:metric "Number Connected Components" :value (:number_connected_components statistics)}
                    {:metric "Largest Connected Component" :value (:largest_connected_component statistics)}]
-            :paper-args {:sx {:width 400 :margin 5}}
+            :paper-args {:sx {:width 400}}
             :container-args {:sx {}}
-            :table-args {:sticky-header true :size :small}}])))))
+            :table-args {:sticky-header true :size "small"}}])))))
+
+(defn analytics-content []
+  (let [tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]
+    [:div {:style {:margin-left 30}}
+     [tabs/sub-tab
+      {:id :analytics-tabs
+       :tabs-args {:variant :scrollable :scrollButtons :auto}
+       :box-args {:margin-bottom "20px" :border-bottom 0 :width 460}
+       :choices
+       [{:label "Statistics" :value :statistics}
+        {:label "Centralities" :value :centralities}]}]
+     (case @tab-view
+       :statistics [statistics-table]
+       :centralities [:h1 "centralities"] 
+       [statistics-table])]))
 
 (defn analytics-view []
   (let [loading? (subscribe [::api/analytics-data-loading?])
@@ -80,13 +97,17 @@
                            :message "Analytics is loading, please wait."}]
        [analytics-container
         {:title "Analytics and Statistics"
-         :content [statistics-table] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
+         :content [analytics-content] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :update-event #(get-analytics-graph-data)}]])))
 
 (comment 
   (get-analytics-graph-data)
   (def analytics @(subscribe [::db/data-field :get-analytics]))
+  (keys analytics)
   (get analytics :statistics)
   (def collab @(subscribe [::db/data-field :get-filtered-collab]))
+  (count collab)
+  (def weighted-collab @(subscribe [::db/data-field :get-weighted-collab]))
+  (reduce + (map :weight weighted-collab))
   (count (set (map :rec_id collab)))
   )
