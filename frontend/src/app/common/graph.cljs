@@ -9,7 +9,7 @@
    [app.db :as db]
    ["react-cytoscapejs" :as rcy]))
 
-(set! *warn-on-infer* false)
+#_(set! *warn-on-infer* false)
 
 (reg-sub
  ::graph
@@ -67,7 +67,7 @@
              (.on % "tap" "edge" (fn [event] (when on-click (on-click event))))
              (.on % "tap" (fn [e]
                             (when (= (.-target e) %)
-                              (.unselect (.elements %))
+                              (.unselect ^js (.elements ^js %))
                               (dispatch [::set-graph-field :selected nil])
                               (dispatch [::set-graph-field [:info-open?] false]))))))
         :elements elements

@@ -17,8 +17,7 @@
   (.render root (r/as-element [app])))
 
 (defn main []
-  (println "[main]: loading")
-  (set! *warn-on-infer* false)
+  (println "[main]: loading") 
   (dispatch-sync [::db/initialize-db])
   (init-routes! (routes) {:use-fragment true}) 
   (api/initial-api-call)

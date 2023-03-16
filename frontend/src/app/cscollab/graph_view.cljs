@@ -231,7 +231,7 @@
                  (when selected
                    (let [cy (subscribe [::g/cy])
                          config @(subscribe [::common/filter-config])
-                         e (.getElementById @cy selected)
+                         e (.getElementById ^js @cy selected)
                          selected-ele (clojure.string/split selected #"_")
                          ele (if (= 1 (count selected-ele)) (first selected-ele) selected-ele)]
                      (if (string? ele)

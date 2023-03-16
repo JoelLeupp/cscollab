@@ -4,6 +4,7 @@
             [app.components.colors :refer [colors]]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
+            [app.components.grid :as grid]
             [app.components.table :as table]
             [app.common.container :refer (analytics-container)]
             [app.cscollab.common :as common]
@@ -11,6 +12,8 @@
             [app.components.feedback :as feedback]
             [app.cscollab.api :as api]
             [app.components.tabs :as tabs]
+            [app.common.plotly :as plotly]
+            [app.components.lists :as lists]
             [app.components.button :as button]
             [goog.string :as gstring]
             [goog.string.format]
@@ -28,10 +31,6 @@
     (dispatch [::api/get-filtered-collab config])))
 
 
-(defn analytics-test []
-  (let [analytics (subscribe [::db/data-field :get-analytics])]
-    (fn []
-      )))
 
 (defn statistics-table []
   (let [analytics (subscribe [::db/data-field :get-analytics])
@@ -61,20 +60,66 @@
             :container-args {:sx {}}
             :table-args {:sticky-header true :size "small"}}])))))
 
+(defn get-plot-data [x y]
+  (identity
+   [{:x x
+     :y y 
+     :type :bar
+     :orientation :h
+     :hoverinfo "none"
+     :textposition :outside
+     :text (mapv #(gstring/format "%.2f" (str %)) x)
+     :transforms [{:type :sort :target :x :order :descending}]
+     :marker {:color (:main colors)}}]))
+
+(defn hbar-plot [plot-data layout]
+  (fn []
+    [plotly/plot
+     {:box-args {:height "60vh"  :width "35vw" :overflow :auto :margin 0}
+      :style {:width "33vw" :height (max 300 (+ 150 (* 45 (count (:x (first plot-data))))))}
+      :layout (util/deep-merge
+               {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 10}
+                :bargap 0.2
+                :showlegend false
+                :xaxis {}
+                :yaxis {:autorange :reversed
+                        :tickmode :array}}
+               layout)
+      :data plot-data}]))
+
+(defn centrality-plot [centrality-key]
+  (let [analytics (subscribe [::db/data-field :get-analytics])]
+    (fn []
+      (let [centrality-data (get-in @analytics [:centralities centrality-key])
+            x (mapv :value centrality-data)
+            y (mapv :id centrality-data)
+            data (get-plot-data x y)]
+        [hbar-plot data {:xaxis {:range [0 (+ 0.1 (apply max x))]}}]))))
+
+(defn centraliy-div []
+  (fn []
+    [grid/grid
+     {:grid-args {:justify-content :space-evenly}
+      :item-args {:elevation 0}
+      :content
+      [{:xs 6
+        :content
+        [:div
+         [lists/sub-header {:subheader "Degree Centrality top 200"}]
+         [centrality-plot :degree_centrality]]}
+       {:xs 6
+        :content
+        [:div
+         [lists/sub-header {:subheader "Eigenvector Centrality top 200"}]
+         [centrality-plot :eigenvector_centrality]]}]}]))
+
 (defn analytics-content []
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]
     (fn [] 
-      [:div {:style {:margin-left 30}}
-       [tabs/sub-tab
-        {:id :analytics-tabs
-         :tabs-args {:variant :scrollable :scrollButtons :auto}
-         :box-args {:margin-bottom "20px" :border-bottom 0 :width 460}
-         :choices
-         [{:label "Statistics" :value :statistics}
-          {:label "Centralities" :value :centralities}]}]
+      [:div {:style {:margin-left 30}} 
        (case @tab-view
          :statistics [statistics-table]
-         :centralities [:h1 "centralities"] 
+         :centralities [centraliy-div]
          [statistics-table])])))
 
 (defn analytics-view []
@@ -97,7 +142,13 @@
                            :auto-hide-duration nil
                            :message "Analytics is loading, please wait."}]
        [analytics-container
-        {:title "Analytics and Statistics"
+        {:title [tabs/sub-tab
+                 {:id :analytics-tabs
+                  :tabs-args {:variant :scrollable :scrollButtons :auto}
+                  :box-args {:margin-bottom 0 :border-bottom 0 :width 460}
+                  :choices
+                  [{:label "Statistics" :value :statistics}
+                   {:label "Centralities" :value :centralities}]}]
          :content [analytics-content] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :update-event #(get-analytics-graph-data)}]])))
 
@@ -106,7 +157,8 @@
   (def analytics @(subscribe [::db/data-field :get-analytics]))
   (keys analytics)
   (get analytics :statistics)
-  (get analytics :centralities)
+  (get-in analytics [:centralities :degree_centrality])
+  (get-in analytics [:centralities :eigenvector_centrality])
   (def collab @(subscribe [::db/data-field :get-filtered-collab]))
   (count collab)
   (def weighted-collab @(subscribe [::db/data-field :get-weighted-collab]))
