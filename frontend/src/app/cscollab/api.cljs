@@ -252,14 +252,23 @@
                "region_ids" ["dach"],
                "country_ids" ["ch" "de" "at"],
                "strict_boundary" true,
-               "institution" true})
-  (dispatch [::get-analytics config 10])
+               "institution" false})
+  (def config {"from_year" 2005,
+               "to_year" 2023,
+               "region_ids" ["wd"],
+               "strict_boundary" false,
+               "institution" false})
+  (dispatch [::get-analytics config 200])
+  (dispatch [::get-frequency config])
+  (dispatch [::get-weighted-collab config])
+  (dispatch [::get-filtered-collab config])
   @(subscribe [::db/data-field :get-analytics])
   (dispatch [::get-publications-node :graph "EPFL" config])
   (dispatch [::get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
   @(subscribe [::db/data-field :get-publications-node-graph])
   @(subscribe [::db/data-field :get-publications-edge-graph])
   @(subscribe [::graph-data-loading?])
+  @(subscribe [::analytics-data-loading?])
   (dispatch [::get-node-position config true])
   (dispatch [::get-region-mapping])
   (dispatch [::get-area-mapping])

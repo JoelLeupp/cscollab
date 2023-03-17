@@ -50,6 +50,15 @@
 (defn init-cytoscape-fcose []
   (.use cy fcose))
 
+(defn show-ele [id]
+  (let [cy (subscribe [::cy])
+        e (.getElementById @cy id)]
+    (.select e)
+    #_(dispatch [::set-graph-field :selected id])
+    #_(dispatch [::set-graph-field [:info-open?] true])
+    (.zoom @cy 2.5)
+    (.center @cy e)))
+
 (defn graph [{:keys [elements layout style stylesheet on-click cy]}]
   (let [cy (or cy (atom nil))
         loaded? (atom false)]

@@ -1,26 +1,20 @@
 (ns app.cscollab.views
   (:require
-   [app.components.layout :as acl]
-   [app.components.colors :as c]
-   [app.components.inputs :as i]
+   [app.components.layout :as acl] 
    [app.common.user-input :refer (input-panel)]
    [re-frame.core :refer (dispatch subscribe)]
-   ["react-lorem-ipsum" :refer (loremIpsum)]
-   [app.components.lists :as lists]
+   #_["react-lorem-ipsum" :refer (loremIpsum)]
+   #_[app.components.lists :as lists]
    [app.db :as db]
    [app.cscollab.filter-panel :refer (filter-panel)] 
-   [reagent.core :as r]
-   [app.components.lists :refer [collapse]]
+   [reagent.core :as r] 
    [app.cscollab.interactive-map :as interactive-map]
    [app.cscollab.conferences :refer (conferences-view)]
    [app.cscollab.map-panel :refer (map-config-panel)]
-   [app.components.tabs :as tabs]
-   [app.components.table :refer (test-table)]
-   [reagent-mui.material.paper :refer [paper]]
-   [app.common.plotly :as pp :refer (test-plot)]
+   [app.components.tabs :as tabs]  
    [app.cscollab.graph-view :refer (graph-view)]
    [app.cscollab.analytics :refer (analytics-view)]
-   [app.cscollab.transformer :as tf]))
+   ))
 
 
 (defn config-panels []
@@ -33,13 +27,13 @@
               [filter-panel]
               [map-config-panel]]}])
 
-(defn main-view []
+(defn main-view [] 
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :viz-view]])]
     (fn []
       [:<>
        [acl/section
         #_[acl/title-white "Landscape of Scientific Collaborations"]
-        [acl/content
+        [acl/content 
          [config-panels]
          [tabs/main-tab
           {:id :viz-view
@@ -54,7 +48,7 @@
            [interactive-map/interactive-map])]]])))
 
 
-(defn conferences []
+(defn conferences [] 
   (fn []
     [:<>
      [acl/section

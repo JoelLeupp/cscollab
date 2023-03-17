@@ -4,8 +4,9 @@
    ["@mui/material/Tab" :default mui-tab]
    ["@mui/material/Tabs" :default mui-tabs]
    ["@mui/material/styles" :refer (styled)]
-   [cljs-bean.core :refer (->js)]
-   [emotion.core :refer (defstyled)]
+   [reagent-mui.styles :as styles]
+   [reagent-mui.material.tab :refer [tab]]
+   [cljs-bean.core :refer (->js)] 
    ["@mui/material/Box" :default mui-box]
    [app.util :as util]
    [app.db :as db]
@@ -16,7 +17,6 @@
 (reg-event-db
  ::set-tab
  (fn [db [_ [id tab]]]
-
    (assoc-in db [:ui-states :tabs id] tab)))
 
 (reg-sub
@@ -43,7 +43,7 @@
        tabs-args)
       (for [c choices]
         ^{:key (:value c)}
-        [:> tab-comp (util/deep-merge (merge c {:style {:padding 10 :min-width 120}}) tab-args)])]]))
+        [tab-comp (util/deep-merge (merge c {:style {:padding 10 :min-width 120}}) tab-args)])]]))
 
 
 (defn tab-style [type]
@@ -59,26 +59,19 @@
                      :border-radius 0
                      :color :white}})
 
-(defstyled styled-tab-main
-  [mui-tab {:class-name-prop :className
-            #_#_:wrap r/adapt-react-class}]
-  (tab-style :main))
-
-(defstyled styled-tab-sub
-  [mui-tab {:class-name-prop :className
-            #_#_:wrap r/adapt-react-class}]
-  (tab-style :second))
 
 (defn main-tab [{:keys [id choices box-args tabs-args tab-args]
                  :as m}]
   (tabs-comp (util/deep-merge
-              {:tab-comp styled-tab-main
-               :box-args {:border-color (colors/colors :main)}}
+              {:box-args {:border-color (colors/colors :main)}
+               :tab-comp (styles/styled tab (fn [{:keys [theme]}] (tab-style :main)))
+               #_#_:tab-args {:style (tab-style :main)}}
               m)))
 
 (defn sub-tab [{:keys [id choices box-args tabs-args tab-args]
                 :as m}]
   (tabs-comp (util/deep-merge
-              {:tab-comp styled-tab-sub
-               :box-args {:border-color (colors/colors :main)}}
+              {:box-args {:border-color (colors/colors :main)}
+               :tab-comp (styles/styled tab (fn [{:keys [theme]}] (tab-style :second)))
+               #_#_:tab-args {:style (tab-style :second)}}
               m)))

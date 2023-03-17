@@ -8,8 +8,7 @@
    ["@mui/icons-material/FullscreenExit" :default ic-full-screen-exit]
    ["@mui/material/Icon" :default mui-icon]
    ["@mui/material/Stack" :default mui-stack]
-   [reagent.core :as r]
-   [emotion.core :refer (defstyled)]
+   [reagent.core :as r] 
    [app.util :as util]
    [re-frame.core :refer
     (dispatch subscribe)]))
