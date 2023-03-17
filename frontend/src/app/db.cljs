@@ -28,7 +28,8 @@
       :strict-boundary true,
       :area-checkbox #{:ai/nlp :ai :ai/ai :ai/ir :ai/ml :ai/vision} 
       :region-checkbox #{:dach :ch :de :at}
-      :insti? true}})))
+      :insti? true
+      :top-centrality 10}})))
 
 (reg-sub
  ::loading? 

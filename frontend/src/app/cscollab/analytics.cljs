@@ -7,6 +7,7 @@
             [app.components.grid :as grid]
             [app.components.table :as table]
             [app.common.container :refer (analytics-container)]
+            [app.components.stack :refer (horizontal-stack)]
             [app.cscollab.common :as common]
             [app.cscollab.map-panel :as mp]
             [app.components.feedback :as feedback]
@@ -16,6 +17,7 @@
             [app.components.lists :as lists]
             [app.components.button :as button]
             [goog.string :as gstring]
+            [app.components.inputs :as i]
             [goog.string.format]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
@@ -88,13 +90,29 @@
       :data plot-data}]))
 
 (defn centrality-plot [centrality-key]
-  (let [analytics (subscribe [::db/data-field :get-analytics])]
+  (let [analytics (subscribe [::db/data-field :get-analytics])
+        top (subscribe [::db/user-input-field :top-centrality])]
     (fn []
       (let [centrality-data (get-in @analytics [:centralities centrality-key])
-            x (mapv :value centrality-data)
-            y (mapv :id centrality-data)
+            top-data (subvec centrality-data 0 (min (count centrality-data) @top))
+            x (mapv :value top-data)
+            y (mapv :id top-data)
             data (get-plot-data x y)]
+        ^{:key @top}
         [hbar-plot data {:xaxis {:range [0 (+ 0.1 (apply max x))]}}]))))
+
+(defn top-centrality []
+  [i/select
+   {:id :top-centrality
+    :label nil
+    :form-args {:variant :standard
+                :style {:min-width nil :height "100%" :display :flex :align-self :flex-end :margin-bottom 10}}
+    :choices [{:value 5 :label 5}
+              {:value 10 :label 10}
+              {:value 20 :label 20}
+              {:value 50 :label 50}
+              {:value 100 :label 100}
+              {:value 200 :label 200}]}])
 
 (defn centraliy-div []
   (fn []
@@ -105,12 +123,23 @@
       [{:xs 6
         :content
         [:div
-         [lists/sub-header {:subheader "Degree Centrality top 200"}]
+         [horizontal-stack
+          {:stack-args {:spacing 0}
+           :items
+           (list
+            [lists/sub-header {:subheader "Degree Centrality Top"}]
+            [top-centrality]
+            )}]
          [centrality-plot :degree_centrality]]}
        {:xs 6
         :content
         [:div
-         [lists/sub-header {:subheader "Eigenvector Centrality top 200"}]
+         [horizontal-stack
+          {:stack-args {:spacing 0}
+           :items
+           (list
+            [lists/sub-header {:subheader "Eigenvector Centrality Top"}]
+            [top-centrality])}] 
          [centrality-plot :eigenvector_centrality]]}]}]))
 
 (defn analytics-content []
