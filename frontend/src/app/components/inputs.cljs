@@ -128,19 +128,22 @@
                              (js->clj (-> event .-target .-value))]))}
     args)])
 
-(defn autocomplete [{:keys [:id :label  :options :multiple? :style :args :input-props :option-label]}]
+(defn autocomplete [{:keys [:id :label  :options :multiple? :style :args :input-props :option-label keywordize-values]
+                     :or {keywordize-values true}}]
   (let [value
         (subscribe [::db/user-input-field id])
         on-change
         (fn [event v]
-          (js/console.log v)
-          (dispatch [::db/set-user-input id
-                     (if multiple?
-                       (into
-                        #{}
-                        (map #(util/s->id (:value %)))
-                        (js->clj v :keywordize-keys true))
-                       (util/s->id (:value (js->clj v :keywordize-keys true))))]))
+          (let [value (js->clj v :keywordize-keys true)]
+            (dispatch [::db/set-user-input id
+                       (if multiple?
+                         (into
+                          #{}
+                          (map #(util/s->id (:value %)))
+                          value)
+                         (if keywordize-values 
+                           (util/s->id (:value value))
+                           (:value value)))])))
         render-option
         (react-component
          [props option]

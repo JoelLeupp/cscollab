@@ -32,6 +32,19 @@
   (dispatch [::get-json-file "data/get_region_mapping.json" :region-mapping]))
 
 (reg-sub
+ ::insti?
+ :<- [::db/user-input-field [:insti?]]
+ (fn [insti?]
+   insti?))
+
+(reg-sub
+ ::color-by
+ :<- [::db/user-input-field [:color-by]]
+ (fn [color-by]
+   (when (and color-by (not (= color-by :no-coloring)))
+     color-by)))
+
+(reg-sub
  ::area-mapping
  :<- [::db/data-field :get-area-mapping]
  (fn [m]

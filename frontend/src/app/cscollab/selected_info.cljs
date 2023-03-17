@@ -10,8 +10,7 @@
             [app.common.leaflet :as ll]
             [app.components.feedback :as feedback]
             [app.common.graph :as g]
-            [app.components.tabs :as tabs]
-            [app.cscollab.map-panel :as mp]
+            [app.components.tabs :as tabs] 
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]] 
             [app.cscollab.common :as common]
@@ -199,7 +198,7 @@
   )
 
 (defn info-content [data node?]
-  (let [insti? (subscribe [::mp/insti?])]
+  (let [insti? (subscribe [::data/insti?])]
     (if node?
       [node-info data @insti?]
       [collab-info data @insti?])))
@@ -240,7 +239,7 @@
         edge-data (subscribe [::db/data-field :get-publications-edge-graph])
         node-data (subscribe [::db/data-field :get-publications-node-graph])
         csauthors (subscribe [::db/data-field :get-csauthors])
-        insti? (subscribe [::mp/insti?])]
+        insti? (subscribe [::data/insti?])]
     (fn []
       (let [selected-ele (clojure.string/split @selected #"_")
             node? (= 1 (count selected-ele))
@@ -275,7 +274,7 @@
         edge-data (subscribe [::db/data-field :get-publications-edge-map])
         node-data (subscribe [::db/data-field :get-publications-node-map])
         csauthors (subscribe [::db/data-field :get-csauthors])
-        insti? (subscribe [::mp/insti?])]
+        insti? (subscribe [::data/insti?])]
     (fn []
       (let [selected @selected-shape
             node? (string? selected)

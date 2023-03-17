@@ -4,7 +4,7 @@
             [reagent.dom.server :refer [render-to-string]]
             [app.components.colors :refer [colors area-color sub-area-color]]
             [leaflet :as L]
-            [app.cscollab.map-panel :as mp]
+            [app.cscollab.data :as data]
             [app.cscollab.common :as common]
             [app.cscollab.api :as api]
             [app.db :as db]
@@ -122,7 +122,7 @@
   "A LeafletJS Reagent component"
   (let [leaflet #_(subscribe [::map]) (atom nil) 
         geometries (subscribe [::geometries])
-        insti? (subscribe [::mp/insti?])
+        insti? (subscribe [::data/insti?])
         frequency (subscribe [::db/data-field :get-frequency])
         layers
         (or layers
@@ -193,12 +193,12 @@
                            (let [c (.getCenter @leaflet)]
                              (reset! zoom (.getZoom @leaflet))
                              (reset! view [(.-lat c) (.-lng c)]))))
-    #_(add-watch view ::view-update
+    (add-watch view ::view-update
                  (fn [_ _ old-view new-view]
                  ;;(.log js/console "change view: " (clj->js old-view) " => " (clj->js new-view) @zoom)
-                   (when-not (= old-view new-view)
+                   (when-not (= old-view new-view) 
                      (.setView @leaflet (clj->js new-view) @zoom))))
-    #_(add-watch zoom ::zoom-update
+    (add-watch zoom ::zoom-update
                  (fn [_ _ old-zoom new-zoom]
                    (when-not (= old-zoom new-zoom)
                      (.setZoom @leaflet new-zoom))))
@@ -333,7 +333,7 @@
 
 (defn uncolor-previous [previous-selected geometries-map insti? frequency]
   (let [records previous-selected
-        color-by @(subscribe [::mp/color-by])
+        color-by @(subscribe [::data/color-by])
         svg (if insti? inst-svg author-svg) 
         markers
         (map #(identity [% (get @geometries-map %)])
@@ -373,7 +373,7 @@
 
 (defn color-all-main [geometries-map insti? frequency]
   (let [svg (if insti? inst-svg author-svg)
-        color-by @(subscribe [::mp/color-by])
+        color-by @(subscribe [::data/color-by])
         markers (filter #(string? (first %)) @geometries-map)
         lines
         (map second (filter #(vector? (first %)) @geometries-map))]

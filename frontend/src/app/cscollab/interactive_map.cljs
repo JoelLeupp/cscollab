@@ -8,8 +8,7 @@
             [app.db :as db] 
             [app.cscollab.common :as common]
             [app.common.container :refer (viz-container)]
-            [app.cscollab.selected-info :refer (selected-info-map)]
-            [app.cscollab.map-panel :as mp]
+            [app.cscollab.selected-info :refer (selected-info-map)] 
             [app.components.feedback :as feedback]
             [app.cscollab.api :as api]
             [app.components.button :as button]
@@ -190,6 +189,12 @@
 (defonce view (atom [49.8 13.1]))
 (defonce geometries-map (atom {}))
 
+(defn show-node [id]
+  (let [coord (js->clj (.. (get @geometries-map id) toGeoJSON -geometry -coordinates))]
+    (reset! zoom 13)
+    (reset! view [(second coord) (first coord)])))
+
+
 (defn map-comp [insti?]
   (let [geometries (subscribe [::ll/geometries])] 
     (fn []
@@ -208,7 +213,7 @@
 
 
 #_(defn interactive-map []
-  (let [insti? (subscribe [::mp/insti?])]
+  (let [insti? (subscribe [::data/insti?])]
     (fn [] 
       [:<>
        [:div {:style {:display :flex :justify-content :space-between :background-color :white
@@ -228,9 +233,9 @@
     (dispatch [::api/get-filtered-collab config])))
 
 (defn interactive-map []
-  (let [insti? (subscribe [::mp/insti?])
+  (let [insti? (subscribe [::data/insti?])
         loading? (subscribe [::api/map-data-loading?])
-        color-by (subscribe [::mp/color-by])
+        color-by (subscribe [::data/color-by])
         reset (atom 0)]
     (add-watch loading? ::map-data-loading
                (fn [_ _ _ data-loading?]
@@ -239,7 +244,7 @@
                      (dispatch [::feedback/open :map-data-loading])
                      (do
                        (dispatch [::feedback/close :map-data-loading])
-                       (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @(subscribe [::mp/insti?])})]))))))
+                       (dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @(subscribe [::data/insti?])})]))))))
     (fn [] 
       ^{:key [@loading? @reset]}
       [:div
@@ -263,8 +268,12 @@
 
 
 (comment
-  @(subscribe [::ll/geometries])
-  (subscribe [::mp/insti?])
+  (reset! zoom 6)
+  (reset! view )
+  (keys geometries-map)
+  (js->clj (.. (get @geometries-map "EPFL") toGeoJSON -geometry -coordinates))
+  (filter #(= "EPFL" (:id %)) @(subscribe [::ll/geometries]))
+  (subscribe [::data/insti?])
   (subscribe [::db/ui-states-field [:tabs :viz-view]])
   (ll/color-selected geometries-map)
   (let [weighted-collab
@@ -389,4 +398,5 @@
   (dispatch [::set-leaflet [:zoom-level] 1])
   (def view-position (atom [49.8 13.1]))
   (def zoom-level (atom 6))
+  (.getLatLngs)
   )

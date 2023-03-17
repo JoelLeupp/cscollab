@@ -4,14 +4,14 @@
             [app.components.colors :refer [colors]] 
             [cljs-bean.core :refer [bean ->clj ->js]]
             [app.db :as db]
-            [app.cscollab.map-panel :as mp]
+            [app.cscollab.data :as data]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
 
 (reg-sub
  ::filter-config
- :<- [::mp/insti?]
+ :<- [::data/insti?]
  :<- [::filter-panel/selected-areas]
  :<- [::filter-panel/selected-sub-areas]
  :<- [::filter-panel/selected-regions]
