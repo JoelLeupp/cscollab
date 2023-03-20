@@ -167,10 +167,9 @@
   (let [elements (subscribe [::g/elements]) #_(subscribe [::elements])] 
     (fn [] 
       ^{:key @elements}
-      [g/graph {:on-click (fn [e] 
+      [g/graph {:on-click (fn [e]
                             (dispatch [::g/set-graph-field [:info-open?] true])
-                            (dispatch [::g/set-graph-field :selected (.. e -target data -id)])
-                            (js/console.log (.. e -target data -id)))
+                            (dispatch [::g/set-graph-field :selected (.. e -target data -id)]))
                 :elements (or @elements [])
                 :layout {:name :preset #_:grid}
                 :stylesheet  [{:selector "node"
@@ -271,7 +270,9 @@
                             (get-all-graph-data))
          #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
 
+
 (comment
+  (g/show-ele "EPFL")
   (:errors @re-frame.db/app-db)
   (:loading @re-frame.db/app-db)
   (dispatch [::g/set-graph-field [:elements] (gen-elements)])
@@ -294,6 +295,9 @@
   (.run layout)
   (js/console.log (.elements cy))
   (def e (.getElementById @cy "EPFL"))
+  (.renderedPosition e)
+  (.center @cy e)
+  (.zoom @cy 2)
   (def e (.getElementById @cy "Graz University of Technology_EPFL"))
   (.select (.connectedNodes e))
   (.select e)

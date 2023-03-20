@@ -56,7 +56,7 @@
                                 [:a {:href (dblp-author-page pid)}
                                  [:img {:src "img/dblp.png" :target "_blank"
                                         :width 10 :height 10 :padding 10}]]
-                                [:div {:style {:margin-top 1}}
+                                #_[:div {:style {:margin-top 1}}
                                  [:img {:src "img/scholar-favicon.ico" :target "_blank"
                                         :width 10 :height 10}]]]}])
         author-count (map #(assoc % :author (author-item (:key %))) author-map)]
@@ -84,7 +84,7 @@
         :transforms [{:type :sort :target :x :order :descending}]
         :marker {:color (get area-color (keyword area-id))}}))))
 
-(defn publication-plot [node-data title?]
+(defn publication-plot [{:keys [node-data box-args style layout]}] 
   (let [area-mapping (subscribe [::data/area-mapping])
         full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
@@ -100,23 +100,22 @@
                 (merge sub-area-info %)) sub-area-count)
         plot-data (get-plot-data area-data)] 
         [plotly/plot
-         {:box-args {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2}
-          :style {:width 440 :height (max 300 (+ 150 (* 45 (count area-data)) (when title? 100)))}
-          :layout {:margin  {:pad 10 :t (if title? 80 0) :b 30 :l 200 :r 5}
-                   :bargap 0.2
-                   :annotations 
-                   (when title?
-                     [{:xref :paper :yref :paper :xanchor :left :yanchor :top :x 0 :y 1
-                       :xshift 0 :yshift 0 :text "<b>Publications by Area</b>"
-                       :align :left :showarrow false :font {:size 18}}])
-                   #_#_:title "Publications per Area"
-                   :legend {:y 1.1 :x -1
-                            :orientation :h}
-                   :xaxis {:range [0 (+ 25 (apply max (map :count area-data)))]}
-                   :yaxis {:autorange :reversed
-                           :tickmode :array
-                           :tickvals (vec (range 0 (count area-data)))
-                           :ticktext (mapv #(util/wrap-line (:sub-area-label %) 30) area-data)}}
+         {:box-args (util/deep-merge 
+                     {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2}
+                     box-args)
+          :style (util/deep-merge {:width 440 :height (max 300 (+ 150 (* 45 (count area-data))))} style)
+          :layout (util/deep-merge
+                   {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
+                    :bargap 0.2
+                    #_#_:title "Publications per Area"
+                    :legend {:y 1.1 :x -1
+                             :orientation :h}
+                    :xaxis {:range [0 (+ 25 (apply max (map :count area-data)))]}
+                    :yaxis {:autorange :reversed
+                            :tickmode :array
+                            :tickvals (vec (range 0 (count area-data)))
+                            :ticktext (mapv #(util/wrap-line (:sub-area-label %) 30) area-data)}}
+                   layout)
           :data plot-data}]))))
 
 (defn get-plot-data-general [data name] 
@@ -182,19 +181,19 @@
                        {:label "year" :value :year}
                        {:label "author collab" :value :with-author}]))}] 
      (case @tab-view
-       :publication [publication-plot node-data false]
+       :publication [publication-plot {:node-data node-data}]
        :author [author-table node-data]
        :country [country-plot node-data]
        :institution [inst-plot node-data]
        :year [year-plot node-data]
        :with-author [with-author-plot node-data]
-       [publication-plot node-data false])]))
+       [publication-plot {:node-data node-data}])]))
 
 (defn author-info [node-data]
-  [publication-plot node-data false])
+  [publication-plot {:node-data node-data}])
 
 (defn collab-info [edge-data insti?] 
-  [publication-plot edge-data false]
+  [publication-plot {:node-data edge-data}]
   )
 
 (defn info-content [data node?]

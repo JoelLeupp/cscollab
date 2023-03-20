@@ -19,6 +19,7 @@
             [goog.string :as gstring]
             [app.components.inputs :as i]
             [goog.string.format]
+            [app.cscollab.analytics-plots :as aplots]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
@@ -91,13 +92,16 @@
 
 (defn centrality-plot [centrality-key]
   (let [analytics (subscribe [::db/data-field :get-analytics])
-        top (subscribe [::db/user-input-field :top-centrality])]
+        top (subscribe [::db/user-input-field :top-centrality])
+        csauthors @(subscribe [::db/data-field :get-csauthors])
+        pid->name (zipmap (map :pid csauthors) (map :name csauthors))]
     (fn []
       (let [centrality-data (get-in @analytics [:centralities centrality-key])
             top-data (subvec centrality-data 0 (min (count centrality-data) @top))
             x (mapv :value top-data)
             y (mapv :id top-data)
-            data (get-plot-data x y)]
+            y-name (mapv #(get pid->name % %) y)
+            data (get-plot-data x y-name)]
         ^{:key @top}
         [hbar-plot data {:xaxis {:range [0 (+ 0.1 (apply max x))]}}]))))
 
@@ -149,6 +153,8 @@
        (case @tab-view
          :statistics [statistics-table]
          :centralities [centraliy-div]
+         :institution [aplots/institution-view]
+         :author [aplots/author-view]
          [statistics-table])])))
 
 (defn analytics-view []
@@ -174,10 +180,12 @@
         {:title [tabs/sub-tab
                  {:id :analytics-tabs
                   :tabs-args {:variant :scrollable :scrollButtons :auto}
-                  :box-args {:margin-bottom 0 :border-bottom 0 :width 460}
+                  :box-args {:margin-bottom 0 :border-bottom 0}
                   :choices
                   [{:label "Statistics" :value :statistics}
-                   {:label "Centralities" :value :centralities}]}]
+                   {:label "Centralities" :value :centralities}
+                   {:label "Institution" :value :institution}
+                   {:label "Auhtor" :value :author}]}]
          :content [analytics-content] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :update-event #(get-analytics-graph-data)}]])))
 
