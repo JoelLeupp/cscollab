@@ -29,7 +29,8 @@
       :area-checkbox #{:ai/nlp :ai :ai/ai :ai/ir :ai/ml :ai/vision} 
       :region-checkbox #{:dach :ch :de :at}
       :insti? true
-      :top-centrality 10}})))
+      :top-centrality 10
+      :select-perspective :publications}})))
 
 (reg-sub
  ::loading? 

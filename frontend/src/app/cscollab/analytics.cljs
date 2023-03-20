@@ -180,7 +180,7 @@
         {:title [tabs/sub-tab
                  {:id :analytics-tabs
                   :tabs-args {:variant :scrollable :scrollButtons :auto}
-                  :box-args {:margin-bottom 0 :border-bottom 0}
+                  :box-args {:margin-bottom 2 :border-bottom 0}
                   :choices
                   [{:label "Statistics" :value :statistics}
                    {:label "Centralities" :value :centralities}

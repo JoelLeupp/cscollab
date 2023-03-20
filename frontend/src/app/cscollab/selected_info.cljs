@@ -39,7 +39,7 @@
 
 
 
-(defn author-table [node-data]
+(defn author-table [{:keys [node-data paper-args container-args]}]
   (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])
         collab-count (count (set (map :rec_id node-data)))
         author-map (frequency-counter node-data :pid)
@@ -64,8 +64,9 @@
       [basic-table
        {:header header
         :body author-count
-        :paper-args {:sx {:width 460 :display :flex :justify-content :center :margin :auto} :elevation 0}
-        :container-args {:sx {:max-height (if @full-screen? "80vh" "55vh")}}
+        :paper-args {:sx (util/deep-merge 
+                          {:width 460 :display :flex :justify-content :center :margin :auto} paper-args) :elevation 0}
+        :container-args {:sx (util/deep-merge {:max-height (if @full-screen? "80vh" "55vh")} container-args)}
         :table-args {:sticky-header true :size :small}}])))
 
 (defn get-plot-data [data]
@@ -131,7 +132,7 @@
      :transforms [{:type :sort :target :x :order :descending}]
      :marker {:color (:main colors)}}]))
 
-(defn general-collab-plot [node-data key name mapping yaxis]
+(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout]}]
   (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
       (let
@@ -139,31 +140,50 @@
         data (map #(assoc % :key (get mapping (:key %) (:key %))) counter)
         plot-data (get-plot-data-general data name)]
         [plotly/plot
-         {:box-args {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2}
-          :style {:width 440 :height (max 300 (+ 150 (* 45 (count data))))}
-          :layout {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
-                   :bargap 0.2 
-                   :showlegend false
-                   :xaxis {:range [0 (+ 50 (apply max (map :count data)))]}
-                   :yaxis (merge {:autorange :reversed
-                                  :tickmode :array} yaxis)}
+         {:box-args (util/deep-merge 
+                     {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2} 
+                     box-args)
+          :style (util/deep-merge {:width 440 :height (max 300 (+ 150 (* 45 (count data))))} style)
+          :layout (util/deep-merge
+                   {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
+                    :bargap 0.2
+                    :showlegend false
+                    :xaxis {:range [0 (+ 50 (apply max (map :count data)))]}
+                    :yaxis {:autorange :reversed
+                            :tickmode :array}}
+                   layout)
           :data plot-data}]))))
 
 (defn country-plot [node-data]
   (let [region-mapping @(subscribe [::db/data-field :get-region-mapping])
         country-mapping (zipmap (map :country-id region-mapping) (map :country-name region-mapping))]
-    [general-collab-plot node-data :collab_country "collaborations by country" country-mapping]))
+    [general-collab-plot
+     {:node-data node-data
+      :key :collab_country
+      :name "collaborations by country"
+      :mapping country-mapping}]))
 
 (defn year-plot [node-data]
-  [general-collab-plot node-data :year "collaborations by year" {} {:autorange nil}])
+  [general-collab-plot
+   {:node-data node-data
+    :key :year
+    :name "collaborations by year"
+    :layout {:yaxis {:autorange nil}}}])
 
 (defn inst-plot [node-data]
-  [general-collab-plot node-data :collab_inst "collaborations by institution"])
+  [general-collab-plot 
+   {:node-data node-data
+    :key :collab_inst
+    :name "collaborations by institution"}])
 
 (defn with-author-plot [node-data]
   (let [csauthors @(subscribe [::db/data-field :get-csauthors])
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))]
-    [general-collab-plot node-data :collab_pid "collaborations by institution" pid->name]))
+    [general-collab-plot 
+     {:node-data node-data
+      :key :collab_pid
+      :name "collaborations by institution"
+      :mapping pid->name}]))
 
 (defn node-info [node-data insti?] 
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])
@@ -182,7 +202,7 @@
                        {:label "author collab" :value :with-author}]))}] 
      (case @tab-view
        :publication [publication-plot {:node-data node-data}]
-       :author [author-table node-data]
+       :author [author-table {:node-data node-data}]
        :country [country-plot node-data]
        :institution [inst-plot node-data]
        :year [year-plot node-data]

@@ -30,16 +30,16 @@
 (defn insti-switch []
   "show institutional collaboration or author collaboration"
   [:div {:style {:height "100%"}}
-   [lists/sub-header {:subheader "collaboration network" :style {:text-align :center}}]
+   [lists/sub-header {:subheader "collaboration network" :style {:text-align :left :padding 0}}]
    [i/switch {:id :insti? 
               :typo-args {:variant :button}
-              :stack-args {:display :flex :justify-content :center :margin :auto :style {:height 56}}
+              :stack-args {:display :flex :justify-content :flex-start :margin :auto :style {:height 56}}
               :label-off "Authors"
               :label-on "Institutions"}]])
 
 (defn graph-color []
   [:div
-   [lists/sub-header {:subheader "set graph coloring" :style {:text-align :center}}] 
+   [lists/sub-header {:subheader "set graph coloring" :style {:text-align :left :padding 0}}] 
    [i/autocomplete
     {:id :color-by
      :label "Color Graph by"
@@ -66,7 +66,7 @@
         node (subscribe [::db/user-input-field [:show-node]])]
     (fn []
       [:div
-       [lists/sub-header {:subheader "show node in graph" :style {:text-align :center}}]
+       [lists/sub-header {:subheader "show node in graph" :style {:text-align :left :padding 0}}]
        [horizontal-stack
         {:items
          (list
@@ -90,7 +90,7 @@
     :collapsable? true
     :content
     [grid/grid
-     {:grid-args {:justify-content :space-between}
+     {:grid-args {:justify-content :space-evenly}
       :item-args {:elevation 0}
       :content
       [{:xs 3 :content [insti-switch]}
