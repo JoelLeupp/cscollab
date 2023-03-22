@@ -86,7 +86,7 @@ res = pd.DataFrame(json.loads(x.content))
 print(res)
 
 url = url_base+"/api/db/get_weighted_collab"
-config = { "from_year": 2005,
+config={ "from_year": 2005,
             "region_ids":["wd"],
             "strict_boundary":False,
             "institution":False}
@@ -96,7 +96,7 @@ res = pd.DataFrame(json.loads(x.content))
 print(res)
 
 url = url_base+"/api/db/get_filtered_collaboration"
-config = { "from_year": 2005,
+config={ "from_year": 2005,
             "region_ids":["wd"],
             "strict_boundary":False,
             "institution":False}
@@ -107,9 +107,9 @@ print(res)
 
 """ area and sub area frequeny"""
 url = url_base+"/api/db/get_frequency_research_field"
-config={ "from_year": 2015,
+config={ "from_year": 2005,
             "region_ids":["wd"],
-            "strict_boundary":True,
+            "strict_boundary":False,
             "institution":False}
 input = {"config": json.dumps(config)}
 x = requests.post(url, json = input)
@@ -176,7 +176,10 @@ print(res)
 
 """ get weighted collaboration of institutions"""
 url = "http://127.0.0.1:8030/api/db/get_weighted_collab"
-config = {"from_year": 2010, "institution":True}
+config={ "from_year": 2005,
+            "region_ids":["wd"],
+            "strict_boundary":False,
+            "institution":False}
 input = {"config": json.dumps(config)}
 x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
@@ -229,12 +232,12 @@ res = json.loads(x.content)
 print(res)
 
 url = url_base+"/api/analytics/get_analytics_collab"
-config={ "from_year": 2015,
+config={ "from_year": 2005,
             "region_ids":["wd"],
-            "strict_boundary":True,
+            "strict_boundary":False,
             "institution":False}
 input = {"config": json.dumps(config),
-         "top": 5}
+         "top": 200}
 x = requests.post(url, json = input)
 res = json.loads(x.content)
 print(res)
