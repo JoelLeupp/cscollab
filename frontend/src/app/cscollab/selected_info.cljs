@@ -37,6 +37,22 @@
                    (group-by (second key) data))
        (group-by key data))))))
 
+(defn author-counter [data key]
+  (reverse
+   (sort-by
+    :count
+    (map
+     (fn [[grp-key values]]
+       {:key grp-key
+        :count (count (clojure.set/union
+                       (set (map :a_pid (filter #(= grp-key ((first key) %)) values)))
+                       (set (map :b_pid (filter #(= grp-key ((second key) %)) values)))))})
+     (if (vector? key)
+       (merge-with into
+                   (group-by (first key) data)
+                   (group-by (second key) data))
+       (group-by key data))))))
+
 
 (defn dblp-author-page [pid]
   (str "https://dblp.org/pid/" pid ".html"))
@@ -136,11 +152,13 @@
      :transforms [{:type :sort :target :x :order :descending}]
      :marker {:color color}}]))
 
-(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout color-by]}]
+(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout color-by author-count?]}]
   (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
       (let
-       [counter (frequency-counter node-data key)
+       [counter (if author-count? 
+                  (author-counter node-data key) 
+                  (frequency-counter node-data key))
         color (case color-by
                 :area (mapv #(get area-color (keyword (:key %))) counter)
                 :subarea (mapv #(get sub-area-color (keyword (:key %))) counter)

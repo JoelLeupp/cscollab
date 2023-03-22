@@ -54,9 +54,11 @@
       :options
       [{:value :institutions :label "publications by institutions"}
        {:value :author :label "publications by authors"}
-       {:value :countries :label "publications by countries"}
+       {:value :countries :label "publications by countries"} 
        {:value :area :label "publications by area"}
-       {:value :sub-area :label "publications by sub areas"}]}]))
+       {:value :sub-area :label "publications by sub areas"}
+       {:value :author-institution :label "authors by institutions"}
+       {:value :author-countries :label "authors by country"}]}]))
 
 (defn select-institution []
   (let [collab (subscribe [::db/data-field :get-filtered-collab])]
@@ -91,7 +93,7 @@
     :layout {:legend {:y 1.1 :x -0.5}}
     :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}}])
 
-(defn country-plot [node-data key]
+(defn country-plot [node-data key author-count?]
   (let [selected-area (subscribe [::db/user-input-field :area-selection])
         tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])
         region-mapping @(subscribe [::db/data-field :get-region-mapping])
@@ -107,6 +109,7 @@
          {:node-data node-data
           :key key 
           :color-by color
+          :author-count? author-count?
           :layout {:margin  {:l 300}}
           :style {:width "100%"}
           :name "collaborations by country"
@@ -160,7 +163,9 @@
           :name "collaborations by institution"
           :mapping pid->name}]))))
 
-(defn inst-overview-plot [collab-data]
+
+
+(defn inst-overview-plot [collab-data author-count?]
   (let [selected-area (subscribe [::db/user-input-field :area-selection])
         tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]
     (fn []
@@ -174,6 +179,7 @@
          {:node-data collab-data
           :color-by color
           :layout {:margin  {:l 300}}
+          :author-count? author-count?
           :key [:a_inst :b_inst]
           :style {:width "100%"}
           :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
@@ -274,16 +280,20 @@
             :institutions [area-selection]
             :author [area-selection]
             :countries [area-selection]
+            :author-institution [area-selection]
+            :author-countries [area-selection]
             nil)] 
          [loading-content :get-filtered-collab
           (when @collab
             (case @perspecitve
-              :institutions [inst-overview-plot collab-filtered]
+              :institutions [inst-overview-plot collab-filtered false]
               :author [with-author-plot collab-filtered [:a_pid :b_pid]]
-              :countries [country-plot collab-filtered [:a_country :b_country]]
+              :countries [country-plot collab-filtered [:a_country :b_country] false]
+              :author-institution [inst-overview-plot collab-filtered true]
+              :author-countries [country-plot collab-filtered [:a_country :b_country] true]
               :area [area-plot @collab true]
               :sub-area [area-plot @collab false]
-              [inst-overview-plot collab-filtered]))]]))))
+              [inst-overview-plot collab-filtered false]))]]))))
 
 (defn institution-view []
   (let [selected-inst (subscribe [::db/user-input-field :select-institution])
@@ -339,7 +349,14 @@
 (comment
   (subscribe [::db/user-input-field :select-perspective])
   (def collab @(subscribe [::db/data-field :get-filtered-collab]))
-  (first collab)
+  (def values
+    (filter #(or (= (:a_inst %) "ETH Zurich") (= (:b_inst %) "ETH Zurich")) collab)) 
+  (def authors-collab
+    (clojure.set/union
+     (set (map :a_pid (filter #(= "ETH Zurich" (:a_inst %)) values)))
+     (set (map :pid (filter #(= "ETH Zurich" (:b_inst %)) values)))))
+  
+  (count authors-collab)
   (def inst-data @(subscribe [::db/data-field :get-publications-node-inst]))
   (first inst-data)
   (assoc @(subscribe [::common/filter-config]) "institution" true)
@@ -349,5 +366,16 @@
   @(subscribe [::filter-panel/selected-areas])
   @(subscribe [::filter-panel/selected-sub-areas])
   (keyword :a :b)
-  (util/s->id "a/b")
+  (let [config (assoc @(subscribe [::common/filter-config]) "institution" true)]
+    (dispatch [::api/get-publications-node :inst "ETH Zurich" config]))
+  (def inst-data @(subscribe [::db/data-field :get-publications-node-inst]))
+   (clojure.set/difference (set (map :pid inst-data)) authors-collab)
+  (count values)
+  (count (set (map :pid inst-data)))
+  (count (set (map :rec_id values)))
+  (count (filter #(= "ETH Zurich" (:a_inst %)) values))
+  (filter #(= "b/LucaBenini" (:b_pid %)) values)
+  (count (set (map :rec_id inst-data)))
+  (count (set (map :year values)))
+  (count (set (map :year inst-data)))
   )
