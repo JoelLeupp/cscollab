@@ -139,20 +139,21 @@
                    layout)
           :data plot-data}]))))
 
-(defn get-plot-data-general [data name color] 
+(defn get-plot-data-general [{:keys [data name color transforms]}] 
   (identity
    [{:x (mapv :count data)
-     :y (mapv :key data)
+     :y (mapv #(str (:key %)) data)
      :name name
      :type :bar
      :orientation :h
      :hoverinfo "none"
      :textposition :outside
      :text (mapv #(str (:count %)) data)
-     :transforms [{:type :sort :target :x :order :descending}]
+     :transforms (or transforms [{:type :sort :target :x :order :descending}])
      :marker {:color color}}]))
 
-(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout color-by author-count?]}]
+(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout color-by author-count?
+                                   transforms]}]
   (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
       (let
@@ -164,7 +165,7 @@
                 :subarea (mapv #(get sub-area-color (keyword (:key %))) counter)
                 (or color-by (:main colors)))
         data (map #(assoc % :key (get mapping (:key %) (:key %))) counter) 
-        plot-data (get-plot-data-general data name color)
+        plot-data (get-plot-data-general {:data data :name name :color color :transforms transforms})
         max-count (apply max (map :count data))] 
         [plotly/plot
          {:box-args (util/deep-merge 
@@ -355,6 +356,8 @@
                "region_ids" ["dach"]
                "strict_boundary" true,
                "institution" true})
+  
+  
   (dispatch [::api/get-publications-node :graph "EPFL" config])
   (dispatch [::api/get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
   (count @(subscribe [::db/data-field :get-publications-node-graph]))

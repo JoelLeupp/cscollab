@@ -121,9 +121,11 @@
    {:node-data node-data
     :key :year
     :style {:width "100%"}
-    :name "collaborations by year"
+    :name "collaborations by year" 
     :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
-    :layout {:yaxis {:autorange nil}}}])
+    :layout {:yaxis {:tickformat "%Y"
+                     :autorange nil
+                     :type :date}}}])
 
 (defn inst-plot [node-data]
   [selected-info/general-collab-plot
