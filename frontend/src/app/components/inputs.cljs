@@ -26,7 +26,7 @@
    [re-frame.core :refer (dispatch subscribe)]))
 
 
-(defn select [{:keys [:form-args :select-args :label :label-id :on-change :value :id :choices :option]}]
+(defn select [{:keys [:form-args :select-args :label :label-id :on-change :value :id :choices :option keywordize-values]}]
   [:> mui-form-control (util/deep-merge {:variant :outlined #_:standard
                                          :style {:min-width 120}} form-args)
    (when label [:> mui-input-label {:id label-id} label])
@@ -35,9 +35,11 @@
      {:label-id label-id 
       :value (or value @(subscribe [::db/user-input-field id]))
       :label label
-      :on-change (or on-change (fn [event]
+      :on-change (or on-change (fn [event] 
                                  (dispatch [::db/set-user-input id
-                                            (util/s->id (-> event .-target .-value))])))}
+                                            (if keywordize-values
+                                              (util/s->id (-> event .-target .-value))
+                                              (-> event .-target .-value))])))}
      select-args)
     (or option
         (for [{:keys [:value :label]} choices]

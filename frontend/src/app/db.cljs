@@ -30,7 +30,8 @@
       :region-checkbox #{:dach :ch :de :at}
       :insti? true
       :top-centrality 10
-      :select-perspective :publications}})))
+      :select-perspective :publications
+      :area-selection :all}})))
 
 (reg-sub
  ::loading? 

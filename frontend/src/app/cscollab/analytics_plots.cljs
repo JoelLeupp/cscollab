@@ -4,6 +4,7 @@
             [app.components.colors :refer [colors area-color sub-area-color]]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
+            [app.cscollab.filter-panel :as filter-panel]
             [app.components.grid :as grid]
             [app.cscollab.selected-info :as selected-info]
             [app.components.table :as table]
@@ -91,15 +92,26 @@
     :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}}])
 
 (defn country-plot [node-data key]
-  (let [region-mapping @(subscribe [::db/data-field :get-region-mapping])
+  (let [selected-area (subscribe [::db/user-input-field :area-selection])
+        tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])
+        region-mapping @(subscribe [::db/data-field :get-region-mapping])
         country-mapping (zipmap (map :country-id region-mapping) (map :country-name region-mapping))]
-    [selected-info/general-collab-plot
-     {:node-data node-data
-      :key key 
-      :style {:width "100%"}
-      :name "collaborations by country"
-      :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
-      :mapping country-mapping}]))
+    (fn []
+      (let [color (when
+                   (and (= @tab-view :overview) 
+                        (not (or (nil? @selected-area) (= :all (keyword @selected-area)))))
+                    (if (namespace (keyword @selected-area))
+                      ((keyword (name (keyword @selected-area))) sub-area-color)
+                      ((keyword @selected-area) area-color)))]
+        [selected-info/general-collab-plot
+         {:node-data node-data
+          :key key 
+          :color-by color
+          :layout {:margin  {:l 300}}
+          :style {:width "100%"}
+          :name "collaborations by country"
+          :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
+          :mapping country-mapping}]))))
 
 (defn year-plot [node-data]
   [selected-info/general-collab-plot
@@ -126,23 +138,46 @@
   )
 
 (defn with-author-plot [node-data key]
-  (let [csauthors @(subscribe [::db/data-field :get-csauthors])
+  (let [selected-area (subscribe [::db/user-input-field :area-selection])
+        tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])
+        csauthors @(subscribe [::db/data-field :get-csauthors])
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))]
-    [selected-info/general-collab-plot
-     {:node-data node-data
-      :key key
-      :style {:width "100%"}
-      :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
-      :name "collaborations by institution"
-      :mapping pid->name}]))
+    (fn []
+      (let [color (when-not (and
+                             (= @tab-view :overview)
+                             (or (nil? @selected-area) (= :all (keyword @selected-area))))
+                    (if (namespace (keyword @selected-area))
+                      ((keyword (name (keyword @selected-area))) sub-area-color)
+                      ((keyword @selected-area) area-color)))]
+        
+        [selected-info/general-collab-plot
+         {:node-data node-data
+          :key key
+          :color-by color
+          :layout {:margin  {:l 300}}
+          :style {:width "100%"}
+          :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
+          :name "collaborations by institution"
+          :mapping pid->name}]))))
 
 (defn inst-overview-plot [collab-data]
-  [selected-info/general-collab-plot
-   {:node-data collab-data
-    :key [:a_inst :b_inst]
-    :style {:width "100%"}
-    :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
-    :name "collaborations by institution"}])
+  (let [selected-area (subscribe [::db/user-input-field :area-selection])
+        tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]
+    (fn []
+      (let [color (when-not (and 
+                             (= @tab-view :overview)
+                             (or (nil? @selected-area) (= :all (keyword @selected-area))))
+                    (if (namespace (keyword @selected-area))
+                      ((keyword (name (keyword @selected-area))) sub-area-color)
+                      ((keyword @selected-area) area-color)))]
+        [selected-info/general-collab-plot
+         {:node-data collab-data
+          :color-by color
+          :layout {:margin  {:l 300}}
+          :key [:a_inst :b_inst]
+          :style {:width "100%"}
+          :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
+          :name "collaborations by institution"}]))))
 
 (defn area-plot [collab-data area?]
   (let [area-mapping (subscribe [::data/area-mapping])]
@@ -169,49 +204,86 @@
           :name (str "collaborations by " (if area? "area" "sub area"))}]))))
 
 (defn area-selection []
-  (let [area-mapping (subscribe [::data/area-mapping])]
+  (let [area-mapping (subscribe [::data/area-mapping])
+        selected-areas (subscribe [::filter-panel/selected-areas])
+        selected-sub-areas (subscribe [::filter-panel/selected-sub-areas])]
+    (fn []
+      (let [area-ids [:ai :systems :theory :interdiscip]
+            nested-area 
+            (util/factor-out-key
+             (mapv
+              #(into
+                {}
+                [{:id
+                  (util/s->id (-> % first first))
+                  :label
+                  (-> % first second)}
+                 {:sub-areas
+                  (sort-by
+                   :label
+                   (mapv
+                    (fn [[k v]]
+                      (into
+                       {}
+                       [{:id (util/s->id (first k)) :label (second k)}]))
+                    (group-by (juxt :sub-area-id :sub-area-label) (second %))))}])
+              (group-by (juxt :area-id :area-label) @area-mapping)) :id)]
+        [i/select {:id :area-selection
+                   :label-id :area-selection
+                   :label "research field"
+                   :keywordize-values false
+                   :form-args {:style {:width 400}}
+                   :select-args {:MenuProps {:PaperProps {:style {:max-height 400}}}}
+                   :option
+                   (list [:> mui-menu-item {:value  "all"} "All"] 
+                         [:> mui-list-subheader {:sx {:font-size 18}} "Areas"]
+                         (for [id area-ids]
+                           (when (contains? @selected-areas id)
+                             [:> mui-menu-item {:value id} (get-in nested-area [id :label])]))
+                         [:> mui-list-subheader {:sx {:font-size 18}} "Sub Areas"]
+                         (for [id area-ids]
+                           (when (contains? @selected-areas id)
+                             (list [:> mui-list-subheader {:sx {:font-size 16}} (get-in nested-area [id :label])]
+                                   (for [sub-area (get-in nested-area [id :sub-areas])]
+                                     (when contains? @selected-sub-areas
+                                           [:> mui-menu-item {:value (str (name id) "/" (name (:id sub-area)))} (:label sub-area)]))))))}]))))
+(defn overview []
+  (let [collab (subscribe [::db/data-field :get-filtered-collab])
+        perspecitve (subscribe [::db/user-input-field :select-overview-perspective])
+        selected-area (subscribe [::db/user-input-field :area-selection])
+        area-mapping (subscribe [::data/area-mapping])]
     (fn []
       (let [area-names
             (vec
              (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
-            area-mapping
-            (zipmap (map :area-id area-names)
-                    (map :area-label area-names))
-            subarea-mapping
-            (zipmap (map :sub-area-id area-names)
-                    (map :sub-area-label area-names))]
-        [i/select {:id :area-selection
-                   :label-id :area-selection
-                   :label "research field"
-                   :form-args {:style {:width 400}}
-                   :select-args {:MenuProps {:PaperProps {:style {:max-height 400}}}}
-                   :option
-                   (list [:> mui-menu-item {:value :all} "ALL"]
-                         [:> mui-list-subheader {:sx {:font-size 18}} "areas"]
-                         (for [[k v] area-mapping]
-                           [:> mui-menu-item {:value (keyword k)} v])
-                         [:> mui-list-subheader {:sx {:font-size 18}} "sub areas"]
-                         (for [[k v] subarea-mapping]
-                           [:> mui-menu-item {:value (keyword k)} v]))}]))))
-(defn overview []
-  (let [collab (subscribe [::db/data-field :get-filtered-collab])
-        perspecitve (subscribe [::db/user-input-field :select-overview-perspective])]
-    (fn []
-      [:div
-       [:div {:style {:display :flex :justify-content :flex-start :gap 40}} 
-        [select-overview-perspective]
-        [area-selection]]
-       ^{:key [@collab @perspecitve]}
-       [loading-content :get-filtered-collab
-        (when @collab
+            sub-area-map
+            (zipmap (map :sub-area-id area-names) area-names)
+            data (mapv #(assoc % :rec_area
+                               (get-in sub-area-map [(:rec_sub_area %) :area-id])) @collab)
+            collab-filtered (filter #(if (or (nil? @selected-area) (= :all (keyword @selected-area)))
+                                       true
+                                       (if (namespace (keyword @selected-area))
+                                         (= (name (keyword @selected-area)) (:rec_sub_area %))
+                                         (=  @selected-area (:rec_area %))))
+                                    data)]
+        ^{:key [@collab @perspecitve @selected-area]}
+        [:div 
+         [:div {:style {:display :flex :justify-content :flex-start :gap 40}}
+          [select-overview-perspective]
           (case @perspecitve
-            :institutions [inst-overview-plot @collab] 
-            :author [with-author-plot @collab [:a_pid :b_pid]]
-            :countries [country-plot @collab [:a_country :b_country]] 
-            :area [area-plot @collab true]
-            :sub-area [area-plot @collab false]
-            [inst-overview-plot @collab]))]
-       ])))
+            :institutions [area-selection]
+            :author [area-selection]
+            :countries [area-selection]
+            nil)] 
+         [loading-content :get-filtered-collab
+          (when @collab
+            (case @perspecitve
+              :institutions [inst-overview-plot collab-filtered]
+              :author [with-author-plot collab-filtered [:a_pid :b_pid]]
+              :countries [country-plot collab-filtered [:a_country :b_country]]
+              :area [area-plot @collab true]
+              :sub-area [area-plot @collab false]
+              [inst-overview-plot collab-filtered]))]]))))
 
 (defn institution-view []
   (let [selected-inst (subscribe [::db/user-input-field :select-institution])
@@ -272,6 +344,10 @@
   (first inst-data)
   (assoc @(subscribe [::common/filter-config]) "institution" true)
   (subscribe [::db/user-input-field :select-institution])
-  (subscribe [::db/user-input-field :select-author]) 
-  
+  (subscribe [::db/user-input-field :select-author])
+  (subscribe [::db/user-input-field :area-selection])
+  @(subscribe [::filter-panel/selected-areas])
+  @(subscribe [::filter-panel/selected-sub-areas])
+  (keyword :a :b)
+  (util/s->id "a/b")
   )

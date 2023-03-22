@@ -144,7 +144,7 @@
         color (case color-by
                 :area (mapv #(get area-color (keyword (:key %))) counter)
                 :subarea (mapv #(get sub-area-color (keyword (:key %))) counter)
-                (:main colors))
+                (or color-by (:main colors)))
         data (map #(assoc % :key (get mapping (:key %) (:key %))) counter) 
         plot-data (get-plot-data-general data name color)
         max-count (apply max (map :count data))] 
