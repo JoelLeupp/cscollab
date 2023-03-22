@@ -26,12 +26,16 @@
 (defn frequency-counter [data key]
   (reverse
    (sort-by
-    :count
+    :count 
     (map
      (fn [[grp-key values]]
        {:key grp-key
         :count (count (set (map :rec_id values)))})
-     (group-by key data)))))
+     (if (vector? key) 
+       (merge-with into 
+                   (group-by (first key) data)
+                   (group-by (second key) data))
+       (group-by key data))))))
 
 
 (defn dblp-author-page [pid]
@@ -119,7 +123,7 @@
                    layout)
           :data plot-data}]))))
 
-(defn get-plot-data-general [data name] 
+(defn get-plot-data-general [data name color] 
   (identity
    [{:x (mapv :count data)
      :y (mapv :key data)
@@ -130,15 +134,20 @@
      :textposition :outside
      :text (mapv #(str (:count %)) data)
      :transforms [{:type :sort :target :x :order :descending}]
-     :marker {:color (:main colors)}}]))
+     :marker {:color color}}]))
 
-(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout]}]
+(defn general-collab-plot [{:keys [node-data key name mapping box-args style layout color-by]}]
   (let [full-screen? (subscribe [:app.common.container/full-screen? :map-container])]
     (fn []
       (let
        [counter (frequency-counter node-data key)
-        data (map #(assoc % :key (get mapping (:key %) (:key %))) counter)
-        plot-data (get-plot-data-general data name)]
+        color (case color-by
+                :area (mapv #(get area-color (keyword (:key %))) counter)
+                :subarea (mapv #(get sub-area-color (keyword (:key %))) counter)
+                (:main colors))
+        data (map #(assoc % :key (get mapping (:key %) (:key %))) counter) 
+        plot-data (get-plot-data-general data name color)
+        max-count (apply max (map :count data))] 
         [plotly/plot
          {:box-args (util/deep-merge 
                      {:height (if @full-screen? "80vh" "55vh")  :width 460 :overflow :auto :margin-top 2} 
@@ -148,7 +157,7 @@
                    {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
                     :bargap 0.2
                     :showlegend false
-                    :xaxis {:range [0 (+ 50 (apply max (map :count data)))]}
+                    :xaxis {:range [0 (+ (* 0.1 max-count) max-count)]}
                     :yaxis {:autorange :reversed
                             :tickmode :array}}
                    layout)

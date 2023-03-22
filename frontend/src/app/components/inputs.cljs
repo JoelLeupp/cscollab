@@ -26,7 +26,7 @@
    [re-frame.core :refer (dispatch subscribe)]))
 
 
-(defn select [{:keys [:form-args :select-args :label :label-id :on-change :value :id :choices]}]
+(defn select [{:keys [:form-args :select-args :label :label-id :on-change :value :id :choices :option]}]
   [:> mui-form-control (util/deep-merge {:variant :outlined #_:standard
                                          :style {:min-width 120}} form-args)
    (when label [:> mui-input-label {:id label-id} label])
@@ -39,9 +39,10 @@
                                  (dispatch [::db/set-user-input id
                                             (util/s->id (-> event .-target .-value))])))}
      select-args)
-    (for [{:keys [:value :label]} choices]
-      ^{:key value}
-      [:> mui-menu-item {:value value} label])]])
+    (or option
+        (for [{:keys [:value :label]} choices]
+          ^{:key value}
+          [:> mui-menu-item {:value value} label]))]])
 
 (defn radio [{:keys [:form-args :radio-group-args :label :label-id :on-change :default-value :id :choices]}]
   (when (and  (nil? @(subscribe [::db/user-input-field id])) default-value) 

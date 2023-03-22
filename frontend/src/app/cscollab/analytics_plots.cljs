@@ -1,7 +1,7 @@
 (ns app.cscollab.analytics-plots
   (:require [reagent.core :as reagent :refer [atom]]
             [app.cscollab.data :as data]
-            [app.components.colors :refer [colors]]
+            [app.components.colors :refer [colors area-color sub-area-color]]
             [app.components.lists :refer [collapse]]
             [app.db :as db]
             [app.components.grid :as grid]
@@ -9,6 +9,8 @@
             [app.components.table :as table]
             [app.common.container :refer (analytics-container)]
             [app.components.stack :refer (horizontal-stack)]
+            ["@mui/material/MenuItem" :default mui-menu-item]
+            ["@mui/material/ListSubheader" :default mui-list-subheader]
             [app.components.loading :refer (loading-content)]
             [app.cscollab.common :as common]
             [app.cscollab.map-panel :as mp]
@@ -41,6 +43,19 @@
          {:value :countries :label "countries"}
          {:value :year :label "year"}
          {:value :author-collab :label "collaboration with authors"}]))}]))
+
+(defn select-overview-perspective []
+  (fn []
+    [i/autocomplete
+     {:id :select-overview-perspective
+      :label "select a view"
+      :style {:width 400}
+      :options
+      [{:value :institutions :label "publications by institutions"}
+       {:value :author :label "publications by authors"}
+       {:value :countries :label "publications by countries"}
+       {:value :area :label "publications by area"}
+       {:value :sub-area :label "publications by sub areas"}]}]))
 
 (defn select-institution []
   (let [collab (subscribe [::db/data-field :get-filtered-collab])]
@@ -75,12 +90,12 @@
     :layout {:legend {:y 1.1 :x -0.5}}
     :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}}])
 
-(defn country-plot [node-data]
+(defn country-plot [node-data key]
   (let [region-mapping @(subscribe [::db/data-field :get-region-mapping])
         country-mapping (zipmap (map :country-id region-mapping) (map :country-name region-mapping))]
     [selected-info/general-collab-plot
      {:node-data node-data
-      :key :collab_country
+      :key key 
       :style {:width "100%"}
       :name "collaborations by country"
       :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
@@ -110,16 +125,93 @@
     :container-args {:max-height "60vh"}}]
   )
 
-(defn with-author-plot [node-data]
+(defn with-author-plot [node-data key]
   (let [csauthors @(subscribe [::db/data-field :get-csauthors])
         pid->name (zipmap (map :pid csauthors) (map :name csauthors))]
     [selected-info/general-collab-plot
      {:node-data node-data
-      :key :collab_pid
+      :key key
       :style {:width "100%"}
       :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
       :name "collaborations by institution"
       :mapping pid->name}]))
+
+(defn inst-overview-plot [collab-data]
+  [selected-info/general-collab-plot
+   {:node-data collab-data
+    :key [:a_inst :b_inst]
+    :style {:width "100%"}
+    :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
+    :name "collaborations by institution"}])
+
+(defn area-plot [collab-data area?]
+  (let [area-mapping (subscribe [::data/area-mapping])]
+    (fn []
+      (let [area-names
+            (vec
+             (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+            sub-area-map
+            (zipmap (map :sub-area-id area-names) area-names)
+            mapping 
+            (zipmap (map (if area? :area-id :sub-area-id) area-names) 
+                    (map (if area? :area-label :sub-area-label) area-names))
+            data (mapv #(assoc % :field
+                               (get-in sub-area-map [(:rec_sub_area %) (if area? :area-id :sub-area-id)]))
+                       collab-data)]
+        [selected-info/general-collab-plot
+         {:node-data data
+          :key :field
+          :layout {:margin  {:l 300}}
+          :mapping mapping
+          :color-by (if area? :area :subarea)
+          :style {:width "100%"}
+          :box-args {:height "60vh" :min-width 700 :width "60%" :overflow :auto :margin-top 2}
+          :name (str "collaborations by " (if area? "area" "sub area"))}]))))
+
+(defn area-selection []
+  (let [area-mapping (subscribe [::data/area-mapping])]
+    (fn []
+      (let [area-names
+            (vec
+             (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+            area-mapping
+            (zipmap (map :area-id area-names)
+                    (map :area-label area-names))
+            subarea-mapping
+            (zipmap (map :sub-area-id area-names)
+                    (map :sub-area-label area-names))]
+        [i/select {:id :area-selection
+                   :label-id :area-selection
+                   :label "research field"
+                   :form-args {:style {:width 400}}
+                   :select-args {:MenuProps {:PaperProps {:style {:max-height 400}}}}
+                   :option
+                   (list [:> mui-menu-item {:value :all} "ALL"]
+                         [:> mui-list-subheader {:sx {:font-size 18}} "areas"]
+                         (for [[k v] area-mapping]
+                           [:> mui-menu-item {:value (keyword k)} v])
+                         [:> mui-list-subheader {:sx {:font-size 18}} "sub areas"]
+                         (for [[k v] subarea-mapping]
+                           [:> mui-menu-item {:value (keyword k)} v]))}]))))
+(defn overview []
+  (let [collab (subscribe [::db/data-field :get-filtered-collab])
+        perspecitve (subscribe [::db/user-input-field :select-overview-perspective])]
+    (fn []
+      [:div
+       [:div {:style {:display :flex :justify-content :flex-start :gap 40}} 
+        [select-overview-perspective]
+        [area-selection]]
+       ^{:key [@collab @perspecitve]}
+       [loading-content :get-filtered-collab
+        (when @collab
+          (case @perspecitve
+            :institutions [inst-overview-plot @collab] 
+            :author [with-author-plot @collab [:a_pid :b_pid]]
+            :countries [country-plot @collab [:a_country :b_country]] 
+            :area [area-plot @collab true]
+            :sub-area [area-plot @collab false]
+            [inst-overview-plot @collab]))]
+       ])))
 
 (defn institution-view []
   (let [selected-inst (subscribe [::db/user-input-field :select-institution])
@@ -141,9 +233,9 @@
             :publications [publication-plot @inst-data]
             :authors [author-table @inst-data]
             :institutions [inst-plot @inst-data]
-            :countries [country-plot @inst-data]
+            :countries [country-plot @inst-data :collab_country] 
             :year [year-plot @inst-data]
-            :author-collab [with-author-plot @inst-data]
+            :author-collab [with-author-plot @inst-data :collab_pid]
             [publication-plot @inst-data]) 
           )]])))
 
@@ -166,15 +258,20 @@
           (case @perspecitve
             :publications [publication-plot @author-data]
             :institutions [inst-plot @author-data]
-            :countries [country-plot @author-data]
+            :countries [country-plot @author-data :collab_country]
             :year [year-plot @author-data]
-            :author-collab [with-author-plot @author-data]
+            :author-collab [with-author-plot @author-data :collab_pid]
             [publication-plot @author-data]))]])))
+
 
 (comment
   (subscribe [::db/user-input-field :select-perspective])
-  (def collab @(subscribe [::db/data-field :get-filtered-collab])) 
-   (assoc @(subscribe [::common/filter-config]) "institution" true)
+  (def collab @(subscribe [::db/data-field :get-filtered-collab]))
+  (first collab)
+  (def inst-data @(subscribe [::db/data-field :get-publications-node-inst]))
+  (first inst-data)
+  (assoc @(subscribe [::common/filter-config]) "institution" true)
   (subscribe [::db/user-input-field :select-institution])
-  (subscribe [::db/user-input-field :select-author])
+  (subscribe [::db/user-input-field :select-author]) 
+  
   )

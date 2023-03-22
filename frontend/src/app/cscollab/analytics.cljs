@@ -153,6 +153,7 @@
        (case @tab-view
          :statistics [statistics-table]
          :centralities [centraliy-div]
+         :overview [aplots/overview]
          :institution [aplots/institution-view]
          :author [aplots/author-view]
          [statistics-table])])))
@@ -184,6 +185,7 @@
                   :choices
                   [{:label "Statistics" :value :statistics}
                    {:label "Centralities" :value :centralities}
+                   {:label "Overview" :value :overview}
                    {:label "Institution" :value :institution}
                    {:label "Auhtor" :value :author}]}]
          :content [analytics-content] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
