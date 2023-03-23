@@ -31,6 +31,8 @@
       :insti? true
       :top-centrality 10
       :select-perspective :publications
+      :select-timeline-perspective :total-publications
+      :select-overview-perspective :institutions
       :area-selection :all}})))
 
 (reg-sub

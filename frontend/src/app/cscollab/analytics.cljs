@@ -120,31 +120,33 @@
 
 (defn centraliy-div []
   (fn []
-    [grid/grid
-     {:grid-args {:justify-content :space-evenly :sx {:padding 0}}
-      :item-args {:elevation 0 :sx {:padding 0}}
-      :content
-      [{:xs 6
-        :content
-        [:div
-         [horizontal-stack
-          {:stack-args {:spacing 0}
-           :items
-           (list
-            [lists/sub-header {:subheader "Degree Centrality Top"}]
-            [top-centrality]
-            )}]
-         [centrality-plot :degree_centrality]]}
-       {:xs 6
-        :content
-        [:div
-         [horizontal-stack
-          {:stack-args {:spacing 0}
-           :items
-           (list
-            [lists/sub-header {:subheader "Eigenvector Centrality Top"}]
-            [top-centrality])}] 
-         [centrality-plot :eigenvector_centrality]]}]}]))
+    [:div
+     [grid/grid
+      {:grid-args {:justify-content :space-evenly :sx {:padding 0}}
+       :box-args {:margin-top 1}
+       :item-args {:elevation 0 :sx {:padding 0}}
+       :content
+       [{:xs 6
+         :content
+         [:div
+          [horizontal-stack
+           {:stack-args {:spacing 0}
+            :items
+            (list
+             [lists/sub-header {:subheader "Degree Centrality Top"}]
+             [top-centrality]
+             )}]
+          [centrality-plot :degree_centrality]]}
+        {:xs 6
+         :content
+         [:div
+          [horizontal-stack
+           {:stack-args {:spacing 0}
+            :items
+            (list
+             [lists/sub-header {:subheader "Eigenvector Centrality Top"}]
+             [top-centrality])}] 
+          [centrality-plot :eigenvector_centrality]]}]}]]))
 
 (defn analytics-content []
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]

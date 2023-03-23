@@ -45,6 +45,7 @@
          {:value :year :label "year"}
          {:value :author-collab :label "collaboration with authors"}]))}]))
 
+
 (defn select-overview-perspective []
   (fn []
     [i/autocomplete
@@ -348,6 +349,17 @@
             [publication-plot @author-data]))]])))
 
 
+(defn select-timeline-perspective []
+  (fn []
+    [i/autocomplete
+     {:id :select-timeline-perspective
+      :label "select a view"
+      :style {:width 400}
+      :options
+      [{:value :total-publications :label "Total Publications"}
+       {:value :publications-by-area :label "Publications by Area"}
+       {:value :publications-by-subarea :label "Publications by Sub Area"}]}]))
+
 (defn line-trace [{:keys [x y name color config] :or {color (:main colors)}}]
   (util/deep-merge
    {:name name
@@ -365,12 +377,13 @@
   (fn []
     [plotly/plot
      {:box-args (util/deep-merge
-                 {:height "50vh" :min-width 700 :width "60%" :overflow :auto :margin-top 0}
+                 {:height "60vh" :width "100%" :overflow :auto :margin-top 0}
                  box-args)
-      :style (util/deep-merge {:width "100%"} style) 
+      :style (util/deep-merge {:width "100%" :height "100%"} style) 
       :layout (util/deep-merge
-               {:margin  {:pad 0 :t 0 :b 50 :l 80 :r 5}
-                :legend {:orientation :h :y -0.1 :font {:size 14}} 
+               {:hovermode :closest #_"x"
+                :margin  {:pad 0 :t 50 :b 0 :l 80 :r 80}
+                :legend {:orientation :h :y -0.1 :font {:size 12}} 
                 :showlegend true
                 :yaxis {:showgrid true :zeroline false :rangemode :tozero :ticksuffix "  "}
                 :xaxis {:showgrid false :showline true :ticklen 6 :linewith 2 :type :date :tickformat "%Y"}}
@@ -396,29 +409,109 @@
                                     :name (str "Yearly Publications")})]]
         [line-plots {:plot-data plot-data}]))))
 
+(defn publications-by-area [area?]
+  (let [collab (subscribe [::db/data-field :get-filtered-collab])
+        area-mapping (subscribe [::data/area-mapping])]
+    (fn []
+      (let [area-names
+            (vec
+             (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+            sub-area-map
+            (zipmap (map :sub-area-id area-names) area-names)
+            mapping
+            (zipmap (map (if area? :area-id :sub-area-id) area-names)
+                    (map (if area? :area-label :sub-area-label) area-names))
+            collab (mapv #(assoc % :field
+                                 (get-in sub-area-map [(:rec_sub_area %) (if area? :area-id :sub-area-id)]))
+                         @collab)
+            color-map (if area? area-color sub-area-color)
+            data (map
+                  (fn [[k v]]
+                    {:key k
+                     :data
+                     (reverse
+                      (sort-by
+                       :year
+                       (map
+                        (fn [[grp-key values]]
+                          {:year grp-key
+                           :count (count (set (map :rec_id values)))})
+                        (group-by :year v))))})
+                  (group-by :field  collab))
+            data-plot (mapv #(line-trace {:x (mapv :year (:data %))
+                                          :y (mapv :count (:data %))
+                                          :name (get mapping (:key %))
+                                          :color (get color-map (keyword (:key %)))}) data)]
+        [line-plots {:plot-data (sort-by :name data-plot)
+                     :layout {:legend {:font {:size 12}}}}]))))
+
 (defn timeline-view []
-  (fn []
-    [all-publications]))
+  (let [perspecitve (subscribe [::db/user-input-field :select-timeline-perspective])
+        collab (subscribe [::db/data-field :get-filtered-collab])]
+    (fn []
+      [:div
+       [:div {:style {:display :flex :justify-content :flex-start :gap 40}}
+        [select-timeline-perspective]]
+       ^{:key [@collab @perspecitve]}
+       [loading-content :get-filtered-collab
+        (when @collab
+          (case @perspecitve
+            :total-publications [all-publications]
+            :publications-by-area [publications-by-area true]
+            :publications-by-subarea [publications-by-area false]
+            [all-publications]))]])))
 
 
 (comment
   (subscribe [::db/user-input-field :select-perspective])
-  (def collab @(subscribe [::db/data-field :get-filtered-collab])) 
+  (def collab (subscribe [::db/data-field :get-filtered-collab]))
+  (first collab)
+  (def area-mapping (subscribe [::data/area-mapping]))
+  (let [area? true
+        area-names
+        (vec
+         (set (map #(select-keys % [:area-id :area-label :sub-area-id :sub-area-label]) @area-mapping)))
+        sub-area-map
+        (zipmap (map :sub-area-id area-names) area-names)
+        mapping
+        (zipmap (map (if area? :area-id :sub-area-id) area-names)
+                (map (if area? :area-label :sub-area-label) area-names))
+        collab (mapv #(assoc % :field
+                             (get-in sub-area-map [(:rec_sub_area %) (if area? :area-id :sub-area-id)]))
+                     @collab)
+        data (map
+              (fn [[k v]]
+                {:key k
+                 :data
+                 (reverse
+                  (sort-by
+                   :year
+                   (map
+                    (fn [[grp-key values]]
+                      {:year grp-key
+                       :count (count (set (map :rec_id values)))})
+                    (group-by :year v))))})
+              (group-by :field  collab))
+        data-plot (mapv #(line-trace {:x (mapv :year (:data %)) 
+                                      :y (mapv :count (:data %)) 
+                                      :name (get mapping (:key %) )}) data)]
+    data-plot
+    )
   (reverse
    (sort-by
     :year
     (map
      (fn [[grp-key values]]
        {:year grp-key
-        :count (count (set (map :rec_id values)))}) 
+        :count (count (set (map :rec_id values)))})
      (group-by :year collab))))
   (def values
-    (filter #(or (= (:a_inst %) "ETH Zurich") (= (:b_inst %) "ETH Zurich")) collab)) 
+    (filter #(or (= (:a_inst %) "ETH Zurich") (= (:b_inst %) "ETH Zurich")) collab))
   (def authors-collab
     (clojure.set/union
      (set (map :a_pid (filter #(= "ETH Zurich" (:a_inst %)) values)))
      (set (map :pid (filter #(= "ETH Zurich" (:b_inst %)) values)))))
-  
+
   (count authors-collab)
   (def inst-data @(subscribe [::db/data-field :get-publications-node-inst]))
   (first inst-data)
@@ -432,7 +525,7 @@
   (let [config (assoc @(subscribe [::common/filter-config]) "institution" true)]
     (dispatch [::api/get-publications-node :inst "ETH Zurich" config]))
   (def inst-data @(subscribe [::db/data-field :get-publications-node-inst]))
-   (clojure.set/difference (set (map :pid inst-data)) authors-collab)
+  (clojure.set/difference (set (map :pid inst-data)) authors-collab)
   (count values)
   (count (set (map :pid inst-data)))
   (count (set (map :rec_id values)))
