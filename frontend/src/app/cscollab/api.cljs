@@ -160,16 +160,18 @@
  :<- [::db/loading? :get-weighted-collab]
  :<- [::db/loading? :get-node-position]
  :<- [::db/loading? :get-frequency]
- (fn [[get-weighted-collab get-node-position get-frequency]]
-   (when (or get-weighted-collab get-node-position get-frequency)
+ :<- [::db/loading? :get-analytics]
+ (fn [[get-weighted-collab get-node-position get-frequency get-analytics]]
+   (when (or get-weighted-collab get-node-position get-frequency get-analytics)
      true)))
 
 (reg-sub
  ::map-data-loading?
  :<- [::db/loading? :get-weighted-collab] 
  :<- [::db/loading? :get-frequency]
- (fn [[get-weighted-collab get-frequency]]
-   (when (or get-weighted-collab get-frequency)
+ :<- [::db/loading? :get-analytics]
+ (fn [[get-weighted-collab get-frequency get-analytics]]
+   (when (or get-weighted-collab get-frequency get-analytics)
      true)))
 
 (reg-sub

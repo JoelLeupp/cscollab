@@ -330,6 +330,24 @@
                      (.setContent "Popup")
                      (.openOn leaflet))))))
 
+(defn color-node [id]
+  (let [color-by @(subscribe [::db/user-input-field [:color-by]])
+        frequency @(subscribe [::db/data-field :get-frequency])
+        analytics @(subscribe [::db/data-field :get-analytics])]
+    (if (or (= color-by :degree-centrality) (= color-by :eigenvector-centrality))
+      (let [centrality-key (if (= color-by :degree-centrality) :degree_centrality :eigenvector_centrality)
+            centrality-data (get-in analytics [:centralities centrality-key]) 
+            top-centralities (subvec centrality-data 0 (min 20 (count centrality-data)))
+            mapping (zipmap
+                     (map :id top-centralities)
+                     (map #(- 1 (* 0.025 %)) (range 20))
+                     #_(map #(* factor 1.5 (:value %)) top-centralities))
+            value (get mapping id)]
+        (if value (str (:second colors) (.toString (.floor js/Math (* value 255)) 16)) (:main colors)))
+      (case color-by
+        :area (get area-color (keyword (get-in frequency [id "area" "top"])))
+        :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
+        (:main colors)))))
 
 (defn uncolor-previous [previous-selected geometries-map insti? frequency]
   (let [records previous-selected
@@ -344,7 +362,8 @@
         (map #(get @geometries-map %)
              (set (map #(identity [(:node/m %) (:node/n %)]) records)))]
     (doseq [[id layer] markers]
-      (let [color (when frequency
+      (let [color (color-node id)
+            #_(when frequency
                     (case color-by
                       :area (get area-color (keyword (get-in frequency [id "area" "top"])))
                       :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
@@ -378,7 +397,8 @@
         lines
         (map second (filter #(vector? (first %)) @geometries-map))]
     (doseq [[id layer] markers]
-      (let [color (when frequency
+      (let [color (color-node id)
+            #_(when frequency
                     (case color-by
                       :area (get area-color (keyword (get-in frequency [id "area" "top"])))
                       :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))

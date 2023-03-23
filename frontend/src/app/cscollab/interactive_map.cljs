@@ -230,7 +230,8 @@
   (let [config @(subscribe [::common/filter-config])]
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])
-    (dispatch [::api/get-filtered-collab config])))
+    (dispatch [::api/get-filtered-collab config]) 
+    (dispatch [::api/get-analytics config 200])))
 
 (defn interactive-map []
   (let [insti? (subscribe [::data/insti?])
