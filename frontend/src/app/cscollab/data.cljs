@@ -147,8 +147,7 @@
   (first @(subscribe [::collab]))
   @(subscribe [::collab-year-span])
   (def area-mapping @(subscribe [::db/data-field [:get-area-mapping]]))
-  (sort-by
-   :label
+  (util/factor-out-key
    (mapv
     #(into
       {}
@@ -157,13 +156,15 @@
         :label
         (-> % first second)}
        {:sub-areas
-        (mapv
-         (fn [[k v]]
-           (into
-            {}
-            [{:id (util/s->id (first k)) :label (second k)}]))
-         (group-by (juxt :sub-area-id :sub-area-label) (second %)))}])
-    (group-by (juxt :area-id :area-label) area-mapping)))
+        (sort-by
+         :label
+         (mapv
+          (fn [[k v]]
+            (into
+             {}
+             [{:id (util/s->id (first k)) :label (second k)}]))
+          (group-by (juxt :sub-area-id :sub-area-label) (second %))))}])
+    (group-by (juxt :area-id :area-label) area-mapping)) :id)
   @(subscribe [::nested-area])
   (subscribe [::db/data-field :get-area-mapping])
   (first @(subscribe [::area-mapping]))

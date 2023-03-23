@@ -46,7 +46,9 @@
      :option-label :option-label
      :options [{:value :no-coloring :label "No Coloring"} 
                {:value :area :label "by top area"}
-               {:value :subarea :label "by top sub area"}]}]])
+               {:value :subarea :label "by top sub area"}
+               {:value :degree-centrality :label "degree centrality"}
+               {:value :eigenvector-centrality :label "eigenvector centrality"}]}]])
 
 (reg-sub
  ::show-node-options

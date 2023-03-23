@@ -101,6 +101,41 @@
         shift (- 1 (* min-w slope))]
     (+ shift (* slope w))))
 
+(defn color-node [id]
+  (let [color-by @(subscribe [::mp/color-by])
+        frequency @(subscribe [::db/data-field :get-frequency])
+        analytics @(subscribe [::db/data-field :get-analytics])]
+    (if (or (= color-by :degree-centrality) (= color-by :eigenvector-centrality))
+      (let [centrality-key (if (= color-by :degree-centrality) :degree_centrality :eigenvector_centrality)
+            centrality-data (get-in analytics [:centralities centrality-key])
+            factor (/ 1 (:value (first centrality-data)))
+            top-centralities (subvec centrality-data 0 (min 20 (count centrality-data)))
+            mapping (zipmap
+                     (map :id top-centralities)
+                     (map #(- 1 (* 0.025 %)) (range 20))
+                     #_(map #(* factor 1.5 (:value %)) top-centralities))
+            value (get mapping id)]
+        {:bg (if value (:second colors) (:main colors))
+         :opacity (if value value 1)})
+      {:bg (case color-by
+             :area (get area-color (keyword (get-in frequency [id "area" "top"])))
+             :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
+             (:main colors))
+       :opacity 1})))
+
+(comment 
+  (map #(- 1 (* 0.025 %)) (range 20))
+  (def analytics @(subscribe [::db/data-field :get-analytics]))
+  (def centrality-data (get-in analytics [:centralities :degree_centrality]))
+  (def top-centralities (subvec centrality-data 0 100))
+  (reduce + (map :value centrality-data))
+  (def factor (/ 1 (:value (first centrality-data))))
+  (def mapping (zipmap 
+                (map :id centrality-data)
+                (map #(* factor (:value %)) centrality-data)))
+  (.toString (.floor js/Math (* 1 255)) 16)
+  (str (:second colors) (.toString (.floor js/Math (* 1 255)) 16))
+  )
 
 (defn gen-nodes [weighted-collab geo-mapping node-position frequency]
   (let [nodes (vec (clojure.set/union
@@ -123,12 +158,13 @@
     (mapv #(hash-map
             :style {:width (* 20 (linear-scale min-weight max-weight (get node->weight %) 3) #_(percentil-scale weights (get node->weight %)))
                     :height (* 20 (linear-scale min-weight max-weight (get node->weight %) 3) #_(percentil-scale weights (get node->weight %)))}
-            :data {:id %
-                   :bg (case color-by  
-                         :area (get area-color (keyword (get-in frequency [% "area" "top"]))) 
-                         :subarea (get sub-area-color (keyword (get-in frequency [% "subarea" "top"])))
-                         (:main colors))
-                   #_#_:label (get-in geo-mapping [% :name])}
+            :data (merge {:id % 
+                          #_(case color-by
+                              :area (get area-color (keyword (get-in frequency [% "area" "top"])))
+                              :subarea (get sub-area-color (keyword (get-in frequency [% "subarea" "top"])))
+                              (:main colors))
+                          #_#_:label (get-in geo-mapping [% :name])}
+                         (color-node %))
             :position {:x (* (if insti? 100 30) (get-in node-position [% "x"]))
                        :y (* (if insti? 100 30) (get-in node-position [% "y"]))})
           nodes)))
@@ -164,9 +200,10 @@
 
 
 (defn graph-comp [] 
-  (let [elements (subscribe [::g/elements]) #_(subscribe [::elements])] 
+  (let [elements (subscribe [::g/elements]) #_(subscribe [::elements])
+        analytics (subscribe [::db/data-field :get-analytics])] 
     (fn [] 
-      ^{:key @elements}
+      ^{:key [@elements @analytics]}
       [g/graph {:on-click (fn [e]
                             (dispatch [::g/set-graph-field [:info-open?] true])
                             (dispatch [::g/set-graph-field :selected (.. e -target data -id)]))
@@ -175,6 +212,8 @@
                 :stylesheet  [{:selector "node"
                                :style {:background-color (fn [ele]
                                                            (get (->clj (.. ele data)) :bg (:main colors)))
+                                       :background-opacity (fn [ele]
+                                                             (get (->clj (.. ele data)) :opacity 1))
                                        :shape (fn [ele] (or (.. ele data -shape) "ellipse"))
                                        #_#_:width 1 #_"label"
                                        #_#_:height 1 #_"label"
@@ -209,7 +248,8 @@
     (dispatch [::api/get-node-position config sub-areas?])
     (dispatch [::api/get-weighted-collab config])
     (dispatch [::api/get-frequency config])
-    (dispatch [::api/get-filtered-collab config])))
+    (dispatch [::api/get-filtered-collab config])
+    (dispatch [::api/get-analytics config 200])))
 
 (comment
   (def area-mapping (subscribe [::data/area-mapping]))
