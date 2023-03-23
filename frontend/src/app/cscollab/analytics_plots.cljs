@@ -348,9 +348,70 @@
             [publication-plot @author-data]))]])))
 
 
+(defn line-trace [{:keys [x y name color config] :or {color (:main colors)}}]
+  (util/deep-merge
+   {:name name
+    :x x
+    :y y
+    :type :scatter
+    :mode :lines
+    :line {:color color :width 3}
+    :hovertemplate "%{x}: %{y:.0f}"}
+   config))
+
+
+(defn line-plots
+  [{:keys [plot-data box-args style layout]}] 
+  (fn []
+    [plotly/plot
+     {:box-args (util/deep-merge
+                 {:height "50vh" :min-width 700 :width "60%" :overflow :auto :margin-top 0}
+                 box-args)
+      :style (util/deep-merge {:width "100%"} style) 
+      :layout (util/deep-merge
+               {:margin  {:pad 0 :t 0 :b 50 :l 80 :r 5}
+                :legend {:orientation :h :y -0.1 :font {:size 14}} 
+                :showlegend true
+                :yaxis {:showgrid true :zeroline false :rangemode :tozero :ticksuffix "  "}
+                :xaxis {:showgrid false :showline true :ticklen 6 :linewith 2 :type :date :tickformat "%Y"}}
+               layout)
+      :data plot-data}]))
+
+(defn all-publications []
+  (let [collab (subscribe [::db/data-field :get-filtered-collab])]
+    (fn []
+      (let [data
+            (reverse
+             (sort-by
+              :year
+              (map
+               (fn [[grp-key values]]
+                 {:year grp-key
+                  :count (count (set (map :rec_id values)))})
+               (group-by :year @collab))))
+            x (mapv :year data)
+            y (mapv :count data)
+            sum (reduce + y)
+            plot-data [(line-trace {:x x :y y 
+                                    :name (str "Yearly Publications")})]]
+        [line-plots {:plot-data plot-data}]))))
+
+(defn timeline-view []
+  (fn []
+    [all-publications]))
+
+
 (comment
   (subscribe [::db/user-input-field :select-perspective])
-  (def collab @(subscribe [::db/data-field :get-filtered-collab]))
+  (def collab @(subscribe [::db/data-field :get-filtered-collab])) 
+  (reverse
+   (sort-by
+    :year
+    (map
+     (fn [[grp-key values]]
+       {:year grp-key
+        :count (count (set (map :rec_id values)))}) 
+     (group-by :year collab))))
   (def values
     (filter #(or (= (:a_inst %) "ETH Zurich") (= (:b_inst %) "ETH Zurich")) collab)) 
   (def authors-collab

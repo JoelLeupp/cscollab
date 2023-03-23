@@ -121,8 +121,8 @@
 (defn centraliy-div []
   (fn []
     [grid/grid
-     {:grid-args {:justify-content :space-evenly}
-      :item-args {:elevation 0}
+     {:grid-args {:justify-content :space-evenly :sx {:padding 0}}
+      :item-args {:elevation 0 :sx {:padding 0}}
       :content
       [{:xs 6
         :content
@@ -154,6 +154,7 @@
          :statistics [statistics-table]
          :centralities [centraliy-div]
          :overview [aplots/overview]
+         :timeline [aplots/timeline-view]
          :institution [aplots/institution-view]
          :author [aplots/author-view]
          [statistics-table])])))
@@ -186,6 +187,7 @@
                   [{:label "Statistics" :value :statistics}
                    {:label "Centralities" :value :centralities}
                    {:label "Overview" :value :overview}
+                   {:label "Timeline" :value :timeline}
                    {:label "Institution" :value :institution}
                    {:label "Auhtor" :value :author}]}]
          :content [analytics-content] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
