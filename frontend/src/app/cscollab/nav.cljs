@@ -33,10 +33,10 @@
           [{:id 1 :label "Visualization" :icon ic-home :selected (= 1 @selected)
             :on-click #(do
                          (reset! selected 1)
-                         (dispatch [::router/navigate :app.views/home]))}
+                         (dispatch [::router/navigate :app.app/home]))}
            {:id 2 :label "Conferences" :icon ic-view-list :selected (= 2 @selected)
             :on-click #(do
                          (reset! selected 2)
-                         (dispatch [::router/navigate :app.views/conferences]))} 
+                         (dispatch [::router/navigate :app.app/conferences]))} 
            #_{:id 3 :label "Settings" :icon ic-settings :selected (= 3 @selected)
             :on-click #(reset! selected 3)}]}]}])))

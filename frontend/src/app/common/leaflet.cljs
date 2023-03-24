@@ -13,9 +13,7 @@
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
 
-;;;;;;;;;;;;;
 ;; define events and subscriptions for the leaflet component
-
 
 (reg-sub
  ::leaflet
@@ -66,7 +64,6 @@
  (fn [m] (when m m)))
 
 
-
 (reg-sub
  ::selected-elements
  :<- [::selected-shape]
@@ -98,22 +95,7 @@
  (fn [m] (when m m)))
 
 
-
-(comment
-  @(subscribe [::zoom-level])
-  @(subscribe [::selected-elements])
-  @(subscribe [::selected-shape]) 
-  @(subscribe [::geometries])
-  (dispatch [::set-leaflet [:zoom-level] 10])
-  @(subscribe [::leaflet])
-  (dispatch [::set-leaflet [:view-position] [50 50]])
-  (.setView @(subscribe [::map]) (clj->js [50 50]) 6)
-  (.getCenter @(subscribe [::map])))
-
-
-;;;;;;;;;;;;;
-;; Define the React lifecycle callbacks to manage the LeafletJS
-
+;; Define the React lifecycle callbacks to manage the leaflet.js component
 (declare update-leaflet-geometries)
 (declare leaflet-did-mount)
 (declare leaflet-render)
@@ -161,11 +143,6 @@
     (dispatch [::set-leaflet [:map] @leaflet])
     ;; Initial view point and zoom level
     (.setView @leaflet (clj->js @view) @zoom)
-
-    #_(.addTo (L/polyline (clj->js [[65.19966161643839 25.39832800626755]
-                                    [65.4 25.5]])
-                          #js {:color "blue"})
-              @leaflet)
 
     ;; Initialize map layers
     (doseq [{:keys [type url] :as layer-spec} layers]
@@ -234,9 +211,7 @@
       [:div {:id id
              :style style}])))
 
-;;;;;;;;;;
-;; Code to sync ClojureScript geometries vector data to LeafletJS
-;; shape objects.
+;; define leaflet geometry shapes
 
 (defmulti create-shape :type)
 
@@ -267,8 +242,7 @@
                      (dispatch [::set-leaflet [:selected-shape] id])))))
 
 (defn calc-offset [[x y]]
-  [(* 0.5 x) (* 0.5 y)]
-  #_[(* (/ 33 60) x) (* (/ 22 60) y)])
+  [(* 0.5 x) (* 0.5 y)])
 
 (defn icon [scale]
   (let [size (* scale 20)
@@ -307,8 +281,6 @@
                :iconSize [size size]}))))
 
 
-#_(set! (.. icon -options -iconSize) (clj->js [200 200]))
-
 (defmethod create-shape :marker [{:keys [coordinates leaflet event-handlers]}]
   (let [shape
         (L/marker (clj->js coordinates))
@@ -320,15 +292,7 @@
          event-handlers)
         attach-events
         (apply comp event-list)]
-    (attach-events shape))
-  #_(-> (L/marker (clj->js coordinates) #js {:icon icon})
-        #_(.on "click" (fn [] (.log js/console "clicked")))
-        #_(.on "click"
-               (fn [e]
-                 (-> (L/popup)
-                     (.setLatLng (.-latlng e))
-                     (.setContent "Popup")
-                     (.openOn leaflet))))))
+    (attach-events shape)))
 
 (defn color-node [id]
   (let [color-by @(subscribe [::db/user-input-field [:color-by]])
@@ -412,20 +376,13 @@
   (let [i-icon (gen-icon scale (:main colors) inst-svg) #_(icon scale)
         marker (L/marker (clj->js coordinates) #js {:icon i-icon})] 
     (set! (.-scale marker) scale)
-    (-> marker
-        #_(.bindPopup "t")
-        #_(.openPopup) 
+    (-> marker 
         (.on "click"
              (fn [e]
                (dispatch [::set-leaflet [:selected-shape] id])
                (dispatch [::set-leaflet [:info-open?] true])
                ))
-        #_(.on "mouseover"
-               (fn [e]
-                 (-> (L/popup (clj->js {:offset [0 -10]}))
-                     (.setLatLng (.-latlng e))
-                     (.setContent name)
-                     (.openOn leaflet)))))))
+        )))
 
 (defmethod create-shape :author [{:keys [coordinates scale id leaflet]}]
   (let [i-icon (gen-icon scale (:main colors) author-svg) #_(icon scale)
@@ -435,13 +392,7 @@
         (.on "click"
              (fn [e]
                (dispatch [::set-leaflet [:selected-shape] id])
-               (dispatch [::set-leaflet [:info-open?] true])))))
-  
-  #_(L/circle (clj->js coordinates)
-            #js {:color (:main colors)
-                 :fillColor (:main colors)
-                 :radius (* 100 scale)
-                 :fillOpacity 1}))
+               (dispatch [::set-leaflet [:info-open?] true]))))))
 
 (defmethod create-shape :collab-line [{:keys [coordinates id leaflet args]}]
   (-> (L/polyline (clj->js coordinates)
@@ -470,12 +421,4 @@
         (reset! geometries-map new-geometries-map)
         (let [shape (create-shape (merge {:leaflet @leaflet} geom))]
           (.addTo shape @leaflet)
-          (recur (assoc new-geometries-map (:id geom) shape) geometries))
-        #_(if-let [existing-shape (@geometries-map (:id geom))]
-          ;; Have existing shape, don't need to do anything
-          (recur (assoc new-geometries-map (:id geom) existing-shape) geometries)
-
-          ;; No existing shape, create a new shape and add it to the map
-          (let [shape (create-shape (merge {:leaflet @leaflet} geom))]
-            (.addTo shape @leaflet)
-            (recur (assoc new-geometries-map (:id geom) shape) geometries)))))))
+          (recur (assoc new-geometries-map (:id geom) shape) geometries))))))

@@ -5,10 +5,11 @@
    [reagent.core :as r]
    [day8.re-frame.http-fx] ; add http-xhrio events
    [re-frame.core :refer (dispatch dispatch-sync)]
-   [app.router :as router :refer (init-routes!)]
-   [app.cscollab.data :as data] 
+   [app.router :as router :refer (init-routes!)] 
    [app.cscollab.api :as api]
-   [app.views :refer (app routes)]))
+   [app.app :refer (app routes)]))
+
+;; initialize application
 
 (defonce root (createRoot 
                (.getElementById js/document "app")))

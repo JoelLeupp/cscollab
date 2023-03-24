@@ -1,17 +1,17 @@
 (ns app.common.container
-  (:require [reagent.core :as reagent :refer [atom]]
-            [app.components.colors :refer [colors]]
-            [app.components.lists :refer [collapse]]
-            [app.components.colors :refer [colors area-color sub-area-color]]
-            [app.db :as db]
-            ["@mui/material/Stack" :default mui-stack]
-            ["@mui/material/Typography" :default mui-typography]
-            [app.components.button :as button]
-            [reagent-mui.material.paper :refer [paper]]
-            [re-frame.core :refer
-             (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
-            [app.util :as util]))
+  (:require
+   [app.components.lists :refer [collapse]]
+   [app.db :as db]
+   [app.components.colors :refer [colors area-color sub-area-color]]
+   ["@mui/material/Stack" :default mui-stack]
+   ["@mui/material/Typography" :default mui-typography]
+   [app.components.button :as button]
+   [reagent-mui.material.paper :refer [paper]]
+   [re-frame.core :refer
+    (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
+   [app.util :as util]))
 
+;; defines graphical container components
 
 (reg-sub
  ::full-screen?
@@ -72,11 +72,11 @@
           [collapse
            {:sub info-open?
             :div
-            [:div {:style {:position :absolute :right (if @full-screen? 0 "10%") :z-index 10}}
+            [:div {:style {:position :absolute :right (if @full-screen? 0 "7.5%") :z-index 10}}
              [:div {:style {:background-color :white :height height :min-width "400px" :padding-left 10 :padding-right 10}}
               [:div {:style {:height "100%"}}
                info-component]]]}]
-          [:div {:style {:position :absolute :right (if @full-screen? 0 "10%") :z-index 5}}
+          [:div {:style {:position :absolute :right (if @full-screen? 0 "7.5%") :z-index 5}}
            (if @full-screen?
              [button/full-screen-exit-button
               {:on-click #(close-full-screen id)}]
@@ -96,13 +96,3 @@
        [:div {:style (merge {:height height :width width})}
         content])]))
 
-(comment @(subscribe [::db/ui-states-field [:viz :open?]])
-         (dispatch [::db/set-ui-states [:viz :open?] false])
-         (dispatch [::db/set-ui-states [:viz :open?] true])
-         (subscribe [:app.common.container/full-screen?:map-container])
-         @(subscribe [::full-screen? :graph])
-         (open-full-screen :graph-container)
-         (close-full-screen :graph)
-         @(subscribe [::db/ui-states])
-         (let [[width height] (if true ["100vw" "100vh"] ["100%" "70vh"])]
-           [width height]))

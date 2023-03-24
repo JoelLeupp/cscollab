@@ -1,9 +1,9 @@
-(ns app.cscollab.map-panel
+(ns app.cscollab.panels.map-panel
   (:require
    [app.common.user-input :refer (input-panel)] 
    [app.db :as db]
    [app.util :as util] 
-   [app.cscollab.interactive-map :as im]
+   [app.cscollab.view.visualization.map.interactive-map :as im]
    [app.components.grid :as grid]
    [app.components.button :refer (button)]
    [app.components.stack :refer (horizontal-stack)]

@@ -1,4 +1,4 @@
-(ns app.cscollab.analytics
+(ns app.cscollab.view.visualization.analytics.analytics
   (:require [reagent.core :as reagent :refer [atom]]
             [app.cscollab.data :as data]
             [app.components.colors :refer [colors]]
@@ -9,7 +9,7 @@
             [app.common.container :refer (analytics-container)]
             [app.components.stack :refer (horizontal-stack)]
             [app.cscollab.common :as common]
-            [app.cscollab.map-panel :as mp]
+            [app.cscollab.panels.map-panel :as mp]
             [app.components.feedback :as feedback]
             [app.cscollab.api :as api]
             [app.components.tabs :as tabs]
@@ -19,7 +19,7 @@
             [goog.string :as gstring]
             [app.components.inputs :as i]
             [goog.string.format]
-            [app.cscollab.analytics-plots :as aplots]
+            [app.cscollab.view.visualization.analytics.analytics-plots :as aplots]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
@@ -78,8 +78,8 @@
 (defn hbar-plot [plot-data layout]
   (fn []
     [plotly/plot
-     {:box-args {:height "60vh"  :width "35vw" :overflow :auto :margin 0}
-      :style {:width "33vw" :height (max 300 (+ 150 (* 45 (count (:x (first plot-data))))))}
+     {:box-args {:height "62vh"  :width "100%" :overflow :auto :margin 0}
+      :style {:width "100%" :height (max 300 (+ 150 (* 45 (count (:x (first plot-data))))))}
       :layout (util/deep-merge
                {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 10}
                 :bargap 0.2
@@ -120,15 +120,15 @@
 
 (defn centraliy-div []
   (fn []
-    [:div
+    [:div {:style {:width "100%"}}
      [grid/grid
-      {:grid-args {:justify-content :space-evenly :sx {:padding 0}}
+      {:grid-args {:justify-content :space-between :sx {:padding 0}}
        :box-args {:margin-top 1}
        :item-args {:elevation 0 :sx {:padding 0}}
        :content
        [{:xs 6
          :content
-         [:div
+         [:div {:style {:margin-top -20}}
           [horizontal-stack
            {:stack-args {:spacing 0}
             :items
@@ -139,7 +139,7 @@
           [centrality-plot :degree_centrality]]}
         {:xs 6
          :content
-         [:div
+         [:div {:style {:margin-top -20}}
           [horizontal-stack
            {:stack-args {:spacing 0}
             :items
@@ -151,7 +151,7 @@
 (defn analytics-content []
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :analytics-tabs]])]
     (fn [] 
-      [:div {:style {:margin-left 30}} 
+      [:div {:style {:margin-left 30 :margin-right 30}} 
        (case @tab-view
          :statistics [statistics-table]
          :centralities [centraliy-div]
@@ -195,16 +195,3 @@
          :content [analytics-content] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :update-event #(get-analytics-graph-data)}]])))
 
-(comment 
-  (get-analytics-graph-data)
-  (def analytics @(subscribe [::db/data-field :get-analytics]))
-  (keys analytics)
-  (get analytics :statistics)
-  (get-in analytics [:centralities :degree_centrality])
-  (get-in analytics [:centralities :eigenvector_centrality])
-  (def collab @(subscribe [::db/data-field :get-filtered-collab]))
-  (count collab)
-  (def weighted-collab @(subscribe [::db/data-field :get-weighted-collab]))
-  (reduce + (map :weight weighted-collab))
-  (count (set (map :rec_id collab)))
-  )

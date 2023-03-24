@@ -6,14 +6,14 @@
    #_["react-lorem-ipsum" :refer (loremIpsum)]
    #_[app.components.lists :as lists]
    [app.db :as db]
-   [app.cscollab.filter-panel :refer (filter-panel)] 
+   [app.cscollab.panels.filter-panel :refer (filter-panel)] 
    [reagent.core :as r] 
-   [app.cscollab.interactive-map :as interactive-map]
-   [app.cscollab.conferences :refer (conferences-view)]
-   [app.cscollab.map-panel :refer (map-config-panel)]
+   [app.cscollab.view.visualization.map.interactive-map :as interactive-map]
+   [app.cscollab.view.conference.conferences :refer (conferences-view)]
+   [app.cscollab.panels.map-panel :refer (map-config-panel)]
    [app.components.tabs :as tabs]  
-   [app.cscollab.graph-view :refer (graph-view)]
-   [app.cscollab.analytics :refer (analytics-view)]
+   [app.cscollab.view.visualization.graph.graph-view :refer (graph-view)]
+   [app.cscollab.view.visualization.analytics.analytics :refer (analytics-view)]
    ))
 
 

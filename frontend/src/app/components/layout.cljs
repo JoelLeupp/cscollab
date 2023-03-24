@@ -9,7 +9,8 @@
 
 
 (defn grid-template-column []
-  "minmax(10px, 10%) 1fr minmax(10px, 10%)")
+  "7.5% 1fr 7.5%"
+  #_"minmax(10px, 10%) 1fr minmax(10px, 10%)")
 
 (defn section [props & body]
   (if-not (map? props)

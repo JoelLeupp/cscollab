@@ -4,6 +4,8 @@
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)] 
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
 
+;; defines internal app database and events and subscriptions for db interactions
+
 (def default-db
   ^{:inspect "@re-frame.db/app-db"}
   {:current-route nil

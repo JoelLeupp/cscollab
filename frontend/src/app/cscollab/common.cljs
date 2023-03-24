@@ -1,14 +1,13 @@
 (ns app.cscollab.common
   (:require [reagent.core :as reagent :refer [atom]] 
-            [app.cscollab.filter-panel :as filter-panel]
-            [app.components.colors :refer [colors]] 
-            [cljs-bean.core :refer [bean ->clj ->js]]
+            [app.cscollab.panels.filter-panel :as filter-panel] 
             [app.db :as db]
             [app.cscollab.data :as data]
             [re-frame.core :refer
              (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
             [app.util :as util]))
 
+;; defines the global filter configuration
 (reg-sub
  ::filter-config
  :<- [::data/insti?]
@@ -29,7 +28,3 @@
       "strict_boundary" strict-boundary
       "institution" insti?})))
 
-(comment 
-  @(subscribe [::filter-panel/selected-sub-areas]) 
-  @(subscribe [::filter-panel/selected-areas])
-  )

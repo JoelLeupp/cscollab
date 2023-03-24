@@ -1,4 +1,4 @@
-(ns app.cscollab.filter-panel
+(ns app.cscollab.panels.filter-panel
   (:require
    [app.common.user-input :refer (input-panel)]
    [app.cscollab.data :as data]

@@ -9,7 +9,7 @@
    [app.db :as db]
    ["react-cytoscapejs" :as rcy]))
 
-#_(set! *warn-on-infer* false)
+;; defines a cytoscape.js graph component with events and subsriptions
 
 (reg-sub
  ::graph

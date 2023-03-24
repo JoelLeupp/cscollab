@@ -15,6 +15,8 @@
    [reagent.core :as r]
    [re-frame.core :refer (dispatch subscribe)]))
 
+;; defines a general input and config panel
+
 (defn input-panel 
   [{:keys [id start-closed]}]
   "container for user inputs" 
@@ -58,7 +60,4 @@
                     content-args)
               (for [c components] c)])]]])))
 
-(comment
-  (dispatch [::db/set-ui-states :input-panel true])
-  (subscribe [::db/ui-states])
-  )
+

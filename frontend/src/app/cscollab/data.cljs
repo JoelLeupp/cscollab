@@ -56,11 +56,6 @@
  (fn [m]
    (when m m)))
 
-#_(reg-sub
- ::collab
- :<- [::db/data-field [:collab]]
- (fn [m]
-   (when m m)))
 
 (reg-sub
  ::region-mapping
@@ -68,14 +63,6 @@
  (fn [m]
    (when m m)))
 
-#_(reg-sub
- ::collab-year-span
- :<- [::collab]
- (fn [collab]
-   (when collab
-     (let [max-year (apply max (map :year collab))
-           min-year (apply min (map :year collab))]
-       [min-year max-year]))))
 
 
 (reg-sub
@@ -143,29 +130,3 @@
 
 
 
-(comment
-  (first @(subscribe [::collab]))
-  @(subscribe [::collab-year-span])
-  (def area-mapping @(subscribe [::db/data-field [:get-area-mapping]]))
-  (util/factor-out-key
-   (mapv
-    #(into
-      {}
-      [{:id
-        (util/s->id (-> % first first))
-        :label
-        (-> % first second)}
-       {:sub-areas
-        (sort-by
-         :label
-         (mapv
-          (fn [[k v]]
-            (into
-             {}
-             [{:id (util/s->id (first k)) :label (second k)}]))
-          (group-by (juxt :sub-area-id :sub-area-label) (second %))))}])
-    (group-by (juxt :area-id :area-label) area-mapping)) :id)
-  @(subscribe [::nested-area])
-  (subscribe [::db/data-field :get-area-mapping])
-  (first @(subscribe [::area-mapping]))
-  (first @(subscribe [::region-mapping])))

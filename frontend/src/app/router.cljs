@@ -1,11 +1,12 @@
 (ns app.router
   "Defines functionalities for navigation"
-  (:require 
-   [re-frame.core :refer 
+  (:require
+   [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [reitit.frontend.easy :as rfe]
-   [reitit.core :as r]
-   ))
+   [reitit.core :as r]))
+
+;; defines router and routing events and subsriptions
 
 (reg-sub
  ::current-route

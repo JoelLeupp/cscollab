@@ -4,6 +4,8 @@
    [cljs.pprint :as pprint]
    [clojure.string :as str]))
 
+;; library for general utility functions
+
 (defn wrap-line
   ([text size] (wrap-line text size "<br>"))
   ([text size sep]

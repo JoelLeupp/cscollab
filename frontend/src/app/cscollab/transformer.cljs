@@ -1,6 +1,6 @@
 (ns app.cscollab.transformer
   (:require
-   [app.cscollab.filter-panel :as filter-panel]
+   [app.cscollab.panels.filter-panel :as filter-panel]
    [app.components.button :as button]
    [app.cscollab.data :as data]
    [app.db :as db]
@@ -97,8 +97,7 @@
    (group-by (if insti?
                (juxt :a_inst :b_inst)
                (juxt :a_pid :b_pid))
-             filtered-collab))
-  (first )
+             filtered-collab)) 
   (count @(subscribe [::filtered-collab-10])) 
   (def selected-regions @(subscribe [::filter-panel/selected-regions]))
   (def selected-countries @(subscribe [::filter-panel/selected-countries]))

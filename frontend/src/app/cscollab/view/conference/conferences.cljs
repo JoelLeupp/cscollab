@@ -1,4 +1,4 @@
-(ns app.cscollab.conferences
+(ns app.cscollab.view.conference.conferences
   (:require 
    [app.cscollab.data :as data]
    [app.components.lists :refer [collapse]]
@@ -7,13 +7,14 @@
    [reagent-mui.material.paper :refer [paper]]
    [clojure.walk :refer [postwalk]]
    [app.util :as util]
-   [app.cscollab.filter-panel :refer (filter-panel-conferences)]
+   [app.cscollab.panels.filter-panel :refer (filter-panel-conferences)]
    [reagent-mui.material.paper :refer [paper]]
    [app.components.lists :refer (nested-list)]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [reagent.core :as r]))
 
+;; define conference page
 
 (defn dblp-conf-link
   "dblp link to the conference html page"
@@ -67,40 +68,3 @@
           :list-args {:dense false :sx {#_#_:background-color :white :max-width nil :width "100%"}}
           :content @list-content}]]])))
 
-(comment
-  (def list-content @(subscribe [::list-content]))
-  (nested-list {:id :test
-                :content list-content})
-  @(subscribe [::db/ui-states])
-  
-  (second (postwalk (fn [x] x) (first list-content)))
-  (first @(subscribe [::data/area-mapping]))
-  (def nested-area @(subscribe [::data/nested-area]))
-  (loop [l []
-         cnt 10]
-    (if (= cnt 0)
-      l
-      (recur (conj l (+ cnt (last l))) (dec cnt))))
-  (loop [list-items []
-         content (first list-content)]
-    (if-not (:children content)
-      list-items
-      (do
-        #_(print (:children content))
-        (recur (conj list-items (:label content)) (first (:children content))))))
-
-  (def nested-list-test [{:id 1 :c [{:id 2} {:id 3}]}
-                         {:id 4 :c [{:id 8} {:id 9 :c [{:id 11}]}]}])
-
-  (defn extract [nested-list-test indent]
-    (for [c nested-list-test]
-      (vec (concat
-            [{:id (:id c) :indent indent}]
-            (when (:c c) 
-              (extract (:c c) (+ indent 4)))))))
-  
-  (extract nested-list-test 0)
-  
-
-  nested-area
-  )

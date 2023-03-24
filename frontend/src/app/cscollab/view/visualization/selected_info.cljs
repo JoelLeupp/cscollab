@@ -1,8 +1,8 @@
-(ns app.cscollab.selected-info
+(ns app.cscollab.view.visualization.selected-info
   (:require [reagent.core :as reagent :refer [atom]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
-            [app.cscollab.filter-panel :as filter-panel]
+            [app.cscollab.panels.filter-panel :as filter-panel]
             [app.components.colors :refer [colors area-color sub-area-color]]
             [app.components.lists :refer [collapse]]
             [cljs-bean.core :refer [bean ->clj ->js]]
@@ -240,9 +240,8 @@
 (defn author-info [node-data]
   [publication-plot {:node-data node-data}])
 
-(defn collab-info [edge-data insti?] 
-  [publication-plot {:node-data edge-data}]
-  )
+(defn collab-info [edge-data insti?]
+  [publication-plot {:node-data edge-data}])
 
 (defn info-content [data node?]
   (let [insti? (subscribe [::data/insti?])]
@@ -250,36 +249,6 @@
       [node-info data @insti?]
       [collab-info data @insti?])))
 
-(comment
-  (def node-data @(subscribe [::db/data-field :get-publications-node-map]))
-  
-  (def node-data @(subscribe [::db/data-field :get-publications-node-map]))
-  (first node-data)
-  (def mapping nil)
-  (let [region-mapping @(subscribe [::db/data-field :get-region-mapping])]
-    (zipmap (map :country-id region-mapping) (map :country-name region-mapping)))
-  (frequency-counter node-data :collab_country)
-  (def self-collab (filter #(= "ETH Zurich" (:collab_inst %)) node-data))
-  (map #(hash-map :pid (:collab_pid %) :collab_pid (:pid %)) self-collab)
-
-  (def edge-data @(subscribe [::db/data-field :get-publications-edge-map]))
-
-  (def selected @(subscribe [::g/graph-field :selected]))
-  (count (set (map :rec_id node-data)))
-  (reverse
-   (sort-by
-    :count
-    (map
-     (fn [[grp-key values]]
-       {:author grp-key
-        :count (count (set (map :rec_id values)))})
-     (group-by :collab_pid node-data))))
-  (frequency-counter node-data :collab_inst)
-  (frequency-counter node-data :rec_sub_area)
-  (frequency-counter node-data :collab_pid)
-  (frequency-counter node-data :collab_country)
-  (reverse (sort-by :key (frequency-counter node-data :year)))
-  )
 
 (defn selected-info-graph []
   (let [selected (subscribe [::g/graph-field :selected])
@@ -351,15 +320,3 @@
          [loading-content id
           [info-content data node?]]]))))
 
-(comment
-  (def config {"from_year" 2015
-               "region_ids" ["dach"]
-               "strict_boundary" true,
-               "institution" true})
-  
-  
-  (dispatch [::api/get-publications-node :graph "EPFL" config])
-  (dispatch [::api/get-publications-edge :graph (clojure.string/split "Graz University of Technology_EPFL" #"_") config])
-  (count @(subscribe [::db/data-field :get-publications-node-graph]))
-  @(subscribe [::db/data-field :get-publications-edge-graph]) 
-  )

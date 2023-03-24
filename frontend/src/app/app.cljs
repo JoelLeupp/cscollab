@@ -1,4 +1,4 @@
-(ns app.views
+(ns app.app
   (:require
    [app.router :as router]
    ["@mui/material/styles" :refer (createTheme ThemeProvider)]
