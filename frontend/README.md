@@ -79,12 +79,12 @@ python3 -m http.server 8080
 
 ### Filters, Configuration and Interactions
 
-On top of the page there is a panel where one can filter configure and interact with the collaboration network.
+On top of the page there is a panel where one can filter, configer and interact with the collaboration network.
 
 ![config](public/img/readme/config.PNG)
 
 The graph filter panel allows to filter the collaboration network based on:
-* the publication year span (2005-2022)
+* the publication year (2005-2022)
 * research area/sub area of the publication
 * region/country of the authors or affiliated institutions
 * An option to set a strict country/region restriction where only collaborations within the selected regions are considered
@@ -105,7 +105,7 @@ In the graph configuaration and interaction panel the following options are avai
 Geographical visualisation of the selected collaboration network in form of an interactive map implemented with leaflet.js
 One can zoom and pan the map and fully explore the network (also full screen option available). If you click on an edge or node (institution or author icon depending on the chosen network) all nodes or edges connected to that node/edge will be highlighted in green and an information box on the right will open which shows information of the node and multiple tabs with different visualizations of network data of that node/edge.
 
-![map interaction](public/img/readme/map_interaction.map.PNG)
+![map interaction](public/img/readme/map_interaction.PNG)
 
 Available visulaizations of nodes are:
 
@@ -122,14 +122,57 @@ The collaboration network is visualized as a graph and implemented with cytoscap
  
 The determin the position of the nodes a graph convolutional network model (GCN) was used that was trained based on a node classification task. The task was to classify nodes (institutions or authors) by the research area or sub area where they had to most publicaitons in. This results in 4 models: 2 for the author collaboration network where one predicts nodes on the top research area and the other on the top sub area and 2 models for the institutional network where one predicts nodes on the top research area and the other on the top sub area. The position of the nodes can be determined by using the last hidden convolutional output layer and apply a dimensionality reduction algorithm on it project the results on a 2 dimensioanl space. This allows us the position the nodes based on the results of the GCN model and have the nodes grouped by their top research area/sub area.
 
-![graph](public/img/readme/graph.map.PNG)
+![graph](public/img/readme/graph.PNG)
 
-![graph](public/img/readme/graph_area.map.PNG)
+![graph_area](public/img/readme/graph_area.PNG)
 
 
 #### Analytics
 
+Here there are several views availbe to get analytics, statistics and visualitations of the data of the selected collaboration network.
 
+##### Statistics
+
+Here following statistics of the selected coollaboration network are shown:
+
+![statistics](public/img/readme/statistics.PNG)
+
+##### Centralities
+
+The top degree and eigenvector centralities of the selected network is shown
+
+![centrality](public/img/readme/centrality.PNG)
+
+##### Overview
+
+Here one can select a view each view is shown as a horizonal bar chart. For the following views an additonal selection can be made were one can filter the data based on the research area/sub area:
+
+* number of publications by institutions
+* number of publications by authors
+* number of publications by countries
+* number of authors by institutions
+* number of authors by countries
+
+![overview](public/img/readme/overview.PNG)
+
+and two views were no research area can be selected:
+* number of publications by area
+* number of publications by sub area
+
+![sub area](public/img/readme/by_subarea.PNG)
+
+##### Timeline
+
+Here the temporal dimension of the publications present in the network is shown in 3 view:
+
+* total publications over time
+* publications by area over time
+* publications by sub area over time
+
+![timeline](public/img/readme/timeline.PNG)
+
+##### Institution
+##### Author
 
 ## Conference Page
 
