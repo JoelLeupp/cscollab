@@ -25,7 +25,7 @@ The application is built with the [ClojureScript](https://clojurescript.org/inde
 The release version of the frontend can be started by simply creating a python http server in the output direcotry:
 
 ```bash
-python3 -m http.server 8080
+python3 -m http.server 8090
 ```
 
 ## File Ovierview
@@ -38,7 +38,19 @@ python3 -m http.server 8080
 │   |   ├── plotly.cljs     # chart component
 │   |   ├── user_input.cljs # general input panel 
 │   ├── components
-│   |   ├── **/*.cljs     # cljs wrappers for material ui components
+│   |   ├── app_bar.cljs    # application navigation bar
+│   |   ├── color.cljs      # color palletes to use for the app
+│   |   ├── alert.cljs      # material ui alert 
+│   |   ├── button.cljs     # material ui buttons 
+│   |   ├── drawer.cljs     # drawer/menu component
+│   |   ├── feedback.cljs   # material ui feedback 
+│   |   ├── grid.cljs       # material ui grid
+│   |   ├── inputs.cljs     # input components
+│   |   ├── layout.cljs     # app layout components
+│   |   ├── lists.cljs      # list components
+│   |   ├── loading.cljs    # loading component
+│   |   ├── table.cljs      # material ui table
+│   |   ├── tabs.cljs       # material ui tabs
 │   ├── cscollab
 │   |   ├── panels  
 │   |   |   ├── filter_panel.cljs   # graph filters 
