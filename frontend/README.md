@@ -32,18 +32,36 @@ python3 -m http.server 8080
 ```
 ├── src/app
 │   ├── common
-│   |   ├── **/*.cljs     # reagent components and events
+│   |   ├── container.cljs  # graphical container
+│   |   ├── graph.cljs      # graph visualization component
+│   |   ├── leaflet.cljs    # interactive map component
+│   |   ├── plotly.cljs     # chart component
+│   |   ├── user_input.cljs # general input panel 
 │   ├── components
 │   |   ├── **/*.cljs     # cljs wrappers for material ui components
 │   ├── cscollab
-│   |   ├── data.cljs     # backend data manipulation 
+│   |   ├── panels  
+│   |   |   ├── filter_panel.cljs   # graph filters 
+│   |   |   ├── map_panel.cljs      # graph configuration and interactions 
+│   |   ├── view  
+│   |   |   ├── selected_info.cljs  # overview of selected graph element 
+│   |   |   ├── conference
+│   |   |   |   ├──  conference.cljs    # conference list
+│   |   |   ├── graph
+│   |   |   |   ├──  graph_view.cljs    # network visualization
+│   |   |   ├── map
+│   |   |   |   ├──  interactive_map.cljs   # geographical visualization
+│   |   ├── data.cljs     # data manipulation 
+│   |   ├── common.cljs     # common events or subscriptions
+│   |   ├── transformer.cljs     # data transformations
+│   |   ├── api.cljs     # api calls and subscriptions
 │   |   ├── nav.cljs      # app navigation
 │   |   ├── views.cljs    # all app views
 │   ├── core.cljs         # init application and events
 │   ├── db.cljs           # define application database and its events
 │   ├── router.cljs       # define router and its events
 │   ├── util.cljs         # general utility functions
-│   ├── views.cljs        # define the main app view and routes
+│   ├── app.cljs        # define the main app view and routes
 ├── public
 │   ├── css
 │   ├── data              # static data files
@@ -57,3 +75,62 @@ python3 -m http.server 8080
 └── .gitignore
 ```
 
+## Visualization Page 
+
+### Filters, Configuration and Interactions
+
+On top of the page there is a panel where one can filter configure and interact with the collaboration network.
+
+![config](public/img/readme.config.PNG)
+
+The graph filter panel allows to filter the collaboration network based on:
+* the publication year span (2005-2022)
+* research area/sub area of the publication
+* region/country of the authors or affiliated institutions
+* An option to set a strict country/region restriction where only collaborations within the selected regions are considered
+
+In the graph configuaration and interaction panel the following options are available:
+
+* chose if one is interested in the author collaboration or the collaboration between institutions
+* one can select a node and click "show" which will highlight the node and zoom to the node position in the current visualization
+* one can choose to color the nodes in the current graph visualization where one has the following options: no coloring, color by top area, color by top sub area, color by degree centrality or color by eigenvector centrality
+
+
+### Views
+
+#### Map
+
+![map](public/img/readme.map.PNG)
+
+Geographical visualisation of the selected collaboration network in form of an interactive map implemented with leaflet.js
+One can zoom and pan the map and fully explore the network (also full screen option available). If you click on an edge or node (institution or author icon depending on the chosen network) all nodes or edges connected to that node/edge will be highlighted in green and an information box on the right will open which shows information of the node and multiple tabs with different visualizations of network data of that node/edge.
+
+![map interaction](public/img/map_interaction.map.PNG)
+
+Available visulaizations of nodes are:
+
+* publication plot: show in how many publications of each research area that node collaborated in
+* auhtor list (only if the node is an institution): a list of all authors affiliated with that institution ranked by their publication count
+* institution plot: shows with which institutions that node had collaborated and how my publications per institution
+* country plot: shows with which countries that node had collaborated and how my publications per countries
+* year plot: shows in how many publicaitons that node collaborated in each year
+* author collaboration plot: shows with which authors that node had collaborated and how my publications per authors
+
+#### Graph
+
+The collaboration network is visualized as a graph and implemented with cytoscape.js. The interactions are the same as with the map component. The graph can be viewed in full screen and one can zoom and pan the graph and click on edges/nodes and get exactly the same information box and charts on the right as in the geographical mal. 
+ 
+The determin the position of the nodes a graph convolutional network model (GCN) was used that was trained based on a node classification task. The task was to classify nodes (institutions or authors) by the research area or sub area where they had to most publicaitons in. This results in 4 models: 2 for the author collaboration network where one predicts nodes on the top research area and the other on the top sub area and 2 models for the institutional network where one predicts nodes on the top research area and the other on the top sub area. The position of the nodes can be determined by using the last hidden convolutional output layer and apply a dimensionality reduction algorithm on it project the results on a 2 dimensioanl space. This allows us the position the nodes based on the results of the GCN model and have the nodes grouped by their top research area/sub area.
+
+![graph](public/img/graph.map.PNG)
+
+![graph](public/img/graph_area.map.PNG)
+
+
+#### Analytics
+
+
+
+## Conference Page
+
+This page contains a list of all conferences that were included in the collaboration network and represent the most influencial conferences of each research area.

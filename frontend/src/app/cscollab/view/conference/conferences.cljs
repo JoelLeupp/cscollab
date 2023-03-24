@@ -61,7 +61,7 @@
   (let [list-content (subscribe [::list-content])]
     (fn []
       [:<>
-       [filter-panel-conferences]
+       #_[filter-panel-conferences]
        [paper {:elevation 1 :sx {:padding 5 :background-color :white}}
         [nested-list
          {:id :conference-list
