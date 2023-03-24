@@ -172,7 +172,29 @@ Here the temporal dimension of the publications present in the network is shown 
 ![timeline](public/img/readme/timeline.PNG)
 
 ##### Institution
+
+Here an institution can be selected and a view, where the views are exatly the same as the views in the infobox if and institutional node is selected in the map/graph:
+
+* publication plot: show in how many publications of each research area that node collaborated in
+* auhtor list: a list of all authors affiliated with that institution ranked by their publication count
+* institution plot: shows with which institutions that node had collaborated and how my publications per institution
+* country plot: shows with which countries that node had collaborated and how my publications per countries
+* year plot: shows in how many publicaitons that node collaborated in each year
+* author collaboration plot: shows with which authors that node had collaborated and how my publications per authors
+
+![institution](public/img/readme/institution.PNG)
+
 ##### Author
+
+Here an author can be selected and a view, where the views are exatly the same as the views in the infobox if and author node is selected in the map/graph:
+
+* publication plot: show in how many publications of each research area that node collaborated in
+* institution plot: shows with which institutions that node had collaborated and how my publications per institution
+* country plot: shows with which countries that node had collaborated and how my publications per countries
+* year plot: shows in how many publicaitons that node collaborated in each year
+* author collaboration plot: shows with which authors that node had collaborated and how my publications per authors
+
+![author](public/img/readme/author.PNG)
 
 ## Conference Page
 
