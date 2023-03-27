@@ -35,7 +35,8 @@
       :select-perspective :publications
       :select-timeline-perspective :total-publications
       :select-overview-perspective :institutions
-      :area-selection :all}})))
+      :area-selection :all
+      :country-selection :ch}})))
 
 (reg-sub
  ::loading? 

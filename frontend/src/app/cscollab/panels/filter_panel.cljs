@@ -167,6 +167,22 @@
        {:xs 5 :content [area-filter :area-checkbox false]}
        {:xs 5 :content [region-filter]}]}]}])
 
+(defn filter-panel-author []
+  [input-panel
+   {:id :filter-panel-author
+    :start-closed true
+    :header "Graph Filters"
+    :collapsable? true
+    :content
+    [grid/grid
+     {:grid-args {:justify-content :space-evenly}
+      :item-args {:elevation 0}
+      :content
+      [{:xs 5 :content [year-filter]}
+       {:xs 5 :content [stric-boundary-filter]}
+       {:xs 5 :content [area-filter :area-checkbox false]}
+       {:xs 5 :content [region-filter]}]}]}])
+
 (defn filter-panel-conferences []
   [input-panel
    {:id :filter-panel-conferences

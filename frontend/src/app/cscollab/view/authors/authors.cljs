@@ -8,14 +8,19 @@
    [app.components.button :as button]
    [reagent-mui.material.paper :refer [paper]]
    [clojure.walk :refer [postwalk]]
+   [app.cscollab.common :as common]
+   [app.cscollab.api :as api] 
    [app.util :as util]
    ["@mui/material/MenuItem" :default mui-menu-item]
+   ["@mui/material/ListItem" :default mui-list-item]
    ["@mui/material/ListSubheader" :default mui-list-subheader]
    ["@mui/material/ListItemText" :default mui-list-item-text]
    [app.cscollab.panels.filter-panel :as filter-panel]
+   [app.components.stack :refer (horizontal-stack)]
    [app.cscollab.panels.filter-panel :refer (filter-panel-conferences)]
    [reagent-mui.material.paper :refer [paper]]
    [app.components.lists :refer (nested-list)]
+   [app.components.feedback :as feedback]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [reagent.core :as r]))
@@ -26,11 +31,12 @@
   (str "https://dblp.org/pid/" pid ".html"))
 
 (defn country-selection []
-  (let [region-mapping (subscribe [::db/data-field :get-region-mapping])]
+  (let [region-mapping (subscribe [::db/data-field :get-region-mapping])
+        selected-countries @(subscribe [::filter-panel/selected-countries])
+        selected-regions @(subscribe [::filter-panel/selected-regions])]
     (fn []
       (when  @region-mapping
-        (let [selected-countries @(subscribe [::filter-panel/selected-countries])
-              selected-regions @(subscribe [::filter-panel/selected-regions])
+        (let [
               selected-region-mapping (filter #(or (contains? selected-countries (util/s->id (:country-id %)))
                                                    (contains? selected-regions (util/s->id (:region-id %)))) @region-mapping)
               nested-regions
@@ -152,7 +158,14 @@
              {:children
               (for [author (:authors inst)]
                 {:id (:id author)
-                 :label (:label author)})})))] 
+                 :costum-label
+                 [horizontal-stack
+                  {:stack-args {:spacing 2}
+                   :items [[:a {:href (dblp-author-page (:id author))}
+                            [:img {:src "img/dblp.png" :target "_blank"
+                                   :width 10 :height 10 :padding 10}]]
+                           [:> mui-list-item-text {:primary (:label author)}]
+                           ]}]})})))] 
         (concat [{:id :institutions
                   :costum-label
                   [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
@@ -162,16 +175,35 @@
                                             :primary-typography-props {:text-align :right :font-size 18}}]]}] 
                 list-items)))))
 
-
+(defn update-data []
+  (let [config @(subscribe [::common/filter-config])]
+    (dispatch [::api/get-filtered-collab config])))
 
 (defn author-view []
-  (let [country-id (subscribe [::db/user-input-field :country-selection])]
-    (fn []
-      [:<>
-       [filter-panel/filter-panel] 
-       [paper {:elevation 1 :sx {:padding 5 :background-color :white :min-height "60vh"}}
+  (let [country-id (subscribe [::db/user-input-field :country-selection])
+        loading? (subscribe [::db/loading? :get-filtered-collab])
+        reset (atom 0)]
+    (add-watch loading? ::data-loading
+               (fn [_ _ _ data-loading?] 
+                 (if data-loading?
+                   (dispatch [::feedback/open :data-loading])
+                   (dispatch [::feedback/close :data-loading]))))
+    (update-data) 
+    (fn [] 
+      [:div
+       [feedback/feedback {:id :data-loading
+                           :anchor-origin {:vertical :top :horizontal :center}
+                           :status :info
+                           :auto-hide-duration nil
+                           :message "Data is loading, please wait."}]
+       [filter-panel/filter-panel-author] 
+       [paper {:elevation 1 :sx {:padding 4 :background-color :white :min-height "60vh"}}
+        ^{:key [@loading? @reset]}
         [:div
-         [country-selection]
+         [:div {:style {:display :flex :justify-content :space-between :background-color :white}}
+          [country-selection]
+          [button/update-button
+           {:on-click #(do (swap! reset inc) (update-data))}]] 
          [:div {:style {:display :flex :justify-content :left :margin-top 20}}
           ^{:key @country-id}
           [nested-list
