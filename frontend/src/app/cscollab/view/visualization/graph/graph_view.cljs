@@ -8,7 +8,7 @@
             [cljs-bean.core :refer [bean ->clj ->js]]
             [app.db :as db]
             [app.components.feedback :as feedback]
-            [app.common.graph :as g]
+            [app.cscollab.view.visualization.graph.graph :as g]
             [app.cscollab.panels.map-panel :as mp]
             [app.components.button :as button]
             [reagent-mui.material.paper :refer [paper]] 

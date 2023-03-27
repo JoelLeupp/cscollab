@@ -10,7 +10,7 @@
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [app.components.lists :as lists]
-   [app.common.graph :as g]
+   [app.cscollab.view.visualization.graph.graph :as g]
    [app.components.inputs :as i]))
 
 

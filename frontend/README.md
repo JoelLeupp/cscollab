@@ -33,8 +33,6 @@ python3 -m http.server 8090
 ├── src/app
 │   ├── common
 │   |   ├── container.cljs  # graphical container
-│   |   ├── graph.cljs      # graph visualization component
-│   |   ├── leaflet.cljs    # interactive map component
 │   |   ├── plotly.cljs     # chart component
 │   |   ├── user_input.cljs # general input panel 
 │   ├── components
@@ -61,8 +59,10 @@ python3 -m http.server 8090
 │   |   |   |   ├──  conference.cljs    # conference list
 │   |   |   ├── graph
 │   |   |   |   ├──  graph_view.cljs    # network visualization
+│   |   |   |   ├──  graph.cljs         # graph visualization component
 │   |   |   ├── map
 │   |   |   |   ├──  interactive_map.cljs   # geographical visualization
+│   |   |   |   ├──  leaflet.cljs           # interactive map component
 │   |   ├── data.cljs     # data manipulation 
 │   |   ├── common.cljs     # common events or subscriptions
 │   |   ├── transformer.cljs     # data transformations

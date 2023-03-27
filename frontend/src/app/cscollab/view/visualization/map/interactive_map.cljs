@@ -1,6 +1,6 @@
 (ns app.cscollab.view.visualization.map.interactive-map
   (:require [reagent.core :as reagent :refer [atom]]
-            [app.common.leaflet :as ll :refer [leaflet-map]]
+            [app.cscollab.view.visualization.map.leaflet :as ll :refer [leaflet-map]]
             [app.cscollab.transformer :as tf]
             [app.cscollab.data :as data]
             [app.components.colors :refer [colors]] 

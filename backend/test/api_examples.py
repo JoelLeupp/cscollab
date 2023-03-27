@@ -271,8 +271,8 @@ print(res)
 
 
 url = url_base+"/api/gcn/get_node_position"
-config = { "from_year": 2005,
-            "region_ids":["wd"],
+config = { "from_year": 2015,
+            "region_ids":["europe"],
             "strict_boundary":False,
             "institution":False}
 use_sub_areas = True
@@ -280,11 +280,11 @@ input = {"config": json.dumps(config),
          "sub_areas":use_sub_areas}
 x = requests.post(url, json = input)
 res = json.loads(x.content)
-print(res)
+len(res)
 
 url = url_base+"/api/gcn/get_node_position_test"
 config = { "from_year": 2005,
-            "region_ids":["wd"],
+            "region_ids":["dach"],
             "strict_boundary":False,
             "institution":False}
 use_sub_areas = True
