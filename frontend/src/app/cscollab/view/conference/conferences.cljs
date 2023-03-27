@@ -63,8 +63,9 @@
       [:<>
        #_[filter-panel-conferences]
        [paper {:elevation 1 :sx {:padding 5 :background-color :white}}
-        [nested-list
-         {:id :conference-list
-          :list-args {:dense false :sx {#_#_:background-color :white :max-width nil :width "100%"}}
-          :content @list-content}]]])))
+        [:div 
+         [nested-list
+          {:id :conference-list
+           :list-args {:dense false :sx {#_#_:background-color :white :max-width nil :width "100%"}}
+           :content @list-content}]]]])))
 

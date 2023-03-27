@@ -16,11 +16,20 @@
 
 (defn routes []
   [["/"
-    {:name ::home
+    {:name :home
      :view views/main-view}]
-   ["/conferences"
-    {:name ::conferences
-     :view views/conferences}]])
+   ["/conference-explorer"
+    {:name :conference-explorer
+     :view views/conference-explorer}]
+   ["/publication-explorer"
+    {:name :publication-explorer
+     :view views/publication-explorer}]
+   ["/author-explorer"
+    {:name :author-explorer
+     :view views/author-explorer}]
+   ["/guide"
+    {:name :guide
+     :view views/guide}]])
 
 
 (defn app []

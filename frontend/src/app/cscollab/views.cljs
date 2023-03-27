@@ -48,11 +48,37 @@
            [interactive-map/interactive-map])]]])))
 
 
-(defn conferences [] 
+(defn conference-explorer [] 
   (fn []
     [:<>
      [acl/section
-      [acl/title-white "Computer Science Conferences"] 
+      [acl/title-white "Conference List"] 
       [acl/content 
        [conferences-view]]]]))
+
+(defn publication-explorer []
+  (fn []
+    [:<>
+     [acl/section
+      [acl/title-white "Publication Explorer"]
+      [acl/content
+       [:h1 "publication"]]]]))
+
+(defn author-explorer []
+  (fn []
+    [:<>
+     [acl/section
+      [acl/title-white "Author Explorer"]
+      [acl/content
+       [:h1 "Author"]]]]))
+
+(defn guide []
+  (fn []
+    [:<>
+     [acl/section
+      [acl/title-white "Application Guide"]
+      [acl/content
+       [:h1 "guide"]]]]))
+
+
 
