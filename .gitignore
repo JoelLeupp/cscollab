@@ -17,6 +17,7 @@ data_generation/output/graph/edges_crossref.csv
 backend/kuzudb/data/edges_collabs.csv
 backend/kuzudb/data/nodes_inproceedings.csv
 backend/kuzudb/data/graph/edges_crossref.csv
+backend/kuzudb/data/rec_title.json
 # data_generation/output/graph/*
 
 
