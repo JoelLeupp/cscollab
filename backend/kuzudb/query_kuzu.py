@@ -374,6 +374,34 @@ def filter_collab(collab, config = {}):
 #             "institution":False}
 # collab_filtered = filter_collab(collab,config)
 
+# ids = list(set(collab_filtered["rec_id"]))
+# title_list = []
+# for id in ids[len(title_list):]:
+#     result = conn.execute('''MATCH
+#                             (i:Inproceeding)-[co:Crossref]->(p:Proceeding)-[b:BelongsToConf]->(conf:Conference)
+#                             WHERE i.id = "{}"
+#                             RETURN i.id, i.title, i.year, p.id, p.title, conf.id, conf.title
+#                             '''.format(id)).getAsDF() 
+#     result.columns = ["rec_id", "rec_title", "year", "p_id", "p_title","conf_id","conf_title"]
+#     result["rec_title"] = result["rec_title"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+#     result["p_title"] = result["p_title"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+#     result["conf_title"] = result["conf_title"].str.encode(encoding = 'utf-8').str.decode(encoding = 'utf-8')
+#     result_json = result.to_json(orient="records")
+#     title_list.append(json.loads(result_json)[0])
+    
+#     if (len(title_list) % 1000) == 0:
+#         with open('kuzudb/data/rec_title.json', 'w') as f:
+#             json.dump(json.dumps(title_list,ensure_ascii=False), f)
+    
+    
+# with open('kuzudb/data/rec_title_new.json', 'w') as f:
+#     json.dump(title_list, f,indent=3,ensure_ascii=False)
+    
+# with open('kuzudb/data/rec_title.json', 'r') as f:
+#     l = json.load(f)
+#     df = pd.DataFrame.from_records(json.loads(l))
+
+
 def get_freq_orig(rec, area):
     unique_rec = rec.drop_duplicates()
     a = unique_rec[area]
