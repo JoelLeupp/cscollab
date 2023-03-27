@@ -64,7 +64,6 @@
    (when m m)))
 
 
-
 (reg-sub
  ::nested-area
  :<- [::area-mapping]
@@ -122,11 +121,18 @@
           :label
           (-> % first second)}
          {:countries
-          (mapv
-           (fn [[k _]]
-             (hash-map :id (util/s->id (first k)) :label (second k)))
-           (group-by (juxt :country-id :country-name) (second %)))}])
+          (sort-by
+           :label
+           (mapv
+            (fn [[k _]]
+              (hash-map :id (util/s->id (first k)) :label (second k)))
+            (group-by (juxt :country-id :country-name) (second %))))}])
       (group-by (juxt :region-id :region-name) region-mapping)))))
+
+(comment 
+  @(subscribe [::nested-region])
+  (count @(subscribe [::csauthors])) 
+         )
 
 
 

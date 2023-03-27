@@ -51,7 +51,7 @@
    (rfe/start! (router routes) on-navigate opts)))
 
 (comment
-  @(subscribe [::current-route]) 
+  (:name @(subscribe [::current-route])) 
   )
 
 

@@ -2,7 +2,7 @@
   (:require
    [app.components.layout :as acl] 
    [app.common.user-input :refer (input-panel)]
-   [re-frame.core :refer (dispatch subscribe)]
+   [re-frame.core :refer (dispatch subscribe)] 
    #_["react-lorem-ipsum" :refer (loremIpsum)]
    #_[app.components.lists :as lists]
    [app.db :as db]
@@ -10,6 +10,7 @@
    [reagent.core :as r] 
    [app.cscollab.view.visualization.map.interactive-map :as interactive-map]
    [app.cscollab.view.conference.conferences :refer (conferences-view)]
+   [app.cscollab.view.authors.authors :refer (author-view)]
    [app.cscollab.panels.map-panel :refer (map-config-panel)]
    [app.components.tabs :as tabs]  
    [app.cscollab.view.visualization.graph.graph-view :refer (graph-view)]
@@ -70,7 +71,7 @@
      [acl/section
       [acl/title-white "Author Explorer"]
       [acl/content
-       [:h1 "Author"]]]]))
+       [author-view]]]]))
 
 (defn guide []
   (fn []

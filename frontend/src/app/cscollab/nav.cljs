@@ -36,11 +36,11 @@
             :content
             [{:label "Visualization" :icon ic-home :selected (= :home view)
               :on-click #(dispatch [::router/navigate :home])}
+             {:label "Authors" :icon ic-person :selected (= :author-explorer view)
+              :on-click #(dispatch [::router/navigate :author-explorer])}
              {:label "Conferences" :icon ic-view-list :selected (= :conference-explorer view)
               :on-click #(dispatch [::router/navigate :conference-explorer])} 
              {:label "Publications" :icon ic-article :selected (= :publication-explorer view)
-              :on-click #(dispatch [::router/navigate :publication-explorer])}
-             {:label "Authors" :icon ic-person :selected (= :author-explorer view)
-              :on-click #(dispatch [::router/navigate :author-explorer])}
+              :on-click #(dispatch [::router/navigate :publication-explorer])} 
              {:label "Guide" :icon ic-help :selected (= :guide view)
               :on-click #(dispatch [::router/navigate :guide])}]}]}]))))

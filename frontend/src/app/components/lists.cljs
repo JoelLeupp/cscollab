@@ -50,8 +50,8 @@
            (if @(subscribe [::db/ui-states-field (vec (concat parent-ids [(:id c)] [:open?]))])
              [:> ic-expand-less]
              [:> ic-expand-more])]))}
-      [:>  mui-list-item-text {:primary (:label c)
-                               :primary-typography-props (:style c)}]]
+      (or (:costum-label c) [:>  mui-list-item-text {:primary (:label c)
+                                   :primary-typography-props (:style c)}])]
      (when (:children c)
        [:> mui-collapse
         {:in @(subscribe [::db/ui-states-field  (vec (concat parent-ids [(:id c)] [:open?]))])
