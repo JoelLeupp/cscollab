@@ -10,9 +10,12 @@
    [app.cscollab.panels.filter-panel :refer (filter-panel-conferences)]
    [reagent-mui.material.paper :refer [paper]]
    [app.components.lists :refer (nested-list)]
+   [app.components.stack :refer (horizontal-stack)]
+   ["@mui/material/ListItemText" :default mui-list-item-text]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [reagent.core :as r]))
+
 
 ;; define conference page
 
@@ -51,21 +54,33 @@
                   {:children
                    (for [conf (:conferences sub-area)]
                      {:id (util/s->id (:id conf))
-                      :label (r/as-element 
-                              [:a {:href (dblp-conf-link (:id conf))
-                                   :style {:text-decoration "none"}} 
-                                            (:label conf)])})})))})))]
-       list-items))))
+                      :costum-label
+                      [horizontal-stack
+                       {:stack-args {:spacing 2}
+                        :items [[:a {:href (dblp-conf-link (:id conf))}
+                                 [:img {:src "img/dblp.png" :target "_blank"
+                                        :width 10 :height 10 :padding 10}]]
+                                [:> mui-list-item-text {:primary (:label conf)}]]}]
+                      #_#_:label (r/as-element
+                                  [:a {:href (dblp-conf-link (:id conf))
+                                       :style {:text-decoration "none"}}
+                                   (:label conf)])})})))})))]
+       (concat [{:id "conference-list" :label  "List of Included Conferences"}] list-items)))))
 
 (defn conferences-view []
   (let [list-content (subscribe [::list-content])]
     (fn []
       [:<>
        #_[filter-panel-conferences]
-       [paper {:elevation 1 :sx {:padding 5 :background-color :white}}
+       [:div {:id "test"} [:a {:name "test"}]]
+       [paper {:elevation 1 :sx {:padding 2 :background-color :white}}
         [:div 
          [nested-list
           {:id :conference-list
            :list-args {:dense false :sx {#_#_:background-color :white :max-width nil :width "100%"}}
            :content @list-content}]]]])))
 
+(comment 
+  (def area-mapping @(subscribe [::db/data-field :get-area-mapping]))
+  ;; document.getElementById ('asru') .scrollIntoView (true)
+  (first area-mapping))
