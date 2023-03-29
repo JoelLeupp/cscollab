@@ -174,6 +174,15 @@ x = requests.post(url, json = input)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
 
+"""get record title and the titles and ids of its proceeding and conference"""
+ids = ['conf/eccv/ZhangLQZSXSS18', 'conf/ijcai/ZhangLNZXL18', 'conf/aistats/LetarteMG19', 'conf/iccv/ChenLF05', 'conf/emnlp/ZhaoXBD21', 'conf/icse/KoM08', 
+       'conf/aistats/ArdywibowoZWMHQ19', 'conf/icse/XieTKM07', 'conf/mobicom/CetinkayaRJAZBPNPGS12', 'conf/sigcomm/KoganNCER13']
+url = url_base+"/api/db/get_rec_info"
+input = {"rec_ids": ids}
+x = requests.post(url, json = input)
+res = pd.DataFrame(json.loads(x.content))
+print(res)
+
 """ get weighted collaboration of institutions"""
 url = "http://127.0.0.1:8030/api/db/get_weighted_collab"
 config={ "from_year": 2005,

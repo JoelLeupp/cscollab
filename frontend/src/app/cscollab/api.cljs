@@ -219,6 +219,21 @@
        :on-success      [::success-get-data id-new]
        :on-failure      [::error id-new]}})))
 
+(reg-event-fx
+ ::get-publication-info
+ (fn [{db :db} [_  ids]]
+   (let [id :get-publication-info]
+     (dispatch [::feedback/open id])
+     {:db (loading db id)
+      :http-xhrio
+      {:method          :post
+       :uri             (get-api-url "db" "get_rec_info")
+       :params          {"rec_ids" ids}
+       :format          (json-request-format)
+       :response-format (json-response-format {:keywords? true})
+       :on-success      [::success-get-data id]
+       :on-failure      [::error id]}})))
+
 (defn initial-api-call []
   (let [config @(subscribe [::common/filter-config])
         initial-config
@@ -235,5 +250,4 @@
     (dispatch [::get-csauthors])
     (dispatch [::get-area-mapping])
     (dispatch [::get-filtered-collab (or config initial-config)])))
-
 
