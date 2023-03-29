@@ -54,7 +54,7 @@
   (fn []
     [:<>
      [acl/section
-      [acl/title-white "Conference List"] 
+      [acl/title-white "Conference Explorer"] 
       [acl/content 
        [conferences-view]]]]))
 

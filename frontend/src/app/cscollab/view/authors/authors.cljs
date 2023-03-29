@@ -20,6 +20,7 @@
    [app.cscollab.panels.filter-panel :refer (filter-panel-conferences)]
    [reagent-mui.material.paper :refer [paper]]
    [app.components.lists :refer (nested-list)]
+   [app.components.colors :refer [colors area-color sub-area-color]]
    [app.components.feedback :as feedback]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
@@ -32,13 +33,12 @@
 
 (defn country-selection []
   (let [region-mapping (subscribe [::db/data-field :get-region-mapping])
-        selected-countries @(subscribe [::filter-panel/selected-countries])
-        selected-regions @(subscribe [::filter-panel/selected-regions])]
+        selected-countries (subscribe [::filter-panel/selected-countries])
+        selected-regions (subscribe [::filter-panel/selected-regions])]
     (fn []
       (when  @region-mapping
-        (let [
-              selected-region-mapping (filter #(or (contains? selected-countries (util/s->id (:country-id %)))
-                                                   (contains? selected-regions (util/s->id (:region-id %)))) @region-mapping)
+        (let [selected-region-mapping (filter #(or (contains? @selected-countries (util/s->id (:country-id %)))
+                                                   (contains? @selected-regions (util/s->id (:region-id %)))) @region-mapping)
               nested-regions
               (mapv
                #(into
@@ -142,7 +142,8 @@
 
 (defn nested-author-list []
   (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])
-        country-id (subscribe [::db/user-input-field :country-selection])] 
+        country-id (subscribe [::db/user-input-field :country-selection])
+        selected-author (subscribe [::db/user-input-field :show-author])] 
     (when (and @filtered-collab @country-id)
       (let
        [content (nested-authors (name @country-id))
@@ -164,23 +165,77 @@
                    :items [[:a {:href (dblp-author-page (:id author))}
                             [:img {:src "img/dblp.png" :target "_blank"
                                    :width 10 :height 10 :padding 10}]]
-                           [:> mui-list-item-text {:primary (:label author)}]
+                           [:> mui-list-item-text {:primary (:label author)
+                                                   :style (when (= (:id author) @selected-author)
+                                                            {:color (:second colors)})}]
                            ]}]})})))] 
         (concat [{:id :institutions
                   :costum-label
                   [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
                    [:>  mui-list-item-text {:primary "Institutions"
-                                            :primary-typography-props {:font-size 18}}]
+                                            :primary-typography-props {:font-size 17}}]
                    [:>  mui-list-item-text {:primary "Author Count"
-                                            :primary-typography-props {:text-align :right :font-size 18}}]]}] 
+                                            :primary-typography-props {:text-align :right :font-size 17}}]]}] 
                 list-items)))))
 
 (defn update-data []
   (let [config @(subscribe [::common/filter-config])]
     (dispatch [::api/get-filtered-collab config])))
 
+
+
+(defn show-author []
+  (let [selected-author (subscribe [::db/user-input-field :show-author])
+        filtered-collab (subscribe [::db/data-field :get-filtered-collab])
+        csauthors (subscribe [::db/data-field :get-csauthors])]
+    (fn []
+      (when (and @filtered-collab @csauthors)
+        (let [pid->inst (zipmap (map :pid @csauthors) (map :institution @csauthors))
+              pid->name (zipmap (map :pid @csauthors) (map :name @csauthors))
+              author->dict
+              (merge
+               (zipmap  (map :a_pid @filtered-collab)
+                        (map #(identity {:country (keyword (:a_country %))
+                                         :inst (get pid->inst (:a_pid %))
+                                         :name (get pid->name (:a_pid %))}) @filtered-collab))
+               (zipmap  (map :b_pid @filtered-collab)
+                        (map #(identity {:country (keyword (:b_country %))
+                                         :inst (get pid->inst (:b_pid %))
+                                         :name (get pid->name (:b_pid %))}) @filtered-collab))) 
+              options
+              (sort-by
+               :label
+               (vec (set
+                     (map (fn [[pid info]] 
+                            (identity {:value pid :label (:name info)}))
+                          author->dict))))
+              #_#_conf-map (util/factor-out-key @area-mapping :conference-id)
+              #_#_{:keys [area-id sub-area-id]} (get conf-map @selected-conf)]
+          [:div
+           #_[lists/sub-header {:subheader "show node in graph" :style {:text-align :left :padding 0}}]
+           [horizontal-stack
+            {:items
+             (list
+              [i/autocomplete
+               {:id :show-author
+                :keywordize-values false
+                :label "search for an author"
+                :style {:width "50vw" :max-width 400}
+                :options options}]
+              [button/button
+               {:text "show"
+                :on-click (when @selected-author
+                            #(let [ {:keys [inst country]} (get author->dict @selected-author)]
+                               (dispatch [::db/set-user-input :country-selection country])
+                               (dispatch [::db/set-ui-states :author-list
+                                          {(keyword inst) {:open? true}}]) 
+                               (js/setTimeout
+                                (fn [] (.scrollIntoView (.getElementById js/document @selected-author) true))
+                                1000)))}])}]])))))
+
 (defn author-view []
   (let [country-id (subscribe [::db/user-input-field :country-selection])
+        selected-author (subscribe [::db/user-input-field :show-author])
         loading? (subscribe [::db/loading? :get-filtered-collab])
         reset (atom 0)]
     (add-watch loading? ::data-loading
@@ -199,13 +254,15 @@
        [filter-panel/filter-panel-author] 
        [paper {:elevation 1 :sx {:padding 4 :background-color :white :min-height "60vh"}}
         ^{:key [@loading? @reset]}
-        [:div
+        [:div 
          [:div {:style {:display :flex :justify-content :space-between :background-color :white}}
-          [country-selection]
+          [:div {:style {:display :flex :justify-content :flex-start :background-color :white :gap 50}}
+           [country-selection]
+           [show-author]]
           [button/update-button
            {:on-click #(do (swap! reset inc) (update-data))}]] 
          [:div {:style {:display :flex :justify-content :left :margin-top 20}}
-          ^{:key @country-id}
+          ^{:key [@country-id @selected-author]}
           [nested-list
            {:id :author-list
             :list-args {:dense false :sx {#_#_:background-color :white :max-width 700 :width "100%"}}

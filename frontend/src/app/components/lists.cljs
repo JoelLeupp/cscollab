@@ -50,7 +50,7 @@
            (if @(subscribe [::db/ui-states-field (vec (concat parent-ids [(:id c)] [:open?]))])
              [:> ic-expand-less]
              [:> ic-expand-more])]))}
-      [:div {:id (:id c)}
+      [:div {:id (:id c) :style {:width "100%"}}
        (or (:costum-label c) [:> mui-list-item-text {:primary (:label c)
                                                      :primary-typography-props (:style c)}])]]
      (when (:children c)

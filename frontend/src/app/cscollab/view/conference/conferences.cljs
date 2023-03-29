@@ -31,10 +31,11 @@
  ::list-content
  :<- [::data/nested-area]
  :<- [::db/user-input-field :show-conference]
+ :<- [::db/data-field :get-area-mapping]
  (fn
-   [[nested-area selected-conf]]
+   [[nested-area selected-conf area-mapping]]
    "generates the checkbox content structure"
-   (when nested-area
+   (when (and nested-area area-mapping)
      (let
       [sorted-nested-area
        (sort-by
@@ -47,13 +48,23 @@
        (for [area sorted-nested-area]
          (merge
           {:id (util/s->id (:id area))
-           :label (:label area)}
+           #_#_:label (:label area)
+           :costum-label
+           [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
+            [:>  mui-list-item-text {:primary (:label area)}]
+            [:>  mui-list-item-text {:primary (count (filter #(= (:area-id %) (name (:id area))) area-mapping)) 
+                                     :primary-typography-props {:text-align :right}}]]}
           (when (:sub-areas area)
             {:children
              (for [sub-area (:sub-areas area)]
                (merge
                 {:id (util/s->id (:id sub-area))
-                 :label (:label sub-area)}
+                 :costum-label
+                 [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
+                  [:>  mui-list-item-text {:primary (:label sub-area)}]
+                  [:>  mui-list-item-text {:primary (count (filter #(= (:sub-area-id %) (name (:id sub-area))) area-mapping))
+                                           :primary-typography-props {:text-align :right}}]]
+                 #_#_:label (:label sub-area)}
                 (when (:conferences sub-area)
                   {:children
                    (for [conf (:conferences sub-area)]
@@ -71,7 +82,14 @@
                                   [:a {:href (dblp-conf-link (:id conf))
                                        :style {:text-decoration "none"}}
                                    (:label conf)])})})))})))]
-       (concat [{:id "conference-list" :label  "List of Included Conferences"}] list-items)))))
+       (concat [{:id "conference-list"
+                 :costum-label
+                 [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
+                  [:>  mui-list-item-text {:primary "List of Conferences by Area"
+                                           :primary-typography-props {:font-size 17}}]
+                  [:>  mui-list-item-text {:primary "Count"
+                                           :primary-typography-props {:text-align :right :font-size 17}}]]
+                 #_#_:label  "List of Included Conferences"}] list-items)))))
 
 (defn show-conference []
   (let [area-mapping (subscribe [::db/data-field :get-area-mapping])
@@ -95,7 +113,7 @@
                {:id :show-conference
                 :keywordize-values true
                 :label "search for a conference"
-                :style {:width "50vw"}
+                :style {:width "50vw" :max-width 900}
                 :options options}]
               [button/button
                {:text "show"
@@ -117,11 +135,12 @@
            [show-conference]
            [nested-list
             {:id :conference-list
-             :list-args {:dense false :sx {#_#_:background-color :white :max-width nil :width "100%"}}
+             :list-args {:dense false :sx {#_#_:background-color :white :max-width 1000 :width "100%"}}
              :content @list-content}]]]])))
 
 (comment 
   (def area-mapping @(subscribe [::db/data-field :get-area-mapping]))
+  (count (filter #(= (:area-id %) "systems") area-mapping))
   ;; document.getElementById ('asru') .scrollIntoView (true)
   (util/factor-out-key area-mapping :conference-id)
   @(subscribe [::db/user-input-field :show-conference])
