@@ -13,6 +13,7 @@
    [app.cscollab.view.authors.authors :refer (author-view)]
    [app.cscollab.panels.map-panel :refer (map-config-panel)]
    [app.components.tabs :as tabs]  
+   [app.cscollab.view.publications.publications :refer (publication-view)]
    [app.cscollab.view.visualization.graph.graph-view :refer (graph-view)]
    [app.cscollab.view.visualization.analytics.analytics :refer (analytics-view)]
    ))
@@ -63,7 +64,7 @@
      [acl/section
       [acl/title-white "Publication Explorer"]
       [acl/content
-       [:h1 "publication"]]]]))
+       [publication-view]]]]))
 
 (defn author-explorer []
   (fn []
