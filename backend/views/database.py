@@ -275,7 +275,7 @@ def get_publications_edge(**kwargs):
      responses=make_swagger_response([]))
 @use_kwargs({'rec_ids':fields.List(fields.Str())})
 def get_rec_info(**kwargs):
-    ids = kwargs.get('edge')
+    ids = kwargs.get('rec_ids')
     cache_key = "get_rec_info_{}".format(ids)
     result_json = cache.get(cache_key)
     if result_json is None:
