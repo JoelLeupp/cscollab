@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from flask_apispec import use_kwargs, doc, marshal_with
 from marshmallow import fields, Schema
 import json
+import pandas as pd
 from exceptions import make_swagger_response
 import kuzudb.query_kuzu as query
 from cache import cache
@@ -268,7 +269,24 @@ def get_publications_edge(**kwargs):
         cache.set(cache_key, result_json)
     return jsonify(result_json)
 
-
+@blueprint.route(route_path('get_rec_info'), methods=['POST'])
+@doc(summary="get record title and the titles and ids of its proceeding and conference",
+     tags=['db'],
+     responses=make_swagger_response([]))
+@use_kwargs({'rec_ids':fields.List(fields.Str())})
+def get_rec_info(**kwargs):
+    ids = kwargs.get('edge')
+    cache_key = "get_rec_info_{}".format(ids)
+    result_json = cache.get(cache_key)
+    if result_json is None:
+        with open('kuzudb/data/rec_title.json', 'r') as f:
+            l = json.load(f)
+            df = pd.DataFrame.from_records(l)   
+        id_exists = dict(zip(ids, len(ids)*[True]))
+        result = df[list(map(lambda x: id_exists.get(x,False) ,df["rec_id"]))]
+        result_json =  json.loads(result.to_json(orient="records"))
+        cache.set(cache_key, result_json)
+    return jsonify(result_json)
 
 # @blueprint.route(route_path('get_collab_pid'), methods=['POST'])
 # @doc(summary="get all the collaborations between two authors with the constraints given in the config",

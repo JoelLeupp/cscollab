@@ -396,10 +396,6 @@ def filter_collab(collab, config = {}):
     
 # with open('kuzudb/data/rec_title_new.json', 'w') as f:
 #     json.dump(title_list, f,indent=3,ensure_ascii=False)
-    
-# with open('kuzudb/data/rec_title.json', 'r') as f:
-#     l = json.load(f)
-#     df = pd.DataFrame.from_records(json.loads(l))
 
 
 def get_freq_orig(rec, area):
