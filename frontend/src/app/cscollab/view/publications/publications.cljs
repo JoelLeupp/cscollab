@@ -169,6 +169,44 @@
           :style {:width "50vw" :max-width 350}
           :options authors}]))))
 
+(defn select-collab-author-a []
+  (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])
+        csauthors (subscribe [::db/data-field :get-csauthors])]
+    (fn []
+      (let [pid->name (zipmap (map :pid @csauthors) (map :name @csauthors))
+            authors (sort-by
+                     :label
+                     (mapv #(identity {:value % :label (get pid->name %)})
+                           (vec (clojure.set/union (set (map :a_pid @filtered-collab))
+                                                   (set (map :b_pid @filtered-collab))))))]
+        [i/autocomplete
+         {:id :select-collab-author-a
+          :keywordize-values false
+          :label "select first author"
+          :style {:width "50vw" :max-width 350}
+          :options authors}]))))
+
+(defn select-collab-author-b []
+  (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])
+        csauthors (subscribe [::db/data-field :get-csauthors])
+        select-collab-author (subscribe [::db/user-input-field :select-collab-author-a])]
+    (fn []
+      (let [pid->name (zipmap (map :pid @csauthors) (map :name @csauthors))
+            authors (sort-by
+                     :label
+                     (mapv #(identity {:value % :label (get pid->name %)})
+                           (vec (clojure.set/union
+                                 (set (map :a_pid 
+                                           (filter (fn [x] (= (:b_pid x) @select-collab-author)) @filtered-collab)))
+                                 (set (map :b_pid 
+                                           (filter (fn [x] (= (:a_pid x) @select-collab-author)) @filtered-collab)))))))]
+        [i/autocomplete
+         {:id :select-collab-author-b
+          :keywordize-values false
+          :label "select second author"
+          :style {:width "50vw" :max-width 350}
+          :options authors}]))))
+
 (defn select-inst []
   (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])]
     (fn []
@@ -181,6 +219,41 @@
          {:id :publication-inst
           :keywordize-values false
           :label "select an Institution"
+          :style {:width "50vw" :max-width 350}
+          :options institution}]))))
+
+(defn select-collab-inst-a []
+  (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])]
+    (fn []
+      (let [institution (sort-by
+                         :label
+                         (mapv #(identity {:value % :label %})
+                               (vec (clojure.set/union (set (map :a_inst @filtered-collab))
+                                                       (set (map :b_inst @filtered-collab))))))]
+        [i/autocomplete
+         {:id :select-collab-inst-a
+          :keywordize-values false
+          :label "select first Institution"
+          :style {:width "50vw" :max-width 350}
+          :options institution}]))))
+
+(defn select-collab-inst-b []
+  (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])
+        select-collab-inst (subscribe [::db/user-input-field :select-collab-inst-a])]
+    (fn []
+      (let [institution
+            (sort-by
+             :label
+             (mapv #(identity {:value % :label %})
+                   (vec (clojure.set/union
+                         (set (map :a_inst
+                                   (filter (fn [x] (= (:b_inst x) @select-collab-inst)) @filtered-collab)))
+                         (set (map :b_inst
+                                   (filter (fn [x] (= (:a_inst x) @select-collab-inst)) @filtered-collab)))))))]
+        [i/autocomplete
+         {:id :select-collab-inst-b
+          :keywordize-values false
+          :label "select second Institution"
           :style {:width "50vw" :max-width 350}
           :options institution}]))))
 
@@ -202,6 +275,8 @@
         loading-info? (subscribe [::db/loading? :get-publication-info])
         rec-info (subscribe [::db/data-field :get-publication-info])
         select-publication (subscribe [::db/user-input-field :select-publication])
+        select-collab-author (subscribe [::db/user-input-field :select-collab-author-a])
+        select-collab-inst (subscribe [::db/user-input-field :select-collab-inst-a])
         reset (atom 0)]
     (add-watch loading-info? ::data-loading
                (fn [_ _ _ data-loading?]
@@ -213,6 +288,12 @@
                  (if data-loading?
                    (dispatch [::feedback/open :data-loading]) 
                    (dispatch [::api/get-publication-info (get-ids)]))))
+    (add-watch select-collab-author ::collab-author
+               (fn [_ _ _ _]
+                 (dispatch [::db/set-user-input :select-collab-author-b nil])))
+    (add-watch select-collab-inst ::collab-inst
+               (fn [_ _ _ _]
+                 (dispatch [::db/set-user-input :select-collab-inst-b nil])))
     (update-data)
     (fn []
       [:div
@@ -242,7 +323,19 @@
              [select-author])
            (when (= :inst @select-publication)
              {:key @select-publication}
-             [select-inst])]
+             [select-inst])
+           (when (= :author-collab @select-publication)
+             {:key @select-publication}
+             [select-collab-author-a])
+           (when (and (= :author-collab @select-publication) @select-collab-author)
+             {:key @select-publication}
+             [select-collab-author-b])
+           (when (= :inst-collab @select-publication)
+             {:key @select-publication}
+             [select-collab-inst-a])
+           (when (and (= :inst-collab @select-publication) @select-collab-inst)
+             {:key @select-publication}
+             [select-collab-inst-b])]
           [button/update-button
            {:on-click #(do
                          (swap! reset inc)
