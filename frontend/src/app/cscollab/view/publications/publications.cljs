@@ -56,14 +56,22 @@
   [rec] 
   (str "https://dblp.org/rec/" rec ".html"))
 
-
+(defn get-authors [rec]
+  (let [csauthors @(subscribe [::db/data-field :get-csauthors])
+        pid->name (zipmap (map :pid csauthors) (map :name csauthors))
+        filtered-collab @(subscribe [::db/data-field :get-filtered-collab])
+        records (filter (fn [x] (= (:rec_id x) rec)) filtered-collab)]
+    (sort (map #(get pid->name %)
+               (vec (clojure.set/union (set (map :a_pid records))
+                                       (set (map :b_pid records))))))))
 
 (defn publication-list []
   (let [rec-info (subscribe [::db/data-field :get-publication-info])
-        area-mapping (subscribe [::db/data-field :get-area-mapping])]
+        area-mapping (subscribe [::db/data-field :get-area-mapping])
+        ]
     (fn []
       (let [id :publication-list
-            area-mapping-idx (util/factor-out-key @area-mapping :conference-id)
+            area-mapping-idx (util/factor-out-key @area-mapping :conference-id) 
             publications
             (map #(merge %
                          (select-keys
@@ -125,25 +133,75 @@
                                       :items
                                       [[expand-icon [id sub-area-label year p-id]]
                                        [:span {:style {:display :flex :align-items :center}} (count records-p)]]}]]
-                                   [collapse
-                                    {:sub (subscribe [::db/ui-states-field (conj [id sub-area-label year p-id] :open?)])
-                                     :div
-                                     [:div {:style {:margin-left 15 :margin-right 15}}
-                                      (for [{:keys [rec_id rec_title]} (sort-by :rec_title records-p)]
-                                        [horizontal-stack
-                                         {:stack-args {:spacing 2}
-                                          :items [[:a {:href (dblp-record-link rec_id) :style {:display :flex :align-items :center}}
-                                                   [:img {:src "img/dblp.png" :target "_blank"
-                                                          :width 10 :height 10 :padding 0}]]
-                                                  [:span {:style {:margin-top 10 :margin-bottom 10 :font-size 16}} rec_title]]}])]}]]))}]]))}]]))])))]))))
+                                   (let [open? (subscribe [::db/ui-states-field (conj [id sub-area-label year p-id] :open?)])]
+                                     [collapse 
+                                      {:sub open?
+                                       :div
+                                       ^{:key @open?}
+                                       [:div {:style {:margin-left 15 :margin-right 15}}
+                                        (for [{:keys [rec_id rec_title]} (sort-by :rec_title records-p)]
+                                          [horizontal-stack
+                                           {:stack-args {:spacing 2}
+                                            :items [[:a {:href (dblp-record-link rec_id) :style {:display :flex :align-items :center}}
+                                                     [:img {:src "img/dblp.png" :target "_blank"
+                                                            :width 10 :height 10 :padding 0}]]
+                                                    [:span {:style {:margin-top 10 :margin-bottom 10 :font-size 16}} rec_title
+                                                     (when @open?
+                                                       [:span {:style {:margin-left 5 :vertical-align :bottom :font-size 14}}
+                                                        [:i
+                                                         (clojure.string/join ", " (get-authors rec_id))]])]]}])]}])]))}]]))}]]))])))]))))
 
-(comment 
-  @(subscribe [::db/ui-states-field [:publication-list]]))
+
+(defn select-author []
+  (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])
+        csauthors (subscribe [::db/data-field :get-csauthors])]
+    (fn []
+      (let [pid->name (zipmap (map :pid @csauthors) (map :name @csauthors))
+            authors (sort-by
+                     :label
+                     (mapv #(identity {:value % :label (get pid->name %)})
+                          (vec (clojure.set/union (set (map :a_pid @filtered-collab))
+                                                  (set (map :b_pid @filtered-collab))))))]
+        [i/autocomplete
+         {:id :publication-author
+          :keywordize-values false
+          :label "select an author"
+          :style {:width "50vw" :max-width 350}
+          :options authors}]))))
+
+(defn select-inst []
+  (let [filtered-collab (subscribe [::db/data-field :get-filtered-collab])]
+    (fn []
+      (let [institution (sort-by
+                     :label
+                     (mapv #(identity {:value % :label %})
+                           (vec (clojure.set/union (set (map :a_inst @filtered-collab))
+                                                   (set (map :b_inst @filtered-collab))))))]
+        [i/autocomplete
+         {:id :publication-inst
+          :keywordize-values false
+          :label "select an Institution"
+          :style {:width "50vw" :max-width 350}
+          :options institution}]))))
+
+(defn get-ids []
+  (let [filtered-collab @(subscribe [::db/data-field :get-filtered-collab])
+        select-publication @(subscribe [::db/user-input-field :select-publication])
+        publication-author @(subscribe [::db/user-input-field :publication-author])
+        publication-inst @(subscribe [::db/user-input-field :publication-inst])]
+    (case select-publication
+      :all (map :rec_id filtered-collab)
+      :authors (map :rec_id (filter #(or (= publication-author (:a_pid %))
+                                         (= publication-author (:b_pid %))) filtered-collab))
+      :inst (map :rec_id (filter #(or (= publication-inst (:a_inst %))
+                                      (= publication-inst (:b_inst %))) filtered-collab))
+      (map :rec_id filtered-collab))))
 
 (defn publication-view []
   (let [loading-collab? (subscribe [::db/loading? :get-filtered-collab])
         loading-info? (subscribe [::db/loading? :get-publication-info])
         rec-info (subscribe [::db/data-field :get-publication-info])
+        select-publication (subscribe [::db/user-input-field :select-publication])
         reset (atom 0)]
     (add-watch loading-info? ::data-loading
                (fn [_ _ _ data-loading?]
@@ -154,8 +212,7 @@
                (fn [_ _ _ data-loading?]
                  (if data-loading?
                    (dispatch [::feedback/open :data-loading]) 
-                   (dispatch [::api/get-publication-info
-                              (map :rec_id @(subscribe [::db/data-field :get-filtered-collab]))]))))
+                   (dispatch [::api/get-publication-info (get-ids)]))))
     (update-data)
     (fn []
       [:div
@@ -169,9 +226,28 @@
         ^{:key [@loading-collab? @reset @loading-info?]}
         [:div
          [:div {:style {:display :flex :justify-content :space-between :background-color :white}}
-          [:div {:style {:display :flex :justify-content :flex-start :background-color :white :gap 50}}]
+          [:div {:style {:display :flex :justify-content :flex-start :background-color :white :gap 20}}
+           [i/autocomplete
+            {:id :select-publication
+             :label "Publication Filters"
+             :style {:width 350}
+             :options
+             [{:value :all :label "All"}
+              {:value :authors :label "Author"}
+              {:value :inst :label "Institution"}
+              {:value :author-collab :label "Collaboration between Authors"}
+              {:value :inst-collab :label "Collaboration between Institutions"}]}]
+           (when (= :authors @select-publication)
+             {:key @select-publication}
+             [select-author])
+           (when (= :inst @select-publication)
+             {:key @select-publication}
+             [select-inst])]
           [button/update-button
-           {:on-click #(do (swap! reset inc) (update-data))}]]
+           {:on-click #(do
+                         (swap! reset inc)
+                         (dispatch [::db/set-ui-states :publication-list nil])
+                         (update-data))}]]
          [:div {:style {:display :flex :justify-content :left :margin-top 20}}
           ^{:key [@rec-info]}
           [publication-list]]]]])))
@@ -180,6 +256,8 @@
   (def rec-info @(subscribe [::db/data-field :get-publication-info]))
   (def area-mapping @(subscribe [::db/data-field :get-area-mapping]))
   (set (map :area-label area-mapping))
+  (def filtered-collab @(subscribe [::db/data-field :get-filtered-collab]))
+  (filter #(= (:rec_id %) "conf/emnlp/AjjourWKRFCAFS18") filtered-collab)
   (def area-mapping-idx (util/factor-out-key area-mapping :conference-id))
   (map #(merge %
                (select-keys
