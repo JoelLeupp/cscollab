@@ -18,7 +18,7 @@
 
 
 (defn nav-bar []
-  [app-bar {:app-name "Visualization of Scientific Collaboration Networks"
+  [app-bar {:app-name "Visualization of Computer Science Collaboration Networks"
             :right-div [:div {:style {:display :flex :align-items :center}}
                         "University of Zürich"]}])
 
