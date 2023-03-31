@@ -268,10 +268,3 @@
             :list-args {:dense false :sx {#_#_:background-color :white :max-width 700 :width "100%"}}
             :content (nested-author-list)}]]]]])))
 
-(comment
-  (set (map :region-id @(subscribe [::db/data-field :get-region-mapping])))
-  (first @(subscribe [::db/data-field :get-csauthors]))
-  @(subscribe [::filter-panel/selected-countries])
-  @(subscribe [::filter-panel/selected-regions])
-  (nested-authors :ch)
-  )

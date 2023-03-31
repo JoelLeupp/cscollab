@@ -138,11 +138,3 @@
              :list-args {:dense false :sx {#_#_:background-color :white :max-width 1000 :width "100%"}}
              :content @list-content}]]]])))
 
-(comment 
-  (def area-mapping @(subscribe [::db/data-field :get-area-mapping]))
-  (count (filter #(= (:area-id %) "systems") area-mapping))
-  ;; document.getElementById ('asru') .scrollIntoView (true)
-  (util/factor-out-key area-mapping :conference-id)
-  @(subscribe [::db/user-input-field :show-conference])
-  @(subscribe [::db/ui-states-field :conference-list])
-  (.scrollIntoView (.getElementById js/document (name :interspeech)) true))

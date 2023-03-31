@@ -16,6 +16,7 @@
    [app.cscollab.view.publications.publications :refer (publication-view)]
    [app.cscollab.view.visualization.graph.graph-view :refer (graph-view)]
    [app.cscollab.view.visualization.analytics.analytics :refer (analytics-view)]
+   [app.cscollab.view.guide.guide :refer (guide-view)]
    ))
 
 
@@ -80,7 +81,7 @@
      [acl/section
       [acl/title-white "Application Guide"]
       [acl/content
-       [:h1 "guide"]]]]))
+       [guide-view]]]]))
 
 
 
