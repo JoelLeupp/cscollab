@@ -1,23 +1,22 @@
 (ns app.cscollab.views
   (:require
-   [app.components.layout :as acl] 
+   [app.components.layout :as acl]
    [app.common.user-input :refer (input-panel)]
-   [re-frame.core :refer (dispatch subscribe)] 
+   [re-frame.core :refer (dispatch subscribe)]
    #_["react-lorem-ipsum" :refer (loremIpsum)]
    #_[app.components.lists :as lists]
    [app.db :as db]
-   [app.cscollab.panels.filter-panel :refer (filter-panel)] 
-   [reagent.core :as r] 
+   [app.cscollab.panels.filter-panel :refer (filter-panel)]
+   [reagent.core :as r]
    [app.cscollab.view.visualization.map.interactive-map :as interactive-map]
    [app.cscollab.view.conference.conferences :refer (conferences-view)]
    [app.cscollab.view.authors.authors :refer (author-view)]
    [app.cscollab.panels.map-panel :refer (map-config-panel)]
-   [app.components.tabs :as tabs]  
+   [app.components.tabs :as tabs]
    [app.cscollab.view.publications.publications :refer (publication-view)]
    [app.cscollab.view.visualization.graph.graph-view :refer (graph-view)]
    [app.cscollab.view.visualization.analytics.analytics :refer (analytics-view)]
-   [app.cscollab.view.guide.guide :refer (guide-view)]
-   ))
+   [app.cscollab.view.guide.guide :refer (guide-view)]))
 
 
 (defn config-panels []

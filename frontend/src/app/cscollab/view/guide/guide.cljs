@@ -8,6 +8,7 @@
   #_[acl/section {:color :white :style {:font-size 20}}]
   [:div {:style {:width "100%" :background-color :white :font-size 20}}
    [:div {:style {:padding 20}}
+
     ;; Overview
     [:h2 {:style {:margin 0 :width "100%"}} "Overview"]
     [:p {:style {:width "100%"}}
@@ -31,8 +32,10 @@
          where the nodes are grouped by reseach areas which is done by using Graph Convolutional Network Models. Further, several explorers are provided to
          make the data transparent and accessible and allow a detailed inspecation of the data. A more detailed documentation and the full code of the dataset generation, the backend and the frontend
          can be viewed at the public GitHub repository " [:b [:a {:href "https://github.com/JoelLeupp/cscollab"} "cscollab"]] "."]
+
     ;; Visualization
     [:a {:href (router/href :home)} [:h2 {:style {:margin 0 :margin-bottom 10 :width "100%"}} "Visualization"]]
+
     ;; Filters
     [:h3 {:style {:margin 0 :width "100%"}} "Filters, Configuration and Interactions"]
     [:p "On top of the page there is a panel where one can filter, configer and interact with the collaboration network. 
@@ -44,18 +47,21 @@
       [:li "the publication year (2005-2022)"]
       [:li "research area/sub area of the publication"]
       [:li "region/country of the authors or affiliated institutions"]
-      [:li "An option to set a strict country/region restriction where only collaborations within the selected regions are considered"]]
+      [:li "An option to set a strict country/region restriction where only collaborations within the selected regions are considered
+            otherwise all collaborations from the selected regions are considered."]]
      "In the graph configuaration and interaction panel the following options are available:"
      [:ul
-      [:li "chose if one is interested in the author collaboration or the collaboration between institutions"]
-      [:li "one can select a node and click 'show' which will highlight the node and zoom to the node position in the current visualization"]
+      [:li "chose collaboration network: collaborations can be between authors or institutions"]
+      [:li "one can select a node (author or institution) and click 'show' which will highlight the node and zoom to the node position in the current visualization"]
       [:li "one can choose to color the nodes in the current graph visualization where one has the following options: no coloring, color by top area,
             color by top sub area, color by degree centrality or color by eigenvector centrality"]]]
+
     ;; Views
     [:h3 {:style {:margin 0 :margin-bottom 10 :width "100%"}} "Geographical Visualization, Interactive Map"]
     [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/map.PNG" :width "100%"}]]
     [:p "The selected collaboration network can be viewed as a geographical visualisation in form of an interactive map. 
          One can zoom and pan the map and fully explore the network (also full screen option available). 
+         To adapt the map to a new network configuration one has to click the refresh button in the right upper corner.
          If you click on an edge or node (institution or author icon depending on the chosen network) all nodes or edges connected 
          to that node/edge will be highlighted in green and an information box on the right will open which shows 
          information of the node and multiple tabs with different visualizations of network data of that node/edge."]
@@ -65,21 +71,96 @@
       [:li "Publication plot: show in how many publications of each research area that node collaborated in"]
       [:li "Auhtor list (only if the node is an institution): a list of all authors affiliated with that institution ranked by their publication count"]
       [:li "Institution plot: shows with which institutions that node had collaborated and how my publications per institution"]
-      [:li "Country plot: shows with which countries that node had collaborated and how my publications per countries"]
+      [:li "Country plot: shows with which countries that node had collaborated and how many publications per countries"]
       [:li "Year plot: shows in how many publicaitons that node collaborated in each year"]
-      [:li "Author collaboration plot: shows with which authors that node had collaborated and how my publications per authors"]]]
+      [:li "Author collaboration plot: shows with which authors that node had collaborated and how many publications per authors"]]]
+
     ;; Graph
     [:h3 {:style {:margin 0 :margin-bottom 10 :width "100%"}} "Graph Representation"]
     [:p "The collaboration network is visualized as a graph where interactions are the same as with the map component. 
          The graph can be viewed in full screen and one can zoom and pan the graph and click on edges/nodes and get exactly 
          the same information box and charts on the right as in the geographical map."]
-    [:p "The determin the position of the nodes a graph convolutional network model (GCN) was used that was trained based on a node classification task. 
+    [:p "To determin the position of the nodes a graph convolutional network model (GCN) was used that was trained on a node classification task. 
          The task was to classify nodes (institutions or authors) by the research area or sub area where they had to most publicaitons in. 
-         This results in 4 models: 2 for the author collaboration network where one predicts nodes on the top research area and the other 
+         This resulted in 4 models: 2 for the author collaboration network where one predicts nodes on the top research area and the other 
          on the top sub area and 2 models for the institutional network where one predicts nodes on the top research area and the other 
          on the top sub area. The position of the nodes can be determined by using the last hidden convolutional output layer and apply 
-         a dimensionality reduction algorithm on it project the results on a 2 dimensioanl space. This allows us the position the 
-         nodes based on the results of the GCN model and have the nodes grouped by their top research area/sub area."]
+         a dimensionality reduction algorithm on it that project the results on a 2 dimensioanl plane. The nodes can therefor be positioned
+        based on the results of the GCN model and be grouped by their top research area/sub area (determined by the 'color graph by' option)"]
+    [:h4 {:style {:margin 0 :padding 0}} "Author collaboration network colored/grouped by sub area"]
     [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/graph.PNG" :width "100%"}]]
+    [:h4 {:style {:margin 0 :padding 0}} "Institutional collaboration network colored/grouped by area"]
     [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/graph_area.PNG" :width "100%"}]]
-    ]])
+
+    ;; Analytics
+    [:h3 {:style {:margin 0 :margin-bottom 10 :width "100%"}} "Analytics"]
+    [:p "Several views are availbe to get analytics, statistics and visualitations 
+         of the data of the selected collaboration network."]
+    ;; Statistics
+    [:h4  {:style {:margin 0 :padding 0}} "Statistics"]
+    [:p "A table with key metrics of the selected collaboration network."]
+    [:div {:style {:max-width 600 #_#_:margin :auto}} [:img {:src "img/readme/statistics.PNG" :width "100%"}]]
+    [:h4  {:style {:margin 0 :padding 0}} "Centralities"]
+    [:p "The top degree and eigenvector centralities of the selected network is shown (up to top 200)"]
+    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/centrality.PNG" :width "100%"}]]
+    ;; Overview
+    [:h4  {:style {:margin 0 :padding 0}} "Overview"]
+    [:p "Multiple views can be selected where each view is shown as a horizonal bar chart. 
+         For the following views an additonal selection can be made were one can filter the data based on the research area/sub area:"
+     [:ul
+      [:li "number of publications by institutions"]
+      [:li "number of publications by authors"]
+      [:li "number of publications by countries"]
+      [:li "number of authors by institutions"]
+      [:li "number of authors by countries"]]]
+    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/overview.PNG" :width "100%"}]]
+    [:p "and two views where no research area can be selected:"
+     [:ul
+      [:li "number of publications by area"]
+      [:li "number of publications by sub area"]]]
+    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/by_subarea.PNG" :width "100%"}]]
+    ;; Timeline
+    [:h4  {:style {:margin 0 :padding 0}} "Timeline"]
+    [:p "Here the temporal dimension of the publications of the selected network is shown in 3 view:"
+     [:ul
+      [:li "total publications over time"]
+      [:li "publications by area over time"]
+      [:li "publications by sub area over time"]]]
+    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/timeline.PNG" :width "100%"}]]
+    ;; Institution
+    [:h4  {:style {:margin 0 :padding 0}} "Institution"]
+    [:p "An institution can be selected and a view, where the views are exatly the same as the views in the infobox 
+         when an institutional node is selected in the map/graph:"
+     [:ul
+      [:li "Publication plot: show in how many publications of each research area the selected institution collaborated in"]
+      [:li "Auhtor list: a list of all authors affiliated with the selected institution ranked by their publication count"]
+      [:li "Institution plot: shows with which institutions the selected institution had collaborated and how my publications per institution"]
+      [:li "Country plot: shows with which countries the selected institution had collaborated and how many publications per countries"]
+      [:li "Year plot: shows in how many publicaitons the selected institution collaborated in each year"]
+      [:li "Author collaboration plot: shows with which authors the selected institution had collaborated and how many publications per authors"]]]
+    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/institution.PNG" :width "100%"}]]
+    ;; Author
+    [:h4  {:style {:margin 0 :padding 0}} "Author"]
+    [:p "An author can be selected and a view, where the views are exatly the same as the views in the infobox 
+         when an author node is selected in the map/graph:"
+     [:ul
+      [:li "Publication plot: show in how many publications of each research area the selected author collaborated in"]
+      [:li "Institution plot: shows with which institutions the selected author had collaborated and how my publications per institution"]
+      [:li "Country plot: shows with which countries the selected author had collaborated and how many publications per countries"]
+      [:li "Year plot: shows in how many publicaitons the selected author collaborated in each year"]
+      [:li "Author collaboration plot: shows with which authors the selected author had collaborated and how many publications per authors"]]]
+    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/author.PNG" :width "100%"}]]
+
+    ;; Author Explorer
+    [:h3 {:style {:width "100%"}} "Author Explorer"]
+    [:p "On this page one can easily explore which authors are included in a selected collaboration network. 
+         At the top of the page there are the same graph filters as on the main page. Based on the selected network one can now select a country
+         that is included in the network and get a nested table with all the institutions of that country each with a count of how many auhtors
+         are affiliated with that institution. If the instiution is expanded one get a list of the athors together with a link to the dblp page of that author.
+         It is also possible to search directly for an author and click on 'show' which will direct the user to the respective country and institution of that author."]
+    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/author_explorer.PNG" :width "100%"}]]
+
+    ;; Conference Explorer
+    [:h3 {:style {:width "100%"}} "Conference Explorer"]
+    [:p ""]
+    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/conference_explorer.PNG" :width "100%"}]]]])
