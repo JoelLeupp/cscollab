@@ -151,8 +151,8 @@
       [:li "Author collaboration plot: shows with which authors the selected author had collaborated and how many publications per authors"]]]
     [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/author.PNG" :width "100%"}]]
 
-    ;; Author Explorer
-    [:h3 {:style {:width "100%"}} "Author Explorer"]
+    ;; Author Explorer 
+    [:a {:href (router/href :author-explorer)} [:h2 {:style {:margin-bottom 10 :width "100%"}} "Author Explorer"]]
     [:p "On this page one can easily explore which authors are included in a selected collaboration network. 
          At the top of the page there are the same graph filters as on the main page with which a collaboration network can be selected. 
          Based on the selected network one can now select a country
@@ -161,15 +161,15 @@
          It is also possible to search directly for an author and click on 'show' which will direct the user to the respective country and institution of that author."]
     [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/author_explorer.PNG" :width "100%"}]]
 
-    ;; Conference Explorer
-    [:h3 {:style {:width "100%"}} "Conference Explorer"]
+    ;; Conference Explorer 
+    [:a {:href (router/href :conference-explorer)} [:h2 {:style {:margin-bottom 10 :width "100%"}} "Conference Explorer"]]
     [:p "On this page all the leading conferences are listed that are included in the respective area/sub area and linked to the dblp conference page. 
          A conference can also be searched for and one can click the button 'show' to see in wich sub area it belongs.
          In total 127 conferences can be included in the collaboration network."]
     [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/conference_explorer.PNG" :width "100%"}]]
 
-    ;; Publication Explorer
-    [:h3 {:style {:width "100%"}} "Publication Explorer"]
+    ;; Publication Explorer 
+    [:a {:href (router/href :publication-explorer)} [:h2 {:style {:margin-bottom 10 :width "100%"}} "Publication Explorer"]]
     [:p "On this page on can explore the publications that are included in the collaboration network.
          At the top of the page there are the same graph filters as on the main page with which a collaboration network can be selected.
          The publications are shown in a nested list where at the top level we have the research area followed by the research sub aree. The
