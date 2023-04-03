@@ -96,7 +96,7 @@ res = pd.DataFrame(json.loads(x.content))
 print(res)
 
 url = url_base+"/api/db/get_filtered_collaboration"
-config={ "from_year": 2005,
+config={ "from_year": 2010,
             "region_ids":["wd"],
             "strict_boundary":False,
             "institution":False}

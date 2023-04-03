@@ -293,7 +293,10 @@ def get_flat_collaboration(ignore_area=False, use_cache=True):
     return collab
 
 
-# collab = get_flat_collaboration(ignore_area=False)
+# collab = get_flat_collaboration(ignore_area=False,use_cache=False)
+# collab.shape
+# len((set(collab["a_inst"])).union(collab["b_inst"]))
+
 # result = json.loads(collab.to_json(orient="records"),encoding='utf-8')
 
 # # list(filter(lambda x: "Ã" in x, collab["a_inst"]))
