@@ -419,8 +419,14 @@ def merge_freq(a,b):
 
 def freq_summary(freq_counter):
     top = max(freq_counter, key=freq_counter.get)
+    top_count = max(freq_counter.values())
+    tops = []
+    for k,count in freq_counter.items():
+        if count == top_count:
+            tops.append(k)  
     freq= { "freq":freq_counter,
-            "top":top}
+            "top":top,
+            "tops":tops}
     return freq
 
 def frequeny_counter(collab):
@@ -455,7 +461,7 @@ def get_top_research_field(collab, institution):
     collab["b"] = collab[node_b]
     frequency_map = frequeny_counter(collab)
     return frequency_map
-# get_top_research_field(collab_filtered,True)
+
 
 def get_collaboration(collab_config={}):
     """get collaboration of author/institution filtered on region and area 
