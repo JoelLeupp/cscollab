@@ -131,7 +131,7 @@
                     #_#_:title "Publications per Area"
                     :legend {:y 1.1 :x -1
                              :orientation :h}
-                    :xaxis {:range [0 (+ 25 (apply max (map :count area-data)))]}
+                    :xaxis {:range [0 (+ 35 (apply max (map :count area-data)))]}
                     :yaxis {:autorange :reversed
                             :tickmode :array
                             :tickvals (vec (range 0 (count area-data)))
@@ -176,7 +176,7 @@
                    {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
                     :bargap 0.2
                     :showlegend false
-                    :xaxis {:range [0 (+ (* 0.1 max-count) max-count)]}
+                    :xaxis {:range [0 (+ (* 0.15 max-count) max-count)]}
                     :yaxis {:autorange :reversed
                             :tickmode :array}}
                    layout)
