@@ -7,7 +7,7 @@ class Config(object):
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     CORS_ORIGIN_WHITELIST = ["http://localhost:8090", "https://cscollab.ifi.uzh.ch","https://cscollab.ifi.uzh.ch/backend"]
     #STATIC_FOLDER = "./public"
-    SERVER_NAME = "localhost:8030"
+    SERVER_NAME = "127.0.0.1:8030"
     APISPEC_SWAGGER_UI_URL = None
     APISPEC_SPEC = APISpec(
         title='CSCOLLAB BACKEND APIS',

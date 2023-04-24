@@ -1,5 +1,5 @@
 server:
-	gunicorn -w 1 --timeout 300 -b localhost:8030 server:app --access-logformat '%(t)s "%(r)s" %(s)s %(q)s' --access-logfile -
+	gunicorn -w 1 --timeout 300 -b 127.0.0.1:8030 server:app --access-logformat '%(t)s "%(r)s" %(s)s %(q)s' --access-logfile -
 
 server-nohub:
 	nohub gunicorn -w 2 -b 127.0.0.1:8030 server:app 
