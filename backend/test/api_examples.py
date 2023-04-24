@@ -27,6 +27,7 @@ x = requests.get(url)
 res = pd.DataFrame(json.loads(x.content))
 print(res)
 
+
 """ get all inporceedings and proceedings from confernce"""
 url =  url_base+"/api/db/get_conference"
 input = {"conf":"icse"}
@@ -267,10 +268,10 @@ print(res)
 
 
 url = url_base+"/api/gcn/get_node_position"
-config = { "from_year": 2015,
-            "region_ids":["dach"],
+config = { "from_year": 2005,
+            "region_ids":["wd"],
             "strict_boundary":True,
-            "institution":True}
+            "institution":False}
 use_sub_areas = True
 input = {"config": json.dumps(config),
          "sub_areas":use_sub_areas}

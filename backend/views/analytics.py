@@ -16,27 +16,28 @@ def route_path(path):
     return "/api/{}/{}".format(blueprint_name,path)
 
 
-@blueprint.route(route_path('get_analytics'), methods=['POST'])
-@doc(summary="get core graph statistics and centrality scores",
-     tags=['analytics'],
-     responses=make_swagger_response([]))
-@use_kwargs({'nodes': fields.List(fields.Raw),
-            'edges': fields.List(fields.List(fields.Raw)),
-            'weighted': fields.Boolean(default=False),
-            'top': fields.Int(default=5)})
-def get_analytics(**kwargs):
-    nodes = kwargs['nodes']
-    edges = kwargs['edges']
-    weighted = kwargs.get('weighted',False)
-    top = kwargs.get('top',5)
+# @blueprint.route(route_path('get_analytics'), methods=['POST'])
+# @doc(summary="get core graph statistics and centrality scores",
+#      tags=['analytics']
+#     #  responses=make_swagger_response([])
+#      )
+# @use_kwargs({'nodes': fields.List(fields.Raw),
+#             'edges': fields.List(fields.List(fields.Raw)),
+#             'weighted': fields.Boolean(default=False),
+#             'top': fields.Int(default=5)})
+# def get_analytics(**kwargs):
+#     nodes = kwargs['nodes']
+#     edges = kwargs['edges']
+#     weighted = kwargs.get('weighted',False)
+#     top = kwargs.get('top',5)
     
-    """crate networkx graph and get analytics"""
-    G = stat.gen_graph(nodes, edges, weighted=weighted)
-    statistics =  stat.get_statistics(G)
-    centralities = stat.get_centralities(G, weighted=weighted, top=top)
-    analytics={"statistics":statistics,
-               "centralities":centralities}
-    return jsonify(analytics)
+#     """crate networkx graph and get analytics"""
+#     G = stat.gen_graph(nodes, edges, weighted=weighted)
+#     statistics =  stat.get_statistics(G)
+#     centralities = stat.get_centralities(G, weighted=weighted, top=top)
+#     analytics={"statistics":statistics,
+#                "centralities":centralities}
+#     return jsonify(analytics)
 
 @blueprint.route(route_path('get_analytics_collab'), methods=['POST'])
 @doc(summary="get core graph statistics and centrality scores",

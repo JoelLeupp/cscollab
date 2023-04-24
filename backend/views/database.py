@@ -33,7 +33,7 @@ def get_region_mapping():
 
 
 @blueprint.route(route_path('get_area_mapping'), methods=['GET'])
-@doc(summary="get computer science area and sub-areas",
+@doc(summary="get computer science areas and sub-areas",
      tags=['db'],
      responses=make_swagger_response([]))
 def get_area_mapping():
@@ -44,8 +44,9 @@ def get_area_mapping():
 
 @blueprint.route(route_path('get_conference'), methods=['GET', 'POST'])
 @doc(summary="get all in/proceedings from a conference",
-     tags=['db'],
-     responses=make_swagger_response([]))
+     tags=['db']
+    #  responses=make_swagger_response([])
+     )
 @use_kwargs({'conf': fields.Str()})
 # @marshal_with(ConferenceSchema())
 def get_conference(**kwargs):
@@ -64,7 +65,7 @@ def get_conference(**kwargs):
 
 
 @blueprint.route(route_path('get_csauthors'), methods=['GET', 'POST'])
-@doc(summary="get authors from csranking with their affiliation filtered on region/country",
+@doc(summary="get authors from csranking with their affiliation filtered by region/country",
      tags=['db'],
      responses=make_swagger_response([]))
 @use_kwargs({'country_id': fields.Str(default=None),
@@ -97,51 +98,53 @@ def get_csauthors(**kwargs):
 #     result_json =  json.loads(result.to_json(orient="records"))
 #     return jsonify(result_json)
 
-@blueprint.route(route_path('get_collaboration'), methods=['POST'])
-@doc(summary="get filtered collaboration of author/institution",
-    description =   """get collaboration of author/institution filtered on region and area and year\n
-            example: config = { "from_year": 2005,\n
-                                "to_year": 2023,    \n
-                                "area_ids" : ["ai","systems"], \n
-                                "sub_area_ids":  ["robotics","bio"], \n
-                                "region_ids":["europe","northamerica"],\n
-                                "country_ids":["jp","sg"],\n
-                                "strict_boundary":True
-                                }""",
-     tags=['db'],
-     responses=make_swagger_response([]))
-@use_kwargs({'config': fields.Str(default="{}")})
-def get_collaboration(**kwargs):
-    config = json.loads(kwargs['config'])
-    collab = query.get_flat_collaboration(ignore_area=False)
-    cache_key = "get_collaboration_{}".format(config)
-    result_json = cache.get(cache_key)
-    if result_json is None:
-        result = query.filter_collab(collab,config)
-        result_json =  json.loads(result.to_json(orient="records"))
-        cache.set(cache_key, result_json)
-    return jsonify(result_json)
+# @blueprint.route(route_path('get_collaboration'), methods=['POST'])
+# @doc(summary="get filtered collaboration of author/institution",
+#     description =   """get collaboration of author/institution filtered on region and area and year\n
+#             example: config = { "from_year": 2005,\n
+#                                 "to_year": 2023,    \n
+#                                 "area_ids" : ["ai","systems"], \n
+#                                 "sub_area_ids":  ["robotics","bio"], \n
+#                                 "region_ids":["europe","northamerica"],\n
+#                                 "country_ids":["jp","sg"],\n
+#                                 "strict_boundary":True
+#                                 }""",
+#      tags=['db']
+#     #  responses=make_swagger_response([])
+#      )
+# @use_kwargs({'config': fields.Str(default="{}")})
+# def get_collaboration(**kwargs):
+#     config = json.loads(kwargs['config'])
+#     collab = query.get_flat_collaboration(ignore_area=False)
+#     cache_key = "get_collaboration_{}".format(config)
+#     result_json = cache.get(cache_key)
+#     if result_json is None:
+#         result = query.filter_collab(collab,config)
+#         result_json =  json.loads(result.to_json(orient="records"))
+#         cache.set(cache_key, result_json)
+#     return jsonify(result_json)
 
-@blueprint.route(route_path('get_flat_collaboration'), methods=['POST'])
-@doc(summary="get collaboration of authors inclusing country institution and area information in a flat structure",
-     tags=['db'],
-     responses=make_swagger_response([]))
-@use_kwargs({'ignore_area': fields.Boolean(default=False)})
-def get_flat_collaboration(**kwargs):
-    ignore_area = kwargs.get('ignore_area',False)
-    result = query.get_flat_collaboration(ignore_area=ignore_area)
-    result_json =  json.loads(result.to_json(orient="records"))
-    # cache_key = "get_flat_collaboration_{}".format(str(ignore_area))
-    # result_json = cache.get(cache_key)
-    # if result_json is None:
-    #     result = query.get_flat_collaboration(ignore_area=ignore_area)
-    #     result_json =  json.loads(result.to_json(orient="records"))
-    #     cache.set(cache_key, result_json)
-    return jsonify(result_json)
+# @blueprint.route(route_path('get_flat_collaboration'), methods=['POST'])
+# @doc(summary="get collaboration of authors inclusing country institution and area information in a flat structure",
+#      tags=['db']
+#     #  responses=make_swagger_response([])
+#      )
+# @use_kwargs({'ignore_area': fields.Boolean(default=False)})
+# def get_flat_collaboration(**kwargs):
+#     ignore_area = kwargs.get('ignore_area',False)
+#     result = query.get_flat_collaboration(ignore_area=ignore_area)
+#     result_json =  json.loads(result.to_json(orient="records"))
+#     # cache_key = "get_flat_collaboration_{}".format(str(ignore_area))
+#     # result_json = cache.get(cache_key)
+#     # if result_json is None:
+#     #     result = query.get_flat_collaboration(ignore_area=ignore_area)
+#     #     result_json =  json.loads(result.to_json(orient="records"))
+#     #     cache.set(cache_key, result_json)
+#     return jsonify(result_json)
 
 
 @blueprint.route(route_path('get_filtered_collaboration'), methods=['POST'])
-@doc(summary="get filtered collaboration of authors inclusing country institution and area information",
+@doc(summary="get filtered collaborations of authors including country institution and area information",
      tags=['db'],
      responses=make_swagger_response([]))
 @use_kwargs({'config': fields.Str(default="{}")})
@@ -270,7 +273,7 @@ def get_publications_edge(**kwargs):
     return jsonify(result_json)
 
 @blueprint.route(route_path('get_rec_info'), methods=['POST'])
-@doc(summary="get record title and the titles and ids of its proceeding and conference",
+@doc(summary="get the record title and the titles and ids of its proceeding and conference",
      tags=['db'],
      responses=make_swagger_response([]))
 @use_kwargs({'rec_ids':fields.List(fields.Str())})

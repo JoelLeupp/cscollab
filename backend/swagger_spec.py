@@ -4,7 +4,7 @@ import views.database as database
 import views.analytics as analytics
 import views.gcn as gcn
 
-VIEWS = [database,gcn,analytics,common]
+VIEWS = [database,gcn,analytics]
 
 
 def get_registered_function(module):

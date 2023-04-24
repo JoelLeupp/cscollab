@@ -18,7 +18,7 @@ def route_path(path):
     return "/api/{}/{}".format(blueprint_name,path)
 
 @blueprint.route(route_path('get_node_position'), methods=['POST'])
-@doc(summary="get the position of the nodes based on the hidden output layer of the GCN model",
+@doc(summary="get the position of the nodes based on the hidden activations of the GCN model",
     description =   """get position of nodes""",
      tags=['gcn'],
      responses=make_swagger_response([]))
@@ -47,20 +47,3 @@ def get_node_position(**kwargs):
         cache.set(cache_key, positions)
     return jsonify(positions)
 
-
-@blueprint.route(route_path('get_node_position_test'), methods=['POST'])
-@doc(summary="get the position of the nodes based on the hidden output layer of the GCN model",
-    description =   """get position of nodes""",
-     tags=['gcn'],
-     responses=make_swagger_response([]))
-@use_kwargs({'config': fields.Str(default="{}"),'sub_areas': fields.Boolean(default=True)})
-def get_node_position_test(**kwargs):
-    config = json.loads(kwargs.get('config',"{}"))
-    use_sub_areas = kwargs.get('sub_areas',True)
-    institution = config.get("institution")
-    cache_key = "get_node_position_test_{}_{}".format(config,use_sub_areas)
-    data = cache.get(cache_key)
-    if data is None:
-        data = dataset.get_torch_data(config, use_sub_areas,use_cache=True)
-        cache.set(cache_key, data)
-    return len(data.x)
