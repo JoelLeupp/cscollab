@@ -7,27 +7,37 @@
    #_[app.components.lists :as lists]
    [app.db :as db]
    [app.cscollab.panels.filter-panel :refer (filter-panel)]
-   [reagent.core :as r]
-   [app.cscollab.view.visualization.map.interactive-map :as interactive-map]
+   [reagent.core :as r] 
+   [app.components.button :refer (button)]
    [app.cscollab.view.conference.conferences :refer (conferences-view)]
    [app.cscollab.view.authors.authors :refer (author-view)]
    [app.cscollab.panels.map-panel :refer (map-config-panel)]
    [app.components.tabs :as tabs]
+   [app.cscollab.view.visualization.map.interactive-map :as interactive-map]
    [app.cscollab.view.publications.publications :refer (publication-view)]
-   [app.cscollab.view.visualization.graph.graph-view :refer (graph-view)]
-   [app.cscollab.view.visualization.analytics.analytics :refer (analytics-view)]
+   [app.cscollab.view.visualization.graph.graph-view :refer (graph-view graph-update)]
+   [app.cscollab.view.visualization.analytics.analytics :refer (analytics-view get-analytics-graph-data)]
    [app.cscollab.view.guide.guide :refer (guide-view)]))
 
 
 (defn config-panels []
-  [input-panel
-   {:id :config-panels
-    :start-closed true
-    :header "Graph Filteres, Configurations and Interactions"
-    :collapsable? true
-    :content [:div
-              [filter-panel]
-              [map-config-panel]]}])
+  (let [tab-view (subscribe [::db/ui-states-field [:tabs :viz-view]])]
+    (fn []
+      [input-panel
+       {:id :config-panels
+        :start-closed true
+        :header "Graph Filteres, Configurations and Interactions"
+        :collapsable? true
+        :content [:div
+                  [filter-panel]
+                  [map-config-panel]
+                  [:div {:style {:display :flex :justify-content :center}}
+                   [button {:text "apply"
+                            :on-click  #(case @tab-view
+                                          :map (interactive-map/update-event)
+                                          :graph (graph-update)
+                                          :analytics (get-analytics-graph-data)
+                                          nil)}]]]}])))
 
 (defn main-view [] 
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :viz-view]])]

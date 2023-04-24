@@ -182,13 +182,19 @@
     (dispatch [::api/get-filtered-collab config])
     (dispatch [::api/get-analytics config 200])))
 
+(defonce reset (atom 0))
+
+(defn graph-update [] 
+  (swap! reset inc)
+  (dispatch [::g/set-graph-field :selected nil])
+  (dispatch [::g/set-graph-field [:info-open?] false])
+  (get-all-graph-data))
 
 (defn graph-view []
   (let [#_#_insti? (subscribe [::mp/insti?])
         #_#_node-position (subscribe [::db/data-field :get-node-position])
         color-by (subscribe [::mp/color-by])
-        loading? (subscribe [::api/graph-data-loading?])
-        reset (atom 0)]
+        loading? (subscribe [::api/graph-data-loading?])]
     (add-watch (subscribe [::g/graph-field :selected]) ::select-connected
                (fn [_ _ _ selected]
                  (when selected
@@ -228,10 +234,7 @@
          :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :info-component [selected-info-graph]
          :info-open? (subscribe [::g/info-open?])
-         :update-event #(do (swap! reset inc)
-                            (dispatch [::g/set-graph-field :selected nil])
-                            (dispatch [::g/set-graph-field [:info-open?] false])
-                            (get-all-graph-data))
+         :update-event #(graph-update)
          #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
 
 

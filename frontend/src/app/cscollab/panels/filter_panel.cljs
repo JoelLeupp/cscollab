@@ -36,9 +36,11 @@
            :label (:label area)}
           (when (:sub-areas area)
             {:children
-             (for [sub-area (:sub-areas area)]
-               {:id (util/s->id (:id sub-area))
-                :label (:label sub-area)})})))]
+             (sort-by
+              :label
+              (for [sub-area (:sub-areas area)]
+                {:id (util/s->id (:id sub-area))
+                 :label (:label sub-area)}))})))]
        (into [all-area-item] list-items)))))
 
 

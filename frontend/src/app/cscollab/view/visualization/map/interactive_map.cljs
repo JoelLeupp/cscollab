@@ -207,11 +207,18 @@
     (dispatch [::api/get-filtered-collab config]) 
     (dispatch [::api/get-analytics config 200])))
 
+(defonce reset (atom 0))
+
+(defn update-event [] 
+  (swap! reset inc)
+  (dispatch [::ll/set-leaflet [:info-open?] false])
+  (dispatch [::ll/set-leaflet [:selected-shape] nil])
+  (update-data))
+
 (defn interactive-map []
   (let [insti? (subscribe [::data/insti?])
         loading? (subscribe [::api/map-data-loading?])
-        color-by (subscribe [::data/color-by])
-        reset (atom 0)]
+        color-by (subscribe [::data/color-by])]
     (add-watch loading? ::map-data-loading
                (fn [_ _ _ data-loading?]
                  (when (= :map @(subscribe [::db/ui-states-field [:tabs :viz-view]]))
@@ -233,10 +240,7 @@
          :legend-bg-color :white
          :color-by @color-by
          :title "Landscape of Scientific Collaborations" 
-         :update-event #(do (swap! reset inc)
-                            (dispatch [::ll/set-leaflet [:info-open?] false])
-                            (dispatch [::ll/set-leaflet [:selected-shape] nil])
-                            (update-data)) #_(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+         :update-event #(update-event) #_(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
          :content [map-comp @insti?] 
          :info-component [selected-info-map]
          :info-open? (subscribe [::ll/info-open?])}]])))
