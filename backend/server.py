@@ -12,4 +12,4 @@ app = create_app(config)
 
 """Start backend"""
 if __name__ == "__main__":
-    app.run("127.0.0.1", port=8030, debug=config.DEBUG)
+    app.run("localhost", port=8030, debug=config.DEBUG)
