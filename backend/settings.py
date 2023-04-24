@@ -11,8 +11,11 @@ class Config(object):
     APISPEC_SWAGGER_UI_URL = None
     APISPEC_SPEC = APISpec(
         title='CSCOLLAB BACKEND APIS',
+        servers = [dict(url="https://cscollab.ifi.uzh.ch/backend",
+                        description="Production Server")],
         openapi_version='3.0.2',
-        info=dict(description="""Swagger documentation of APIs provided by the cscollab backend used for the Master Thesis
+        info=dict(  version="1.0.6",  
+                    description="""Swagger documentation of APIs provided by the cscollab backend used for the Master Thesis
                   'Interactive Visualization of Scientific Collaboration Networks based on Graph Neural Networks'"""),
         version='v1',
         plugins=[MarshmallowPlugin()],)
