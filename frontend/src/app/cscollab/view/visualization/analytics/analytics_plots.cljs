@@ -35,15 +35,14 @@
       :label "select a view"
       :style {:width 400}
       :options
-      (vec
-       (concat
-        [{:value :publications :label "publications"}]
-        (when insti?
-          [{:value :authors :label "authors"}])
-        [{:value :institutions :label "institutions"}
-         {:value :countries :label "countries"}
-         {:value :year :label "year"}
-         {:value :author-collab :label "collaboration with authors"}]))}]))
+      (concat
+       [{:value :publications :label "Publications by Area"}
+        {:value :year :label "Publications by Year"}]
+       (when insti?
+         [{:value :authors :label "List of Affiliated Authors"}])
+       [{:value :author-collab :label "Collaborations by Authors"}
+        {:value :institutions :label "Collaborations by Institutions"}
+        {:value :countries :label "Collaborations by Countries"}])}]))
 
 
 (defn select-overview-perspective []

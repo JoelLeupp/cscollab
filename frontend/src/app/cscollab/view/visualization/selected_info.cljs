@@ -7,6 +7,7 @@
             [app.components.lists :refer [collapse]]
             [cljs-bean.core :refer [bean ->clj ->js]]
             [app.db :as db]
+            [app.components.inputs :as i]
             [app.cscollab.view.visualization.map.leaflet :as ll]
             [app.components.feedback :as feedback]
             [app.cscollab.view.visualization.graph.graph :as g]
@@ -196,7 +197,9 @@
    {:node-data node-data
     :key :year
     :name "collaborations by year"
-    :layout {:yaxis {:autorange nil}}}])
+    :layout {:yaxis {:tickformat "%Y"
+                     :autorange nil
+                     :type :date}}}])
 
 (defn inst-plot [node-data]
   [general-collab-plot 
@@ -213,11 +216,30 @@
       :name "collaborations by institution"
       :mapping pid->name}]))
 
+(defn select-perspective [insti?]
+  (fn []
+    [i/autocomplete
+     {:id :select-perspective-info-box
+      :label "select a view"
+      :style {:width "100%"}
+      :options
+      (vec
+       (concat
+        [{:value :publication :label "Publications by Area"}
+         {:value :year :label "Publications by Year"}]
+        (when insti?
+          [{:value :author-list :label "List of Affiliated Authors"}])
+        [{:value :author-collab :label "Collaborations by Authors"}
+         {:value :institution-collab :label "Collaborations by Institutions"}
+         {:value :country-collab :label "Collaborations by Countries"}]))}]))
+
 (defn node-info [node-data insti?] 
-  (let [tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])
+  (let [#_#_tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])
+        perspecitve (subscribe [::db/user-input-field :select-perspective-info-box])
         full-screen? (subscribe [:app.common.container/full-screen? :map-container])] 
     [:div 
-     [tabs/sub-tab
+     [select-perspective insti?]
+     #_[tabs/sub-tab
       {:id :inst-info
        :tabs-args {:variant :scrollable :scrollButtons :auto}
        :box-args {:margin-bottom "5px" :border-bottom 0 :width 460}
@@ -228,13 +250,13 @@
                        {:label "countries" :value :country}
                        {:label "year" :value :year}
                        {:label "author collab" :value :with-author}]))}] 
-     (case @tab-view
+     (case @perspecitve
        :publication [publication-plot {:node-data node-data}]
-       :author [author-table {:node-data node-data}]
-       :country [country-plot node-data]
-       :institution [inst-plot node-data]
+       :author-list [author-table {:node-data node-data}]
+       :country-collab [country-plot node-data]
+       :institution-collab [inst-plot node-data]
        :year [year-plot node-data]
-       :with-author [with-author-plot node-data]
+       :author-collab [with-author-plot node-data]
        [publication-plot {:node-data node-data}])]))
 
 (defn author-info [node-data]

@@ -191,7 +191,7 @@
   (get-all-graph-data))
 
 (defn graph-view []
-  (let [#_#_insti? (subscribe [::mp/insti?])
+  (let [insti? (subscribe [::mp/insti?])
         #_#_node-position (subscribe [::db/data-field :get-node-position])
         color-by (subscribe [::mp/color-by])
         loading? (subscribe [::api/graph-data-loading?])]
@@ -230,7 +230,7 @@
         {:id :graph-container
          :legend-bg-color :transparent
          :color-by @color-by
-         :title "Collaboration Graph"
+         :title (if @insti? "Affiliation Graph" "Collaboration Graph")
          :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
          :info-component [selected-info-graph]
          :info-open? (subscribe [::g/info-open?])

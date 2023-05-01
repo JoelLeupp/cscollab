@@ -87,7 +87,7 @@
 (defn map-config-panel [apply-fn]
   [input-panel
    {:id :map-config-panel
-    :start-closed false
+    :start-closed true
     :header "Graph Configuration and Interaction"
     :collapsable? true
     :content
