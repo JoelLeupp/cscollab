@@ -128,9 +128,9 @@
     (let [list-content (subscribe [::list-content])]
       (fn []
         [:<>
-         #_[filter-panel-conferences]
-         [:div {:id "test"} [:a {:name "test"}]]
-         [paper {:elevation 1 :sx {:padding 2 :background-color :white}}
+         #_[filter-panel-conferences] 
+         [paper {:elevation 0 :sx {:padding 2 :background-color :white}}
+          [:div {:style {:display :flex :justify-content :center}}]
           [:div 
            [show-conference]
            [nested-list

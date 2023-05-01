@@ -26,7 +26,7 @@
             :width "100%"}}
    [:> ic-checron-left]])
 
-(defn drawer [{:keys [content ref-id anchor drawer-args]
+(defn drawer [{:keys [content ref-id anchor drawer-args costume-content]
                :or {ref-id :main-menu}}]
   (let [open? (subscribe [::db/ui-states-field ref-id])]
     (fn [{:keys [ref-id anchor drawer-args]
@@ -40,10 +40,11 @@
          :open @open?
          :on-close (close-drawer ref-id @open?)}
         drawer-args)
-       [:<>
-        [drawer-header ref-id @open?]
-        [:> mui-divider]
-        content]])))
+       (or costume-content
+           [:<> 
+            [drawer-header ref-id @open?]
+            [:> mui-divider]
+            content])])))
 
 (comment
   @(subscribe [::db/ui-states-field :main-menu]))

@@ -2,6 +2,7 @@
   (:require
    [app.components.layout :as acl]
    [app.components.colors :as colors]
+   [app.cscollab.view.conference.conferences :refer (conferences-view)]
    [app.router :as router]))
 
 (defn guide-view []
@@ -13,21 +14,26 @@
     [:h2 {:style {:margin 0 :width "100%"}} "Overview"]
     [:p {:style {:width "100%"}}
      "This application serves as a visualizer, analyzer and explorer of the collaboration network of computer science
-            conference papers from the year 2015-2022 with focus on the field of AI. The collaboration network was created by combining data from"
+            conference papers from the year 2015-2022 with a focus on the field of AI. The collaboration network was created by combining data from"
      [:b [:a {:href "https://dblp.org/"} " dblp "]]
      "a computer science bibliography database with data from " [:b [:a {:href "https://csrankings.org/"} "csrankings"]]
 
      " which provides detailed information about authors and their affiliation to institutions and countries. The collaboration network 
-      is therefor based only on authors that are included in the Computer Science Rankings. Since every author is affiliated with an institution
-      the collaborations between authors can be aggregated by their institution. In the collaboration network the nodes represent therefor
+      is therefore based only on authors that are included in the Computer Science Rankings. Since every author is affiliated with an institution
+      the collaborations between authors can be aggregated by their institution. In the collaboration network, the nodes represent therefor
       either an author or an instituion and edges represent collaborations."]
     [:p "The publications are categorized by the research areas (4 main areas: AI, Systems, Theory and Interdisciplinary Areas and 23 sub areas)
-      and for every research area only the papers from the leading conferences are considered. The conferences where selected based on the impact score
+      and for every research area only the papers from the leading conferences are considered. The conferences were selected based on the impact score
       from" [:b [:a {:href "https://research.com/conference-rankings/computer-science"} " research.com "]]
-     "and the selection of conferences from CSRankings.                                                  
-      The network includes a total of 76'546 publications from 127 Conferences, 148'379 individual collaborations between authors, 14'555 Authors
-      and 597 Institutions."]
-    [:p "The application provides a various visualizations, analytics and statistics of the collaboration network among others a geographical 
+     "and the selection of conferences from CSRankings. Below you find an explorer which shows for every research area the selected conferences and with the 
+      search function it can be easily checked if a confernce is included in any area or not. The next to the conference titles is a dblp icon which can be clicked 
+      to get to the dblp page of the conference."]
+
+    [conferences-view]
+
+
+    [:p "The network includes a total of 76'546 publications from 127 Conferences, 148'379 individual collaborations between authors, 14'555 Authors
+      and 597 Institutions. The application provides various visualizations, analytics and statistics of that network among others a geographical 
          visualization of the collaboration network in the form of an interactive map and a graph representation
          where the nodes are grouped by reseach areas which is done by using Graph Convolutional Network Models. Further, several explorers are provided to
          make the data transparent and accessible and allow a detailed inspecation of the data. A more detailed documentation and the full code of the dataset generation, the backend and the frontend

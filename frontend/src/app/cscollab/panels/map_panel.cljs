@@ -84,17 +84,21 @@
                                  :graph (g/show-ele @node)
                                  nil)}])}]])))
 
-(defn map-config-panel []
+(defn map-config-panel [apply-fn]
   [input-panel
    {:id :map-config-panel
     :start-closed false
     :header "Graph Configuration and Interaction"
     :collapsable? true
     :content
-    [grid/grid
-     {:grid-args {:justify-content :space-evenly}
-      :item-args {:elevation 0}
-      :content
-      [{:xs 3 :content [insti-switch]}
-       {:xs 3 :content [show-node]}
-       {:xs 3 :content [graph-color]}]}]}])
+    [:div
+     [grid/grid
+      {:grid-args {:justify-content :space-evenly}
+       :item-args {:elevation 0}
+       :content
+       [{:xs 3 :content [insti-switch]}
+        {:xs 3 :content [show-node]}
+        {:xs 3 :content [graph-color]}]}]
+     [:div {:style {:display :flex :justify-content :center :margin-top 20}}
+      [button {:text "apply"
+               :on-click  apply-fn}]]]}])

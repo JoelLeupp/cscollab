@@ -4,10 +4,17 @@
    [app.cscollab.data :as data]
    [app.db :as db]
    [app.util :as util]
+   [reagent.core :as r]
    [app.components.grid :as grid]
+   [app.components.button :refer (button)]
+   ["@mui/material/Typography" :default mui-typography]
+   ["@mui/material/Card" :default mui-card]
+   ["@mui/material/CardHeader" :default mui-card-header]
+   ["@mui/material/CardActions" :default mui-card-actions]
+   ["@mui/material/CardContent" :default mui-card-content]
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
-   [app.components.lists :as lists] 
+   [app.components.lists :as lists]
    [app.components.inputs :as i]))
 
 
@@ -168,6 +175,27 @@
        {:xs 5 :content [stric-boundary-filter]}
        {:xs 5 :content [area-filter :area-checkbox false]}
        {:xs 5 :content [region-filter]}]}]}])
+
+(defn data-selection-panel [apply-fn]
+  (fn []
+    [:> mui-card
+     {:square true
+      :elevation 0
+      :style {:margin-top 15 :margin-bottom 15}}
+     [:> mui-card-content
+      [lists/sub-header {:subheader "Data Selection - Graph Filters" :style {:font-size 25 :text-align :center}}]
+      [grid/grid
+       {:grid-args {:justify-content :space-evenly}
+        :item-args {:elevation 0}
+        :content
+        [{:xs 5 :content [year-filter]}
+         {:xs 5 :content [stric-boundary-filter]}
+         {:xs 5 :content [area-filter :area-checkbox false]}
+         {:xs 5 :content [region-filter]}]}]]
+     [:> mui-card-actions 
+      {:sx {:display :flex :justify-content :center}}
+      (r/as-element [button {:text "apply Filters"
+                             :on-click  apply-fn}])]]))
 
 (defn filter-panel-author []
   [input-panel

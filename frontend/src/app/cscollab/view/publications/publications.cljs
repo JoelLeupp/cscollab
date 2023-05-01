@@ -334,7 +334,7 @@
                            :status :info
                            :auto-hide-duration nil
                            :message "Data is loading, please wait."}]
-       [filter-panel/filter-panel-author]
+       #_[filter-panel/filter-panel-author]
        [paper {:elevation 1 :sx {:padding 4 :background-color :white :min-height "60vh"}}
         ^{:key [@loading-collab? @reset @loading-info?]}
         [:div
