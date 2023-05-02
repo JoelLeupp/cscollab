@@ -51,14 +51,20 @@
             :body [{:metric (str "Number of " (if @insti? "Institutions" "Authors")) :value (:nodes statistics)}
                    {:metric "Number of Edges" :value (:edges statistics)}
                    {:metric "Number of Collaborations" :value weighted-edges}
-                   {:metric "Number of Publications" :value n-publications}
-                   {:metric "Number of Triangles" :value (:triangle_count statistics)}
+                   {:metric "Number of Publications" :value n-publications} 
                    {:metric "Average Degree" :value (gstring/format "%.1f" (:average_degree statistics))}
-                   {:metric "Max Degree" :value (:max_degree statistics)} 
+                   {:metric "Max Degree" :value (:max_degree statistics)}
+                   {:metric "Number of Triangles" :value (:triangle_count statistics)}
+                   {:metric "Number of loops" :value (:loops statistics)}
+                   {:metric "Degree Assortativity Coefficient" :value (gstring/format "%.3f" (:degree_assortativity_coefficient statistics))}
                    {:metric "Graph Density" :value (gstring/format "%.3f" (:density statistics))}
+                   {:metric "Average Clustering Coefficienty" :value (gstring/format "%.3f" (:clustering_coefficient statistics))} 
                    {:metric "Graph is connected?" :value (if (:is_connected statistics) "yes" "no")}
                    {:metric "Number Connected Components" :value (:number_connected_components statistics)}
-                   {:metric "Largest Connected Component" :value (:largest_connected_component statistics)}]
+                   {:metric "Largest Connected Component" :value (str (:largest_connected_component statistics) " (" 
+                                                                      (* 100 (/ (:largest_connected_component statistics) (:nodes statistics)))
+                                                                      "%)")}
+                   ]
             :paper-args {:sx {:width 400}}
             :container-args {:sx {}}
             :table-args {:sticky-header true :size "small"}}])))))
