@@ -40,9 +40,9 @@
         {:value :year :label "Publications by Year"}]
        (when insti?
          [{:value :authors :label "List of Affiliated Authors"}])
-       [{:value :author-collab :label "Collaborations by Authors"}
-        {:value :institutions :label "Collaborations by Institutions"}
-        {:value :countries :label "Collaborations by Countries"}])}]))
+       [{:value :author-collab :label "Collaborations with Authors"}
+        {:value :institutions :label "Collaborations with Institutions"}
+        {:value :countries :label "Collaborations with Countries"}])}]))
 
 
 (defn select-overview-perspective []

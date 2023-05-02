@@ -229,9 +229,9 @@
          {:value :year :label "Publications by Year"}]
         (when insti?
           [{:value :author-list :label "List of Affiliated Authors"}])
-        [{:value :author-collab :label "Collaborations by Authors"}
-         {:value :institution-collab :label "Collaborations by Institutions"}
-         {:value :country-collab :label "Collaborations by Countries"}]))}]))
+        [{:value :author-collab :label "Collaborations with Authors"}
+         {:value :institution-collab :label "Collaborations with Institutions"}
+         {:value :country-collab :label "Collaborations with Countries"}]))}]))
 
 (defn node-info [node-data insti?] 
   (let [#_#_tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])

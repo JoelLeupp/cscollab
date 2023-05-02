@@ -45,8 +45,8 @@
      :label "Color Graph by"
      :option-label :option-label
      :options [{:value :no-coloring :label "No Coloring"} 
-               {:value :area :label "by top area"}
-               {:value :subarea :label "by top sub area"}
+               {:value :area :label "associated area"}
+               {:value :subarea :label "associated sub area"}
                {:value :degree-centrality :label "degree centrality"}
                {:value :eigenvector-centrality :label "eigenvector centrality"}]}]])
 
