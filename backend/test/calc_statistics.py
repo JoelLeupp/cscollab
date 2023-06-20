@@ -2,12 +2,16 @@
 import requests
 import json
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import analytics.statistics as stat
+import networkx as nx
 
 
 local_url = "http://127.0.0.1:8030"
 server_url = "https://cscollab.ifi.uzh.ch/backend"
 
-url_base = local_url 
+url_base = server_url 
 
 regions = ["wd","northamerica","asia","europe","dach"]
 from_year = 2005
@@ -203,8 +207,6 @@ for region in regions:
         url_filtered_collab = url_base+"/api/db/get_filtered_collaboration"
         config_author={ "from_year": from_year,
                     "region_ids":region_ids,
-                    "area_ids" : ["ai"],
-                     "sub_area_ids":[],
                     "strict_boundary":strict_boundary,
                     "institution":False}
     
@@ -221,8 +223,6 @@ for region in regions:
 
         config_inst ={ "from_year": from_year,
                     "region_ids":region_ids,
-                    "area_ids" : ["ai"],
-                     "sub_area_ids":[],
                     "strict_boundary":strict_boundary,
                     "institution":True}
         input_inst = {"config": json.dumps(config_inst),
@@ -241,3 +241,164 @@ results_centrality_institutions = pd.concat(df_centrality_institutions,axis=1)
 results_centrality_authors.to_excel("centrality_author_" + str(from_year) + ".xlsx")
 results_centrality_institutions.to_excel("centrality_inst_" + str(from_year) + ".xlsx")
 
+
+regions = ["wd","northamerica","asia","europe","dach"]
+from_year = 2005
+
+df_centrality_authors = []
+df_centrality_institutions = []
+
+for region in regions:
+        strict_boundary = True
+        region_ids = [region]
+        name = region 
+        url_filtered_collab = url_base+"/api/db/get_filtered_collaboration"
+        config_author={ "from_year": from_year,
+                    "region_ids":region_ids,
+                    "strict_boundary":strict_boundary,
+                    "institution":False}
+    
+
+        url_analytics = url_base+"/api/db/get_weighted_collab"
+        input_author = {"config": json.dumps(config_author)}
+        x = requests.post(url_analytics, json = input_author)
+        res = json.loads(x.content)
+        data = pd.DataFrame(res)
+        nodes = list(set(data["node/m"]) | set(data["node/n"]))
+        edges=[tuple(row.values) for _,row in data.iterrows()]
+        
+        """crate networkx graph and get analytics"""
+        G = stat.gen_graph(nodes, edges, weighted=True)
+        # centrality_scores= (sorted(nx.centrality.closeness_centrality(G).items(), 
+        #                 key=lambda item: item[1], reverse=True))[:10]
+        centrality_scores=(sorted(nx.centrality.betweenness_centrality(G).items(),
+                            key=lambda item: item[1], reverse=True))[:10]
+        centrality_athors = stat.__tuple_to_array(centrality_scores)
+        
+        top_authors = list(map(lambda x: csauthors_map[x["id"]],centrality_athors))
+        author_df = pd.DataFrame({name:top_authors})
+        df_centrality_authors.append(author_df)
+
+        config_inst ={ "from_year": from_year,
+                    "region_ids":region_ids,
+                    "strict_boundary":strict_boundary,
+                    "institution":True}
+        
+        input_inst = {"config": json.dumps(config_inst)}
+        x = requests.post(url_analytics, json = input_inst)
+        res = json.loads(x.content)
+        data = pd.DataFrame(res)
+        nodes = list(set(data["node/m"]) | set(data["node/n"]))
+        edges=[tuple(row.values) for _,row in data.iterrows()]
+        
+        """crate networkx graph and get analytics"""
+        G = stat.gen_graph(nodes, edges, weighted=True)
+        # centrality_scores= (sorted(nx.centrality.closeness_centrality(G).items(), 
+        #                 key=lambda item: item[1], reverse=True))[:10]
+        centrality_scores=(sorted(nx.centrality.betweenness_centrality(G).items(),
+                            key=lambda item: item[1], reverse=True))[:10]
+        centrality_inst = stat.__tuple_to_array(centrality_scores)
+        
+        top_inst = list(map(lambda x: x["id"],centrality_inst))
+        inst_df = pd.DataFrame({name:top_inst})
+        df_centrality_institutions.append(inst_df)
+
+        
+results_centrality_authors = pd.concat(df_centrality_authors,axis=1)
+results_centrality_institutions = pd.concat(df_centrality_institutions,axis=1)
+
+results_centrality_authors.to_excel("between_centrality_author_" + str(from_year) + ".xlsx")
+results_centrality_institutions.to_excel("between_centrality_inst_" + str(from_year) + ".xlsx")
+
+#degree distribution
+# $ sudo apt install msttcorefonts -qq
+# sudo apt install font-manager
+# $ rm ~/.cache/matplotlib -rf
+
+regions = ["wd"]
+from_year = 2005
+url_analytics = url_base+"/api/db/get_weighted_collab"
+config_author={ "from_year": from_year,
+                    "region_ids":regions,
+                    "strict_boundary":True,
+                    "institution":False}
+input_author = {"config": json.dumps(config_author)}
+x = requests.post(url_analytics, json = input_author)
+res = json.loads(x.content)
+data = pd.DataFrame(res)
+nodes = list(set(data["node/m"]) | set(data["node/n"]))
+edges=[tuple(row.values) for _,row in data.iterrows()]
+
+"""crate networkx graph and get analytics"""
+G = stat.gen_graph(nodes, edges, weighted=True)
+
+degree_sequence_author = sorted((d for n, d in G.degree()), reverse=True)
+dmax = max(degree_sequence_author)
+outliers = [141, 132, 120, 114, 106, 97]
+
+plt.style.use('default')
+plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams['xtick.direction'] = 'out'
+plt.rcParams['ytick.direction'] = 'out'
+plt.rcParams['text.usetex'] = False
+plt.rcParams['font.size'] = 15
+plt.rcParams['legend.fontsize'] = 18
+
+fig = plt.figure(figsize=(9,4))
+fig.axes.get_xaxis().set_visible(False)
+fig.axes.get_yaxis().set_visible(False)
+ax = fig.add_axes([0,0,1,1])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+ax.spines['left'].set_visible(False)
+plt.ylim([-50, 2200])
+ax.bar(*np.unique(degree_sequence_author, return_counts=True),color="#264653")
+ax.scatter([141, 132, 120, 114, 106, 97], [1,1,1,1,1,1], color="#264653",marker="D",s=5)
+ax.set_xlabel("Degree")
+ax.set_ylabel("Number of Nodes")
+plt.savefig('degree_dist_authors.png',bbox_inches='tight')
+
+
+config_inst={ "from_year": from_year,
+                    "region_ids":regions,
+                    "strict_boundary":True,
+                    "institution":True}
+input_inst = {"config": json.dumps(config_inst)}
+x = requests.post(url_analytics, json = input_inst)
+res = json.loads(x.content)
+data = pd.DataFrame(res)
+nodes = list(set(data["node/m"]) | set(data["node/n"]))
+edges=[tuple(row.values) for _,row in data.iterrows()]
+
+"""crate networkx graph and get analytics"""
+G = stat.gen_graph(nodes, edges, weighted=True)
+
+degree_sequence_inst = sorted((d for n, d in G.degree()), reverse=True)
+dmax = max(degree_sequence_inst)
+
+
+plt.style.use('default')
+plt.rcParams["font.family"] = "Times New Roman"
+plt.rcParams['xtick.direction'] = 'out'
+plt.rcParams['ytick.direction'] = 'out'
+plt.rcParams['text.usetex'] = False
+plt.rcParams['font.size'] = 15
+plt.rcParams['legend.fontsize'] = 18
+
+fig = plt.figure(figsize=(9,4))
+fig.axes.get_xaxis().set_visible(False)
+fig.axes.get_yaxis().set_visible(False)
+ax = fig.add_axes([0,0,1,1])
+ax.spines['top'].set_visible(False)
+ax.spines['right'].set_visible(False)
+ax.spines['bottom'].set_visible(False)
+ax.spines['left'].set_visible(False)
+hist = np.histogram(degree_sequence_inst, bins=np.arange(0,340,step=10))
+ax.bar(hist[1][1:],hist[0],color="#264653",width=6)
+ax.set_xlabel("Degree")
+ax.set_ylabel("Number of Nodes")
+plt.savefig('degree_dist_inst.png',bbox_inches='tight')
+
+_ = plt.hist(degree_sequence_inst, bins='auto',color="#264653")
+plt.savefig('degree_dist_inst.png',bbox_inches='tight')

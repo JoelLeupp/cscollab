@@ -2,8 +2,10 @@ import GNN.gen_dataset as dataset
 import GNN.node_classification as nc 
 import requests
 import json
+import numpy as np
 import pandas as pd
 from torch_geometric.nn import summary
+import torch_geometric.transforms as T
 
 from_year = 2005
 region_ids = ["wd"]
@@ -65,7 +67,7 @@ nc.get_position(model_inst_subarea,data_inst_subarea)
 # model testing equal top area, subarea == true
 local_url = "http://127.0.0.1:8030"
 server_url = "https://cscollab.ifi.uzh.ch/backend"
-url_base = local_url 
+url_base = server_url 
 
 url =  url_base+"/api/db/get_area_mapping"
 x = requests.get(url)
@@ -94,6 +96,7 @@ def validate(model,data):
 
 from_year = 2005
 region_ids = ["dach"]
+transform = T.RandomNodeSplit(split='train_rest', num_val=0.3, num_test=0)
 
 """ test author area model """
 url = url_base+"/api/db/get_frequency_research_field"
@@ -110,6 +113,13 @@ data_area = dataset.get_torch_data(config, use_sub_areas)
 
 model_area = nc.author_area_model(data_area)
 test_multiple(model_area,data_area,freq,use_sub_areas) #0.9885262796289934
+validation=[]
+for i in range(100):
+      transform(data_area)
+      validation.append(validate(model_area,data_area))
+      
+np.std(np.array(validation))*100
+np.mean(np.array(validation))*100
 validate(model_area,data_area) #0.9878607420980302
 
 """ test author subarea sub area """
@@ -118,7 +128,14 @@ data_subarea = dataset.get_torch_data(config, use_sub_areas)
 
 model_subarea = nc.author_subarea_model(data_subarea)
 test_multiple(model_subarea,data_subarea,freq,use_sub_areas) #0.9624871178289248
-validate(model_subarea,data_subarea) #0.9507558405863491
+
+validation=[]
+for i in range(100):
+      transform(data_subarea)
+      validation.append(validate(model_subarea,data_subarea))
+      
+np.std(np.array(validation))*100
+np.mean(np.array(validation))*100
 
 """ test inst subarea model """
 url = url_base+"/api/db/get_frequency_research_field"
@@ -135,6 +152,14 @@ data_area = dataset.get_torch_data(config, use_sub_areas)
 
 model_area = nc.inst_area_model(data_area)
 test_multiple(model_area,data_area,freq,use_sub_areas) #0.9179229480737019
+validation=[]
+for i in range(100):
+      transform(data_area)
+      validation.append(validate(model_area,data_area))
+      
+np.std(np.array(validation))*100
+np.mean(np.array(validation))*100
+
 validate(model_area,data_area) #0.9553072625698324
 
 """ test inst subarea sub area """
@@ -143,4 +168,11 @@ data_subarea = dataset.get_torch_data(config, use_sub_areas)
 
 model_subarea = nc.inst_subarea_model(data_subarea)
 test_multiple(model_subarea,data_subarea,freq,use_sub_areas) #0.8140703517587939
+validation=[]
+for i in range(100):
+      transform(data_subarea)
+      validation.append(validate(model_subarea,data_subarea))
+      
+np.std(np.array(validation))*100
+np.mean(np.array(validation))*100
 validate(model_subarea,data_subarea) #0.888268156424581

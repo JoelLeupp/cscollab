@@ -7,7 +7,6 @@
    ["@mui/material/Snackbar" :default mui-snackbar]
    [app.components.alert :refer (alert)]))
 
-
 (reg-event-fx
  ::open
  (fn [{db :db} [_ id]]
@@ -41,11 +40,9 @@
   [snackbar
    {:id id
     :props props
-    :action action 
+    :action action
     :auto-hide-duration auto-hide-duration
-    :content
-    [:div
-     [alert {:severity (or status :info)
-             :on-close #(dispatch [::close id])
-             :content message
-             :alert-args {:sx {:width "100%"}}}]]}])
+    :content [:div [alert {:severity (or status :info)
+                      :on-close #(dispatch [::close id])
+                      :content message
+                      :alert-args {:sx {:width "100%"}}}]]}])

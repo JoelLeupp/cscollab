@@ -97,7 +97,7 @@ of top nodes to show from the centrality scores and returns a summary of graph t
 }
 ```
 
-#GNN
+# GNN
 
 We want to classffiy the institutions/authors of the collaboration network by the sub/area where they have the most publications. For this we implemented a semi-supervised node classification using graph convolutional networks [GCN](https://pytorch-geometric.readthedocs.io/en/latest/generated/torch_geometric.nn.conv.GCNConv.html#torch_geometric.nn.conv.GCNConv). 
 
