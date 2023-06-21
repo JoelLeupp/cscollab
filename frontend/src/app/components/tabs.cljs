@@ -64,14 +64,12 @@
                  :as m}]
   (tabs-comp (util/deep-merge
               {:box-args {:border-color (colors/colors :main)}
-               :tab-comp (styles/styled tab (fn [{:keys [theme]}] (tab-style :main)))
-               #_#_:tab-args {:style (tab-style :main)}}
+               :tab-comp (styles/styled tab (fn [{:keys [theme]}] (tab-style :main)))}
               m)))
 
 (defn sub-tab [{:keys [id choices box-args tabs-args tab-args]
                 :as m}]
   (tabs-comp (util/deep-merge
               {:box-args {:border-color (colors/colors :main)}
-               :tab-comp (styles/styled tab (fn [{:keys [theme]}] (tab-style :second)))
-               #_#_:tab-args {:style (tab-style :second)}}
+               :tab-comp (styles/styled tab (fn [{:keys [theme]}] (tab-style :second)))}
               m)))

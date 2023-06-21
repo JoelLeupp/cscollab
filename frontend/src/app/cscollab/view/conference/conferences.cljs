@@ -47,8 +47,7 @@
        list-items
        (for [area sorted-nested-area]
          (merge
-          {:id (util/s->id (:id area))
-           #_#_:label (:label area)
+          {:id (util/s->id (:id area)) 
            :costum-label
            [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
             [:>  mui-list-item-text {:primary (:label area)}]
@@ -63,8 +62,7 @@
                  [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
                   [:>  mui-list-item-text {:primary (:label sub-area)}]
                   [:>  mui-list-item-text {:primary (count (filter #(= (:sub-area-id %) (name (:id sub-area))) area-mapping))
-                                           :primary-typography-props {:text-align :right}}]]
-                 #_#_:label (:label sub-area)}
+                                           :primary-typography-props {:text-align :right}}]]}
                 (when (:conferences sub-area)
                   {:children
                    (for [conf (:conferences sub-area)]
@@ -77,19 +75,14 @@
                                         :width 10 :height 10 :padding 10}]]
                                 [:> mui-list-item-text {:primary (:label conf)
                                                         :style (when (= (:id conf) selected-conf)
-                                                                  {:color (:second colors)})}]]}]
-                      #_#_:label (r/as-element
-                                  [:a {:href (dblp-conf-link (:id conf))
-                                       :style {:text-decoration "none"}}
-                                   (:label conf)])})})))})))]
+                                                                 {:color (:second colors)})}]]}]})})))})))]
        (concat [{:id "conference-list"
                  :costum-label
                  [:div {:style {:width "90%" :display :flex :justify-content :space-between}}
                   [:>  mui-list-item-text {:primary "List of Conferences by Area"
                                            :primary-typography-props {:font-size 17}}]
                   [:>  mui-list-item-text {:primary "Count"
-                                           :primary-typography-props {:text-align :right :font-size 17}}]]
-                 #_#_:label  "List of Included Conferences"}] list-items)))))
+                                           :primary-typography-props {:text-align :right :font-size 17}}]]}] list-items)))))
 
 (defn show-conference []
   (let [area-mapping (subscribe [::db/data-field :get-area-mapping])
@@ -104,8 +97,7 @@
                           @area-mapping))))
               conf-map (util/factor-out-key @area-mapping :conference-id)
               {:keys [area-id sub-area-id]} (get conf-map @selected-conf)]
-          [:div
-           #_[lists/sub-header {:subheader "show node in graph" :style {:text-align :left :padding 0}}]
+          [:div 
            [horizontal-stack
             {:items
              (list
@@ -127,14 +119,13 @@
   (defn conferences-view []
     (let [list-content (subscribe [::list-content])]
       (fn []
-        [:<>
-         #_[filter-panel-conferences] 
+        [:<> 
          [paper {:elevation 0 :sx {:padding 2 :background-color :white}}
           [:div {:style {:display :flex :justify-content :center}}]
           [:div 
            [show-conference]
            [nested-list
             {:id :conference-list
-             :list-args {:dense false :sx {#_#_:background-color :white :max-width 1000 :width "100%"}}
+             :list-args {:dense false :sx {:max-width 1000 :width "100%"}}
              :content @list-content}]]]])))
 

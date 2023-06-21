@@ -53,9 +53,7 @@
                                    (= % (:node/n node)))) weighted-collab)))
          nodes)
         node->weight
-        (zipmap nodes weights)
-        min-weight (apply min weights)
-        max-weight (apply max weights)] 
+        (zipmap nodes weights)] 
     (vec
      (concat
       (remove
@@ -66,8 +64,7 @@
              (hash-map :type (if insti? :inst-marker :author)
                        :id (:id node-data)
                        :name (:name node-data)
-                       :scale (percentil-scale weights (get node->weight (:id node-data)))
-                       #_(linear-scale min-weight max-weight (get node->weight (:id node-data)))
+                       :scale (percentil-scale weights (get node->weight (:id node-data))) 
                        :coordinates (:coord node-data))))
         nodes))))))
 
@@ -87,7 +84,7 @@
                              lat-diff-km (* 111320 0.01) ; 1° of latitude =  111.32 km
                              lon-diff-km (js/Math.abs (/ (* (* 40075000 0.01) (js/Math.cos lat-ellipse)) 360)) ; 1° of longitude = 40075 km * cos( latitude ) / 360
                              tilt  (/ (* 180 (js/Math.atan (/ lat-diff-km lon-diff-km))) js/Math.PI)
-                             radius lat-diff-km #_(js/Math.sqrt (+ (js/Math.pow lat-diff-km 2) (js/Math.pow lon-diff-km 2)))] 
+                             radius lat-diff-km] 
                          (hash-map :type :ellipse
                                    :tilt 90
                                    :radius (/ 111320 100)
@@ -240,7 +237,7 @@
          :legend-bg-color :white
          :color-by @color-by
          :title "Landscape of Scientific Collaborations" 
-         :update-event #(update-event) #_(dispatch [::ll/set-leaflet [:geometries] (gen-geometries {:insti? @insti?})])
+         :update-event #(update-event) 
          :content [map-comp @insti?] 
          :info-component [selected-info-map]
          :info-open? (subscribe [::ll/info-open?])}]])))

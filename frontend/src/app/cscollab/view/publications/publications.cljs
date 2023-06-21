@@ -75,15 +75,15 @@
 (defn year-records [year-open? id sub-area-label year records]
   (fn []
     (when @year-open?
-      (let [grouped-by-p (group-by (juxt :conf_title :conf_id) #_(juxt :p_title :p_id)
-                                   (sort-by :conf_title #_:p_title records))]
+      (let [grouped-by-p (group-by (juxt :conf_title :conf_id) 
+                                   (sort-by :conf_title  records))]
         [:div
          (for [[[p-title p-id] records-p] grouped-by-p]
            [:div {:style {:margin-left 15 :margin-right 15}}
             [:div {:style {:display :flex :justify-content :space-between :width "100%"}}
              [horizontal-stack
               {:stack-args {:spacing 2}
-               :items [[:a {:href (dblp-conf-link p-id) #_(dblp-proceeding-link p-id) :style {:display :flex :align-items :center}}
+               :items [[:a {:href (dblp-conf-link p-id) :style {:display :flex :align-items :center}}
                         [:img {:src "img/dblp.png" :target "_blank"
                                :width 10 :height 10 :padding 0}]]
                        [:span {:style {:margin-top 10 :margin-bottom 10 :font-size 17}} p-title]]}]
@@ -333,8 +333,7 @@
                            :anchor-origin {:vertical :top :horizontal :center}
                            :status :info
                            :auto-hide-duration nil
-                           :message "Data is loading, please wait."}]
-       #_[filter-panel/filter-panel-author]
+                           :message "Data is loading, please wait."}] 
        [paper {:elevation 1 :sx {:padding 4 :background-color :white :min-height "60vh"}}
         ^{:key [@loading-collab? @reset @loading-info?]}
         [:div

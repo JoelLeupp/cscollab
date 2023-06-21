@@ -112,12 +112,7 @@
     (mapv #(hash-map
             :style {:width (* 20 (linear-scale min-weight max-weight (get node->weight %) 3) #_(percentil-scale weights (get node->weight %)))
                     :height (* 20 (linear-scale min-weight max-weight (get node->weight %) 3) #_(percentil-scale weights (get node->weight %)))}
-            :data (merge {:id % 
-                          #_(case color-by
-                              :area (get area-color (keyword (get-in frequency [% "area" "top"])))
-                              :subarea (get sub-area-color (keyword (get-in frequency [% "subarea" "top"])))
-                              (:main colors))
-                          #_#_:label (get-in geo-mapping [% :name])}
+            :data (merge {:id %}
                          (color-node %))
             :position {:x (* (if insti? 100 30) (get-in node-position [% "x"]))
                        :y (* (if insti? 100 30) (get-in node-position [% "y"]))})
@@ -166,9 +161,7 @@
                                        :color :white
                                        :font-size 6
                                        :text-halign :center
-                                       :text-valign :center}}
-                              #_{:selector :edge
-                               :style {:line-color (:main colors)}}]
+                                       :text-valign :center}}]
                 :style {:width "100%" :hight "100%" :background-color "white"}}])))
 
 
@@ -191,8 +184,7 @@
   (get-all-graph-data))
 
 (defn graph-view []
-  (let [insti? (subscribe [::mp/insti?])
-        #_#_node-position (subscribe [::db/data-field :get-node-position])
+  (let [insti? (subscribe [::mp/insti?]) 
         color-by (subscribe [::mp/color-by])
         loading? (subscribe [::api/graph-data-loading?])]
     (add-watch (subscribe [::g/graph-field :selected]) ::select-connected
@@ -231,11 +223,10 @@
          :legend-bg-color :transparent
          :color-by @color-by
          :title (if @insti? "Affiliation Graph" "Collaboration Graph")
-         :content [graph-comp] #_[:div {:style {:margin 0 :padding 0 :width "100%" :height "100%" :text-align :center}}]
+         :content [graph-comp]
          :info-component [selected-info-graph]
          :info-open? (subscribe [::g/info-open?])
-         :update-event #(graph-update)
-         #_#(dispatch [::g/set-graph-field [:elements] (gen-elements)])}]])))
+         :update-event #(graph-update)}]])))
 
 
   

@@ -76,10 +76,7 @@
                         :items [[:span (get pid->name pid)]
                                 [:a {:href (dblp-author-page pid)}
                                  [:img {:src "img/dblp.png" :target "_blank"
-                                        :width 10 :height 10 :padding 10}]]
-                                #_[:div {:style {:margin-top 1}}
-                                 [:img {:src "img/scholar-favicon.ico" :target "_blank"
-                                        :width 10 :height 10}]]]}])
+                                        :width 10 :height 10 :padding 10}]]]}])
         author-count (map #(assoc % :author (author-item (:key %))) author-map)]
     (fn []
       [basic-table
@@ -128,8 +125,7 @@
           :style (util/deep-merge {:width 440 :height (max 300 (+ 150 (* 45 (count area-data))))} style)
           :layout (util/deep-merge
                    {:margin  {:pad 10 :t 0 :b 30 :l 200 :r 5}
-                    :bargap 0.2
-                    #_#_:title "Publications per Area"
+                    :bargap 0.2 
                     :legend {:y 1.1 :x -1
                              :orientation :h}
                     :xaxis {:range [0 (+ 35 (apply max (map :count area-data)))]}
@@ -234,22 +230,10 @@
          {:value :country-collab :label "Collaborations with Countries"}]))}]))
 
 (defn node-info [node-data insti?] 
-  (let [#_#_tab-view (subscribe [::db/ui-states-field [:tabs :inst-info]])
-        perspecitve (subscribe [::db/user-input-field :select-perspective-info-box])
+  (let [perspecitve (subscribe [::db/user-input-field :select-perspective-info-box])
         full-screen? (subscribe [:app.common.container/full-screen? :map-container])] 
     [:div 
-     [select-perspective insti?]
-     #_[tabs/sub-tab
-      {:id :inst-info
-       :tabs-args {:variant :scrollable :scrollButtons :auto}
-       :box-args {:margin-bottom "5px" :border-bottom 0 :width 460}
-       :choices (vec (concat
-                      [{:label "publications" :value :publication}]
-                      (when insti? [{:label "authors" :value :author}])
-                      [{:label "institutions" :value :institution}
-                       {:label "countries" :value :country}
-                       {:label "year" :value :year}
-                       {:label "author collab" :value :with-author}]))}] 
+     [select-perspective insti?] 
      (case @perspecitve
        :publication [publication-plot {:node-data node-data}]
        :author-list [author-table {:node-data node-data}]
@@ -285,10 +269,10 @@
             id (if node? :get-publications-node-graph :get-publications-edge-graph)]
         [:div
          [:div {:style {:display :flex :justify-content :space-between
-                        :width "100%" :height "100%" #_#_:border-style :solid}}
+                        :width "100%" :height "100%" }}
           (if node?
             (if @insti?
-              [:h3 #_{:style {:margin-top 0}} (first selected-ele)]
+              [:h3 (first selected-ele)]
               (let [{:keys [name institution]} (first (filter #(= (first selected-ele) (:pid %)) @csauthors))]
                 [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin-top 0 :margin-bottom 10}} institution]]))
             [:h3 {:style {:margin 0}} "Collaboration"])
@@ -320,10 +304,10 @@
             id (if node? :get-publications-node-map :get-publications-edge-map)]
         [:div
          [:div {:style {:display :flex :justify-content :space-between
-                        :width "100%" :height "100%" #_#_:border-style :solid}}
+                        :width "100%" :height "100%" }}
           (if node?
             (if @insti?
-              [:h3 #_{:style {:margin-top 0}} selected]
+              [:h3  selected]
               (let [{:keys [name institution]} (first (filter #(= selected (:pid %)) @csauthors))]
                 [:div [:h3 {:style {:margin-bottom 0}} name] [:h4 {:style {:margin-top 0 :margin-bottom 20}} institution]]))
             [:h3 {:style {:margin 0}} "Collaboration"])

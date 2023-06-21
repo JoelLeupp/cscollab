@@ -105,39 +105,7 @@
            (mapv
             (fn [a] (identity {:id (:pid a)  :label (get pid->name (:pid a))}))
             (filter (fn [x] (= (:inst x) (:inst i))) author-inst)))}))
-      (filter (fn [x] (= (:country x) (name country-id))) inst-country)))
-    #_(mapv
-     #(into
-       {}
-       [{:id
-         (util/s->id (-> % first first))
-         :label
-         (-> % first second)}
-        {:countries
-         (sort-by
-          :label
-          (mapv
-           (fn [[k _]]
-             (merge
-              (hash-map :id (util/s->id (first k)) :label (second k))
-              {:institutions
-               (sort-by
-                :label
-                (mapv
-                 (fn [i]
-                   (merge
-                    (identity {:id (:inst i)  :label (:inst i)})
-                    {:authors
-                     (sort-by
-                      :label
-                      (mapv
-                       (fn [a] (identity {:id (:pid a)  :label (get pid->name (:pid a))}))
-                       (filter (fn [x] (= (:inst x) (:inst i))) author-inst)))}))
-                 (filter (fn [x] (= (:country x) (first k))) inst-country)))}))
-           (group-by (juxt :country-id :country-name) (second %))))}])
-     (group-by (juxt :region-id :region-name) (filter #(not (or (= (:region-id %) "wd")
-                                                                (= (:region-id %) "dach")
-                                                                )) selected-region-mapping)))))
+      (filter (fn [x] (= (:country x) (name country-id))) inst-country)))))
     
 
 (defn nested-author-list []
@@ -201,18 +169,15 @@
                (zipmap  (map :b_pid @filtered-collab)
                         (map #(identity {:country (keyword (:b_country %))
                                          :inst (get pid->inst (:b_pid %))
-                                         :name (get pid->name (:b_pid %))}) @filtered-collab))) 
+                                         :name (get pid->name (:b_pid %))}) @filtered-collab)))
               options
               (sort-by
                :label
                (vec (set
-                     (map (fn [[pid info]] 
+                     (map (fn [[pid info]]
                             (identity {:value pid :label (:name info)}))
-                          author->dict))))
-              #_#_conf-map (util/factor-out-key @area-mapping :conference-id)
-              #_#_{:keys [area-id sub-area-id]} (get conf-map @selected-conf)]
-          [:div
-           #_[lists/sub-header {:subheader "show node in graph" :style {:text-align :left :padding 0}}]
+                          author->dict))))]
+          [:div 
            [horizontal-stack
             {:items
              (list
@@ -250,8 +215,7 @@
                            :anchor-origin {:vertical :top :horizontal :center}
                            :status :info
                            :auto-hide-duration nil
-                           :message "Data is loading, please wait."}]
-       #_[filter-panel/filter-panel-author] 
+                           :message "Data is loading, please wait."}] 
        [paper {:elevation 1 :sx {:padding 4 :background-color :white :min-height "60vh"}}
         ^{:key [@loading? @reset]}
         [:div 
@@ -265,6 +229,6 @@
           ^{:key [@country-id @selected-author]}
           [nested-list
            {:id :author-list
-            :list-args {:dense false :sx {#_#_:background-color :white :max-width 700 :width "100%"}}
+            :list-args {:dense false :sx {:max-width 700 :width "100%"}}
             :content (nested-author-list)}]]]]])))
 

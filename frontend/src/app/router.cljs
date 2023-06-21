@@ -50,9 +50,7 @@
    (js/console.log "initializing routes")
    (rfe/start! (router routes) on-navigate opts)))
 
-(comment
-  (:name @(subscribe [::current-route])) 
-  )
+
 
 
 

@@ -149,19 +149,4 @@
      {:db (update-in db (into [:ui-states] id) f)})))
 
 
-(comment
-  (keys @re-frame.db/app-db)
-  (:ui-states (update-in @re-frame.db/app-db [:ui-states :autocomplete-multi] #(disj % :g)))
-  (reg-event-fx
-   ::clean-data
-   (fn [{db :db} _]
-     {:db (assoc db :data {})}))
-  (dispatch [::clean-data])
-  (dispatch [::set-data [:test :a] 1])
-  @(subscribe [::data-field :test])
-  @(subscribe [::data-field [:test :a]])
-  (dispatch [::set-user-input :on? true])
-  (dispatch [::set-user-inputs [[:a 1] [:b 2]]])
-  (dispatch [::remove-user-input :a])
-  (dispatch [::set-user-input-selection :selection :b false])
-  @(subscribe [::user-input]))
+

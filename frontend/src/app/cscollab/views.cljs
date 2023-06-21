@@ -2,9 +2,7 @@
   (:require
    [app.components.layout :as acl]
    [app.common.user-input :refer (input-panel)]
-   [re-frame.core :refer (dispatch subscribe)]
-   #_["react-lorem-ipsum" :refer (loremIpsum)]
-   #_[app.components.lists :as lists]
+   [re-frame.core :refer (dispatch subscribe)] 
    [app.db :as db]
    [app.cscollab.panels.filter-panel :refer (data-selection-panel filter-panel)]
    [app.components.drawer :refer (drawer)]
@@ -30,30 +28,17 @@
    [app.cscollab.view.guide.guide :refer (guide-view)]))
 
 
+;; define app views
+
 (defn config-panels []
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :viz-view]])]
-    (fn [] 
+    (fn []
       [map-config-panel
        #(case @tab-view
           :map (interactive-map/update-event)
           :graph (graph-update)
           :analytics (get-analytics-graph-data)
-          nil)]
-      #_[input-panel
-         {:id :config-panels
-          :start-closed true
-          :header "Graph Filteres, Configurations and Interactions"
-          :collapsable? true
-          :content [:div
-                    #_[filter-panel]
-                    [map-config-panel]
-                    [:div {:style {:display :flex :justify-content :center}}
-                     [button {:text "apply"
-                              :on-click  #(case @tab-view
-                                            :map (interactive-map/update-event)
-                                            :graph (graph-update)
-                                            :analytics (get-analytics-graph-data)
-                                            nil)}]]]}])))
+          nil)])))
 
 (defn data-selection []
   (let [open? (subscribe [::db/ui-states-field :data-selection])
@@ -62,25 +47,19 @@
     (fn []
       [:<>
        [button {:text [:> mui-typography {:sx {:textOrientation :sideways :writingMode :vertical-lr}
-                                          :font-size 18} "Data Selection"] 
+                                          :font-size 18} "Data Selection"]
                 :on-click  #(dispatch [::db/set-ui-states :data-selection (not (util/any->boolean @open?))])
                 :sx {:position :absolute :right 0 :top 0 :bottom 0 :margin :auto :height 200}
-                :startIcon (r/as-element [:> mui-chevron-left #_{:font-size :large}])}]
-       #_[:> mui-icon-button
-        {:on-click #(dispatch [::db/set-ui-states :data-selection (not (util/any->boolean @open?))])
-         :sx {:position :absolute :right 0 :top 0 :bottom 0 :margin :auto}
-         :size :large 
-         :aria-label "data-selection"}
-        [:> ic-expand-more #_{:font-size :large}]]
+                :startIcon (r/as-element [:> mui-chevron-left ])}] 
        [drawer
         {:ref-id :data-selection
          :anchor :right
          :drawer-args {:elevation 0
                        :sx {:width nil
-                            :height "100%" 
+                            :height "100%"
                             :background-color :transparent
                             :align-items :center
-                            "& .MuiDrawer-paper" {:height nil 
+                            "& .MuiDrawer-paper" {:height nil
                                                   :background-color :transparent
                                                   :width nil}}}
          :costume-content
@@ -91,12 +70,12 @@
            (list
             [:div {:style {:height "100%" :background-color :transparent :display :flex :align-items :center}}
              [button {:text [:> mui-typography {:sx {:textOrientation :sideways :writingMode :vertical-lr}
-                                                     :font-size 18} "Data Selection"]
-                           :on-click  #(dispatch [::db/set-ui-states :data-selection (not (util/any->boolean @open?))])
-                           :sx {:height 200}
-                           :endIcon (r/as-element [:> mui-chevron-right #_{:font-size :large}])}]]
-            [:div {:style {:height "100%" :width "100%" :background-color :white }} 
-             [data-selection-panel 
+                                                :font-size 18} "Data Selection"]
+                      :on-click  #(dispatch [::db/set-ui-states :data-selection (not (util/any->boolean @open?))])
+                      :sx {:height 200}
+                      :endIcon (r/as-element [:> mui-chevron-right #_{:font-size :large}])}]]
+            [:div {:style {:height "100%" :width "100%" :min-width "80vw" :background-color :white :overflow-y :scroll}}
+             [data-selection-panel
               #(if (= :home (get-in @current-route [:data :name] :home))
                  (case @tab-view
                    :map (interactive-map/update-event)
@@ -109,8 +88,7 @@
   (let [tab-view (subscribe [::db/ui-states-field [:tabs :viz-view]])]
     (fn []
       [:<>
-       [acl/section
-        #_[acl/title-white "Landscape of Scientific Collaborations"]
+       [acl/section 
         [acl/content 
          [data-selection]
          [config-panels]

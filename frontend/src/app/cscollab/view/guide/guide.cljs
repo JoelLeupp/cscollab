@@ -5,8 +5,7 @@
    [app.cscollab.view.conference.conferences :refer (conferences-view)]
    [app.router :as router]))
 
-(defn guide-view []
-  #_[acl/section {:color :white :style {:font-size 20}}]
+(defn guide-view [] 
   [:div {:style {:width "100%" :background-color :white :font-size 20}}
    [:div {:style {:padding 20}}
 
@@ -45,7 +44,7 @@
     [:h3 {:style {:margin 0 :width "100%"}} "Data Selection"]
     [:p "On the right of the visualization page and the two explorers is a collapsable drawer to expand the data selection panel. Setting the filters for the network in this panel is the first step of the workflow
          of this application. The filters are valid for all pages and can be applied by clicking the button at the bottom of this panel or the refresh buttons in the top right corner of every visualization or statistic."]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/data_selection.png" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/data_selection.png" :width "100%"}]]
     [:p "The data selection panel allows filtering the collaboration network based on:"
      [:ul
       [:li "The publication year (2005-2022)"]
@@ -63,7 +62,7 @@
 
     ;; configuration
     [:h3 {:style {:margin 0 :width "100%"}} "Configuration and Interaction Panel"]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/config_panel.png" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/config_panel.png" :width "100%"}]]
     [:p "On the top of the visualization page is the graph configuration and interaction panel where the following options are available:"
      [:ul
       [:li "Choose between visualizations of the collaboration network or the affiliation network (collaborations between authors or institutions)."]
@@ -74,7 +73,7 @@
     ;; Views
     
     [:h3 {:style {:margin 0 :margin-bottom 10 :width "100%"}} "Geographical Visualization, Interactive Map"]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/map.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/map.PNG" :width "100%"}]]
     [:p "The selected collaboration network can be viewed as a geographical visualization in the form of an interactive map. 
          One can zoom, pan the map, and fully explore the network (also full-screen option available). 
          To adapt the map to a new network configuration, one has to click the refresh button in the right upper corner or the apply button in the data 
@@ -82,7 +81,7 @@
          If you click on an edge or node (institution or author icon depending on the chosen network), all nodes or edges connected 
          to that node/edge will be highlighted in green and an information box on the right will open which shows 
          information of the node and multiple views of different visualizations of network data of that node/edge."]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/map_interaction.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/map_interaction.PNG" :width "100%"}]]
     [:p "Available visualizations of nodes are:"
      [:ul
       [:li "Publication plot: shows the publications of the collaborations by research area."]
@@ -107,10 +106,10 @@
         based on the results of the GCN model and be grouped by their top research area/sub-area (determined by the 'color graph by' option in the configuration panel)."]
      
     [:h4 {:style {:margin 0 :padding 0}} "Author collaboration network colored/grouped by sub-area"] 
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/graph.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/graph.PNG" :width "100%"}]]
      
     [:h4 {:style {:margin 0 :padding 0}} "Institutional collaboration network colored/grouped by area"] 
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/graph_area.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/graph_area.PNG" :width "100%"}]]
 
          
     ;; Analytics
@@ -120,11 +119,11 @@
     ;; Statistics
     [:h4  {:style {:margin 0 :padding 0}} "Statistics"]
     [:p "A table with key metrics of the selected collaboration network."]
-    [:div {:style {:max-width 600 #_#_:margin :auto}} [:img {:src "img/readme/statistics.png" :width "50%"}]]
+    [:div {:style {:max-width 600 }} [:img {:src "img/readme/statistics.png" :width "50%"}]]
     
     [:h4  {:style {:margin 0 :padding 0}} "Centralities"]
     [:p "The top degree and eigenvector centralities of the selected network are shown (up to top 200)"]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/centrality.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/centrality.PNG" :width "100%"}]]
     ;; Overview
     
     [:h4  {:style {:margin 0 :padding 0}} "Overview"]
@@ -136,12 +135,12 @@
       [:li "Number of publications by countries"]
       [:li "Number of authors by institutions"]
       [:li "Number of authors by countries"]]]
-    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/overview.PNG" :width "100%"}]]
+    [:div {:style {:max-width 800 }} [:img {:src "img/readme/overview.PNG" :width "100%"}]]
     [:p "and two views where no research area can be selected:"
      [:ul
       [:li "Number of publications by area"]
       [:li "Number of publications by sub-area"]]]
-    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/by_subarea.PNG" :width "100%"}]]
+    [:div {:style {:max-width 800 }} [:img {:src "img/readme/by_subarea.PNG" :width "100%"}]]
     ;; Timeline
     
     [:h4  {:style {:margin 0 :padding 0}} "Timeline"]
@@ -150,7 +149,7 @@
       [:li "Total publications over time"]
       [:li "Publications by area over time"]
       [:li "Publications by sub-area over time"]]]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/timeline.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/timeline.PNG" :width "100%"}]]
     ;; Institution
     
     [:h4  {:style {:margin 0 :padding 0}} "Institution"]
@@ -163,7 +162,7 @@
       [:li "Collaboration with authors plot: shows with which authors that node had collaborated and how many publications per author"]
       [:li "Collaboration with institutions plot: shows with which institutions that node had collaborated and how my publications per institution"]
       [:li "Collaboration with countries plot: shows with which countries that node had collaborated and how many publications per countries"]]]
-    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/institution.PNG" :width "100%"}]]
+    [:div {:style {:max-width 800 }} [:img {:src "img/readme/institution.PNG" :width "100%"}]]
     ;; Author
     
     [:h4  {:style {:margin 0 :padding 0}} "Author"]
@@ -175,7 +174,7 @@
       [:li "Collaboration with authors plot: shows with which authors that node had collaborated and how many publications per author"]
       [:li "Collaboration with institutions plot: shows with which institutions that node had collaborated and how my publications per institution"]
       [:li "Collaboration with countries plot: shows with which countries that node had collaborated and how many publications per countries"]]]
-    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/author.PNG" :width "100%"}]]
+    [:div {:style {:max-width 800 }} [:img {:src "img/readme/author.PNG" :width "100%"}]]
 
     
     ;; Author Explorer 
@@ -185,7 +184,7 @@
          that is included in the network and get a nested table with all the institutions of that country, each with a count of how many authors
          are affiliated with that institution. If the institution is expanded, one gets a list of the authors together with a link to the DBLP page of that author.
          It is also possible, to search directly for an author and click on 'show' which will direct the user to the respective country and institution of that author."]
-    [:div {:style {:max-width 800 #_#_:margin :auto}} [:img {:src "img/readme/author_explorer.PNG" :width "100%"}]]
+    [:div {:style {:max-width 800 }} [:img {:src "img/readme/author_explorer.PNG" :width "100%"}]]
 
 
     ;; Publication Explorer 
@@ -195,7 +194,7 @@
          The publications are shown in a nested list where at the top level we have the research area followed by the research sub-area. The
          publications from the sub-area are grouped by year first and then by conference. Every publication is linked to its DBLP record page
          and the title of the publication is displayed as well as the authors from the selected collaboration network."]
-    [:div {:style {:max-width 1100 #_#_:margin :auto}} [:img {:src "img/readme/publication_explorer.PNG" :width "100%"}]]
+    [:div {:style {:max-width 1100 }} [:img {:src "img/readme/publication_explorer.PNG" :width "100%"}]]
     [:p "The publications from the selected network can be further filtered by the following available options:"]
     [:ul
      [:li "Show all publications"]

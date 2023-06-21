@@ -46,5 +46,3 @@
             [:> mui-divider]
             content])])))
 
-(comment
-  @(subscribe [::db/ui-states-field :main-menu]))

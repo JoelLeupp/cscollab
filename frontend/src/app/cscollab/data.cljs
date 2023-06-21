@@ -7,29 +7,7 @@
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]
    [ajax.core :as ajax :refer (json-request-format json-response-format)]))
 
-
-#_(reg-event-fx
- ::get-json-file
- (fn [{db :db} [_ json-path id]]
-   {:db db
-    :http-xhrio
-    {:method          :get
-     :uri             json-path
-     :format          (json-request-format)
-     :response-format (json-response-format {:keywords? true})
-     :on-success      [::success-get-json id]
-     :on-failure      [::success-get-json id]}}))
-
-#_(reg-event-fx
- ::success-get-json
- (fn [{db :db} [_ id m]]
-   {:db (assoc-in db [:data id] m)}))
-
-#_(defn get-json-data []
-  (dispatch [::get-json-file "data/get_area_mapping.json" :area-mapping])
-  (dispatch [::get-json-file "data/get_csauthors.json" :csauthors])
-  (dispatch [::get-json-file "data/get_flat_collaboration.json" :collab])
-  (dispatch [::get-json-file "data/get_region_mapping.json" :region-mapping]))
+;; data subscibtions
 
 (reg-sub
  ::insti?
@@ -129,10 +107,7 @@
             (group-by (juxt :country-id :country-name) (second %))))}])
       (group-by (juxt :region-id :region-name) region-mapping)))))
 
-(comment 
-  @(subscribe [::nested-region])
-  (count @(subscribe [::csauthors])) 
-         )
+
 
 
 

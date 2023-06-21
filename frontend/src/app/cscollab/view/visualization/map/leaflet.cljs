@@ -125,8 +125,7 @@
     (fn []
       (when (and @view @zoom @geometries)
         (reagent/create-class
-         {:component-did-mount (leaflet-did-mount mapspec)
-          #_#_:component-will-update (leaflet-will-update mapspec)
+         {:component-did-mount (leaflet-did-mount mapspec) 
           :reagent-render (leaflet-render mapspec)})))))
 
 
@@ -326,12 +325,7 @@
         (map #(get @geometries-map %)
              (set (map #(identity [(:node/m %) (:node/n %)]) records)))]
     (doseq [[id layer] markers]
-      (let [color (color-node id)
-            #_(when frequency
-                    (case color-by
-                      :area (get area-color (keyword (get-in frequency [id "area" "top"])))
-                      :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
-                      (:main colors)))
+      (let [color (color-node id) 
             icon (gen-icon (.-scale layer) color svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
@@ -361,12 +355,7 @@
         lines
         (map second (filter #(vector? (first %)) @geometries-map))]
     (doseq [[id layer] markers]
-      (let [color (color-node id)
-            #_(when frequency
-                    (case color-by
-                      :area (get area-color (keyword (get-in frequency [id "area" "top"])))
-                      :subarea (get sub-area-color (keyword (get-in frequency [id "subarea" "top"])))
-                      (:main colors)))
+      (let [color (color-node id) 
             icon (gen-icon (.-scale layer) color svg)]
         (.setIcon layer icon)))
     (doseq [layer lines]
@@ -374,15 +363,13 @@
 
 (defmethod create-shape :inst-marker [{:keys [coordinates scale id leaflet name]}]
   (let [i-icon (gen-icon scale (:main colors) inst-svg) #_(icon scale)
-        marker (L/marker (clj->js coordinates) #js {:icon i-icon})] 
+        marker (L/marker (clj->js coordinates) #js {:icon i-icon})]
     (set! (.-scale marker) scale)
-    (-> marker 
+    (-> marker
         (.on "click"
              (fn [e]
                (dispatch [::set-leaflet [:selected-shape] id])
-               (dispatch [::set-leaflet [:info-open?] true])
-               ))
-        )))
+               (dispatch [::set-leaflet [:info-open?] true]))))))
 
 (defmethod create-shape :author [{:keys [coordinates scale id leaflet]}]
   (let [i-icon (gen-icon scale (:main colors) author-svg) #_(icon scale)
@@ -407,10 +394,7 @@
   (let [{:keys [leaflet geometries-map]} mapspec
         geometries-set (into #{} (map :id geometries))]
     ;; Remove all LeafletJS shape objects that are no longer in the new geometries
-    (doseq [removed (vals @geometries-map) #_(keep (fn [[id shape]]
-                               (when-not (geometries-set id)
-                                 shape))
-                             @geometries-map)]
+    (doseq [removed (vals @geometries-map)]
       (.removeLayer @leaflet removed))
 
     ;; Create new shapes for new geometries and update the geometries map

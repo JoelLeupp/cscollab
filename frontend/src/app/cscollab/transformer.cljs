@@ -9,6 +9,8 @@
    [re-frame.core :refer
     (dispatch reg-event-fx reg-fx reg-event-db reg-sub subscribe)]))
 
+;; data transformations
+
 (reg-sub
  ::filtered-collab
  :<- [::filter-panel/selected-areas]
@@ -76,38 +78,3 @@
                filtered-collab))))
 
 
-
-
-(comment
-  (first (weighted-collab {:insti? false}))
-  (def filtered-collab @(subscribe [::filtered-collab]))
-  (first filtered-collab)
-  ()
-  (def author-inst-map 
-    (zipmap (map :pid csauthors) (map :institution csauthors)))
-  (get author-inst-map "92/6595")
-  (first filtered-collab)
-  (def insti? true)
-  
-  (map
-   (fn [[[a_pid b_pid] values]]
-     {:node/m a_pid
-      :node/n b_pid
-      :weight (count values)})
-   (group-by (if insti?
-               (juxt :a_inst :b_inst)
-               (juxt :a_pid :b_pid))
-             filtered-collab)) 
-  (count @(subscribe [::filtered-collab-10])) 
-  (def selected-regions @(subscribe [::filter-panel/selected-regions]))
-  (def selected-countries @(subscribe [::filter-panel/selected-countries]))
-  (def selected-areas @(subscribe [::filter-panel/selected-areas]))
-  (def selected-sub-areas @(subscribe [::filter-panel/selected-sub-areas]))
-  (def strict-boundary @(subscribe [::db/user-input-field [:strict-boundary]])) 
-  (def csauthors @(subscribe [::data/csauthors]))
-  (def author-inst-map 
-    (zipmap (map :pid csauthors) (map :institution csauthors)))
-  (get author-inst-map "92/6595")
-  (def region-mapping @(subscribe [::data/region-mapping]))
-  (first region-mapping)
-  )

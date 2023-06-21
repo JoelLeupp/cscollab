@@ -7,6 +7,7 @@
    [app.cscollab.nav :as nav]
    [app.cscollab.views :as views]))
 
+;; define application
 
 (def custom-theme 
   (createTheme 
@@ -44,7 +45,5 @@
          (when-let [view-comp (-> @current-route :data :view)]
            [view-comp @current-route])]]])))
 
-(comment
-  @(subscribe [::router/current-route])
-  )
+
 

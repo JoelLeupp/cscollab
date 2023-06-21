@@ -9,13 +9,9 @@
    ["@mui/icons-material/Home" :default ic-home]
    ["@mui/icons-material/Person" :default ic-person]
    ["@mui/icons-material/Article" :default ic-article]
-   ["@mui/icons-material/Help" :default ic-help]
-   ["@mui/icons-material/InsertChart" :default ic-chart]
-   ["@mui/icons-material/ViewList" :default ic-view-list]
-   ["@mui/icons-material/Settings" :default  ic-settings]
-   ["@mui/material/Typography" :default mui-typography]))
+   ["@mui/icons-material/Help" :default ic-help]))
 
-
+;; define navigation UI
 
 (defn nav-bar []
   [app-bar {:app-name "Visualization of Computer Science Collaboration Networks"
@@ -37,10 +33,8 @@
             [{:label "Visualization" :icon ic-home :selected (= :home view)
               :on-click #(dispatch [::router/navigate :home])}
              {:label "Authors" :icon ic-person :selected (= :author-explorer view)
-              :on-click #(dispatch [::router/navigate :author-explorer])}
-             #_{:label "Conferences" :icon ic-view-list :selected (= :conference-explorer view)
-              :on-click #(dispatch [::router/navigate :conference-explorer])} 
+              :on-click #(dispatch [::router/navigate :author-explorer])} 
              {:label "Publications" :icon ic-article :selected (= :publication-explorer view)
-              :on-click #(dispatch [::router/navigate :publication-explorer])} 
+              :on-click #(dispatch [::router/navigate :publication-explorer])}
              {:label "Guide" :icon ic-help :selected (= :guide view)
               :on-click #(dispatch [::router/navigate :guide])}]}]}]))))

@@ -208,6 +208,4 @@ Here an author can be selected and a view, where the views are exatly the same a
 
 ![author](public/img/readme/author.PNG)
 
-## Conference Page
 
-This page contains a list of all conferences that were included in the collaboration network and represent the most influencial conferences of each research area.

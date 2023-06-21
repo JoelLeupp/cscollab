@@ -187,22 +187,4 @@
 
 
 
-(comment 
-  @(subscribe [::db/user-input])
-  #_(fn [^js props option]
-      (set! (.-component props) "li")
-      (r/create-element
-       mui-box props
-       (r/as-element
-        [:> mui-checkbox
-         {:checked (contains? @v-atom (keyword (.-value option))) #_(get @state (keyword (.-value option)))
-          :on-change (fn [e]
-                       #_(swap! state assoc (keyword (.-value option)) (not (get @state (keyword (.-value option)) false)))
-                       (if (not (-> e .-target .-checked))
-                         (swap! v-atom disj (keyword (.-value option)))
-                         (swap! v-atom conj (keyword (.-value option))))
-                       (js/console.log (-> e .-target .-checked)))}])
-       (.-label option)
-       (r/as-element [:strong {:href "#"}
-                      (str "-" (.-label option) (.-value option))])))
-  )
+

@@ -281,14 +281,3 @@
    (when selected-year-span
      selected-year-span)))
 
-(comment
-  @(subscribe [::area-checkbox-content])
-  @(subscribe [::selected-regions])
-  @(subscribe [::selected-countries])
-  @(subscribe [::selected-areas])
-  @(subscribe [::selected-sub-areas]) 
-  @(subscribe [::selected-year-span])
-  @(subscribe [::db/user-input-field :area-checkbox-conferences])
-  @(subscribe [::selected-areas-conferences])
-  @(subscribe [::selected-sub-areas-conferences]) 
-  )

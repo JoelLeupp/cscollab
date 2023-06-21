@@ -53,9 +53,7 @@
 (defn show-ele [id]
   (let [cy (subscribe [::cy])
         e (.getElementById @cy id)]
-    (.select e)
-    #_(dispatch [::set-graph-field :selected id])
-    #_(dispatch [::set-graph-field [:info-open?] true])
+    (.select e) 
     (.zoom @cy 2.5)
     (.center @cy e)))
 

@@ -88,6 +88,5 @@
         (nil? x) false
         :else true))
 
-(comment
-  (test json->edn))
+
 
