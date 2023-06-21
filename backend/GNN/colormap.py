@@ -1,5 +1,4 @@
 import math
-
 import numpy as np
 from matplotlib.colors import ListedColormap
 from matplotlib.cm import hsv
@@ -12,18 +11,14 @@ def generate_colormap(number_of_distinct_colors: int = 80):
     number_of_shades = 7
     number_of_distinct_colors_with_multiply_of_shades = int(math.ceil(number_of_distinct_colors / number_of_shades) * number_of_shades)
 
-    # Create an array with uniformly drawn floats taken from <0, 1) partition
+    # Create an array with uniformly drawn floats 
     linearly_distributed_nums = np.arange(number_of_distinct_colors_with_multiply_of_shades) / number_of_distinct_colors_with_multiply_of_shades
 
-    # We are going to reorganise monotonically growing numbers in such way that there will be single array with saw-like pattern
-    #     but each saw tooth is slightly higher than the one before
-    # First divide linearly_distributed_nums into number_of_shades sub-arrays containing linearly distributed numbers
+    # reorganise monotonically growing numbers in such way that there will be single array 
     arr_by_shade_rows = linearly_distributed_nums.reshape(number_of_shades, number_of_distinct_colors_with_multiply_of_shades // number_of_shades)
 
-    # Transpose the above matrix (columns become rows) - as a result each row contains saw tooth with values slightly higher than row above
     arr_by_shade_columns = arr_by_shade_rows.T
 
-    # Keep number of saw teeth for later
     number_of_partitions = arr_by_shade_columns.shape[0]
 
     # Flatten the above matrix - join each row into single array
